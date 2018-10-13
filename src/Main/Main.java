@@ -42,6 +42,15 @@ public class Main {
 					LevelInfo lvl = LevelLoader.getNextLevel();
 					if (lvl != null) {
 						new Game(lvl).start();
+					} else {
+						LOG.info("No More Levels");
+						LOG.prompt("Do You want to restart from the first level? (Y/N)");
+						
+						String yn = sc.nextLine();
+						
+						if (yn.equals("Y")) {
+							LevelLoader.reset();
+						}
 					}
 					
 				} else if (s.equals("2")){
@@ -56,7 +65,7 @@ public class Main {
 			}
 		}
 		
-		LOG.info("Program Exit");
+		LOG.debug("Program Exit");
 		sc.close();
 	}
 }

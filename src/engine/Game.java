@@ -2,7 +2,6 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import Main.Main;
 import levels.Grid;
@@ -14,20 +13,17 @@ import util.Logger;
  * @author david
  *
  */
-@SuppressWarnings("deprecation")
 public class Game {
 	private static Logger LOG = new Logger("Game");
 	
 	private LevelInfo levelInfo;
 	private Grid[][] board;
-	private List<Command> commands;
 
 	private int userResources;
 	
 	public Game (LevelInfo lvl) {
 		//set up config from level config
 		board = new Grid[lvl.getGridX()][lvl.getGridY()];
-		commands = new ArrayList<>();
 		levelInfo = lvl;
 	}
 	
@@ -44,7 +40,9 @@ public class Game {
 		
 		while (true) {
 			if (!playerTurn()) { break; }
-			if (!zombieTurn()) { break; }
+			doEndOfTurn();
+			zombieTurn();
+			if (!doEndOfTurn()) { break; }
 		}
 		endGame();
 	}
@@ -53,20 +51,36 @@ public class Game {
 		userResources += levelInfo.getResPerTurn();
 		
 		LOG.info("It is your turn. You have " + getUserResources() + " sunshine.");
-		LOG.prompt("Press 1 to skip this turn. Press 2 to quit this game. Press 3 to list commands");
-		String s = Main.sc.nextLine();
+		LOG.prompt("Press 1 to skip this turn. Press 2 to quit this game.");
+		String s = null;
 		
-		if (s.equals("2")) { return false; }
+		while (true) { //User Input Block
+			s = Main.sc.nextLine();
+			//Parse User Commands
+			if (s.equals("2")) {
+				return false; 
+			} else if (s.equals("1")) {
+				LOG.debug("Skipping turn...");
+				break;
+			}
+		}
 		
 		return true;
 	}
 	
-	private boolean zombieTurn() {
+	private void zombieTurn() {
 		LOG.info("It is the zombie's turn.");
-		return true;
-		//if (zombies win) { return false; } 
+		//spawn zombies
 	}
 
+	private boolean doEndOfTurn() {
+		//are there any collisions? -> do melee calculations
+		//is any range combat needed? -> do ranged calculations
+		//move zombies
+		//if zombies win { return false; }
+		return true;
+	}
+	
 	private void endGame() {
 		/**
 		 * End Game Stats?

@@ -43,9 +43,13 @@ public class LevelLoader {
 	
 	public static LevelInfo getNextLevel() {
 		currentLevel++;
-		if (currentLevel <= levels.size()) {
+		if (currentLevel < levels.size()) {
 			return levels.get(currentLevel);
 		}
 		return null;
+	}
+	
+	public static void reset() {
+		currentLevel = -1;
 	}
 }
