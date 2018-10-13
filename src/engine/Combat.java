@@ -6,5 +6,6 @@ package engine;
  *
  */
 public class Combat {
-
+	private Combat() {} // Singleton
+	
 }

@@ -1,5 +1,9 @@
+package Main;
+
 import java.util.Scanner;
 
+import engine.Game;
+import levels.LevelInfo;
 import levels.LevelLoader;
 import util.Logger;
 
@@ -9,17 +13,19 @@ import util.Logger;
 public class Main {
 	private static Logger LOG = new Logger("Main");
 	
+	public static Scanner sc = new Scanner(System.in);
+	
 	public static void main (String[] args) {
 		//Log init
 		Logger.setDebug();
 		
 		//Title Card
-		LOG.info("================================");
-		LOG.info("        Zombies are Vegan       ");
-		LOG.info("================================");
-		LOG.info("      Derek Shao | David Wang   ");
-		LOG.info(" Michael Pastula | Tanisha Garg ");
-		LOG.info("================================");
+		LOG.info("==================================");
+		LOG.info("        Zombies are Vegan         ");
+		LOG.info("==================================");
+		LOG.info("      Derek Shao | David Wang     ");
+		LOG.info(" Michael Pastula | Tanisha Garg   ");
+		LOG.info("==================================");
 		
 		//Load Data
 		LevelLoader.init();
@@ -27,24 +33,30 @@ public class Main {
 		
 		while(true) {
 			try {
-				Scanner sc = new Scanner(System.in);
 				LOG.prompt("Press 1 to Load Sample Level. Press 2 to Exit.");
 				String s = sc.nextLine();
-				sc.close();
 				
 				if (s.equals("1")) {
 					LOG.info("Loading Sample Level...");
+					
+					LevelInfo lvl = LevelLoader.getNextLevel();
+					if (lvl != null) {
+						new Game(lvl).start();
+					}
+					
 				} else if (s.equals("2")){
 					break;
 				} else {
 					LOG.error("Invalid Input");
 				}
 			} catch (Exception e) {
-				LOG.error(e.getMessage());
+				LOG.error(e.toString() + "\n");
+				e.printStackTrace();
 				break;
 			}
 		}
 		
 		LOG.info("Program Exit");
+		sc.close();
 	}
 }

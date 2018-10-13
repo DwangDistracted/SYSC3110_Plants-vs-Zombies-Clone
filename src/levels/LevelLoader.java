@@ -20,11 +20,13 @@ public class LevelLoader {
 	
 	private static void sampleLevels(List<LevelInfo> levels) {
 		levels.add(new LevelInfo(
-					"Sample",
-					1,
-					(String)null,
-					8,
-					1
+					"Sample",		//level name
+					1,				//level rating
+					(String)null,	//the next level
+					8,				//Grid X
+					1,				//Grid Y
+					1975,			//Initial Resources
+					25				//Resources per Turn
 				));
 		
 		LOG.debug("Added Sample Level");
