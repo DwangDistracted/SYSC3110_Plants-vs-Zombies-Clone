@@ -32,36 +32,32 @@ public class Main {
 		LOG.debug("Data Loading Complete");
 		
 		while(true) {
-			try {
-				LOG.prompt("Press 1 to Load Sample Level. Press 2 to Exit.");
-				String s = sc.nextLine();
+			LOG.prompt("Press 1 to Load Sample Level. Press 2 to Exit.");
+			String s = sc.nextLine();
+			
+			if (s.equals("1")) {
+				LOG.info("Loading Sample Level...");
 				
-				if (s.equals("1")) {
-					LOG.info("Loading Sample Level...");
-					
-					LevelInfo lvl = LevelLoader.getNextLevel();
-					if (lvl != null) {
-						new Game(lvl).start();
-					} else {
-						LOG.info("No More Levels");
-						LOG.prompt("Do You want to restart from the first level? (Y/N)");
-						
-						String yn = sc.nextLine();
-						
-						if (yn.equals("Y")) {
-							LevelLoader.reset();
-						}
-					}
-					
-				} else if (s.equals("2")){
-					break;
+				LevelInfo lvl = LevelLoader.getNextLevel();
+				if (lvl != null) {
+					new Game(lvl).start();
 				} else {
-					LOG.error("Invalid Input");
+					LOG.info("No More Levels");
+					LOG.prompt("Do You want to restart from the first level? (Y/N)");
+					
+					String yn = sc.nextLine();
+					
+					if (yn.equalsIgnoreCase("Y")) {
+						LevelLoader.reset();
+					} else {
+						break;
+					}
 				}
-			} catch (Exception e) {
-				LOG.error(e.toString() + "\n");
-				e.printStackTrace();
+				
+			} else if (s.equals("2")){
 				break;
+			} else {
+				LOG.error("Invalid Input");
 			}
 		}
 		
