@@ -9,14 +9,21 @@ import assets.Zombie;
  * @author Derek Shao
  */
 public class Board {
+	
 	/* Holds location of each Plant and Zombie  
 	 * Used for displaying to user.
 	 */
-	private Object gameBoard[][]; // Temporarily of Object type to contain both Plant and Zombie objects
+	private Grid gameBoard[][]; // Temporarily of Object type to contain both Plant and Zombie objects
 	
+	/**
+	 * Creates a new instance of Board.
+	 * 
+	 * @param row number of rows in board
+	 * @param col number of columns in board
+	 */
 	public Board(int row, int col) {
 		
-		gameBoard = new Object[row][col];
+		gameBoard = new Grid[row][col];
 	}
 	
 	/**
@@ -31,12 +38,7 @@ public class Board {
 	 */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
-		if (gameBoard[x][y] == null) {
-			gameBoard[x][y] = plant;
-			return true;
-		}
-		
-		return false;
+		return gameBoard[x][y].setPlant(plant);
 	}
 	
 	
@@ -49,20 +51,12 @@ public class Board {
 	 */
 	public void removePlant(int x, int y) {
 		
-		//Make sure we are removing a Plant
-		//Our game logic should prevent that from happening - this is just pre-cautionary
-		gameBoard[x][y] = gameBoard[x][y] instanceof Plant ? null : gameBoard[x][y]; 
+		gameBoard[x][y].removePlant();
 	}
 	
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
-		// make sure zombie is not placed on top of a plant
-		if (!(gameBoard[x][y] instanceof Plant)) {
-			gameBoard[x][y] = zombie;
-			return true;
-		}
-		
-		return false;
+		return gameBoard[x][y].addZombie(zombie);
 	}
 	
 	/**
@@ -74,11 +68,43 @@ public class Board {
 	 */
 	public void removeZombie(int x, int y) {
 		
-		//Make sure we are removing a Zombie
-		//Our game logic should prevent that from happening - this is just pre-cautionary
-		gameBoard[x][y] = gameBoard[x][y] instanceof Zombie ? null : gameBoard[x][y];
+		gameBoard[x][y].removeZombie();
 	}
 	
+	/**
+	 * Get the Plant at the specified location (x,y)
+	 * 
+	 * @param x coordinate 
+	 * @param y coordinate
+	 * @return the plant at location (x, y) - null if no plant present
+	 */
+	public Plant getPlant(int x, int y) {
+		
+		return gameBoard[x][y].getPlant();
+	}
+	
+	/**
+	 * Get the Zombie at the specified location (x,y)
+	 * This is likely used when Plant needs to decide which zombie to attack.
+	 * 
+	 * @param x coordinate
+	 * @param y coordinate 
+	 * @return the zombie at location (x, y) - null if no zombie present
+	 */
+	public Zombie getZombie(int x, int y) {
+		
+		return gameBoard[x][y].getFirstZombie();
+	}
+	
+	/**
+	 * @Override
+	 * public void update(Observable arg0, Object arg) {
+	 * 
+	 * 
+	 * }
+	 * 
+	 */
+
 	/**
 	 * Method for Milestone 1 only.
 	 * Prints the current game state to console.
