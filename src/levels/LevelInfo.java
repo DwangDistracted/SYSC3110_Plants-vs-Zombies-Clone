@@ -22,21 +22,10 @@ public class LevelInfo {
 	private int initResources;
 	private int resPerTurn;
 	
+	//The zombies that will attack the player
 	private HashMap<Zombie, Integer> zombies;
+	//The Plants that the player is not allowed to use
 	private List<Plant> prohibitedPlants;
-	public LevelInfo (String name, int levelRating, String nextLevel, int gridX, int gridY, int initResources, int resPerTurn) {
-		zombies = new HashMap<Zombie, Integer>();
-		prohibitedPlants = new ArrayList<Plant>();
-		
-		this.name = name;
-		this.levelRating = levelRating;
-		this.nextLevel = nextLevel;
-		
-		this.gridX = gridX;
-		this.gridY = gridY;
-		this.initResources = initResources;
-		this.resPerTurn = resPerTurn;
-	}
 	
 	public LevelInfo (String name, int levelRating, String nextLevel, int gridX, int gridY, int resPerTurn, int initResources,
 													HashMap<Zombie, Integer> zombies, ArrayList<Plant> plants) {

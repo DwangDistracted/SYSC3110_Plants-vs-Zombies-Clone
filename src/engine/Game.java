@@ -27,8 +27,17 @@ public class Game {
 		levelInfo = lvl;
 	}
 	
-	public void spendUserResources(int cost) {
-		userResources -= cost;
+	public boolean canSpend(int cost) {
+		return cost <= userResources;
+	}
+	
+	public boolean spendUserResources(int cost) {
+		if (canSpend(cost)) {
+			userResources -= cost;
+			return true;
+		} else {
+			return false;
+		}
 	}
 	public int getUserResources() {
 		return userResources;
