@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Main.Main;
-import levels.Grid;
+import levels.Board;
 import levels.LevelInfo;
 import util.Logger;
 
@@ -17,13 +17,13 @@ public class Game {
 	private static Logger LOG = new Logger("Game");
 	
 	private LevelInfo levelInfo;
-	private Grid[][] board;
+	private Board board;
 
 	private int userResources;
 	
 	public Game (LevelInfo lvl) {
 		//set up config from level config
-		board = new Grid[lvl.getGridX()][lvl.getGridY()];
+		board = new Board(lvl.getGridX(), lvl.getGridY());
 		levelInfo = lvl;
 	}
 	
