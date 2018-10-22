@@ -81,7 +81,7 @@ public class Grid {
 	/**
 	 * Get the first zombie that arrived on this grid
 	 * 
-	 * @return the first zombie on this grid
+	 * @return the first zombie on this grid, null if no zombies present
 	 */
 	public Zombie getFirstZombie() {
 		

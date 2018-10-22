@@ -18,17 +18,55 @@ public class Board {
 	 * Used for displaying to user.
 	 */
 	private Grid gameBoard[][];
+	private int row;
+	private int col;
 	
 	/**
 	 * Creates a new instance of Board.
 	 * 
 	 * @param row number of rows in board
 	 * @param col number of columns in board
-	 * @author Derek Shao
+	 * 
 	 */
 	public Board(int row, int col) {
 		
+		this.row = row;
+		this.col = col;
+		
 		gameBoard = new Grid[row][col];
+	}
+	
+	/**
+	 * Get the game board.
+	 * 
+	 * @return gameBoard
+	 */
+	public Grid[][] getBoard() {
+		
+		return gameBoard;
+	}
+	
+	/**
+	 * Return the row size of this board
+	 * 
+	 * @return the row size of this board
+	 * 
+	 * @author Michael Patsula
+	 */
+	public int getRow() {
+		return this.row;
+	}
+	
+	/**
+	 * Return the column size of this board
+	 * 
+	 * @return the column size of this board
+	 * 
+	 * @author Michael Patsula
+	 */
+	public int getColumn() {
+		
+		return this.col;
 	}
 	
 	/**
@@ -40,8 +78,7 @@ public class Board {
 	 * 
 	 * @return true if plant placement was successful (i.e., no existing plant is in location),
 	 * false otherwise
-	 * 
-	 * @author Derek Shao	 
+	 *  
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
@@ -56,7 +93,6 @@ public class Board {
 	 * @param x coordinate of Plant
 	 * @param y coordinate of Plant
 	 * 
-	 * @author Derek Shao
 	 */
 	public void removePlant(int x, int y) {
 		
@@ -70,6 +106,7 @@ public class Board {
 	 * @param x coordinate of where to place zombie
 	 * @param y coordinate of where to place zombie
 	 * @return true if zombie was successfully added, false otherwise
+	 * 
 	 */
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
@@ -94,6 +131,7 @@ public class Board {
 	 * @param x coordinate 
 	 * @param y coordinate
 	 * @return the plant at location (x, y) - null if no plant present
+	 * 
 	 */
 	public Plant getPlant(int x, int y) {
 		
@@ -107,6 +145,7 @@ public class Board {
 	 * @param x coordinate
 	 * @param y coordinate 
 	 * @return the zombie at location (x, y) - null if no zombie present
+	 * 
 	 */
 	public Zombie getZombie(int x, int y) {
 		
