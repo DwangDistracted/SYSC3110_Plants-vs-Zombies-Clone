@@ -1,7 +1,6 @@
 package engine;
 
 import java.util.Random;
-
 import assets.Regular_Zombie;
 import assets.Zombie;
 import main.Main;

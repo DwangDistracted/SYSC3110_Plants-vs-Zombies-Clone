@@ -1,10 +1,6 @@
-/levels/
-/Input/
-/Main.class
-/View/
-/assets/
+*.class
 /engine/
-/input/
-/view/
-/util/
+/levels/
 /main/
+/util/
+/view/
