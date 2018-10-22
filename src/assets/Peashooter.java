@@ -1,4 +1,4 @@
-package Assets;
+package assets;
 
 public class Peashooter extends pDmgDealer{
 	

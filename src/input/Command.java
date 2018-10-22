@@ -1,4 +1,4 @@
-package Input;
+package input;
 public class Command
 {
     private String commandWord;

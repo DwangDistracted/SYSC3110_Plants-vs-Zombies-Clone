@@ -1,12 +1,12 @@
-package Engine;
+package engine;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Queue;
 
-import View.*;
-import Assets.*;
+import view.*;
+import assets.*;
 
 public class Combat 
 {

@@ -1,8 +1,8 @@
-package View;
+package view;
 import java.util.*;
 import java.util.Map.Entry;
 
-import Assets.*;
+import assets.*;
 
 
 

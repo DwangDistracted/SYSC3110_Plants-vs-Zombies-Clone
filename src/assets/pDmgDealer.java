@@ -1,4 +1,4 @@
-package Assets;
+package assets;
 /*
  * used to group plants that deal dmg
  */

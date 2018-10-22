@@ -1,4 +1,4 @@
-package Assets;
+package assets;
 
 public class Regular_Zombie extends Zombie{
 	

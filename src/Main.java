@@ -1,6 +1,7 @@
 import java.util.LinkedHashMap; //testing
-import Assets.*;  //testing
-import Engine.Game;
+import assets.*;  //testing
+import engine.Game;
+
 public class Main {
 
 	public static void main(String[] args) {
