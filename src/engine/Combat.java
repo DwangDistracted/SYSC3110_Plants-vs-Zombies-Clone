@@ -1,15 +1,17 @@
 package engine;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Queue;
 
-import view.*;
 import assets.*;
+import util.Logger;
+import view.*;
 
 public class Combat 
 {
+	private static Logger LOG = new Logger("Combat");
+	
 	Board board;
 	
 	public Combat(Board board)
@@ -19,7 +21,7 @@ public class Combat
 	
 	public void computeZombieAttacks()
 	{
-		ArrayList<Object> removeBin = new ArrayList(); // for storing keys to be removed
+		ArrayList<Object> removeBin = new ArrayList<>(); // for storing keys to be removed
 		for(Object zombieKey : board.getExperimental().keySet()) //find attacker
 		{
 			if(zombieKey instanceof Regular_Zombie)
@@ -41,7 +43,7 @@ public class Combat
 								int column = plantCord[1];
 								board.clearUnit(row, column);
 								removeBin.add(plantEntry.getKey());
-								System.out.println("TEST: Removed unit");
+								LOG.debug("TEST: Removed unit");
 							}
 						}
 					}
@@ -61,15 +63,15 @@ public class Combat
 		
 		for(Entry<Object,int[]> unit : board.getExperimental().entrySet())
 		{
-			System.out.println("TEST: Looking for ps" + unit.getKey().toString());
+			LOG.debug("TEST: Looking for ps" + unit.getKey().toString());
 			if(unit.getKey() instanceof pDmgDealer)
 			{
 				System.out.println("TEST: Damage dealer found");
 				int[] cord = unit.getValue();
 				Integer rowOfP = cord[0];
 				
-				System.out.println("TEST: " + board.getRowQ().containsKey(rowOfP));
-				System.out.println("TEST: " + board.getRowQ().isEmpty());
+				LOG.debug("TEST: " + board.getRowQ().containsKey(rowOfP));
+				LOG.debug("TEST: " + board.getRowQ().isEmpty());
 				for(Integer rowKey : board.getRowQ().keySet()) //TEST
 				{
 					System.out.println(rowKey);    //TEST
@@ -77,16 +79,16 @@ public class Combat
 				if(board.getRowQ().containsKey(rowOfP))
 				{
 					//assuming the value correlating to the key is never null
-					Queue tempQ = board.getRowQ().get(rowOfP);
+					Queue<Zombie> tempQ = board.getRowQ().get(rowOfP);
 					Zombie zombie = (Zombie) tempQ.peek();
 					zombie.takeDamage(((pDmgDealer) unit.getKey()).getDamage());
-					System.out.println("TEST: Damage dealer did damage");
+					LOG.debug("TEST: Damage dealer did damage");
 		
 					if(zombie.getHP() <= 0)
 					{
 						board.removeZom(rowOfP);  //remove unit from rowQ
 						removeBin.add(zombie);
-						System.out.println("TEST: zombie added to remove bin");
+						LOG.debug("TEST: zombie added to remove bin");
 					}
 				}
 			}	
@@ -95,7 +97,7 @@ public class Combat
 		for(Object zombie : removeBin)
 		{
 			board.getExperimental().remove(zombie);
-			System.out.println("TEST: Damage dealer removed a unit");
+			LOG.debug("TEST: Damage dealer removed a unit");
 		}
 	}
 	

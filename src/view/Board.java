@@ -1,8 +1,10 @@
 package view;
+
 import java.util.*;
 import java.util.Map.Entry;
-
-import assets.*;
+import assets.Flower;
+import assets.Peashooter;
+import assets.Zombie;
 
 
 
@@ -17,8 +19,8 @@ public class Board {
 	
 	public Board(int row, int column)
 	{
-		experimental = new LinkedHashMap();
-		rowQ = new LinkedHashMap<Integer,Queue>();
+		experimental = new LinkedHashMap<>();
+		rowQ = new LinkedHashMap<>();
 		this.row = row;
 		this.column = column;
 		board = new Object[row][column];
@@ -189,6 +191,7 @@ public class Board {
 				System.out.print(columnCount + "   |    ");
 				columnCount++;
 			}
+			System.out.print("\n");
 		}
 		
 	}
