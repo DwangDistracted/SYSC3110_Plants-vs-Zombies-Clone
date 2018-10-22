@@ -1,11 +1,11 @@
-package Engine;
+package engine;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import Input.*;
-import View.*;
-import Level.*;
-import Assets.*;
+import assets.*;
+import levels.*;
+import view.*;
+import input.*;
 
 public class Game {
 	
@@ -150,7 +150,7 @@ public class Game {
 	  * 
 	  * @param string - level selector
 	  */
-	 private void play(Integer level)
+	 public void play(Integer level)
 	 { 
 		points = 10;       
 		turnsLeft = 10;

@@ -1,8 +1,8 @@
-package View;
+package view;
 import java.util.*;
 import java.util.Map.Entry;
 
-import Assets.*;
+import assets.*;
 
 
 
@@ -87,42 +87,7 @@ public class Board {
 		//experimental.remove(findUnit(row,column));    //causes an exception error message
 	}
 	
-	/**
-	 * looks within the experiment hashmap and returns the key corrlating to the given value
-	 * @param coordinate
-	 * @return key corolating to value. otherwise return null
-	 */
-	public Object findKey(int row, int column)
-	{
-		for(Entry<Object, int[]> entry : experimental.entrySet()) 
-		{
-			int[] cord = entry.getValue();
-			int entryRow = cord[0];
-			int entryColumn = cord[1];
-			
-			if(entryRow == row && entryColumn == column)
-			{
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
 	
-	/**
-	 * looks within the experiment hashmap and returns the key corrlating to the given value
-	 * @param coordinate
-	 * @return key corolating to value. otherwise return null
-	 */
-	public Object findKey(int[] coordinate)
-	{
-		for(Entry<Object, int[]> entry : experimental.entrySet()) {
-			if(coordinate == entry.getValue())
-			{
-				return entry.getKey();
-			}
-		}
-		return null;
-	}
 	
 	
 	/**
@@ -256,7 +221,46 @@ public class Board {
 	}
 	
 	
-
+	
+	
+	
+	//may want to delete these two methods (findKey)
+	/**
+	 * looks within the experiment hashmap and returns the key corrlating to the given value
+	 * @param coordinate
+	 * @return key corolating to value. otherwise return null
+	 */
+	public Object findKey(int row, int column)
+	{
+		for(Entry<Object, int[]> entry : experimental.entrySet()) 
+		{
+			int[] cord = entry.getValue();
+			int entryRow = cord[0];
+			int entryColumn = cord[1];
+			
+			if(entryRow == row && entryColumn == column)
+			{
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * looks within the experiment hashmap and returns the key corrlating to the given value
+	 * @param coordinate
+	 * @return key corolating to value. otherwise return null
+	 */
+	public Object findKey(int[] coordinate)
+	{
+		for(Entry<Object, int[]> entry : experimental.entrySet()) {
+			if(coordinate == entry.getValue())
+			{
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
 	
 	
 	

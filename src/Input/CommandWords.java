@@ -1,4 +1,4 @@
-package Input;
+package input;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,36 +6,35 @@ import java.util.Collection;
 public class CommandWords
 {
     // a constant array that holds all valid command words
-    private ArrayList<String> validCommands; 
-    private String[] basicCommands = {"help","play","quit","pass","sf","ps","load"};
-    //private String[] advancedCommands;
+    //private ArrayList<String> validCommands; 
+    private String[] validCommands = {"help","play","quit","load","pass","place"};
 
 
     public CommandWords()
     {
-    	validCommands = new ArrayList<String>();
-        for(String i : basicCommands)
-        {
-        	validCommands.add(i);
-        }
+    
     }
 
   
     public boolean isCommand(String aString)
     {
-        for(int i = 0; i < validCommands.size(); i++) {
-            if(validCommands.get(i).equals(aString))
+        for(int i = 0; i < validCommands.length; i++) {
+            if(validCommands[i].equals(aString))
                 return true;
         }
         
         return false;
     }
     
-    public void addValidCommand(String command)
+    /*
+    public void addValidCommand(String[] commands)
     {
-    	validCommands.add(command);
+    	for(String i : commands)
+    	{
+    		validCommands.add(i);
+    	}
     }
-
+	*/
 
     public void showAll() 
     {

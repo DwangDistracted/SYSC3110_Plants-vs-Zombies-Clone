@@ -1,16 +1,20 @@
-package Level;
+package levels;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
-import Input.CommandWords;
+import input.CommandWords;
 
 public class LevelInfo {
 	
 	//private HashMap<Integer, String> level; 
 	private int currentLevel;
 	private int zombieCap;
-	private CommandWords cmdWord;
 	private int row;
+	
+	//private static final HashMap<Integer,Object> lvlZom = new HashMap<Integer, Object>();
+	private static final String[][] lvlCmds = {{"pass","sf","ps"}};
 	
 
 	public LevelInfo(int level)
@@ -29,7 +33,10 @@ public class LevelInfo {
 			
 			zombieCap = 5;
 			row = 1;
+			
 			int[] boardSize = {1, 8};
+			
+			
 			return boardSize;
 		}
 		else if(currentLevel == 2)
@@ -69,6 +76,38 @@ public class LevelInfo {
 		
 		rowNumber = rand.nextInt(row); //determines which row the zombie will go down
 		return rowNumber;
+	}
+	
+	public Object getZombieType()
+	{
+		return currentLevel;
+	}
+	
+	/**
+	 * note: not implemented yet. to use this call this method in Game and then call parser.getCommandWords.addValidCommands(theString[])
+	 * @return a list of new commands for the given level
+	 */
+	public String[] getLvlCmds()
+	{
+		return lvlCmds[currentLevel-1];
+	}
+	
+	/**
+	 * Determine if the unit is valid for a given level
+	 * @param a unit command (ex ps or sf)
+	 * @return boolean - true if the unit is valid, false otherwise
+	 */
+	public boolean isValidUnit(String unit)
+	{
+		int counter = 0; 
+		while(counter < lvlCmds[currentLevel-1].length)
+		{
+			if(lvlCmds[currentLevel-1][counter].equals(unit))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 
