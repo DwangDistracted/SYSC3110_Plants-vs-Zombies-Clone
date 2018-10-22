@@ -12,7 +12,7 @@ import util.Logger;
 import view.Board;
 
 /**
- * The Primary Game Loop. Instance per level. Coordinates with Turn and Combat Engines
+ * The Primary Game Loop. Instance per level
  * @author david
  *
  */
@@ -31,13 +31,12 @@ public class Game {
 	private int numZombies;
 	
 	public Game (LevelInfo lvl) {
-		
 		//set up config from level config
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
 		combat = new Combat(board);
 		
-		zombieQueue = lvl.getZombies();
+		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 	}
 	
@@ -99,7 +98,8 @@ public class Game {
 			Random rand = new Random();
 			int zombiesToSpawn = rand.nextInt(numZombies/4);
 			
-			if (zombiesToSpawn > zombieQueue.values().stream().mapToInt(Integer::intValue).sum()) {
+			if (zombiesToSpawn > zombieQueue.values().stream().mapToInt(Integer::intValue).sum()) { 
+				//if the random number is larger than the reamining zombies then spawn all remaining zombies
 				zombiesToSpawn = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 			}
 			
@@ -115,11 +115,10 @@ public class Game {
 				
 				int rowNumber = rand.nextInt(levelInfo.getRows()); //determines which row the zombie will go down
 				Zombie zombie = ZombieTypes.toZombie(type);
-				board.addUnit(zombie, rowNumber, levelInfo.getColumns() - 1);
+				board.addUnit(zombie, rowNumber, levelInfo.getColumns() - 1); //spawn the zombie
 				
 				//removes the spawned zombie from the Queue
 				int x = zombieQueue.get(type) - 1;
-				
 				if (x == 0) {
 					zombieQueue.remove(type);
 				} else {
@@ -150,9 +149,6 @@ public class Game {
 	}
 	
 	private void endGame(boolean playerWin) {
-		/**
-		 * End Game Stats?
-		 */
 		this.finished = true;
 		if(playerWin) {
 			LOG.info("Player has Won");

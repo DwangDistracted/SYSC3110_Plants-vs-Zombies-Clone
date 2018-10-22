@@ -2,6 +2,7 @@ package levels;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import assets.PlantTypes;
@@ -22,8 +23,13 @@ public class LevelLoader {
 	private LevelLoader() {} //Singleton
 	
 	private static void sampleLevels(List<LevelInfo> levels) {
-		HashMap<ZombieTypes, Integer> sampleZombies = new HashMap<ZombieTypes, Integer>();
+		HashMap<ZombieTypes, Integer> sampleZombies = new HashMap<>();
 		sampleZombies.put(ZombieTypes.REG_ZOMBIE, 20);		
+		
+		HashSet<PlantTypes> samplePlants = new HashSet<>();
+		samplePlants.add(PlantTypes.PEASHOOTER);		
+		samplePlants.add(PlantTypes.SUNFLOWER);
+		
 		levels.add(new LevelInfo(
 					"Sample",							//level name
 					4,									//level rating
@@ -32,8 +38,8 @@ public class LevelLoader {
 					10,									//row
 					25,									//Resources per Turn
 					2000,								//Initial Resources
-					sampleZombies,		//The Enemy Zombies
-					new ArrayList<PlantTypes>()					//The Allowed Plants
+					sampleZombies,						//The Enemy Zombies
+					samplePlants						//The Allowed Plants
 		));
 		
 		LOG.debug("Added Sample Level");

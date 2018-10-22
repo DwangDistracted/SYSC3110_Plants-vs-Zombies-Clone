@@ -1,8 +1,8 @@
 package levels;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import assets.PlantTypes;
 import assets.ZombieTypes;
 
@@ -22,12 +22,12 @@ public class LevelInfo {
 	private int resPerTurn;
 	
 	//The zombies that will attack the player
-	private HashMap<ZombieTypes, Integer> zombies;
+	private Map<ZombieTypes, Integer> zombies;
 	//The Plants that the player is allowed to use
-	private List<PlantTypes> allowedPlants;
+	private Set<PlantTypes> allowedPlants;
 	
 	public LevelInfo (String name, int levelRating, String nextLevel, int gridX, int gridY, int resPerTurn, int initResources,
-		HashMap<ZombieTypes, Integer> zombies, ArrayList<PlantTypes> plants) {
+		Map<ZombieTypes, Integer> zombies, Set<PlantTypes> plants) {
 		this.zombies = zombies;
 		this.allowedPlants = plants;
 		
@@ -61,10 +61,10 @@ public class LevelInfo {
 	public int getInitResources() {
 		return initResources;
 	}
-	public HashMap<ZombieTypes, Integer> getZombies() {
+	public Map<ZombieTypes, Integer> getZombies() {
 		return zombies;
 	}
-	public List<PlantTypes> getAllowedPlants() {
+	public Set<PlantTypes> getAllowedPlants() {
 		return allowedPlants;
 	}
 }

@@ -2,6 +2,8 @@ package assets;
 
 /**
  * This is the listing of all zombie types we have
+ * 
+ * Useful for command parsing and spawning
  * @author david
  *
  */
