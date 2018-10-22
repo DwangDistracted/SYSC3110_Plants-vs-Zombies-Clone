@@ -1,4 +1,4 @@
-package View;
+package view;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -8,7 +8,7 @@ import Assets.*;
 
 public class Board {
 	
-	private Object[][] board;
+	private Grid[][] board;
 	private int row;
 	private int column;
 	private LinkedHashMap<Object,int[]> experimental;  //trying something out... first value holds unit instance and second value holds coordinates
