@@ -1,4 +1,4 @@
-package Level;
+package levels;
 
 public class LevelLoader {
 

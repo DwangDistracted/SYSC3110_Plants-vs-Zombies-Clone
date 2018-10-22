@@ -1,9 +1,9 @@
-package Engine;
+package engine;
 
 
-import View.*;
-import Assets.*;
-import Level.*;
+import view.*;
+import assets.*;
+import levels.*;
 
 public class Turn
 {

@@ -1,11 +1,11 @@
-package Engine;
+package engine;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import Input.*;
-import View.*;
-import Level.*;
-import Assets.*;
+import view.*;
+import input.*;
+import levels.*;
+import assets.*;
 
 public class Game {
 	

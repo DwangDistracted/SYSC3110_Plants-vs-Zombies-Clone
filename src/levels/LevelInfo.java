@@ -1,8 +1,8 @@
-package Level;
+package levels;
 
 import java.util.Random;
 
-import Input.CommandWords;
+import input.CommandWords;
 
 public class LevelInfo {
 	
