@@ -1,10 +1,30 @@
-package assets;
+package Assets;
 
-/**
- * The Zombie Model. Zombie Types should extend off this
- * @author david
- *
- */
-public abstract class Zombie {
+public class Zombie implements Unit{
+
+	@Override
+	public int getSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getDamage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getHP() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void takeDamage(int dmg) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

@@ -1,13 +1,56 @@
-/**
- * This class acts as the program entry point; loading the UI and Game Levels. AKA - The Main Menu
- */
+import java.util.LinkedHashMap; //testing
+import Assets.*;  //testing
+import Engine.Game;
 public class Main {
-	public static void main (String[] args) {
-		System.out.println("==============================");
-		System.out.println("      Zombies are Vegan       ");
-		System.out.println("==============================");
-		System.out.println("    Derek Shao | David Wang   ");
-		System.out.println("Michael Pastula | Tanisha Garg");
-		System.out.println("==============================");
+
+	public static void main(String[] args) {
+		
+		Game game = new Game();
+		
+		
+		/*
+		LinkedHashMap<Object, int[]> map = new LinkedHashMap();
+		
+		int[] ff = {1,2};
+		Flower f = new Flower();
+		Flower f1 = new Flower();
+		
+		int[] fz = {1,3};
+		Regular_Zombie z = new Regular_Zombie();
+		Regular_Zombie z1 = new Regular_Zombie();
+		
+		int[] fp = {1,4};
+		Peashooter p = new Peashooter();
+		Peashooter p1 = new Peashooter();
+		
+		map.put(f, ff);
+		map.put(f1, ff);
+		
+		map.put(z, fz);
+		map.put(z1, fz);
+		
+		map.put(p, fp);
+		map.put(p1, fp);
+		
+		for(Object key : map.keySet())
+		{
+			if(key instanceof Plant)
+			{
+				System.out.println(key.toString() + "----Plant");
+			}
+			if(key instanceof Zombie)
+			{
+				System.out.println(key.toString() + "----Zombie");
+			}
+			if(key instanceof pDmgDealer)
+			{
+				System.out.println(key.toString() + "----dmgDealer");
+			}
+		}
+	 	*/
+		
+				
+	
+		
 	}
 }
