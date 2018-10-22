@@ -1,9 +1,1 @@
-/Main.class
-/assets/
-/engine/
-/gardenapocalypse/
-/levels/
-/Input/
-/View/
-/input/
-/view/
+*.class
