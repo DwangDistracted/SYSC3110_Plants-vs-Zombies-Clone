@@ -55,6 +55,7 @@ public class Combat {
 		target.takeDamage(source.getDamage());
 		
 		return unitIsDead(target);
+
 	}
 	
 	/**

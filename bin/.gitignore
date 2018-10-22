@@ -1,1 +1,6 @@
 *.class
+/engine/
+/levels/
+/main/
+/util/
+/view/
