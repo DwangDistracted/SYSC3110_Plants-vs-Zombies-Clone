@@ -11,5 +11,13 @@ public interface Unit
 	public void takeDamage(int dmg);
 	
 	public String toString();
+	
+	public int getRow();
+	
+	public int getCol();
+	
+	public void setRow(int row);
+	
+	public void setCol(int col);
 
 }

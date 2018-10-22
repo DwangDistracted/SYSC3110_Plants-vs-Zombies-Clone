@@ -4,7 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import assets.Plant;
 import assets.Zombie;
- /**
+ 
+/**
  * Building block for a grid. Contains 1 Plant and N zombies.
  * 
  * @author Derek Shao
@@ -17,6 +18,17 @@ public class Grid {
 	public Grid() {
 		
 		zombies = new LinkedList<Zombie>();
+	}
+	
+	
+	/**
+	 * Determines if the current grid is occupied by a plant.
+	 * 
+	 * @return true if occupied, fals otherwise
+	 */
+	public boolean isOccupied() {
+		
+		return plant != null;
 	}
 	
 	/**
@@ -82,11 +94,12 @@ public class Grid {
 	 * 
 	 * @return the zombie that was killed, null if no zombies are present
 	 */
-	public void removeZombie() {
+	public Zombie removeZombie() {
 		
 		if (!zombies.isEmpty()) {
-			zombies.poll();
+			return zombies.poll();
 		}
+		return null;
 	}
 	
 	
@@ -99,5 +112,16 @@ public class Grid {
 	public int getNumberOfZombies() {
 		
 		return zombies.size();
+	}
+	
+	/**
+	 * Get the queue of zombies placed on this grid.
+	 * 
+	 * @return the queue of zombies in this grid
+	 * 
+	 */
+	public Queue<Zombie> getZombies() {
+		
+		return zombies;
 	}
 }

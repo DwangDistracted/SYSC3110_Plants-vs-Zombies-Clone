@@ -1,10 +1,13 @@
 package engine;
 
+import java.util.Queue;
+
 import assets.Plant;
 import assets.Zombie;
 import levels.Grid;
-  /**
- * Contains the Game state (i.e., location of all plants and zombies)
+ 
+/**
+ * Contains the Game state (i.e., location of all plants and zombies) and detects boarad conflicts.
  * 
  * @author Derek Shao
  * 
@@ -21,6 +24,7 @@ public class Board {
 	 * 
 	 * @param row number of rows in board
 	 * @param col number of columns in board
+	 * @author Derek Shao
 	 */
 	public Board(int row, int col) {
 		
@@ -36,7 +40,9 @@ public class Board {
 	 * 
 	 * @return true if plant placement was successful (i.e., no existing plant is in location),
 	 * false otherwise
-	 */
+	 * 
+	 * @author Derek Shao	 
+	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
 		return gameBoard[x][y].setPlant(plant);
@@ -49,12 +55,22 @@ public class Board {
 	 * 
 	 * @param x coordinate of Plant
 	 * @param y coordinate of Plant
+	 * 
+	 * @author Derek Shao
 	 */
 	public void removePlant(int x, int y) {
 		
 		gameBoard[x][y].removePlant();
 	}
 	
+	/**
+	 * Place a zombie in a specified location on the board. 
+	 * 
+	 * @param zombie to be placed
+	 * @param x coordinate of where to place zombie
+	 * @param y coordinate of where to place zombie
+	 * @return true if zombie was successfully added, false otherwise
+	 */
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
 		return gameBoard[x][y].addZombie(zombie);
@@ -100,7 +116,9 @@ public class Board {
  	/**
 	 * Method for Milestone 1 only.
 	 * Prints the current game state to console.
+	 * 
 	 * @Michael Patsula
+	 * @Derek Shao
 	 */
 	public void displayBoard() {
 		
@@ -122,5 +140,59 @@ public class Board {
 		for (int i = 0; i < gameBoard[0].length; i++) {
 			System.out.print("   " + i + "   ");
 		}
+	}
+
+	/**
+	 * Update the zombie position and detects for conflicts. 
+	 * 
+	 * @author Derek Shao
+	 * @author Michael Patsula
+	 */
+	public boolean updateZombiePosition(Zombie zombie) {
+		
+		int currentZombieRow = zombie.getRow();
+		int currentZombieCol = zombie.getCol();
+		
+		// if the zombie is in a grid that is currently occupied by a plant, the zombie should attack plant
+		// therefore moving zombie was unsuccessful 
+		if (gameBoard[currentZombieRow][currentZombieCol].isOccupied()) {
+			
+			return false;
+		} 
+		
+		int speed = zombie.getSpeed();
+		
+		Queue<Zombie> zombies = gameBoard[currentZombieRow][currentZombieCol].getZombies();
+		
+		// remove the zombie from the grid
+		for (Zombie z : zombies) {
+			if (zombie == z) {
+				zombies.remove(z);
+				break;
+			}
+		}
+		
+		// keep track of the number movements the zombie is able to make 
+		int modifier = 0;
+		
+		// move the zombie based on speed
+		for (int i = 1; i <= speed; i++) {
+			
+			// can moving zombie until it reaches end of grid or reaches a plant
+			if (!(currentZombieCol - i >= 0)) {
+				modifier++;
+				if (gameBoard[currentZombieRow][currentZombieCol - i].isOccupied()) {
+					break;
+				}
+			}
+		}
+		
+		// update zombie coordinates
+		zombie.setRow(currentZombieRow);
+		zombie.setCol(currentZombieCol - modifier);
+		
+		// update the board with new position
+		gameBoard[currentZombieRow][currentZombieCol - modifier].addZombie(zombie);
+		return true;
 	}
 } 
