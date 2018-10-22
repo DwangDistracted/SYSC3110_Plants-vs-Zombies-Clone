@@ -1,11 +1,13 @@
 package engine;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
+
+import assets.Regular_Zombie;
+import assets.Zombie;
 import main.Main;
-import levels.Grid;
 import levels.LevelInfo;
 import util.Logger;
+import view.Board;
 
 /**
  * The Primary Game Loop. Instance per level. Coordinates with Turn and Combat Engines
@@ -15,15 +17,21 @@ import util.Logger;
 public class Game {
 	private static Logger LOG = new Logger("Game");
 	
+	private Combat combat; //combat engine
 	private LevelInfo levelInfo;
-	private Grid[][] board;
+	private Board board;
 	
 	private int userResources;
 
+	private boolean finished = false;
+	private boolean playerWin;
+	
 	public Game (LevelInfo lvl) {
+		
 		//set up config from level config
-		board = new Grid[lvl.getGridX()][lvl.getGridY()];
+		board = new Board(lvl.getGridY(), lvl.getGridX());
 		levelInfo = lvl;
+		combat = new Combat(board);
 	}
 	
 	public boolean canSpend(int cost) {
@@ -52,11 +60,12 @@ public class Game {
 			zombieTurn();
 			if (!doEndOfTurn()) { break; }
 		}
-		endGame();
 	}
+	
 	private boolean playerTurn() {
 		userResources += levelInfo.getResPerTurn();
 		
+		board.displayBoard();
 		LOG.info("It is your turn. You have " + getUserResources() + " sunshine.");
 		LOG.prompt("Press 1 to skip this turn. Press 2 to quit this game.");
 		String s = null;
@@ -71,26 +80,63 @@ public class Game {
 				break;
 			}
 		}
-		
 		return true;
 	}
 	
 	private void zombieTurn() {
 		LOG.info("It is the zombie's turn.");
-		//spawn zombies
-	}
-	private boolean doEndOfTurn() {
-		//are there any collisions? -> do melee calculations
-		//is any range combat needed? -> do ranged calculations
+		board.displayBoard();
+				
 		//move zombies
-		//if zombies win { return false; }
+		for(Object key : board.getExperimental().keySet())
+		{
+			if(key instanceof Zombie)
+			{
+				int[] coordinates = board.getExperimental().get(key);
+				int[] newCoordinates = board.moveUnit(((Zombie) key).getSpeed(), coordinates[0], coordinates[1]);
+				if(newCoordinates == null) //if the zombies get to the end
+				{
+					endGame(false);
+					return;
+				}
+				board.getExperimental().replace(key, coordinates, newCoordinates);
+			}
+		}
+		
+		Random rand = new Random();
+		int rowNumber = rand.nextInt(levelInfo.getGridY()); //determines which row the zombie will go down
+		
+		for(int i = 0; i < 1; i++)  //spawn zombies   1 can replaced with a variable later
+		{
+			Regular_Zombie zombie = new Regular_Zombie();
+			board.addUnit(zombie, rowNumber, levelInfo.getGridX() - 1);
+		}
+
+		board.displayBoard();
+	}
+	
+	private boolean doEndOfTurn() {
+		if(!board.getExperimental().isEmpty())
+		{
+			combat.computePlantAttacks();
+			combat.computeZombieAttacks();
+		}
+		
+		//move zombies
+		if (finished) { return false; }
 		return true;
 	}
 	
-	private void endGame() {
+	private void endGame(boolean playerWin) {
 		/**
 		 * End Game Stats?
 		 */
-		LOG.info("Game has Ended");
+		this.finished = true;
+		this.playerWin = playerWin;
+		if(playerWin) {
+			LOG.info("Player has Won");
+		} else {
+			LOG.info("Player was eaten by Zombies");
+		}
 	}
 }

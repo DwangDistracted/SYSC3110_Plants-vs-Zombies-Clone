@@ -191,6 +191,7 @@ public class Board {
 				System.out.print(columnCount + "   |    ");
 				columnCount++;
 			}
+			System.out.print("\n");
 		}
 		
 	}

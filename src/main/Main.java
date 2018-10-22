@@ -15,7 +15,7 @@ public class Main {
 	
 	public static void main (String[] args) {
 		//Log init
-		Logger.setDebug();
+		Logger.setDebug(); //change to clearDebug to get rid of debug messages
 		
 		//Title Card
 		LOG.info("==================================");
