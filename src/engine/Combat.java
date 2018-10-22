@@ -43,7 +43,7 @@ public class Combat
 								int column = plantCord[1];
 								board.clearUnit(row, column);
 								removeBin.add(plantEntry.getKey());
-								System.out.println("TEST: Removed unit");
+								LOG.debug("TEST: Removed unit");
 							}
 						}
 					}
