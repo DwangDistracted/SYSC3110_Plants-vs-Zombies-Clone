@@ -51,9 +51,9 @@ public class Combat {
 	 * @return true if attacking resulted in killed unit, false otherwise
 	 */
 	public boolean zombieAttack(Zombie source, Plant target) {
-		
+
 		target.takeDamage(source.getDamage());
-		
+
 		return unitIsDead(target);
 
 	}
