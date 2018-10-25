@@ -1,12 +1,11 @@
 package engine;
-import levels.LevelInfo;
 
 public class Purse 
 {
 	private int points = 0;
 	
-	public Purse(LevelInfo lvl) {
-		this.points = lvl.getInitResources();
+	public Purse(int lvlInit) {
+		this.points = lvlInit;
 	}
 	
 	public int getPoints() {
@@ -27,7 +26,7 @@ public class Purse
 	 * @return True if transaction was successful, otherwise false
 	 */
 	public boolean spendPoints(int points) {
-		if(points <= this.points)
+		if(canSpend(points))
 		{
 			this.points -= points;
 			return true;

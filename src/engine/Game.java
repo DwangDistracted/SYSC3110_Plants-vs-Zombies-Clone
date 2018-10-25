@@ -30,7 +30,7 @@ public class Game {
 		board = new Board(lvl.getGridY(), lvl.getGridX());
 		levelInfo = lvl;
 		combat = new Combat(board);
-		userResources = new Purse(levelInfo);
+		userResources = new Purse(levelInfo.getInitResources());
 	}
 	
 	//start the game loop
