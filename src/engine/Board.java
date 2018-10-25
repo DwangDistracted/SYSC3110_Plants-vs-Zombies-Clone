@@ -1,18 +1,21 @@
 package engine;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
+import assets.Flower;
 import assets.Plant;
 import assets.Zombie;
 import levels.Grid;
  
 /**
- * Contains the Game state (i.e., location of all plants and zombies) and detects boarad conflicts.
+ * Contains the Game state (i.e., location of all plants and zombies) and detects board conflicts.
  * 
  * @author Derek Shao
  * 
  */
-public class Board {
+public class Board implements ZombieMoveListener {
 	
 	/* Holds location of each Plant and Zombie  
 	 * Used for displaying to user.
@@ -20,6 +23,21 @@ public class Board {
 	private Grid gameBoard[][];
 	private int row;
 	private int col;
+	
+	/* Checks if a Zombie has reached the end of the board.
+	 * If a zombie has, then the game is over and the player loses.
+	 * */
+	private boolean zombieReachedEnd;
+
+	/**
+	 * Track all zombies currently in the game.	
+	 */
+	private List<Zombie> zombiesInGame;
+	
+	/**
+	 * Number of Sunflowers in game.
+	 */
+	private int sfCounter;
 	
 	/**
 	 * Creates a new instance of Board.
@@ -32,6 +50,12 @@ public class Board {
 		
 		this.row = row;
 		this.col = col;
+		
+		this.zombieReachedEnd = false;
+		
+		this.sfCounter = 0;
+		
+		this.zombiesInGame = new LinkedList<Zombie>();
 		
 		gameBoard = new Grid[row][col];
 	}
@@ -51,7 +75,6 @@ public class Board {
 	 * 
 	 * @return the row size of this board
 	 * 
-	 * @author Michael Patsula
 	 */
 	public int getRow() {
 		return this.row;
@@ -62,11 +85,20 @@ public class Board {
 	 * 
 	 * @return the column size of this board
 	 * 
-	 * @author Michael Patsula
 	 */
 	public int getColumn() {
 		
 		return this.col;
+	}
+	
+	/**
+	 * Return whether a zombie has the end of a board.
+	 * 
+	 * @return true if a zombie has reached the end of a board, false otherwise
+	 */
+	public boolean hasReachedEnd() {
+		
+		return this.zombieReachedEnd;
 	}
 	
 	/**
@@ -81,6 +113,10 @@ public class Board {
 	 *  
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
+		
+		if (plant instanceof Flower) {
+			sfCounter++;
+		}
 		
 		return gameBoard[x][y].setPlant(plant);
 	}
@@ -110,6 +146,8 @@ public class Board {
 	 */
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
+		this.zombiesInGame.add(zombie);
+		
 		return gameBoard[x][y].addZombie(zombie);
 	}
 	
@@ -122,7 +160,9 @@ public class Board {
 	 */
 	public void removeZombie(int x, int y) {
 		
-		gameBoard[x][y].removeZombie();
+		Zombie zombieRemoved = gameBoard[x][y].removeZombie();
+		
+		this.zombiesInGame.remove(zombieRemoved);
 	}
 	
 	/**
@@ -152,12 +192,19 @@ public class Board {
 		return gameBoard[x][y].getFirstZombie();
 	}
 	
+	/**
+	 * Get the number of Sunflowers in game.
+	 * 
+	 * @return number of sunflowers
+	 */
+	public int getNumberOfSF() {
+		
+		return this.sfCounter;
+	}
  	/**
 	 * Method for Milestone 1 only.
 	 * Prints the current game state to console.
 	 * 
-	 * @Michael Patsula
-	 * @Derek Shao
 	 */
 	public void displayBoard() {
 		
@@ -181,13 +228,8 @@ public class Board {
 		}
 	}
 
-	/**
-	 * Update the zombie position and detects for conflicts. 
-	 * 
-	 * @author Derek Shao
-	 * @author Michael Patsula
-	 */
-	public boolean updateZombiePosition(Zombie zombie) {
+	@Override
+	public boolean onZombieMove(Zombie zombie) {
 		
 		int currentZombieRow = zombie.getRow();
 		int currentZombieCol = zombie.getCol();
@@ -199,8 +241,6 @@ public class Board {
 			return false;
 		} 
 		
-		int speed = zombie.getSpeed();
-		
 		Queue<Zombie> zombies = gameBoard[currentZombieRow][currentZombieCol].getZombies();
 		
 		// remove the zombie from the grid
@@ -210,6 +250,8 @@ public class Board {
 				break;
 			}
 		}
+		
+		int speed = zombie.getSpeed();
 		
 		// keep track of the number movements the zombie is able to make 
 		int modifier = 0;
@@ -232,6 +274,7 @@ public class Board {
 		
 		// update the board with new position
 		gameBoard[currentZombieRow][currentZombieCol - modifier].addZombie(zombie);
+		
 		return true;
 	}
 } 
