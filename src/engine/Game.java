@@ -110,7 +110,7 @@ public class Game {
 				//determine type of zombie spawn
 				List<ZombieTypes> keys = new ArrayList<ZombieTypes>(zombieQueue.keySet());
 				ZombieTypes type = keys.get(rand.nextInt(keys.size()));
-
+				
 				LOG.debug("Spawning a " + type.toString());
 				
 				int rowNumber = rand.nextInt(levelInfo.getRows()); //determines which row the zombie will go down
@@ -143,7 +143,7 @@ public class Game {
 		userResources += board.getNumberOfSF() * 10; //change 10 to Sunflower attribute //do sunflower/economy plants sunshine gain
 		
 		//did player win?
-		if (zombieQueue.values().stream().mapToInt(Integer::intValue).sum() == 0 && board.getNumberOfZombies() == 0) {
+		if (zombieQueue.isEmpty() && board.getNumberOfZombies() == 0) {
 			endGame(true);
 		}
 	}
