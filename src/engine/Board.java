@@ -314,8 +314,12 @@ public class Board implements ZombieMoveListener {
 		}
 		
 		// update zombie coordinates
-		zombie.setRow(currentZombieRow);
 		zombie.setCol(currentZombieCol - modifier);
+		
+		// determines if this zombie has reached the end of the board
+		if (zombie.getRow() == 0 && zombie.getCol() == 0) {
+			this.zombieReachedEnd = true;
+		}
 		
 		// update the board with new position
 		gameBoard[currentZombieRow][currentZombieCol - modifier].addZombie(zombie);

@@ -94,7 +94,7 @@ public class Game {
 			//zombie.move();
 			//if zombie move was successful - continue
 			//if not, 
-			combat.zombieAttack(zombie, board.getPlant(zombie.getRow(), zombie.getCol() - 1));
+			//combat.zombieAttack(zombie, board.getPlant(zombie.getRow(), zombie.getCol() - 1));
 		}
 		
 		//spawn new zombies
