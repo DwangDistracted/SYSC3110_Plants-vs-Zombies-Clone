@@ -7,6 +7,7 @@ import java.util.Queue;
 import assets.Flower;
 import assets.Plant;
 import assets.Zombie;
+import util.Logger;
 import levels.Grid;
  
 /**
@@ -17,30 +18,36 @@ import levels.Grid;
  */
 public class Board implements ZombieMoveListener {
 	
+	private static Logger LOG = new Logger("Board");
+	
 	/* Holds location of each Plant and Zombie  
 	 * Used for displaying to user.
-	 */
+	 * */
 	private Grid gameBoard[][];
+
+	/* Number of rows in game board */
 	private int row;
+
+	/* Number of columns in game board */
 	private int col;
 	
-	/* Checks if a Zombie has reached the end of the board.
-	 * If a zombie has, then the game is over and the player loses.
+	/* Checks if a Zombie has reached the end of the board
+	 * If a zombie has, then the game is over and the player loses
 	 * */
 	private boolean zombieReachedEnd;
 
 	/**
-	 * Track all plants currently in the game.
+	 * Track all plants currently in the game
 	 */
 	private List<Plant> plantsInGame;
 	
 	/**
-	 * Track all zombies currently in the game.	
+	 * Track all zombies currently in the game
 	 */
 	private List<Zombie> zombiesInGame;
 	
 	/**
-	 * Number of Sunflowers in game.
+	 * Number of Sunflowers in game
 	 */
 	private int sfCounter;
 	
@@ -64,7 +71,13 @@ public class Board implements ZombieMoveListener {
 		
 		this.plantsInGame = new LinkedList<Plant>();
 		
+		//initialize board
 		gameBoard = new Grid[row][col];
+		for (int r = 0; r < row; r++) {
+			for (int c = 0; c < col; c++) {
+				gameBoard[r][c] = new Grid();
+			}
+		}
 	}
 	
 	/**
@@ -157,6 +170,7 @@ public class Board implements ZombieMoveListener {
 		
 		if (gameBoard[x][y].setPlant(plant)) {
 			this.plantsInGame.add(plant);
+			LOG.info(String.format("Placed plant at location: (%d, %d)", x, y));
 			return true;
 		}
 		
@@ -190,6 +204,7 @@ public class Board implements ZombieMoveListener {
 		
 		if (gameBoard[x][y].addZombie(zombie)) {
 			this.zombiesInGame.add(zombie);
+			LOG.info(String.format("Placed zombie at location: (%d, %d)", x, y));
 			return true;
 		}
 		
@@ -261,16 +276,24 @@ public class Board implements ZombieMoveListener {
 			
 			for(int col = 0; col < gameBoard[row].length; col++) {
 				System.out.print(" | ");
-				System.out.print(gameBoard[row][col].getPlant().toString() + " ");
+				if (gameBoard[row][col].getPlant() != null) {
+					System.out.print(gameBoard[row][col].getPlant().toString() + " ");
+				} else {
+					System.out.print("N ");
+				}
 				System.out.print(gameBoard[row][col].getNumberOfZombies() + "Z");
 				System.out.print(" | ");
 			}
+			
+			System.out.println();
 		}
 		
 		// label the columns
 		for (int i = 0; i < gameBoard[0].length; i++) {
-			System.out.print("   " + i + "   ");
+			System.out.print("      " + i + "   ");
 		}
+		
+		System.out.println();
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package engine;
 
 import assets.*;
 import levels.Grid;
+import util.Logger;
 
 /**
  * Handles combat calculations. Acts as a mediator between Plant and Zombie interaction.
@@ -10,6 +11,8 @@ import levels.Grid;
  *
  */
 public class Combat {
+	
+	private static Logger LOG = new Logger("Combat");
  	
 	private Grid[][] gameBoard;
 
@@ -34,6 +37,10 @@ public class Combat {
 			if (gameBoard[plantRow][col].getFirstZombie() != null) {
 				
 				Zombie zombieTarget = gameBoard[plantRow][col].getFirstZombie();
+				
+				LOG.info(String.format("Plant at : (%d, %d) attacking Zombie at: (%d, %d)", 
+						source.getRow(), source.getCol(), zombieTarget.getRow(), zombieTarget.getCol()));
+				
 				zombieTarget.takeDamage(damage);
 				
 				return unitIsDead(zombieTarget);
@@ -52,6 +59,9 @@ public class Combat {
 	 */
 	public boolean zombieAttack(Zombie source, Plant target) {
 
+		LOG.info(String.format("Zombie at : (%d, %d) attacking Plant at: (%d, %d)", 
+				source.getRow(), source.getCol(), target.getRow(), target.getCol()));
+		
 		target.takeDamage(source.getDamage());
 
 		return unitIsDead(target);
@@ -65,6 +75,9 @@ public class Combat {
 	 * @return true if the unit is dead, false otherwise
 	 */
 	private boolean unitIsDead(Unit unit) {
+		
+		LOG.info(String.format("Unit at : (%d, %d) is dead", 
+				unit.getRow(), unit.getCol()));
 		
 		return unit.getHP() <= 0;
 	}
