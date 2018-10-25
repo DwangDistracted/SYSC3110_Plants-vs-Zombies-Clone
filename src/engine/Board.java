@@ -30,6 +30,11 @@ public class Board implements ZombieMoveListener {
 	private boolean zombieReachedEnd;
 
 	/**
+	 * Track all plants currently in the game.
+	 */
+	private List<Plant> plantsInGame;
+	
+	/**
 	 * Track all zombies currently in the game.	
 	 */
 	private List<Zombie> zombiesInGame;
@@ -56,6 +61,8 @@ public class Board implements ZombieMoveListener {
 		this.sfCounter = 0;
 		
 		this.zombiesInGame = new LinkedList<Zombie>();
+		
+		this.plantsInGame = new LinkedList<Plant>();
 		
 		gameBoard = new Grid[row][col];
 	}
@@ -102,6 +109,36 @@ public class Board implements ZombieMoveListener {
 	}
 	
 	/**
+	 * Get the number of zombies currently in game.
+	 * 
+	 * @return number of zombies in game
+	 */
+	public int getNumberOfZombies() {
+		
+		return this.zombiesInGame.size();
+	}
+	
+	/**
+	 * Return a list of zombies in game
+	 * 
+	 * @return zombies in game
+	 */
+	public List<Zombie> getZombiesInGame() {
+		
+		return this.zombiesInGame;
+	}
+	
+	/**
+	 * Return a list of plants in game
+	 * 
+	 * @return plants in game
+	 */
+	public List<Plant> getPlantsInGame() {
+		
+		return this.plantsInGame;
+	}
+	
+	/**
 	 * Places a plant in location x and y.
 	 * 
 	 * @param plant The Plant to be placed
@@ -118,7 +155,12 @@ public class Board implements ZombieMoveListener {
 			sfCounter++;
 		}
 		
-		return gameBoard[x][y].setPlant(plant);
+		if (gameBoard[x][y].setPlant(plant)) {
+			this.plantsInGame.add(plant);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -146,9 +188,12 @@ public class Board implements ZombieMoveListener {
 	 */
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
-		this.zombiesInGame.add(zombie);
+		if (gameBoard[x][y].addZombie(zombie)) {
+			this.zombiesInGame.add(zombie);
+			return true;
+		}
 		
-		return gameBoard[x][y].addZombie(zombie);
+		return false;
 	}
 	
 	/**
