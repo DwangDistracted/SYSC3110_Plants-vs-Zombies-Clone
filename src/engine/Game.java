@@ -23,12 +23,13 @@ public class Game {
 	private LevelInfo levelInfo;
 	private Board board;
 	
-	private int userResources;
+	private Purse userResources;
 
 	private boolean finished = false;
 	
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	private int numZombies;
+
 	
 	public Game (LevelInfo lvl) {
 		//set up config from level config
@@ -38,11 +39,11 @@ public class Game {
 		
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
+		userResources = new Purse(levelInfo.getInitResources());
 	}
 	
 	//start the game loop
 	public void start() {
-		userResources = levelInfo.getInitResources();
 		
 		while (true) {		
 			if (!playerTurn()) { break; }
@@ -56,7 +57,10 @@ public class Game {
 	}
 	
 	private boolean playerTurn() {
-		LOG.info("It is your turn. You have " + userResources + " sunshine.");
+		userResources.addPoints(levelInfo.getResPerTurn());
+		
+		board.displayBoard();
+		LOG.info("It is your turn. You have " + userResources.getPoints() + " sunshine.");
 		LOG.prompt("Press 1 to skip this turn. Press 2 to quit this game.");
 		String s = null;
 		
