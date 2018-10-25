@@ -20,10 +20,9 @@ public class Game {
 	private LevelInfo levelInfo;
 	private Board board;
 	
-	private int userResources;
+	private Purse userResources;
 
 	private boolean finished = false;
-	private boolean playerWin;
 	
 	public Game (LevelInfo lvl) {
 		
@@ -31,28 +30,11 @@ public class Game {
 		board = new Board(lvl.getGridY(), lvl.getGridX());
 		levelInfo = lvl;
 		combat = new Combat(board);
-	}
-	
-	public boolean canSpend(int cost) {
-		return cost <= userResources;
-	}
-	
-	public boolean spendUserResources(int cost) {
-		if (canSpend(cost)) {
-			userResources -= cost;
-			return true;
-		} else {
-			return false;
-		}
-	}
-	public int getUserResources() {
-		return userResources;
+		userResources = new Purse(levelInfo.getInitResources());
 	}
 	
 	//start the game loop
 	public void start() {
-		userResources = levelInfo.getInitResources();
-		
 		while (true) {
 			if (!playerTurn()) { break; }
 			doEndOfTurn();
@@ -62,10 +44,10 @@ public class Game {
 	}
 	
 	private boolean playerTurn() {
-		userResources += levelInfo.getResPerTurn();
+		userResources.addPoints(levelInfo.getResPerTurn());
 		
 		board.displayBoard();
-		LOG.info("It is your turn. You have " + getUserResources() + " sunshine.");
+		LOG.info("It is your turn. You have " + userResources.getPoints() + " sunshine.");
 		LOG.prompt("Press 1 to skip this turn. Press 2 to quit this game.");
 		String s = null;
 		
@@ -127,11 +109,7 @@ public class Game {
 	}
 	
 	private void endGame(boolean playerWin) {
-		/**
-		 * End Game Stats?
-		 */
 		this.finished = true;
-		this.playerWin = playerWin;
 		if(playerWin) {
 			LOG.info("Player has Won");
 		} else {
