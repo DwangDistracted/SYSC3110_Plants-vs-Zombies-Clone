@@ -1,35 +1,20 @@
 package assets;
 
-public class Peashooter extends pDmgDealer{
+/**
+ * The Peashooter Class is used to initialize a plant type having the power to shoot peas 
+ * at the zombie to reduce its health.
+ * 
+ *@author Tanisha 
+ */
+
+public class Peashooter extends Plant{
+	private static final int cost = 50;
 	
-	private int hp;
-	private int dmg;
-	private int speed;
-	
-	public Peashooter()
-	{
-		this.hp = 2;
-		this.dmg = 2;
-		this.speed = 0;
+	public Peashooter()	{
+		super(2,2,50);
 	}
 	
-	public int getDamage()
-	{
-		return this.dmg;
-	}
-	public void takeDamage(int dmg) 
-	{
-		this.hp = hp - dmg; 
-	}
-	
-	public int getHP()
-	{
-		return this.hp;
-	}
-	
-	public String toString()
-	{
+	public String toString() {
 		return "P";
 	}
-
 }
