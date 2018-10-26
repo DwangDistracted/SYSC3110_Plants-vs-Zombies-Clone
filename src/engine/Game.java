@@ -2,6 +2,8 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -88,17 +90,21 @@ public class Game {
 	private void zombieTurn() {
 		LOG.info("It is the zombie's turn.");
 		
-		List<Zombie> zombiesInGame = board.getZombiesInGame();
+		//create a new collection to prevent concurrent modification of Board zombies attribute
+		List<Zombie> zombiesInGame = new LinkedList<Zombie>(board.getZombiesInGame());
+		Iterator<Zombie> iterator = zombiesInGame.iterator();
 		
-		for (Zombie zombie : zombiesInGame) {
-			// if a zombie was not successfully moved, it means that there is a plant in the way
-			if (!zombie.move()) {
-				combat.zombieAttack(zombie, board.getPlant(zombie.getRow(), zombie.getCol() - 1));
+		while (iterator.hasNext()) {
+			Zombie nextZombie = iterator.next();
+			//if a zombie has failed to move, it means it is being blocked by a Plant
+			if (!nextZombie.move()) {
+				combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol() - 1));
 			}
-			
+
 			if (board.hasReachedEnd()) {
 				// a zombie has reached the end of the board and player loses
 				endGame(false);
+				break;
 			}
 		}
 		
@@ -126,6 +132,8 @@ public class Game {
 				Zombie zombie = ZombieTypes.toZombie(type);
 				zombie.setListener(board);
 				board.placeZombie(zombie, rowNumber, levelInfo.getColumns() - 1); //spawn the zombie
+				zombie.setRow(rowNumber);
+				zombie.setColumn(levelInfo.getColumns() - 1);
 				
 				//removes the spawned zombie from the Queue
 				int x = zombieQueue.get(type) - 1;

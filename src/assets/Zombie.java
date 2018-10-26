@@ -25,8 +25,6 @@ public abstract class Zombie implements Unit{
 		this.speed = speed;
 		this.power = pwr;
 		this.hitPoints = hp;
-		row = -1;
-		column = -1;
 	}
 	
 	public int getSpeed() {

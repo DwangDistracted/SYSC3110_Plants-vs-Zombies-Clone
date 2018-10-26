@@ -309,12 +309,12 @@ public class Board implements ZombieMoveListener {
 			return false;
 		} 
 		
-		Queue<Zombie> zombies = gameBoard[currentZombieRow][currentZombieCol].getZombies();
+		Queue<Zombie> zombiesOnGrid = gameBoard[currentZombieRow][currentZombieCol].getZombies();
 		
 		// remove the zombie from the grid
-		for (Zombie z : zombies) {
+		for (Zombie z : zombiesOnGrid) {
 			if (zombie == z) {
-				zombies.remove(z);
+				zombiesOnGrid.remove(z);
 				break;
 			}
 		}
@@ -328,7 +328,7 @@ public class Board implements ZombieMoveListener {
 		for (int i = 1; i <= speed; i++) {
 			
 			// can moving zombie until it reaches end of grid or reaches a plant
-			if (!(currentZombieCol - i >= 0)) {
+			if (!(currentZombieCol - i < 0)) {
 				modifier++;
 				if (gameBoard[currentZombieRow][currentZombieCol - i].isOccupied()) {
 					break;
@@ -340,12 +340,12 @@ public class Board implements ZombieMoveListener {
 		zombie.setColumn(currentZombieCol - modifier);
 		
 		// determines if this zombie has reached the end of the board
-		if (zombie.getRow() == 0 && zombie.getCol() == 0) {
+		if (zombie.getCol() == 0) {
 			this.zombieReachedEnd = true;
 		}
 		
 		// update the board with new position
-		gameBoard[currentZombieRow][currentZombieCol - modifier].addZombie(zombie);
+		gameBoard[zombie.getRow()][zombie.getCol()].addZombie(zombie);
 		
 		return true;
 	}
