@@ -1,28 +1,21 @@
 package assets;
 
-import java.util.Observable;
+import util.Logger;
 
-import View.Board;
-
-public class Zombie implements Unit{
+public abstract class Zombie implements Unit{
+	private static Logger LOG = new Logger("Zombie");
 	private int speed;
 	private int power;
 	private int hitPoints;
-	private Board b;
-	//private int row;
-	//private int column;
-	private int[] coordinates;
+	private int row;
+	private int column;
 	
 	public Zombie(int speed, int pwr, int hp) {
 		this.speed = speed;
 		this.power = pwr;
 		this.hitPoints = hp;
-		
-		for(Object key : b.getExperimental().keySet()) {
-				if(key instanceof Zombie) {
-					this.coordinates = b.getExperimental().get(key);
-				}
-		}
+		row = -1;
+		column = -1;
 	}
 	
 	@Override
@@ -54,16 +47,30 @@ public class Zombie implements Unit{
 		this.hitPoints = hp;
 	}
 	
-	public int[] getCoordinates() {
-		return this.coordinates;
+	public int getRow() {
+		return this.row;
 	}
 	
-	public void newCoordinates(int[] coordinates) {
-		this.coordinates = coordinates;
+	public int getColumn() {
+		return this.column;
+	}
+	
+	public void newCoordinates( int row, int column) {
+		this.row = row;
+		this.column = column;
 	}
 
 	@Override
 	public void takeDamage(int dmg) {
-		this.hitPoints = hitPoints - dmg;
+		this.hitPoints -= dmg;
+		isAlive();
+	}
+
+	public boolean isAlive() {
+		if(getHP() == 0 || getHP() < 0) {
+			LOG.info("Zombie is Dead");
+			return false;
+		}
+		return true;
 	}
 }

@@ -1,11 +1,6 @@
 package assets;
 
 public class Peashooter extends pDmgDealer{
-//	
-//	private int hp;
-//	private int dmg;
-//	private int speed;
-	
 	public Peashooter()	{
 		super(0,2,2);
 	}

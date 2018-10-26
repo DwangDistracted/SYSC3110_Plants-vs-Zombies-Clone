@@ -1,8 +1,10 @@
 package assets;
 
-import View.Board;
+import util.Logger;
+import view.Board;
 
 public class Plant implements Unit{
+	private static Logger LOG = new Logger("Zombie");
 	private int speed;
 	private int hitPoints;
 	private int power;
@@ -43,7 +45,16 @@ public class Plant implements Unit{
 	}
 
 	@Override
-	public void takeDamage(int dmg) {
-		this.hitPoints = hitPoints - dmg; 
+	public void takeDamage(int dmg)	{
+		this.hitPoints -= dmg;
+		isAlive();
+	}
+	
+	public boolean isAlive() {
+		if(getHP() == 0 || getHP() < 0) {
+			LOG.info("Flower is Dead");
+			return false;
+		}
+		return true;
 	}
 }
