@@ -69,7 +69,7 @@ public abstract class Zombie implements Unit{
 	public void setColumn(int column) {
 		this.column = column;
 	}
-	
+
 	@Override
 	public void takeDamage(int dmg) {
 		this.hitPoints -= dmg;

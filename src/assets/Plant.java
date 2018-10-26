@@ -61,22 +61,20 @@ public class Plant implements Unit{
 		}
 		return true;
 	}
-	
+
 	public void setCoordinates(int row, int column) {
-		
+	
 		this.row = row;
 		this.column = column;
 	}
 
 	@Override
 	public int getRow() {
-		
 		return this.row;
 	}
 
 	@Override
 	public int getCol() {
-		
 		return this.column;
 	}
 }
