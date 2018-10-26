@@ -61,7 +61,8 @@ public abstract class Zombie implements Unit{
 		return this.column;
 	}
 	
-	public void newCoordinates( int row, int column) {
+	@Override
+	public void currentCoordinates( int row, int column) {
 		this.row = row;
 		this.column = column;
 	}

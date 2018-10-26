@@ -14,10 +14,14 @@ public class Plant implements Unit{
 	private static Logger LOG = new Logger("Zombie");
 	private int hitPoints;
 	private int power;
+	private int row;
+	private int column;
 	
 	public Plant(int hp, int pwr){
 		this.hitPoints = hp;
 		this.power = pwr;
+		row = -1;
+		column = -1;
 	}
 
 	@Override
@@ -52,5 +56,11 @@ public class Plant implements Unit{
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void currentCoordinates(int row, int column) {
+		this.row = row;
+		this.column = column;
 	}
 }
