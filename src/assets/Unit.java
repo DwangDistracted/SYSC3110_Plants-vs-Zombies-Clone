@@ -21,7 +21,9 @@ public interface Unit{
 	
 	public boolean isAlive();
 	
-	public void currentCoordinates(int row, int column);
-	
 	public String toString();
+	
+	public int getRow();
+	
+	public int getCol();
 }

@@ -1,5 +1,7 @@
 package assets;
 
+import engine.Board;
+
 /**
  * The Zombie class initializes a set of variables and implements associated setters and getters
  * 
@@ -17,11 +19,13 @@ public abstract class Zombie implements Unit{
 	private int hitPoints;
 	private int row;
 	private int column;
+	private Board listener;
 	
-	public Zombie(int speed, int pwr, int hp) {
+	public Zombie(int speed, int pwr, int hp, Board board) {
 		this.speed = speed;
 		this.power = pwr;
 		this.hitPoints = hp;
+		this.listener = board;
 		row = -1;
 		column = -1;
 	}
@@ -61,12 +65,14 @@ public abstract class Zombie implements Unit{
 		return this.column;
 	}
 	
-	@Override
-	public void currentCoordinates( int row, int column) {
+	public void setRow(int row) {
 		this.row = row;
+	}
+	
+	public void setColumn(int column) {
 		this.column = column;
 	}
-
+	
 	@Override
 	public void takeDamage(int dmg) {
 		this.hitPoints -= dmg;
@@ -79,5 +85,13 @@ public abstract class Zombie implements Unit{
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean move() {
+		if (listener.onZombieMove(this)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

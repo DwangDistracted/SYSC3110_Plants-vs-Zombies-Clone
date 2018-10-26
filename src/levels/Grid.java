@@ -24,7 +24,7 @@ public class Grid {
 	/**
 	 * Determines if the current grid is occupied by a plant.
 	 * 
-	 * @return true if occupied, fals otherwise
+	 * @return true if occupied, false otherwise
 	 */
 	public boolean isOccupied() {
 		

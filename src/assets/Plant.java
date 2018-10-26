@@ -21,8 +21,6 @@ public class Plant implements Unit{
 	public Plant(int hp, int pwr, int cost){
 		this.hitPoints = hp;
 		this.power = pwr;
-		row = -1;
-		column = -1;
 		this.cost = cost;
 	}
 
@@ -63,10 +61,22 @@ public class Plant implements Unit{
 		}
 		return true;
 	}
-
-	@Override
-	public void currentCoordinates(int row, int column) {
+	
+	public void setCoordinates(int row, int column) {
+		
 		this.row = row;
 		this.column = column;
+	}
+
+	@Override
+	public int getRow() {
+		
+		return this.row;
+	}
+
+	@Override
+	public int getCol() {
+		
+		return this.column;
 	}
 }
