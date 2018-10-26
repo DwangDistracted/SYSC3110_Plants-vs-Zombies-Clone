@@ -13,6 +13,10 @@ public class Main {
 	
 	public static Scanner sc = new Scanner(System.in);
 	
+	/**
+	 * Program Entry Point
+	 * @param args
+	 */
 	public static void main (String[] args) {
 		//Log init
 		Logger.setDebug(); //change to clearDebug to get rid of debug messages
@@ -25,7 +29,7 @@ public class Main {
 		LOG.info(" Michael Pastula | Tanisha Garg   ");
 		LOG.info("==================================");
 		
-		//Load Data
+		//Load Level Data
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
 		

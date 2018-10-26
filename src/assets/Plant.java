@@ -1,32 +1,72 @@
 package assets;
 
+/**
+ * The Plant class initializes a set of variables and implements associated setters and getters
+ * 
+ * Used for creating a plant and determining if a plant is alive
+ * 
+ *@author Tanisha 
+ */
+
+import util.Logger;
+
 public class Plant implements Unit{
-	public int speed = 0;
-	public int hp = 2;
-	public int dmg = 0;
+	private static Logger LOG = new Logger("Plant");
+	private int hitPoints;
+	private int power;
+	private int row;
+	private int column;
+	private int cost;
 	
-	@Override
-	public int getSpeed() {
-		// TODO Auto-generated method stub
-		return this.speed;
+	public Plant(int hp, int pwr, int cost){
+		this.hitPoints = hp;
+		this.power = pwr;
+		row = -1;
+		column = -1;
+		this.cost = cost;
 	}
 
 	@Override
-	public int getDamage() {
-		// TODO Auto-generated method stub
-		return this.dmg;
+	public int getPower() {
+		return this.power;
+	}
+	
+	public void setPower(int pwr) {
+		this.power = pwr;
 	}
 
 	@Override
 	public int getHP() {
-		// TODO Auto-generated method stub
-		return this.hp;
+		return this.hitPoints;
+	}
+	
+	@Override
+	public void setHp(int hp) {
+		this.hitPoints = hp;
+	}
+
+	public int getCost() {
+		return this.cost;
+	}
+	
+	@Override
+	public void takeDamage(int dmg)	{
+		this.hitPoints -= dmg;
+		isAlive();
+	}
+	
+	@Override
+	public boolean isAlive() {
+		if(getHP() <= 0) {
+			LOG.info("Flower is Dead");
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public void takeDamage(int dmg) {
-		this.hp = hp - dmg; 
+	public void currentCoordinates(int row, int column) {
+		this.row = row;
+		this.column = column;
 	}
-	
-
 }

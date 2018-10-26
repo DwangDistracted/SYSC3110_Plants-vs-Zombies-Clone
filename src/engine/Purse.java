@@ -1,32 +1,32 @@
 package engine;
+
 /**
- * This class manages the user's points within the game
- * @author
+ * Keeps track of player resources and handles expenditure. Created per Game Instance.
+ * @author david
  */
 public class Purse 
 {
+	//The amount of resoures
 	private int points = 0;
 	
 	/**
 	 * Sets the user to an initial default number of points. 
-	 * @param lvlInit
+	 * @param lvlInit The Initial Resources a player has in a level
 	 */
-	public Purse(int lvlInit) 
-	{
+	public Purse(int lvlInit) {
 		this.points = lvlInit;
 	}
 	
 	/**
 	 * gets the amount of points the user has
-	 * @return an int of the number of current points the user has 
+	 * @return The Amount of Resources a Player has
 	 */
-	public int getPoints()
-	{
+	public int getPoints() {
 		return points;
 	}
 	
 	/**
-	 * adds points to the player's purse 
+	 * Add points to the player's purse 
 	 * @param points - the amount to be added
 	 */
 	public void addPoints(int points)
@@ -35,7 +35,7 @@ public class Purse
 	}
 	
 	/**
-	 * This method spends a given amount of points
+	 * Spend Points from the player's purse
 	 * @param points - the amount that a player wants to spend
 	 * @return True if transaction was successful, otherwise false
 	 */
@@ -50,13 +50,11 @@ public class Purse
 	}
 	
 	/**
-	 * Determines if the user has enough points to spend a 
-	 * given amount of money
-	 * @param points
-	 * @return a boolean - true if the user has enough points, false otherwise
+	 * Checks if the player can spend a given amount of resources
+	 * @param points the amount of resources
+	 * @return true is yes, false otherwise
 	 */
-	public boolean canSpend(int points)
-	{
+	public boolean canSpend(int points) {
 		return points <= this.points;
 	}
 }
