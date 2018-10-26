@@ -8,13 +8,7 @@ import assets.PlantTypes;
 
 public class CommandWords
 {
-    // a constant array that holds all valid command words
 	private enum validPrimaryCmd {HELP,PLAY,QUIT,LOAD,PASS,PLACE};
-    //private String[] validCommands = {"help","play","quit","load","pass","place"};
-
-    public CommandWords()
-    {
-    }
     
     /**
      * Used to determine whether or not a given user input string 
@@ -40,18 +34,16 @@ public class CommandWords
      * @param input
      * @return a boolean - Yes if the unit is valid, false otherwise
      */
-    public boolean isValidUnitCmd(String input)
+    public boolean isValidUnit(String input)
     {
     	for(PlantTypes type : PlantTypes.values())
     	{
-    		for(Plant plant : PlantTypes.toPlant(type))
+    		if(PlantTypes.toPlant(type).toString() == input)
     		{
-    			if(plant.toString() == input)
-    			{
-    				return true;
-    			}
+    			return true;
     		}
     	}
+    	return false;
     }
     
     /**

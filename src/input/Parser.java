@@ -28,7 +28,6 @@ public class Parser
         String[] words = {null,null,null,null};
   
         System.out.print("> ");    
-
         inputLine = reader.nextLine();
 
      
@@ -41,30 +40,16 @@ public class Parser
         	}
         }
        
-        // Now check whether this word is known. If so, create a command
-        // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(words[0]))
+        /*
+        if(commands.isPrimaryCommand(words[0]))
         	return new Command(words[0], words[1], words[2], words[3]);
             
         else 
             return new Command(null, words[1], words[2], words[3]); 
+         */
         
+        return new Command(words[0], words[1], words[2],words[3]);
     }
     
-    /**
-     * @return the command instance initialized within Parser
-     */
-    public CommandWords getCommandWords()
-    {
-    	return commands;
-    }
-    
-
-    /**
-     * Print out a list of valid command words.
-     */
-    public void showCommands()
-    {
-        commands.showAll();
-    }
+   
 }

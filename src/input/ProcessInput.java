@@ -1,10 +1,15 @@
 package input;
 import java.awt.List;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import assets.Flower;
 import assets.Peashooter;
+import assets.Plant;
+import assets.PlantTypes;
 import assets.Zombie;
+import assets.ZombieTypes;
 import engine.Game;
 import engine.Purse;
 import levels.LevelInfo;
@@ -16,6 +21,7 @@ public class ProcessInput
 	private Game game;
 	private Board board;
 	private Purse purse;
+	 private CommandWords validCommands;  // all valid cmd words
 	
 	public ProcessInput(LevelInfo lvl, Game game, Board board, Purse purse)
 	{
@@ -23,6 +29,7 @@ public class ProcessInput
 		this.game = game;
 		this.board = board;
 		this.purse = purse;
+		validCommands = new CommandWords();
 	}
 	
 	
@@ -33,9 +40,9 @@ public class ProcessInput
 	 */
 	public boolean processCommand(Command command) //return false if cmd is processCommand is unsuccessful
 	 {
-	        if(command.isUnknownWord(1))
-           {
-	            System.out.println("I don't know what you mean...");
+	        if(validCommands.isPrimaryCommand(command.getWord(1)) && validCommands.isValidUnit(command.getWord(2)))
+            {
+	            System.out.println("Invalid commands");
 	            return false;
 	        }
 	        
@@ -88,7 +95,7 @@ public class ProcessInput
 		        }
 	        	
 	        	
-	        	if (command.getWord(2).equalsIgnoreCase("sf") && purse.redeemPoints(10) && lvl.isValidUnit("sf"))
+	        	if (command.getWord(2).equalsIgnoreCase("sf") && purse.spendPoints(10) && validCommands.isValidUnit("sf"))
 	 	        {
 	        			 
 	 	        	System.out.println("Sunflower was placed on tile " + command.getWord(3) + ", " + command.getWord(4));
@@ -98,7 +105,7 @@ public class ProcessInput
 	 		        board.addUnit(sf, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
 	 		        return true;
 	 	        }
-	 	        else if (command.getWord(2).equalsIgnoreCase("ps") && purse.redeemPoints(15) && lvl.isValidUnit("ps"))
+	 	        else if (command.getWord(2).equalsIgnoreCase("ps") && purse.spendPoints(15) && validCommands.isValidUnit("ps"))
 	 	        {
 	 	        	Peashooter ps = new Peashooter();
 	 	        	
@@ -118,7 +125,7 @@ public class ProcessInput
 	 */
 	 public boolean inRange(int row, int column)  
 	 {
-		if(row <= lvl.getGridY() - 1 && row >= 0 && column < lvl.getGridX() - 1 && column >= 0)  // board.getRow and column was subtracted by one due to arrays
+		if(row <= lvl.getRows() - 1 && row >= 0 && column < lvl.getColumns() - 1 && column >= 0)  // board.getRow and column was subtracted by one due to arrays
 			return true;
 			
 		return false;
@@ -130,21 +137,21 @@ public class ProcessInput
 	  */
 	 public void printHelp()
 	 {
-		 HashMap<Zombie,Integer> allowedZombies = lvl.getZombies();
-		 List<Plant> allowedPlants = lvl.getAllowedPlants();
+		 Map<ZombieTypes,Integer> allowedZombies = lvl.getZombies();
+		 Set<PlantTypes> allowedPlants = lvl.getAllowedPlants();
 		 
 		 System.out.println("Help message: to place a unit Type 'Place <unitName> <row #> <column #>'\n"
 		 	+ "\n note: row & column numbers start at coordinate 0");
 		 
 		 System.out.println("The plants commands at your disposal are: ");
-		 for(Plant p : allowedPlants)
+		 for(PlantTypes p : allowedPlants)
 		 {
-			 System.out.println(z.toString() + " | ");
+			 System.out.println(p.toString() + " | ");
 		 }
 		 System.out.println();
 		 
 		 System.out.println("The zombies that you will face against are: ");
-		 for(Zombie z : allowedZombies.keySet())
+		 for(ZombieTypes z : allowedZombies.keySet())
 		 {
 			 System.out.println(z.toString() + " | ");
 		 }

@@ -32,5 +32,12 @@ public class Command
     	 return (commandWords[index - 1] == null);
     }
     
+    /**
+     * @return the command 
+     */
+    public String[] getCommandWords()
+    {
+    	return commandWords;
+    }
 }
 
