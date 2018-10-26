@@ -1,4 +1,10 @@
 package input;
+/**
+ * This class holds the tokenized version of the user input.
+ * From this class the user will be able to get specified tokens of the user's input.
+ * @author Michael Patsula
+ *
+ */
 public class Command
 {
 	private String[] commandWords;

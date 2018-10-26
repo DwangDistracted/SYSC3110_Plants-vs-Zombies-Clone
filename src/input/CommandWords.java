@@ -5,7 +5,11 @@ import java.util.Collection;
 
 import assets.Plant;
 import assets.PlantTypes;
-
+/**
+ * This class holds the valid primary commands and checks
+ * whether or not a primary command or plant command is valid. 
+ * @author Michael Patsula
+ */
 public class CommandWords
 {
 	private enum validPrimaryCmd {HELP,PLAY,QUIT,LOAD,PASS,PLACE};
@@ -20,7 +24,7 @@ public class CommandWords
     {
         for (validPrimaryCmd word : validPrimaryCmd.values())
         {
-             if(word.toString() == input)
+             if(word.toString().equals(input))
              {
             	 return true;
              }
@@ -38,7 +42,7 @@ public class CommandWords
     {
     	for(PlantTypes type : PlantTypes.values())
     	{
-    		if(PlantTypes.toPlant(type).toString() == input)
+    		if(PlantTypes.toPlant(type).toString().equals(input))
     		{
     			return true;
     		}
@@ -49,7 +53,7 @@ public class CommandWords
     /**
      * Displays all of the valid primary commands
      */
-    public void showAll() 
+    public void showPrimaryCommands() 
     {
     	for (validPrimaryCmd word : validPrimaryCmd.values())
         {

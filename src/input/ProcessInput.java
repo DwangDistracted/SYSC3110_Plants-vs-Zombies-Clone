@@ -15,6 +15,14 @@ import engine.Purse;
 import levels.LevelInfo;
 import view.Board;
 
+
+/**
+ * This class processes the input that the user types in during Player's turn.
+ * Different aspects of the program will be called according to the user input.
+ * 
+ * @author Michael Patsula
+ *
+ */
 public class ProcessInput 
 {
 	private LevelInfo lvl;
@@ -78,12 +86,12 @@ public class ProcessInput
 	        
 	        else if(commandWord.equalsIgnoreCase("place"))
 	        {
-	        	if(command.getWord(3) == null || command.getWord(4) == null)             //restriction 1
+	        	if(command.isUnknownWord(3) || command.isUnknownWord(4))      //restriction - check if word 3 and 4 is null
 	            {
 		            System.out.println("Please input your command with coordinates");
 		            return false;
 	            }
-		        else  //restriction 2  see if the coordinates are in range
+		        else  //restriction 2  see if the coordinates are in range of the board
 		        {
 		        	boolean inRange;
 		        	try

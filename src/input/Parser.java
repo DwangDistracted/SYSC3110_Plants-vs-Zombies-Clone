@@ -1,19 +1,22 @@
 package input;
 
 import java.util.Scanner;
-
+/**
+ * This class converts the user's input into an instance of Command
+ * ie. converts the input into words.
+ * @author Michael Patsula
+ *
+ */
  
 public class Parser 
 {
-    private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
     /**
-     * Create a parser to read from the terminal window.
+     * Create a Scanner to read the user's input
      */
     public Parser() 
     {
-        commands = new CommandWords();
         reader = new Scanner(System.in);
     }
 
@@ -39,14 +42,6 @@ public class Parser
         		words[counter] = tokenizer.next();
         	}
         }
-       
-        /*
-        if(commands.isPrimaryCommand(words[0]))
-        	return new Command(words[0], words[1], words[2], words[3]);
-            
-        else 
-            return new Command(null, words[1], words[2], words[3]); 
-         */
         
         return new Command(words[0], words[1], words[2],words[3]);
     }
