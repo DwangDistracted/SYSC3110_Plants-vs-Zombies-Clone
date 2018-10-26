@@ -124,6 +124,7 @@ public class Game {
 				
 				int rowNumber = rand.nextInt(levelInfo.getRows()); //determines which row the zombie will go down
 				Zombie zombie = ZombieTypes.toZombie(type);
+				zombie.setListener(board);
 				board.placeZombie(zombie, rowNumber, levelInfo.getColumns() - 1); //spawn the zombie
 				
 				//removes the spawned zombie from the Queue

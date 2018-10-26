@@ -21,11 +21,10 @@ public abstract class Zombie implements Unit{
 	private int column;
 	private Board listener;
 	
-	public Zombie(int speed, int pwr, int hp, Board board) {
+	public Zombie(int speed, int pwr, int hp) {
 		this.speed = speed;
 		this.power = pwr;
 		this.hitPoints = hp;
-		this.listener = board;
 		row = -1;
 		column = -1;
 	}
@@ -61,7 +60,7 @@ public abstract class Zombie implements Unit{
 		return this.row;
 	}
 	
-	public int getColumn() {
+	public int getCol() {
 		return this.column;
 	}
 	
@@ -85,6 +84,10 @@ public abstract class Zombie implements Unit{
 			return false;
 		}
 		return true;
+	}
+	
+	public void setListener(Board board) {
+		this.listener = board;
 	}
 	
 	public boolean move() {
