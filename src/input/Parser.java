@@ -1,6 +1,8 @@
 package input;
 
 import java.util.Scanner;
+
+import util.Logger;
 /**
  * This class converts the user's input into an instance of Command
  * ie. converts the input into words.
@@ -10,29 +12,24 @@ import java.util.Scanner;
  
 public class Parser 
 {
-    private Scanner reader;         // source of command input
-
-    /**
-     * Create a Scanner to read the user's input
-     */
-    public Parser() 
-    {
-        reader = new Scanner(System.in);
-    }
+	private Parser() {}
+	
+	private static Logger LOG = new Logger("Parser");
+    private static Scanner reader = new Scanner(System.in);
 
     /**
      * Creates a Command instance based on the user input 
      * (ie converts the input tokens into variables)
      * @return a Command instance
      */
-    public Command getCommand() 
+    public static Command getCommand() 
     {
         String inputLine;   // will hold the full input line
         String[] words = {null,null,null,null};
   
         System.out.print("> ");    
         inputLine = reader.nextLine();
-
+        LOG.debug("Read " + inputLine);
      
         Scanner tokenizer = new Scanner(inputLine);
         for(int counter = 0; counter < words.length; counter++)
@@ -40,10 +37,17 @@ public class Parser
         	if(tokenizer.hasNext())
         	{
         		words[counter] = tokenizer.next();
+        		LOG.debug("Tokenized " + counter + ": " + words[counter]);
         	}
         }
-        
-        return new Command(words[0], words[1], words[2],words[3]);
+        tokenizer.close();
+        if(!CommandWords.isPrimaryCommand(words[0]))
+        {
+        	LOG.debug("Not a primary command");
+            return null; //invalid command
+        } else {
+        	return new Command(words[0], words[1], words[2],words[3]);
+        }
     }
     
    

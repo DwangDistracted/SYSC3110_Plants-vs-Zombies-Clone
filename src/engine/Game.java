@@ -3,11 +3,19 @@ package engine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import assets.Flower;
+import assets.Peashooter;
+import assets.Plant;
+import assets.PlantTypes;
 import assets.Zombie;
 import assets.ZombieTypes;
+import input.Command;
+import input.CommandWords;
+import input.Parser;
 import main.Main;
 import levels.LevelInfo;
 import util.Logger;
@@ -54,7 +62,8 @@ public class Game {
 	 */
 	public void start() {
 		while (!finished) {
-			if (!playerTurn()) { break; }
+			playerTurn();
+			if (finished) { break; }
 			board.displayBoard();
 			zombieTurn();		
 			if (finished) { break; }
@@ -66,24 +75,14 @@ public class Game {
 	
 	/**
 	 * Processes a Player's Turn
-	 * @return True if the user did not quit. False otherwise
 	 */
-	private boolean playerTurn() {
+	private void playerTurn() {
 		LOG.info("It is your turn. You have " + userResources.getPoints() + " sunshine.");
-		LOG.prompt("Press 1 to skip this turn. Press 2 to quit this game.");
-		String s = null;
+		LOG.prompt(CommandWords.getPrimaryGameCommands());
 		
-		while (true) { //Handling User Input Block
-			s = Main.sc.nextLine();
-			//Parse User Commands
-			if (s.equals("2")) {
-				return false; 
-			} else if (s.equals("1")) {
-				LOG.debug("Skipping turn...");
-				break;
-			}
+		while(!processCommand(Parser.getCommand())) {
+			LOG.prompt(CommandWords.getPrimaryGameCommands());
 		}
-		return true;
 	}
 	
 	/**
@@ -180,4 +179,118 @@ public class Game {
 			LOG.info("Player was eaten by Zombies");
 		}
 	}
+	
+	
+	//INPUT - MILESTONE 1 ONLY
+
+	 /**
+	  * Displays a help message informing user on the type of zombies they will face within the level,
+	  * the plants that are at that disposal and how to use the command line.
+	  */
+	 public void printHelp()
+	 {
+		 Map<ZombieTypes,Integer> allowedZombies = levelInfo.getZombies();
+		 Set<PlantTypes> allowedPlants = levelInfo.getAllowedPlants();
+		 StringBuilder s = new StringBuilder();
+		 
+		 s.append("Help message: to place a unit Type 'Place <unitName> <row #> <column #>. \nNote: row & column numbers start at coordinate 0");
+		 
+		 s.append("\nThe plants commands at your disposal are: ");
+		 for(PlantTypes p : allowedPlants)
+		 {
+			 s.append(p.toString() + " | ");
+		 }
+		 s.append("\nThe zombies that you will face against are: ");
+		 for(ZombieTypes z : allowedZombies.keySet())
+		 {
+			 s.append(z.toString() + " | ");
+		 }
+		 LOG.info(s.toString());
+	 }
+	 
+	/**
+	 * Determines if the user inputed commands is within the grid boundaries.
+	 * @param row - coordinate
+	 * @param column - coordinate
+	 * @return true if the parameters are within the grid boundaries, and false otherwise.
+	 */
+	 public boolean inRange(int row, int column)  
+	 {
+		if(row <= levelInfo.getRows() - 1 && row >= 0 && column < levelInfo.getColumns() - 1 && column >= 0)  // board.getRow and column was subtracted by one due to arrays
+			return true;
+			
+		return false;
+	 }
+
+		/**
+		 * Processes the user input
+		 * @param command - the user input
+		 * @return true if the input was valid, false otherwise
+		 */
+	 public boolean processCommand(Command command)
+	 {
+		 if (command == null) { return false; } 
+		 
+		 String commandWord = command.getWord(1);
+
+		 if (commandWord.equalsIgnoreCase("help")) {
+			 printHelp();
+			 return false;
+
+		 } else if (commandWord.equalsIgnoreCase("quit")) {
+			 finished = true;
+			 System.out.println("User quit the game");
+			 return true;
+
+		 } else if (commandWord.equalsIgnoreCase("pass")) {
+			 return true;
+
+		 } else if (commandWord.equalsIgnoreCase("place")) {
+			 if (command.isUnknownWord(3) || command.isUnknownWord(4)) // restriction - check if word 3 and 4 is null
+			 {
+				 LOG.warn("Please input your command with coordinates");
+				 return false;
+			 } else { // restriction 2 see if the coordinates are in range of the board
+				 boolean inRange;
+				 try {
+					 inRange = inRange(Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4))); // check
+					 // valid
+					 // coordinates
+				 } catch (Exception e) {
+					 LOG.error("Exception: " + e.getMessage());
+					 e.printStackTrace();
+					 return false;
+				 }
+
+				 if (!inRange) {
+					 LOG.warn("The inputted coordinates are out of range");
+					 return false;
+				 }
+			 }
+
+			 if (CommandWords.isValidUnit(command.getWord(2))) {
+				 if (levelInfo.getAllowedPlants().contains(PlantTypes.valueOf(command.getWord(2).toUpperCase()))) {
+					 Plant p = PlantTypes.toPlantFromString(command.getWord(2));
+					 if (userResources.canSpend(p.getCost())) {
+						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
+								 + command.getWord(4));
+						 userResources.spendPoints(p.getCost());
+						 board.addUnit(p, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
+						 return true;
+					 } else {
+						 LOG.warn("Cannot Afford Unit");
+						 return false;
+					 }
+				 } else {
+					 LOG.warn("Unit not Available");
+					 return false;
+				 }
+			 } else {
+				 LOG.warn("Not a Valid Unit");
+				 return false;
+			 }
+		 }
+		 LOG.warn("Invalid Command");
+		 return false;
+	 }
 }

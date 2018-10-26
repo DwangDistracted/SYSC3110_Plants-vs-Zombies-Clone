@@ -2,6 +2,9 @@ package main;
 
 import java.util.Scanner;
 import engine.Game;
+import input.Command;
+import input.CommandWords;
+import input.Parser;
 import levels.LevelInfo;
 import levels.LevelLoader;
 import util.Logger;
@@ -10,8 +13,8 @@ import util.Logger;
  */
 public class Main {
 	private static Logger LOG = new Logger("Main");
-	
 	public static Scanner sc = new Scanner(System.in);
+	private static boolean quit = false;
 	
 	/**
 	 * Program Entry Point
@@ -33,37 +36,64 @@ public class Main {
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
 		
-		while(true) {
-			LOG.prompt("Press 1 to Load Sample Level. Press 2 to Exit.");
-			String s = sc.nextLine();
-			
-			if (s.equals("1")) {
-				LOG.info("Loading Sample Level...");
-				
-				LevelInfo lvl = LevelLoader.getNextLevel();
-				if (lvl != null) {
-					new Game(lvl).start();
-				} else {
-					LOG.info("No More Levels");
-					LOG.prompt("Do You want to restart from the first level? (Y/N)");
-					
-					String yn = sc.nextLine();
-					
-					if (yn.equalsIgnoreCase("Y")) {
-						LevelLoader.reset();
-					} else {
-						break;
-					}
-				}
-				
-			} else if (s.equals("2")){
-				break;
-			} else {
-				LOG.error("Invalid Input");
-			}
+		while(!quit) {
+			LOG.prompt(CommandWords.getPrimaryMenuCommands());
+			if (!menuProcessing(Parser.getCommand())) {
+				LOG.warn("Invalid Command");
+			};
 		}
 		
 		LOG.debug("Program Exit");
 		sc.close();
+	}
+	
+	//INPUT - Milestone 1 Only
+	/**
+	 * Processes the menu commands (load and quit)
+	 * @param command
+	 * @return True if the command was valid, false otherwise
+	 */
+	public static boolean menuProcessing(Command command)
+	{
+		if (command == null) {
+			LOG.debug("Command is null");
+			return false;
+		}
+		if(CommandWords.isPrimaryCommand(command.getWord(1)))
+        {
+	        String commandWord = command.getWord(1);
+	        LOG.debug("CommandWord is " + commandWord);
+	        if (commandWord.equalsIgnoreCase("play")) {
+				LOG.info("Loading Level 1...");
+				
+				LevelInfo lvl = LevelLoader.getLevel(1);
+				if (lvl != null) {
+					new Game(lvl).start();
+					return true;
+				} else {
+					LOG.warn("Level 1 does not exist!");
+					return false;
+				}
+	        }
+	        else if (commandWord.equalsIgnoreCase("load") && command.getWord(2) != null)
+	        {
+				LOG.info("Loading Level " + command.getWord(2) + "...");
+				LevelInfo lvl = LevelLoader.getLevel(Integer.valueOf(command.getWord(2))); //where commandSecondWord is the level selector
+				if (lvl != null) {
+					new Game(lvl).start();
+	    			return true;
+				} else {
+					LOG.warn("Level " + command.getWord(2) + " does not exist!");
+					return false;
+				}
+	        }
+	        else if (commandWord.equalsIgnoreCase("quit")) 
+	        {
+	        	quit = true;
+				LOG.debug("User is Quitting");
+				return true;
+	        }
+        }
+		return false;
 	}
 }

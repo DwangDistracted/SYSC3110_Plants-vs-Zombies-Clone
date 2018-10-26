@@ -80,7 +80,7 @@ public class LevelLoader {
 	}
 	
 	public static LevelInfo getLevel(int level) {
-		if(level < getNumLevels()) {
+		if(level <= getNumLevels()) {
 			return levels.get(level-1);
 		} else {
 			return null;

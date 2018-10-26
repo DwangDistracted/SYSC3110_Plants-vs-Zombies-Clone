@@ -1,9 +1,5 @@
 package input;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import assets.Plant;
 import assets.PlantTypes;
 /**
  * This class holds the valid primary commands and checks
@@ -12,19 +8,28 @@ import assets.PlantTypes;
  */
 public class CommandWords
 {
-	private enum validPrimaryCmd {HELP,PLAY,QUIT,LOAD,PASS,PLACE};
+	private static enum validPrimaryCmd {
+		HELP,
+		PLAY,
+		QUIT,
+		LOAD,
+		PASS,
+		PLACE
+	};
     
+	private CommandWords(){}
+	
     /**
      * Used to determine whether or not a given user input string 
      * is a valid primary command (word1).
      * @param input
      * @return a boolean - Yes if the unit is valid, false otherwise
      */
-    public boolean isPrimaryCommand(String input)
+    public static boolean isPrimaryCommand(String input)
     {
         for (validPrimaryCmd word : validPrimaryCmd.values())
         {
-             if(word.toString().equals(input))
+             if(word.toString().equalsIgnoreCase(input))
              {
             	 return true;
              }
@@ -38,27 +43,35 @@ public class CommandWords
      * @param input
      * @return a boolean - Yes if the unit is valid, false otherwise
      */
-    public boolean isValidUnit(String input)
+    public static boolean isValidUnit(String input)
     {
     	for(PlantTypes type : PlantTypes.values())
     	{
-    		if(PlantTypes.toPlant(type).toString().equals(input))
-    		{
+    		if(type.toString().equalsIgnoreCase(input)) {
     			return true;
     		}
     	}
     	return false;
     }
+
+    /**
+     * Displays all of the valid primary menu commands
+     */
+    public static String getPrimaryMenuCommands() 
+    {
+		return "PLAY | LOAD | QUIT |";
+    }
     
     /**
-     * Displays all of the valid primary commands
+     * Displays all of the valid primary game commands
      */
-    public void showPrimaryCommands() 
+    public static String getPrimaryGameCommands() 
     {
+    	StringBuilder s = new StringBuilder();
     	for (validPrimaryCmd word : validPrimaryCmd.values())
         {
-    		System.out.print(word.toString() + "  ");
+    		if (word != validPrimaryCmd.LOAD && word != validPrimaryCmd.PLAY) s.append(word.toString() + " | ");
         }
-        System.out.println();
+		return s.toString();
     }
 }
