@@ -3,44 +3,61 @@ package input;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import assets.Plant;
+import assets.PlantTypes;
+/**
+ * This class holds the valid primary commands and checks
+ * whether or not a primary command or plant command is valid. 
+ * @author Michael Patsula
+ */
 public class CommandWords
 {
-    // a constant array that holds all valid command words
-    private ArrayList<String> validCommands; 
-    private String[] basicCommands = {"help","play","quit","pass","sf","ps","load"};
-    //private String[] advancedCommands;
-
-
-    public CommandWords()
+	private enum validPrimaryCmd {HELP,PLAY,QUIT,LOAD,PASS,PLACE};
+    
+    /**
+     * Used to determine whether or not a given user input string 
+     * is a valid primary command (word1).
+     * @param input
+     * @return a boolean - Yes if the unit is valid, false otherwise
+     */
+    public boolean isPrimaryCommand(String input)
     {
-    	validCommands = new ArrayList<String>();
-        for(String i : basicCommands)
+        for (validPrimaryCmd word : validPrimaryCmd.values())
         {
-        	validCommands.add(i);
+             if(word.toString().equals(input))
+             {
+            	 return true;
+             }
         }
-    }
-
-  
-    public boolean isCommand(String aString)
-    {
-        for(int i = 0; i < validCommands.size(); i++) {
-            if(validCommands.get(i).equals(aString))
-                return true;
-        }
-        
         return false;
     }
     
-    public void addValidCommand(String command)
+    /**
+     * Used to determine whether or not a given user input string 
+     * is a valid unit.
+     * @param input
+     * @return a boolean - Yes if the unit is valid, false otherwise
+     */
+    public boolean isValidUnit(String input)
     {
-    	validCommands.add(command);
+    	for(PlantTypes type : PlantTypes.values())
+    	{
+    		if(PlantTypes.toPlant(type).toString().equals(input))
+    		{
+    			return true;
+    		}
+    	}
+    	return false;
     }
-
-
-    public void showAll() 
+    
+    /**
+     * Displays all of the valid primary commands
+     */
+    public void showPrimaryCommands() 
     {
-        for(String command: validCommands) {
-            System.out.print(command + "  ");
+    	for (validPrimaryCmd word : validPrimaryCmd.values())
+        {
+    		System.out.print(word.toString() + "  ");
         }
         System.out.println();
     }

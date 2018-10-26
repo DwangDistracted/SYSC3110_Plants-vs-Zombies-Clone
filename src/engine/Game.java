@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import assets.Plant;
+import assets.Flower;
 import assets.Zombie;
 import assets.ZombieTypes;
 import main.Main;
@@ -17,22 +18,28 @@ import util.Logger;
 /**
  * The Primary Game Loop. Instance per level
  * @author david
- *
  */
 public class Game {
 	private static Logger LOG = new Logger("Game");
-	
-	private Combat combat; //combat engine
+	//combat engine
+	private Combat combat; 
+	//The Level this game is playing
 	private LevelInfo levelInfo;
+	//The Game Board
 	private Board board;
-	
+	//The Player's Purse
 	private Purse userResources;
-
+	//Whether or not the Game has concluded
 	private boolean finished = false;
-	
+	//The Zombies that have not yet spawned into the game
 	private HashMap<ZombieTypes, Integer> zombieQueue;
+	//The number of zombies (total) in the level
 	private int numZombies;
 
+	/**
+	 * Initializes a Game for a given Level
+	 * @param lvl the LevelInfo for the given Level
+	 */
 	public Game (LevelInfo lvl) {
 		//set up config from level config
 		board = new Board(lvl.getRows(), lvl.getColumns());
@@ -44,29 +51,31 @@ public class Game {
 		userResources = new Purse(levelInfo.getInitResources());
 	}
 	
-	//start the game loop
+	/**
+	 * Starts the Game Loop
+	 */
 	public void start() {
-		
-		while (true) {		
+		while (!finished) {
 			if (!playerTurn()) { break; }
 			board.displayBoard();
 			zombieTurn();		
+			if (finished) { break; }
 			board.displayBoard();
 			doEndOfTurn();
-			
 			if (finished) { break; }
 		}
 	}
 	
+	/**
+	 * Processes a Player's Turn
+	 * @return True if the user did not quit. False otherwise
+	 */
 	private boolean playerTurn() {
-		userResources.addPoints(levelInfo.getResPerTurn());
-		
-		board.displayBoard();
 		LOG.info("It is your turn. You have " + userResources.getPoints() + " sunshine.");
 		LOG.prompt("Press 1 to skip this turn. Press 2 to quit this game.");
 		String s = null;
 		
-		while (true) { //User Input Block
+		while (true) { //Handling User Input Block
 			s = Main.sc.nextLine();
 			//Parse User Commands
 			if (s.equals("2")) {
@@ -87,6 +96,9 @@ public class Game {
 		return true;
 	}
 	
+	/**
+	 * Processes the Zombie's Turn.
+	 */
 	private void zombieTurn() {
 		LOG.info("It is the zombie's turn.");
 		
@@ -148,14 +160,26 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Tells Combat Engine to handle attack and damage calculations. Adds Resources to Player Purse. Checks if the pLayer has won
+	 */
 	private void doEndOfTurn() {
 		
+		//economy calculations
+		userResources.addPoints(levelInfo.getResPerTurn()); //do default sunshine gain
+		userResources.addPoints(board.getNumberOfSF() * Flower.getPoints()); //do sunflower/economy plants sunshine gain
+		
+		board.displayBoard();
 		//did player win?
 		if (zombieQueue.values().stream().mapToInt(Integer::intValue).sum() == 0 && board.getNumberOfZombies() == 0) {
 			endGame(true);
 		}
 	}
 	
+	/**
+	 * Ends the Game
+	 * @param playerWin True if the player won, false otherwise
+	 */
 	private void endGame(boolean playerWin) {
 		this.finished = true;
 		if(playerWin) {

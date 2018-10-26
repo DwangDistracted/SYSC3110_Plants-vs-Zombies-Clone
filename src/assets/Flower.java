@@ -8,14 +8,15 @@ package assets;
  */
 
 public class Flower extends Plant{
-	private int points;
+	//The Amount of Points that are added per turn per sunflower
+	private static int points = 10;
 	
 	public Flower()	{
 		super(2,0, 25);
 	}
 	
-	public int getPoints() {
-		return this.points;
+	public static int getPoints() {
+		return points;
 	}
 	
 	public String toString() {
