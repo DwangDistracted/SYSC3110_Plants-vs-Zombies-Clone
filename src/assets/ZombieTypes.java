@@ -9,7 +9,12 @@ package assets;
  */
 public enum ZombieTypes {
 	REG_ZOMBIE;
-	
+
+	/**
+	 * Translates a ZombieTypes Enumeration into a Zombie Object
+	 * @param e
+	 * @return
+	 */
 	public static Zombie toZombie(ZombieTypes e) 
 	{
 		switch (e) {

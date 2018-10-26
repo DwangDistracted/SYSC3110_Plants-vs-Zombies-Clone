@@ -65,7 +65,7 @@ public class Combat
 		{
 			if(unit.getKey() instanceof Unit)
 			{
-				System.out.println("TEST: Damage dealer found");
+				LOG.debug("TEST: Damage dealer found");
 				int[] cord = unit.getValue();
 				Integer rowOfP = cord[0];
 				

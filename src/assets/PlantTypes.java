@@ -11,6 +11,11 @@ public enum PlantTypes {
 	SUNFLOWER,
 	PEASHOOTER;
 	
+	/**
+	 * Translates a PlantType Enumeration into a Plant Object
+	 * @param e
+	 * @return
+	 */
 	public static Plant toPlant(PlantTypes e) 
 	{
 		switch (e) {
