@@ -1,10 +1,13 @@
 package assets;
 
+/**
+ * This is the interface specifying all the methods to be implemented
+ * 
+ * @author Tanisha 
+ *
+ */
+
 public interface Unit{
-	
-	public int getSpeed();
-	
-	public void setSpeed(int speed);
 	
 	public int getPower();
 	
@@ -15,6 +18,8 @@ public interface Unit{
 	public void setHp(int hp);
 	
 	public void takeDamage(int dmg);
+	
+	public boolean isAlive();
 	
 	public String toString();
 

@@ -1,5 +1,13 @@
 package assets;
 
+/**
+ * The Zombie class initializes a set of variables and implements associated setters and getters
+ * 
+ * Used for creating a Zombie and determining if a Zombie is alive
+ * 
+ *@author Tanisha 
+ */
+
 import util.Logger;
 
 public abstract class Zombie implements Unit{
@@ -18,12 +26,10 @@ public abstract class Zombie implements Unit{
 		column = -1;
 	}
 	
-	@Override
 	public int getSpeed() {
 		return this.speed;
 	}
 	
-	@Override
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}

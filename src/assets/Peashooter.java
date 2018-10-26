@@ -1,8 +1,15 @@
 package assets;
 
-public class Peashooter extends pDmgDealer{
+/**
+ * The Peashooter Class is used to initialize a plant type having the power to shoot peas 
+ * at the zombie to reduce its health.
+ * 
+ *@author Tanisha 
+ */
+
+public class Peashooter extends Plant{
 	public Peashooter()	{
-		super(0,2,2);
+		super(2,2);
 	}
 	
 	public String toString() {

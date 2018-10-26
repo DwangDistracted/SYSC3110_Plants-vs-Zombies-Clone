@@ -1,27 +1,23 @@
 package assets;
 
+/**
+ * The Plant class initializes a set of variables and implements associated setters and getters
+ * 
+ * Used for creating a plant and determining if a plant is alive
+ * 
+ *@author Tanisha 
+ */
+
 import util.Logger;
 
 public class Plant implements Unit{
 	private static Logger LOG = new Logger("Zombie");
-	private int speed;
 	private int hitPoints;
 	private int power;
 	
-	public Plant(int speed, int hp, int pwr){
-		this.speed = speed;
+	public Plant(int hp, int pwr){
 		this.hitPoints = hp;
 		this.power = pwr;
-	}
-	
-	@Override
-	public int getSpeed() {
-		return this.speed;
-	}
-	
-	@Override
-	public void setSpeed(int speed) {
-		this.speed = speed;
 	}
 
 	@Override
@@ -49,6 +45,7 @@ public class Plant implements Unit{
 		isAlive();
 	}
 	
+	@Override
 	public boolean isAlive() {
 		if(getHP() == 0 || getHP() < 0) {
 			LOG.info("Flower is Dead");
