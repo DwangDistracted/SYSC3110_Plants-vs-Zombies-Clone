@@ -36,7 +36,7 @@ public class Combat
 						int[] plantCord = plantEntry.getValue();
 						if(plantCord[0] == refZC[0] && plantCord[1] == refZC[1] && plantEntry.getKey() instanceof Plant)         //only checks for an instance of a flower now... have to modify this later
 						{
-							((Plant) plantEntry.getKey()).takeDamage(((Zombie) zombieKey).getDamage());
+							((Plant) plantEntry.getKey()).takeDamage(((Zombie) zombieKey).getPower());
 							if(((Plant) plantEntry.getKey()).getHP() <= 0)
 							{
 								int row = plantCord[0];
@@ -63,7 +63,7 @@ public class Combat
 		
 		for(Entry<Object,int[]> unit : board.getExperimental().entrySet())
 		{
-			if(unit.getKey() instanceof pDmgDealer)
+			if(unit.getKey() instanceof Unit)
 			{
 				System.out.println("TEST: Damage dealer found");
 				int[] cord = unit.getValue();
@@ -80,7 +80,7 @@ public class Combat
 					//assuming the value correlating to the key is never null
 					Queue<Zombie> tempQ = board.getRowQ().get(rowOfP);
 					Zombie zombie = (Zombie) tempQ.peek();
-					zombie.takeDamage(((pDmgDealer) unit.getKey()).getDamage());
+					zombie.takeDamage(((Unit)unit.getKey()).getPower());
 					LOG.debug("TEST: Damage dealer did damage");
 		
 					if(zombie.getHP() <= 0)
