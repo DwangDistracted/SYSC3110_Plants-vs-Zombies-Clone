@@ -12,8 +12,8 @@ public enum ZombieTypes {
 
 	/**
 	 * Translates a ZombieTypes Enumeration into a Zombie Object
-	 * @param e
-	 * @return
+	 * @param e the Zombie Type
+	 * @return Zombie Object
 	 */
 	public static Zombie toZombie(ZombieTypes e) 
 	{

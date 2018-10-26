@@ -31,6 +31,17 @@ public class LevelInfo {
 	//The Plants that the player is allowed to use
 	private Set<PlantTypes> allowedPlants;
 	
+	/**
+	 * Constructs a LevelInfo Object
+	 * @param name Name of the Level
+	 * @param levelRating the Raing of the level
+	 * @param gridX the number of columns
+	 * @param gridY the number of rows
+	 * @param resPerTurn the resources gained per turn by the player
+	 * @param initResources the resources the player starts with
+	 * @param zombies the types and number of zombies that will attack the player
+	 * @param plants the plants the player is allowed to use
+	 */
 	public LevelInfo (String name, int levelRating, int gridX, int gridY, int resPerTurn, int initResources,
 		Map<ZombieTypes, Integer> zombies, Set<PlantTypes> plants) {
 		this.zombies = zombies;

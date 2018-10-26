@@ -13,8 +13,8 @@ public enum PlantTypes {
 	
 	/**
 	 * Translates a PlantType Enumeration into a Plant Object
-	 * @param e
-	 * @return
+	 * @param e the PlantType
+	 * @return Plant Object
 	 */
 	public static Plant toPlant(PlantTypes e) 
 	{
