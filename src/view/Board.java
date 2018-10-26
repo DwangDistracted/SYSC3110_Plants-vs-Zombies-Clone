@@ -257,6 +257,10 @@ public class Board {
 	{
 		return SFCounter;
 	}
+
+	public int getNumberOfZombies() {
+		return 0;
+	}
 	
 	
 

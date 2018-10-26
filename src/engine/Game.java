@@ -1,15 +1,18 @@
 package engine;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
-import assets.Regular_Zombie;
 import assets.Zombie;
+import assets.ZombieTypes;
 import main.Main;
 import levels.LevelInfo;
 import util.Logger;
 import view.Board;
 
 /**
- * The Primary Game Loop. Instance per level. Coordinates with Turn and Combat Engines
+ * The Primary Game Loop. Instance per level
  * @author david
  *
  */
@@ -24,12 +27,17 @@ public class Game {
 
 	private boolean finished = false;
 	
+	private HashMap<ZombieTypes, Integer> zombieQueue;
+	private int numZombies;
+	
 	public Game (LevelInfo lvl) {
-		
 		//set up config from level config
-		board = new Board(lvl.getGridY(), lvl.getGridX());
+		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
 		combat = new Combat(board);
+		
+		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
+		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		userResources = new Purse(levelInfo.getInitResources());
 	}
 	
@@ -37,9 +45,12 @@ public class Game {
 	public void start() {
 		while (true) {
 			if (!playerTurn()) { break; }
+			board.displayBoard();
+			zombieTurn();		
+			board.displayBoard();
 			doEndOfTurn();
-			zombieTurn();
-			if (!doEndOfTurn()) { break; }
+			
+			if (finished) { break; }
 		}
 	}
 	
@@ -66,9 +77,8 @@ public class Game {
 	
 	private void zombieTurn() {
 		LOG.info("It is the zombie's turn.");
-		board.displayBoard();
-				
-		//move zombies
+		
+		//move existing zombies
 		for(Object key : board.getExperimental().keySet())
 		{
 			if(key instanceof Zombie)
@@ -77,35 +87,67 @@ public class Game {
 				int[] newCoordinates = board.moveUnit(((Zombie) key).getSpeed(), coordinates[0], coordinates[1]);
 				if(newCoordinates == null) //if the zombies get to the end
 				{
-					endGame(false);
+					endGame(false); //zombies win
 					return;
 				}
 				board.getExperimental().replace(key, coordinates, newCoordinates);
 			}
 		}
 		
-		Random rand = new Random();
-		int rowNumber = rand.nextInt(levelInfo.getGridY()); //determines which row the zombie will go down
 		
-		for(int i = 0; i < 1; i++)  //spawn zombies   1 can replaced with a variable later
-		{
-			Regular_Zombie zombie = new Regular_Zombie();
-			board.addUnit(zombie, rowNumber, levelInfo.getGridX() - 1);
+		//spawn new zombies
+		if (!zombieQueue.isEmpty()) { //there must be zombies to spawn
+			Random rand = new Random();
+			int zombiesToSpawn = rand.nextInt(numZombies/4);
+			
+			if (zombiesToSpawn > zombieQueue.values().stream().mapToInt(Integer::intValue).sum()) { 
+				//if the random number is larger than the reamining zombies then spawn all remaining zombies
+				zombiesToSpawn = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
+			}
+			
+			LOG.debug("Spawning " + zombiesToSpawn + " zombies");
+			
+			for(int i = 0; i < zombiesToSpawn; i++)  //spawn zombies
+			{
+				//determine type of zombie spawn
+				List<ZombieTypes> keys = new ArrayList<ZombieTypes>(zombieQueue.keySet());
+				ZombieTypes type = keys.get(rand.nextInt(keys.size()));
+				
+				LOG.debug("Spawning a " + type.toString());
+				
+				int rowNumber = rand.nextInt(levelInfo.getRows()); //determines which row the zombie will go down
+				Zombie zombie = ZombieTypes.toZombie(type);
+				board.addUnit(zombie, rowNumber, levelInfo.getColumns() - 1); //spawn the zombie
+				
+				//removes the spawned zombie from the Queue
+				int x = zombieQueue.get(type) - 1;
+				if (x == 0) {
+					zombieQueue.remove(type);
+				} else {
+					zombieQueue.put(type, x);
+				}
+			}
+		} else {
+			LOG.debug("No More Zombies to Spawn");
 		}
-
-		board.displayBoard();
 	}
 	
-	private boolean doEndOfTurn() {
+	private void doEndOfTurn() {
+		//combat calculations
 		if(!board.getExperimental().isEmpty())
 		{
 			combat.computePlantAttacks();
 			combat.computeZombieAttacks();
 		}
 		
-		//move zombies
-		if (finished) { return false; }
-		return true;
+		//economy calculations
+		userResources.addPoints(levelInfo.getResPerTurn()); //do default sunshine gain
+		userResources.addPoints(board.getNumberOfSF() * 10); //change 10 to Sunflower attribute //do sunflower/economy plants sunshine gain
+		
+		//did player win?
+		if (zombieQueue.isEmpty() && board.getNumberOfZombies() == 0) {
+			endGame(true);
+		}
 	}
 	
 	private void endGame(boolean playerWin) {
