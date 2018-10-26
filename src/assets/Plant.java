@@ -1,7 +1,6 @@
 package assets;
 
 import util.Logger;
-import view.Board;
 
 public class Plant implements Unit{
 	private static Logger LOG = new Logger("Zombie");
