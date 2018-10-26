@@ -55,17 +55,12 @@ public class ProcessInput
 	        }
 	        if (commandWord.equalsIgnoreCase("load") && command.getWord(2) != null)
 	        {
-	            System.out.println("This feature is not avaliable yet");
-	            return true;
-	        }
-	        else if (commandWord.equalsIgnoreCase("play")) 
-	        {
 	        	if(command.getWord(2) != null)
 	        	{
-	        		game.play(Integer.valueOf(command.getWord(2)));  //where commandSecondWord is the level selector
+	        		game.load(Integer.valueOf(command.getWord(2)));  //where commandSecondWord is the level selector
 	        	}
 	        	
-	        	game.play(null);
+	        	game.load(null);
 	            
 	            return true;
 	        }
