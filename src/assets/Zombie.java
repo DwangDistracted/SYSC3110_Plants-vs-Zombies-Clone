@@ -74,7 +74,7 @@ public abstract class Zombie implements Unit{
 	}
 
 	public boolean isAlive() {
-		if(getHP() == 0 || getHP() < 0) {
+		if(getHP() <= 0) {
 			LOG.info("Zombie is Dead");
 			return false;
 		}

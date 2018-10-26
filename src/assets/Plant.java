@@ -11,7 +11,7 @@ package assets;
 import util.Logger;
 
 public class Plant implements Unit{
-	private static Logger LOG = new Logger("Zombie");
+	private static Logger LOG = new Logger("Plant");
 	private int hitPoints;
 	private int power;
 	private int row;
@@ -51,7 +51,7 @@ public class Plant implements Unit{
 	
 	@Override
 	public boolean isAlive() {
-		if(getHP() == 0 || getHP() < 0) {
+		if(getHP() <= 0) {
 			LOG.info("Flower is Dead");
 			return false;
 		}

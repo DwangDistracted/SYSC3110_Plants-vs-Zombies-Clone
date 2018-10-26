@@ -9,6 +9,7 @@ package assets;
 
 public class Flower extends Plant{
 	private int points;
+	private static final int cost = 25;
 	
 	public Flower()	{
 		super(2,0);
@@ -17,6 +18,10 @@ public class Flower extends Plant{
 	
 	public int getPoints() {
 		return this.points;
+	}
+	
+	public int getCost() {
+		return this.cost;
 	}
 	
 	public String toString() {
