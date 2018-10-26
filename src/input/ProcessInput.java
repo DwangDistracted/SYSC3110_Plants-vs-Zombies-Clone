@@ -82,28 +82,40 @@ public class ProcessInput
 	            {
 		            System.out.println("Please input your command with coordinates");
 		            return false;
-		        }
-		        else if(!inRange(Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4))))  //restriction 2  see if the coordinates are in range
+	            }
+		        else  //restriction 2  see if the coordinates are in range
 		        {
-		        	 System.out.println("The inputted coordinates are out of range");
-			         return false;
+		        	boolean inRange;
+		        	try
+		        	{
+		        		inRange = inRange(Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));  //check valid 3rd 4th
+		        	}
+		        	catch (Exception e)
+		        	{
+		        		System.out.println("exception");
+		        		return false;
+		        	}
+		        	
+		        	if(!inRange)
+		        	{
+		        		System.out.println("The inputted coordinates are out of range");
+				         return false;
+		        	}
 		        }
-	        	
-	        	
 	        	if (command.getWord(2).equalsIgnoreCase("sf") && purse.spendPoints(10) && validCommands.isValidUnit("sf"))
 	 	        {
 	        			 
 	 	        	System.out.println("Sunflower was placed on tile " + command.getWord(3) + ", " + command.getWord(4));
 	 		        	
 	 		        Flower sf = new Flower();
-	 		       
 	 		        board.addUnit(sf, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
 	 		        return true;
 	 	        }
 	 	        else if (command.getWord(2).equalsIgnoreCase("ps") && purse.spendPoints(15) && validCommands.isValidUnit("ps"))
 	 	        {
-	 	        	Peashooter ps = new Peashooter();
+	 	        	System.out.println("Peashooter was placed on tile " + command.getWord(3) + ", " + command.getWord(4));
 	 	        	
+	 	        	Peashooter ps = new Peashooter();
 	 	        	board.addUnit(ps, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
 	 	        	return true;
 	 	        }
