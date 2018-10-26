@@ -1,10 +1,10 @@
 package levels;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import assets.Plant;
-import assets.Zombie;
+import java.util.Map;
+import java.util.Set;
+
+import assets.PlantTypes;
+import assets.ZombieTypes;
 
 public class LevelInfo {
 	//The level's name
@@ -15,19 +15,19 @@ public class LevelInfo {
 	private String nextLevel;
 	
 	//The Size of the Game Grid for this level
-	private int gridX;
-	private int gridY;
+	private int column;
+	private int row;
 	
 	private int initResources;
 	private int resPerTurn;
 	
 	//The zombies that will attack the player
-	private HashMap<Zombie, Integer> zombies;
+	private Map<ZombieTypes, Integer> zombies;
 	//The Plants that the player is allowed to use
-	private List<Plant> allowedPlants;
+	private Set<PlantTypes> allowedPlants;
 	
 	public LevelInfo (String name, int levelRating, String nextLevel, int gridX, int gridY, int resPerTurn, int initResources,
-		HashMap<Zombie, Integer> zombies, ArrayList<Plant> plants) {
+		Map<ZombieTypes, Integer> zombies, Set<PlantTypes> plants) {
 		this.zombies = zombies;
 		this.allowedPlants = plants;
 		
@@ -35,8 +35,8 @@ public class LevelInfo {
 		this.levelRating = levelRating;
 		this.nextLevel = nextLevel;
 		
-		this.gridX = gridX;
-		this.gridY = gridY;
+		this.column = gridX;
+		this.row = gridY;
 		this.initResources = initResources;
 		this.resPerTurn = resPerTurn;
 	}
@@ -49,11 +49,11 @@ public class LevelInfo {
 	public String getNextLevel() {
 		return nextLevel;
 	}
-	public int getGridX() {
-		return gridX;
+	public int getColumns() {
+		return column;
 	}
-	public int getGridY() {
-		return gridY;
+	public int getRows() {
+		return row;
 	}
 	public int getResPerTurn() {
 		return resPerTurn;
@@ -61,10 +61,10 @@ public class LevelInfo {
 	public int getInitResources() {
 		return initResources;
 	}
-	public HashMap<Zombie, Integer> getZombies() {
+	public Map<ZombieTypes, Integer> getZombies() {
 		return zombies;
 	}
-	public List<Plant> getAllowedPlants() {
+	public Set<PlantTypes> getAllowedPlants() {
 		return allowedPlants;
 	}
 }

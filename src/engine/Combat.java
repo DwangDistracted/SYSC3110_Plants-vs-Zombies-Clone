@@ -63,7 +63,6 @@ public class Combat
 		
 		for(Entry<Object,int[]> unit : board.getExperimental().entrySet())
 		{
-			LOG.debug("TEST: Looking for ps" + unit.getKey().toString());
 			if(unit.getKey() instanceof pDmgDealer)
 			{
 				System.out.println("TEST: Damage dealer found");
