@@ -13,6 +13,7 @@ import assets.ZombieTypes;
 import engine.Game;
 import engine.Purse;
 import levels.LevelInfo;
+import util.Logger;
 import view.Board;
 
 
@@ -25,6 +26,7 @@ import view.Board;
  */
 public class ProcessInput 
 {
+	private static Logger LOG = new Logger("CommandWords");
 	private LevelInfo lvl;
 	private Game game;
 	private Board board;
@@ -40,6 +42,47 @@ public class ProcessInput
 		validCommands = new CommandWords();
 	}
 	
+	/**
+	 * Processes the menu commands (load and quit)
+	 * @param command
+	 * @return True if the command was valid, false otherwise
+	 */
+	public boolean menuProcessing(Command command)
+	{
+		if(validCommands.isPrimaryCommand(command.getWord(1)))
+        {
+            LOG.info("Invalid command");
+            return false;
+        }
+        
+        String commandWord = command.getWord(1);
+        
+        if (commandWord.equalsIgnoreCase("load") && command.getWord(2) != null)
+        {
+        	if(command.getWord(2) != null)
+        	{
+        		try
+        		{
+        			lvl.getLevel(Integer.valueOf(command.getWord(2))); //where commandSecondWord is the level selector
+        			return true;
+        		}
+        		catch(Exception e)
+	        	{
+	        		LOG.error("Invalid Input");
+	        		return false;
+	        	}
+        		
+        	}
+        	game.getlevel(1);
+            return true;
+        }
+        else if (commandWord.equalsIgnoreCase("quit")) 
+        {
+           LOG.info("User quit the game");
+           game.setFinished();
+           return true;
+        }
+	}
 	
 	/**
 	 * Processes the user input
@@ -50,7 +93,7 @@ public class ProcessInput
 	 {
 	        if(validCommands.isPrimaryCommand(command.getWord(1)) && validCommands.isValidUnit(command.getWord(2)))
             {
-	            System.out.println("Invalid commands");
+	            LOG.info("Invalid commands");
 	            return false;
 	        }
 	        
@@ -75,7 +118,7 @@ public class ProcessInput
 	        else if (commandWord.equalsIgnoreCase("quit")) 
 	        {
 	           game.setFinished();
-	           System.out.println("User quit the game");
+	           LOG.info("User quit the game");
 	           return true;
 	        }
 	        else if (commandWord.equalsIgnoreCase("pass"))
@@ -100,28 +143,27 @@ public class ProcessInput
 		        	}
 		        	catch (Exception e)
 		        	{
-		        		System.out.println("exception");
+		        		LOG.error("exception");
 		        		return false;
 		        	}
 		        	
 		        	if(!inRange)
 		        	{
-		        		System.out.println("The inputted coordinates are out of range");
+		        		LOG.info("The inputted corrdinates are out of range");
 				         return false;
 		        	}
 		        }
-	        	if (command.getWord(2).equalsIgnoreCase("sf") && purse.spendPoints(10) && validCommands.isValidUnit("sf"))
+	        	if (validCommands.isValidUnit(command.getWord(2)))
 	 	        {
-	        			 
-	 	        	System.out.println("Sunflower was placed on tile " + command.getWord(3) + ", " + command.getWord(4));
-	 		        	
-	 		        Flower sf = new Flower();
-	 		        board.addUnit(sf, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
+	        		//purse.spendPoints(PlantTypes.toPlant(command.getWord(2))))
+	 	        	LOG.info(command.getWord(2)+ " was placed on tile " + command.getWord(3) + ", " + command.getWord(4));
+	 		        
+	 		        board.addUnit(PlantTypes.toPlantFromString(command.getWord(2)), Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
 	 		        return true;
 	 	        }
 	 	        else if (command.getWord(2).equalsIgnoreCase("ps") && purse.spendPoints(15) && validCommands.isValidUnit("ps"))
 	 	        {
-	 	        	System.out.println("Peashooter was placed on tile " + command.getWord(3) + ", " + command.getWord(4));
+	 	        	LOG.info("Peashooter was placed on tile " + command.getWord(3) + ", " + command.getWord(4));
 	 	        	
 	 	        	Peashooter ps = new Peashooter();
 	 	        	board.addUnit(ps, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
@@ -155,20 +197,20 @@ public class ProcessInput
 		 Map<ZombieTypes,Integer> allowedZombies = lvl.getZombies();
 		 Set<PlantTypes> allowedPlants = lvl.getAllowedPlants();
 		 
-		 System.out.println("Help message: to place a unit Type 'Place <unitName> <row #> <column #>'\n"
+		 LOG.info("Help message: to place a unit Type 'Place <unitName> <row #> <column #>'\n"
 		 	+ "\n note: row & column numbers start at coordinate 0");
 		 
-		 System.out.println("The plants commands at your disposal are: ");
+		 LOG.info("The plants commands at your disposal are: ");
 		 for(PlantTypes p : allowedPlants)
 		 {
-			 System.out.println(p.toString() + " | ");
+			 LOG.info(p.toString() + " | ");
 		 }
-		 System.out.println();
+		 LOG.info("\n");
 		 
-		 System.out.println("The zombies that you will face against are: ");
+		 LOG.info("The zombies that you will face against are: ");
 		 for(ZombieTypes z : allowedZombies.keySet())
 		 {
-			 System.out.println(z.toString() + " | ");
+			 LOG.info(z.toString() + " | ");
 		 }
 	 }
 

@@ -3,6 +3,8 @@ package input;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import util.Logger;
+
 import assets.Plant;
 import assets.PlantTypes;
 /**
@@ -12,6 +14,7 @@ import assets.PlantTypes;
  */
 public class CommandWords
 {
+	private static Logger LOG = new Logger("CommandWords");
 	private enum validPrimaryCmd {HELP,PLAY,QUIT,LOAD,PASS,PLACE};
     
     /**
@@ -42,7 +45,7 @@ public class CommandWords
     {
     	for(PlantTypes type : PlantTypes.values())
     	{
-    		if(PlantTypes.toPlant(type).toString().equals(input))
+    		if(type.toString().equals(input))
     		{
     			return true;
     		}
@@ -57,8 +60,8 @@ public class CommandWords
     {
     	for (validPrimaryCmd word : validPrimaryCmd.values())
         {
-    		System.out.print(word.toString() + "  ");
+    		LOG.info(word.toString() + "  ");
         }
-        System.out.println();
+        LOG.info("\n");
     }
 }

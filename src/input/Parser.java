@@ -42,7 +42,7 @@ public class Parser
         		words[counter] = tokenizer.next();
         	}
         }
-        
+        tokenizer.close();
         return new Command(words[0], words[1], words[2],words[3]);
     }
     
