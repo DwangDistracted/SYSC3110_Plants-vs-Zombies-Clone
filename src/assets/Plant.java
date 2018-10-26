@@ -1,32 +1,49 @@
 package assets;
 
+import View.Board;
+
 public class Plant implements Unit{
-	public int speed = 0;
-	public int hp = 2;
-	public int dmg = 0;
+	private int speed;
+	private int hitPoints;
+	private int power;
+	
+	public Plant(int speed, int hp, int pwr){
+		this.speed = speed;
+		this.hitPoints = hp;
+		this.power = pwr;
+	}
 	
 	@Override
 	public int getSpeed() {
-		// TODO Auto-generated method stub
 		return this.speed;
+	}
+	
+	@Override
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 	@Override
-	public int getDamage() {
-		// TODO Auto-generated method stub
-		return this.dmg;
+	public int getPower() {
+		return this.power;
+	}
+	
+	public void setPower(int pwr) {
+		this.power = pwr;
 	}
 
 	@Override
 	public int getHP() {
-		// TODO Auto-generated method stub
-		return this.hp;
+		return this.hitPoints;
+	}
+	
+	@Override
+	public void setHp(int hp) {
+		this.hitPoints = hp;
 	}
 
 	@Override
 	public void takeDamage(int dmg) {
-		this.hp = hp - dmg; 
+		this.hitPoints = hitPoints - dmg; 
 	}
-	
-
 }
