@@ -16,12 +16,14 @@ public class Plant implements Unit{
 	private int power;
 	private int row;
 	private int column;
+	private int cost;
 	
-	public Plant(int hp, int pwr){
+	public Plant(int hp, int pwr, int cost){
 		this.hitPoints = hp;
 		this.power = pwr;
 		row = -1;
 		column = -1;
+		this.cost = cost;
 	}
 
 	@Override
@@ -43,6 +45,10 @@ public class Plant implements Unit{
 		this.hitPoints = hp;
 	}
 
+	public int getCost() {
+		return this.cost;
+	}
+	
 	@Override
 	public void takeDamage(int dmg)	{
 		this.hitPoints -= dmg;
