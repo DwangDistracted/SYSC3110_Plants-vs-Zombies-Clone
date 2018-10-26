@@ -91,10 +91,15 @@ public class Game {
 		List<Zombie> zombiesInGame = board.getZombiesInGame();
 		
 		for (Zombie zombie : zombiesInGame) {
-			//zombie.move();
-			//if zombie move was successful - continue
-			//if not, 
-			//combat.zombieAttack(zombie, board.getPlant(zombie.getRow(), zombie.getCol() - 1));
+			// if a zombie was not successfully moved, it means that there is a plant in the way
+			if (!zombie.move()) {
+				combat.zombieAttack(zombie, board.getPlant(zombie.getRow(), zombie.getCol() - 1));
+			}
+			
+			if (board.hasReachedEnd()) {
+				// a zombie has reached the end of the board and player loses
+				endGame(false);
+			}
 		}
 		
 		//spawn new zombies

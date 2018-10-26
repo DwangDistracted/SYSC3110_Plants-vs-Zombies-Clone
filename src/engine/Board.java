@@ -337,7 +337,7 @@ public class Board implements ZombieMoveListener {
 		}
 		
 		// update zombie coordinates
-		zombie.setCol(currentZombieCol - modifier);
+		zombie.setColumn(currentZombieCol - modifier);
 		
 		// determines if this zombie has reached the end of the board
 		if (zombie.getRow() == 0 && zombie.getCol() == 0) {

@@ -30,7 +30,7 @@ public class Combat {
 	public boolean plantAttack(Plant source) {
 		
 		int plantRow = source.getRow();
-		int damage = source.getDamage();
+		int damage = source.getPower();
 		
 		// iterate through the plant's row to find zombie to attack
 		for (int col = 0; col < gameBoard[plantRow].length; col++) {
@@ -58,11 +58,11 @@ public class Combat {
 	 * @return true if attacking resulted in killed unit, false otherwise
 	 */
 	public boolean zombieAttack(Zombie source, Plant target) {
-
+		
 		LOG.info(String.format("Zombie at : (%d, %d) attacking Plant at: (%d, %d)", 
 				source.getRow(), source.getCol(), target.getRow(), target.getCol()));
 		
-		target.takeDamage(source.getDamage());
+		target.takeDamage(source.getPower());
 
 		return unitIsDead(target);
 
