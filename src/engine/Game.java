@@ -141,8 +141,8 @@ public class Game {
 		}
 		
 		//economy calculations
-		userResources += levelInfo.getResPerTurn(); //do default sunshine gain
-		userResources += board.getNumberOfSF() * 10; //change 10 to Sunflower attribute //do sunflower/economy plants sunshine gain
+		userResources.addPoints(levelInfo.getResPerTurn()); //do default sunshine gain
+		userResources.addPoints(board.getNumberOfSF() * 10); //change 10 to Sunflower attribute //do sunflower/economy plants sunshine gain
 		
 		//did player win?
 		if (zombieQueue.isEmpty() && board.getNumberOfZombies() == 0) {
