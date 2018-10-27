@@ -227,7 +227,7 @@ public class Game {
 	 */
 	 public boolean inRange(int row, int column)  
 	 {
-		if(row <= levelInfo.getRows() - 1 && row >= 0 && column < levelInfo.getColumns() - 1 && column >= 0)  // board.getRow and column was subtracted by one due to arrays
+		if(row <= levelInfo.getRows() && row >= 0 && column < levelInfo.getColumns() && column >= 0)  // board.getRow and column was subtracted by one due to arrays
 			return true;
 			
 		return false;

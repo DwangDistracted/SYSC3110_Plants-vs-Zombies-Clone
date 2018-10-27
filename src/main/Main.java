@@ -22,7 +22,7 @@ public class Main {
 	 */
 	public static void main (String[] args) {
 		//Log init
-		Logger.setDebug(); //change to clearDebug to get rid of debug messages
+		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
 		
 		//Title Card
 		LOG.info("==================================");
