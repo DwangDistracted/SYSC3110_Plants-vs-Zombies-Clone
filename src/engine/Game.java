@@ -277,8 +277,11 @@ public class Game {
 					 if (userResources.canSpend(p.getCost())) {
 						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
 								 + command.getWord(4));
+						 int plantRow = Integer.valueOf(command.getWord(3));
+						 int plantCol = Integer.valueOf(command.getWord(4));
 						 userResources.spendPoints(p.getCost());
-						 board.placePlant(p, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
+						 board.placePlant(p, plantRow, plantCol);
+						 p.setCoordinates(plantRow, plantCol);
 						 return true;
 					 } else {
 						 LOG.warn("Cannot Afford Unit");
