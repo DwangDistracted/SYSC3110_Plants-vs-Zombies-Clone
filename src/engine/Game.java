@@ -86,9 +86,11 @@ public class Game {
 		List<Plant> plantsInGame = board.getPlantsInGame();
 		
 		for (Plant plant : plantsInGame) {
-			int [] zombieTargetCoordinates = combat.plantAttack(plant);
-			if (zombieTargetCoordinates != null) {
-				board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
+			if (!(plant instanceof Flower)) {
+				int [] zombieTargetCoordinates = combat.plantAttack(plant);
+				if (zombieTargetCoordinates != null) {
+					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
+				}
 			}
 		}
 	}
