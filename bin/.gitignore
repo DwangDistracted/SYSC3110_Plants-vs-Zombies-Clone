@@ -1,8 +1,2 @@
-*.class
-/engine/
-/levels/
-/main/
-/util/
-/view/
 /assets/
-/input/
+/engine/

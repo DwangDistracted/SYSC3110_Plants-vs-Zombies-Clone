@@ -197,6 +197,7 @@ public class Game {
 	 /**
 	  * Displays a help message informing user on the type of zombies they will face within the level,
 	  * the plants that are at that disposal and how to use the command line.
+	  * @author Michael Patsula
 	  */
 	 public void printHelp()
 	 {
@@ -224,6 +225,7 @@ public class Game {
 	 * @param row - coordinate
 	 * @param column - coordinate
 	 * @return true if the parameters are within the grid boundaries, and false otherwise.
+	 * @author Michael Patsula
 	 */
 	 public boolean inRange(int row, int column)  
 	 {
@@ -237,6 +239,7 @@ public class Game {
 	 * Processes the user input
 	 * @param command - the user input
 	 * @return true if the input was valid, false otherwise
+	 * @author Michael Patsula and refactored by David Wang
 	 */
 	 public boolean processCommand(Command command)
 	 {
