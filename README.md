@@ -5,13 +5,16 @@ This is Turn Based Plants v Zombies Clone made for SYSC 3110 (Software Developme
 
 Team Members: Derek Shao, David Wang, Michael Patsula, Tanisha Garg
 
-Milestone 1: Text-Based. Single Level. 2 Plants, 1 Zombie Type.
+Milestone 1 (10-17-2018):
+- Text Based Game
+- Single Level
+- Two Plants and One Zombie Type
 
-Known Issues:
-
-Future Goals:
-- Make Levels serializable so that they can be added without changes to source code
-- add more plant and zombie types
+Future Tasks
 - Create a GUI
-- Undo/Redo Moves
-- Load/Save Games
+- Increase variety of plants and zombies
+- allow serialization of levels into xml/json so that levels can be designed without touching code
+- introduce save/load game serialization
+
+Known Issues
+- The Order of the Output from the Program is not consistent
