@@ -86,7 +86,12 @@ public class Game {
 		List<Plant> plantsInGame = board.getPlantsInGame();
 		
 		for (Plant plant : plantsInGame) {
-			combat.plantAttack(plant);
+			if (!(plant instanceof Flower)) {
+				int [] zombieTargetCoordinates = combat.plantAttack(plant);
+				if (zombieTargetCoordinates != null) {
+					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
+				}
+			}
 		}
 	}
 	
@@ -104,7 +109,10 @@ public class Game {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
 			if (!nextZombie.move()) {
-				combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol()));
+				boolean targetIsDead = combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol()));
+				if (targetIsDead) {
+					board.removePlant(nextZombie.getRow(), nextZombie.getCol());
+				}
 			}
 
 			if (board.hasReachedEnd()) {
@@ -275,13 +283,17 @@ public class Game {
 				 if (levelInfo.getAllowedPlants().contains(PlantTypes.valueOf(command.getWord(2).toUpperCase()))) {
 					 Plant p = PlantTypes.toPlantFromString(command.getWord(2));
 					 if (userResources.canSpend(p.getCost())) {
-						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
-								 + command.getWord(4));
 						 int plantRow = Integer.valueOf(command.getWord(3));
 						 int plantCol = Integer.valueOf(command.getWord(4));
 						 userResources.spendPoints(p.getCost());
-						 board.placePlant(p, plantRow, plantCol);
+						 if (!board.placePlant(p, plantRow, plantCol)) {
+							 LOG.info(String.format("Cannot place plant: %s at tile: (%s, %s) because the tile is already occupied",
+									 command.getWord(2), command.getWord(3), command.getWord(4)));
+							 return false;
+						 }
 						 p.setCoordinates(plantRow, plantCol);
+						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
+								 + command.getWord(4));
 						 return true;
 					 } else {
 						 LOG.warn("Cannot Afford Unit");

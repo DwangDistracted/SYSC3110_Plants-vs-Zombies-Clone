@@ -22,12 +22,13 @@ public class Combat {
 	}
 	
 	/**
-	 * Combat calcultions for a plant attacking a zombie.
+	 * Combat calculations for a plant attacking a zombie. If a zombie was killed by this attack,
+	 * the coordinates of the zombie are retrieved to allow game to remove zombie from the game.
 	 * 
 	 * @param source Plant that is attacking
-	 * @return true if target dies due to attack, false otherwise
+	 * @return coordinates of the zombie that was killed, null otherwise
 	 */
-	public boolean plantAttack(Plant source) {
+	public int[] plantAttack(Plant source) {
 		
 		int plantRow = source.getRow();
 		int damage = source.getPower();
@@ -43,11 +44,16 @@ public class Combat {
 				
 				zombieTarget.takeDamage(damage);
 				
-				return unitIsDead(zombieTarget);
+				if (unitIsDead(zombieTarget)) {
+					int [] zombieToRemoveCoords = {zombieTarget.getRow(), zombieTarget.getCol()};
+					return zombieToRemoveCoords;
+				} else {
+					return null;
+				}
 			}
 		}
 		
-		return false;
+		return null;
 	}
 	
 	/**
