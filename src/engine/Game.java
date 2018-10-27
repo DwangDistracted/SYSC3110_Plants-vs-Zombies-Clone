@@ -11,15 +11,12 @@ import java.util.Set;
 
 import assets.Plant;
 import assets.Flower;
-import assets.Peashooter;
-import assets.Plant;
 import assets.PlantTypes;
 import assets.Zombie;
 import assets.ZombieTypes;
 import input.Command;
 import input.CommandWords;
 import input.Parser;
-import main.Main;
 import levels.LevelInfo;
 import util.Logger;
 
@@ -91,8 +88,6 @@ public class Game {
 		for (Plant plant : plantsInGame) {
 			combat.plantAttack(plant);
 		}
-		
-		return true;
 	}
 	
 	/**
@@ -283,7 +278,7 @@ public class Game {
 						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
 								 + command.getWord(4));
 						 userResources.spendPoints(p.getCost());
-						 board.addUnit(p, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
+						 board.placePlant(p, Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4)));
 						 return true;
 					 } else {
 						 LOG.warn("Cannot Afford Unit");
