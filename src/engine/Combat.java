@@ -1,105 +1,84 @@
 package engine;
 
-import java.util.ArrayList;
-import java.util.Map.Entry;
-import java.util.Queue;
-
 import assets.*;
+import levels.Grid;
 import util.Logger;
-import view.*;
 
-public class Combat 
-{
+/**
+ * Handles combat calculations. Acts as a mediator between Plant and Zombie interaction.
+ * 
+ * @author Derek Shao
+ *
+ */
+public class Combat {
+	
 	private static Logger LOG = new Logger("Combat");
-	
-	Board board;
-	
-	public Combat(Board board)
-	{
-		this.board = board;
+ 	
+	private Grid[][] gameBoard;
+
+	public Combat(Grid[][] board) {
+		
+		this.gameBoard = board; 
 	}
 	
-	public void computeZombieAttacks()
-	{
-		ArrayList<Object> removeBin = new ArrayList<>(); // for storing keys to be removed
-		for(Object zombieKey : board.getExperimental().keySet()) //find attacker
-		{
-			if(zombieKey instanceof Regular_Zombie)
-			{
-				int[] zombieCord = board.getExperimental().get(zombieKey);
-				int[] refZC = new int[] {zombieCord[0],zombieCord[1]};     //had to create a reference to zombieCord because it affected the actual value
-				refZC[1] -= 1;                                            //find the unit infront of the zombie
-				if(board.isOccupied(refZC)) 
-				{
-					for(Entry<Object, int[]> plantEntry : board.getExperimental().entrySet()) //find victim
-					{  
-						int[] plantCord = plantEntry.getValue();
-						if(plantCord[0] == refZC[0] && plantCord[1] == refZC[1] && plantEntry.getKey() instanceof Plant)         //only checks for an instance of a flower now... have to modify this later
-						{
-							((Plant) plantEntry.getKey()).takeDamage(((Zombie) zombieKey).getPower());
-							if(((Plant) plantEntry.getKey()).getHP() <= 0)
-							{
-								int row = plantCord[0];
-								int column = plantCord[1];
-								board.clearUnit(row, column);
-								removeBin.add(plantEntry.getKey());
-								LOG.debug("TEST: Removed unit");
-							}
-						}
-					}
-				}
+	/**
+	 * Combat calcultions for a plant attacking a zombie.
+	 * 
+	 * @param source Plant that is attacking
+	 * @return true if target dies due to attack, false otherwise
+	 */
+	public boolean plantAttack(Plant source) {
+		
+		int plantRow = source.getRow();
+		int damage = source.getPower();
+		
+		// iterate through the plant's row to find zombie to attack
+		for (int col = 0; col < gameBoard[plantRow].length; col++) {
+			if (gameBoard[plantRow][col].getFirstZombie() != null) {
 				
+				Zombie zombieTarget = gameBoard[plantRow][col].getFirstZombie();
+				
+				LOG.info(String.format("Plant at : (%d, %d) attacking Zombie at: (%d, %d)", 
+						source.getRow(), source.getCol(), zombieTarget.getRow(), zombieTarget.getCol()));
+				
+				zombieTarget.takeDamage(damage);
+				
+				return unitIsDead(zombieTarget);
 			}
 		}
-		for(Object plant : removeBin)
-		{
-			board.getExperimental().remove(plant);
-		}
+		
+		return false;
 	}
 	
-	public void computePlantAttacks()
-	{
-		ArrayList<Object> removeBin = new ArrayList(); // for storing keys to be removed
+	/**
+	 * Combat calculations for zombie attacking a plant
+	 * 
+	 * @param source Zombie that is attacking
+	 * @param target Plant being attacked
+	 * @return true if attacking resulted in killed unit, false otherwise
+	 */
+	public boolean zombieAttack(Zombie source, Plant target) {
 		
-		for(Entry<Object,int[]> unit : board.getExperimental().entrySet())
-		{
-			if(unit.getKey() instanceof Unit)
-			{
-				LOG.debug("TEST: Damage dealer found");
-				int[] cord = unit.getValue();
-				Integer rowOfP = cord[0];
-				
-				LOG.debug("TEST: " + board.getRowQ().containsKey(rowOfP));
-				LOG.debug("TEST: " + board.getRowQ().isEmpty());
-				for(Integer rowKey : board.getRowQ().keySet()) //TEST
-				{
-					System.out.println(rowKey);    //TEST
-				}
-				if(board.getRowQ().containsKey(rowOfP))
-				{
-					//assuming the value correlating to the key is never null
-					Queue<Zombie> tempQ = board.getRowQ().get(rowOfP);
-					Zombie zombie = (Zombie) tempQ.peek();
-					zombie.takeDamage(((Unit)unit.getKey()).getPower());
-					LOG.debug("TEST: Damage dealer did damage");
+		LOG.info(String.format("Zombie at : (%d, %d) attacking Plant at: (%d, %d)", 
+				source.getRow(), source.getCol(), target.getRow(), target.getCol()));
 		
-					if(zombie.getHP() <= 0)
-					{
-						board.removeZom(rowOfP);  //remove unit from rowQ
-						removeBin.add(zombie);
-						LOG.debug("TEST: zombie added to remove bin");
-					}
-				}
-			}	
-		}
-		
-		for(Object zombie : removeBin)
-		{
-			board.getExperimental().remove(zombie);
-			LOG.debug("TEST: Damage dealer removed a unit");
-		}
-	}
-	
-	
+		target.takeDamage(source.getPower());
 
+		return unitIsDead(target);
+
+	}
+	
+	/**
+	 * Check if a unit has died due to attack.
+	 * 
+	 * @param unit Unit that we are checking
+	 * @return true if the unit is dead, false otherwise
+	 */
+	private boolean unitIsDead(Unit unit) {
+		
+		LOG.info(String.format("Unit at : (%d, %d) is dead", 
+				unit.getRow(), unit.getCol()));
+		
+		return unit.getHP() <= 0;
+	}
 }
