@@ -69,7 +69,6 @@ public class Game {
 			if (finished) { break; }
 			board.displayBoard();
 			doEndOfTurn();
-			if (finished) { break; }
 		}
 	}
 	
@@ -233,19 +232,19 @@ public class Game {
 		 
 		 String commandWord = command.getWord(1);
 
-		 if (commandWord.equalsIgnoreCase("help")) {
+		 if (commandWord.equalsIgnoreCase(CommandWords.HELP.toString())) {
 			 printHelp();
 			 return false;
 
-		 } else if (commandWord.equalsIgnoreCase("quit")) {
+		 } else if (commandWord.equalsIgnoreCase(CommandWords.QUIT.toString())) {
 			 finished = true;
-			 System.out.println("User quit the game");
+			 LOG.info("User quit the game");
 			 return true;
 
-		 } else if (commandWord.equalsIgnoreCase("pass")) {
+		 } else if (commandWord.equalsIgnoreCase(CommandWords.PASS.toString())) {
 			 return true;
 
-		 } else if (commandWord.equalsIgnoreCase("place")) {
+		 } else if (commandWord.equalsIgnoreCase(CommandWords.PLACE.toString())) {
 			 if (command.isUnknownWord(3) || command.isUnknownWord(4)) // restriction - check if word 3 and 4 is null
 			 {
 				 LOG.warn("Please input your command with coordinates");

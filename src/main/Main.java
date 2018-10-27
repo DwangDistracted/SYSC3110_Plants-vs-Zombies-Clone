@@ -63,7 +63,7 @@ public class Main {
         {
 	        String commandWord = command.getWord(1);
 	        LOG.debug("CommandWord is " + commandWord);
-	        if (commandWord.equalsIgnoreCase("play")) {
+	        if (commandWord.equalsIgnoreCase(CommandWords.PLAY.toString())) {
 				LOG.info("Loading Level 1...");
 				
 				LevelInfo lvl = LevelLoader.getLevel(1);
@@ -75,7 +75,7 @@ public class Main {
 					return false;
 				}
 	        }
-	        else if (commandWord.equalsIgnoreCase("load") && command.getWord(2) != null)
+	        else if (commandWord.equalsIgnoreCase(CommandWords.LOAD.toString()) && command.getWord(2) != null)
 	        {
 				LOG.info("Loading Level " + command.getWord(2) + "...");
 				LevelInfo lvl = LevelLoader.getLevel(Integer.valueOf(command.getWord(2))); //where commandSecondWord is the level selector
@@ -87,7 +87,7 @@ public class Main {
 					return false;
 				}
 	        }
-	        else if (commandWord.equalsIgnoreCase("quit")) 
+	        else if (commandWord.equalsIgnoreCase(CommandWords.QUIT.toString())) 
 	        {
 	        	quit = true;
 				LOG.debug("User is Quitting");
