@@ -86,7 +86,10 @@ public class Game {
 		List<Plant> plantsInGame = board.getPlantsInGame();
 		
 		for (Plant plant : plantsInGame) {
-			combat.plantAttack(plant);
+			int [] zombieTargetCoordinates = combat.plantAttack(plant);
+			if (zombieTargetCoordinates != null) {
+				board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
+			}
 		}
 	}
 	
@@ -104,7 +107,10 @@ public class Game {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
 			if (!nextZombie.move()) {
-				combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol() - 1));
+				boolean targetIsDead = combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol()));
+				if (targetIsDead) {
+					board.removePlant(nextZombie.getRow(), nextZombie.getCol());
+				}
 			}
 
 			if (board.hasReachedEnd()) {
