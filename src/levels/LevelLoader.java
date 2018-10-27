@@ -62,7 +62,7 @@ public class LevelLoader {
 		currentLevel = -1;
 
 		//Loads sample LevelInfo
-		if(Logger.isDebug()) sampleLevels();
+		sampleLevels();
 		//DeSerialize all Level Info into Level Info
 		deserializeLevels();
 	}
