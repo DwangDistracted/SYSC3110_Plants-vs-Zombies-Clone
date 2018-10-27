@@ -27,4 +27,17 @@ public enum PlantTypes {
 				return null;
 		}
 	}
+	
+	/**
+	 * Translates a String into a Plant Object
+	 * @param str
+	 * @return
+	 */
+	public static Plant toPlantFromString(String str) {
+		try {
+			return toPlant(PlantTypes.valueOf(str.toUpperCase()));
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
 }

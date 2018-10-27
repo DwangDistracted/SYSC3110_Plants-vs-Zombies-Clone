@@ -38,8 +38,8 @@ public class LevelLoader {
 		levels.add(new LevelInfo(
 					"Sample",							//level name
 					4,									//level rating
-					2,									//column
-					2,									//row
+					8,									//column
+					8,									//row
 					25,									//Resources per Turn
 					200,								//Initial Resources
 					sampleZombies,						//The Enemy Zombies
@@ -77,6 +77,18 @@ public class LevelLoader {
 			return levels.get(currentLevel);
 		}
 		return null;
+	}
+	
+	public static LevelInfo getLevel(int level) {
+		if(level <= getNumLevels()) {
+			return levels.get(level-1);
+		} else {
+			return null;
+		}
+	}
+	
+	public static int getNumLevels() {
+		return levels.size();
 	}
 	
 	/**
