@@ -47,6 +47,8 @@ public class Combat {
 				if (unitIsDead(zombieTarget)) {
 					int [] zombieToRemoveCoords = {zombieTarget.getRow(), zombieTarget.getCol()};
 					return zombieToRemoveCoords;
+				} else {
+					return null;
 				}
 			}
 		}
