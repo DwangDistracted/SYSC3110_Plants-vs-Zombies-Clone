@@ -8,7 +8,7 @@ import assets.Flower;
 import assets.Plant;
 import assets.Zombie;
 import util.Logger;
-import levels.Grid;
+import engine.Grid;
  
 /**
  * Contains the Game state (i.e., location of all plants and zombies) and detects board conflicts.

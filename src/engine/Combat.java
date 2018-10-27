@@ -1,7 +1,7 @@
 package engine;
 
 import assets.*;
-import levels.Grid;
+import engine.Grid;
 import util.Logger;
 
 /**
