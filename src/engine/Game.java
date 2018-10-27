@@ -281,13 +281,17 @@ public class Game {
 				 if (levelInfo.getAllowedPlants().contains(PlantTypes.valueOf(command.getWord(2).toUpperCase()))) {
 					 Plant p = PlantTypes.toPlantFromString(command.getWord(2));
 					 if (userResources.canSpend(p.getCost())) {
-						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
-								 + command.getWord(4));
 						 int plantRow = Integer.valueOf(command.getWord(3));
 						 int plantCol = Integer.valueOf(command.getWord(4));
 						 userResources.spendPoints(p.getCost());
-						 board.placePlant(p, plantRow, plantCol);
+						 if (!board.placePlant(p, plantRow, plantCol)) {
+							 LOG.info(String.format("Cannot place plant: %s at tile: (%s, %s) because the title is already occupied",
+									 command.getWord(2), command.getWord(3), command.getWord(4)));
+							 return false;
+						 }
 						 p.setCoordinates(plantRow, plantCol);
+						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
+								 + command.getWord(4));
 						 return true;
 					 } else {
 						 LOG.warn("Cannot Afford Unit");
