@@ -285,7 +285,7 @@ public class Game {
 						 int plantCol = Integer.valueOf(command.getWord(4));
 						 userResources.spendPoints(p.getCost());
 						 if (!board.placePlant(p, plantRow, plantCol)) {
-							 LOG.info(String.format("Cannot place plant: %s at tile: (%s, %s) because the title is already occupied",
+							 LOG.info(String.format("Cannot place plant: %s at tile: (%s, %s) because the tile is already occupied",
 									 command.getWord(2), command.getWord(3), command.getWord(4)));
 							 return false;
 						 }
