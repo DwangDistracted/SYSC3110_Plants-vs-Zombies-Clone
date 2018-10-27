@@ -7,7 +7,7 @@ package input;
  */
 public class Command
 {
-	private String[] commandWords;
+	private String[] commandWords = new String[4];
    
     public Command(String firstWord, String secondWord, String thirdWord, String fourthWord)
     {
