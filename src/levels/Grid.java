@@ -39,7 +39,7 @@ public class Grid {
 	 */
 	public boolean setPlant(Plant newPlant) {
 		
-		if (plant != null) {
+		if (plant == null) {
 			plant = newPlant;
 			return true;
 		}

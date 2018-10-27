@@ -76,9 +76,12 @@ public class Combat {
 	 */
 	private boolean unitIsDead(Unit unit) {
 		
-		LOG.info(String.format("Unit at : (%d, %d) is dead", 
-				unit.getRow(), unit.getCol()));
+		if (!unit.isAlive()) {
+			LOG.info(String.format("Unit at : (%d, %d) is dead", 
+					unit.getRow(), unit.getCol()));
+			return true;
+		}
 		
-		return unit.getHP() <= 0;
+		return false;
 	}
 }
