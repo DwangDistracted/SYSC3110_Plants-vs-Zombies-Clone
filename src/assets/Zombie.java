@@ -89,10 +89,7 @@ public abstract class Zombie implements Unit{
 	}
 	
 	public boolean move() {
-		if (listener.onZombieMove(this)) {
-			return true;
-		} else {
-			return false;
-		}
+
+		return listener.onZombieMove(this);
 	}
 }

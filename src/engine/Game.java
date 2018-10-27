@@ -169,7 +169,6 @@ public class Game {
 		userResources.addPoints(levelInfo.getResPerTurn()); //do default sunshine gain
 		userResources.addPoints(board.getNumberOfSF() * Flower.getPoints()); //do sunflower/economy plants sunshine gain
 		
-		board.displayBoard();
 		//did player win?
 		if (zombieQueue.values().stream().mapToInt(Integer::intValue).sum() == 0 && board.getNumberOfZombies() == 0) {
 			endGame(true);
@@ -181,6 +180,7 @@ public class Game {
 	 * @param playerWin True if the player won, false otherwise
 	 */
 	private void endGame(boolean playerWin) {
+		board.displayBoard();
 		this.finished = true;
 		if(playerWin) {
 			LOG.info("Player has Won");
