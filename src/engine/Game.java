@@ -221,11 +221,11 @@ public class Game {
 		return false;
 	 }
 
-		/**
-		 * Processes the user input
-		 * @param command - the user input
-		 * @return true if the input was valid, false otherwise
-		 */
+	/**
+	 * Processes the user input
+	 * @param command - the user input
+	 * @return true if the input was valid, false otherwise
+	 */
 	 public boolean processCommand(Command command)
 	 {
 		 if (command == null) { return false; } 
