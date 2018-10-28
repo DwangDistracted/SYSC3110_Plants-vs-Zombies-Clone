@@ -22,7 +22,7 @@ import util.Logger;
 
 /**
  * The Primary Game Loop. Instance per level
- * @author david
+ * @author David Wang
  */
 public class Game {
 	private static Logger LOG = new Logger("Game");
@@ -97,6 +97,7 @@ public class Game {
 	
 	/**
 	 * Processes the Zombie's Turn.
+	 * @author David Wang; Modified by Derek Shao
 	 */
 	private void zombieTurn() {
 		LOG.info("It is the zombie's turn.");

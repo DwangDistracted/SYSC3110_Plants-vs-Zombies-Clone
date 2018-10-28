@@ -11,7 +11,7 @@ public class Peashooter extends Plant{
 	private static final int cost = 50;
 	
 	public Peashooter()	{
-		super(2,2,50);
+		super(2,2,cost);
 	}
 	
 	public String toString() {

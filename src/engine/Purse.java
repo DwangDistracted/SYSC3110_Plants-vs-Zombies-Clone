@@ -2,7 +2,7 @@ package engine;
 
 /**
  * Keeps track of player resources and handles expenditure. Created per Game Instance.
- * @author david
+ * @author David Wang
  */
 public class Purse 
 {

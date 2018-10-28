@@ -8,7 +8,7 @@ import assets.ZombieTypes;
 
 /**
  * A Class that holds all information about a particular level. Made to be serializable in Future Milestone so that levels can be added via JSON/XML Files.
- * @author david
+ * @author David Wang
  *
  */
 public class LevelInfo {
