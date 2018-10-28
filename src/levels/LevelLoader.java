@@ -12,7 +12,7 @@ import util.Logger;
 /**
  * Milestone 1: This class creates a sample level
  * This class loads levels from serialized LevelInfo Files (JSON/XML) (Future Milestone) and sends Level Info to the Main Program.
- * @author david
+ * @author David Wang
  *
  */
 public class LevelLoader {

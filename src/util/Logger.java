@@ -2,7 +2,7 @@ package util;
 
 /**
  * A Logger class that does output.
- * @author david
+ * @author David Wang
  */
 public class Logger {
 	//is debug output enabled

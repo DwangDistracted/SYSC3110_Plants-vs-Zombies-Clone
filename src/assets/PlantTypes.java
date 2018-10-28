@@ -4,7 +4,7 @@ package assets;
  * This is the listing of all plant types we have
  * 
  * Useful for command parsing and spawning
- * @author david
+ * @author David Wang
  *
  */
 public enum PlantTypes {

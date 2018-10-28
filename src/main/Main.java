@@ -1,6 +1,5 @@
 package main;
 
-import java.util.Scanner;
 import engine.Game;
 import input.Command;
 import input.CommandWords;
@@ -8,17 +7,18 @@ import input.Parser;
 import levels.LevelInfo;
 import levels.LevelLoader;
 import util.Logger;
+
 /**
  * This class acts as the program entry point; loading the UI and Game Levels. AKA - The Main Menu
  */
 public class Main {
 	private static Logger LOG = new Logger("Main");
-	public static Scanner sc = new Scanner(System.in);
 	private static boolean quit = false;
 	
 	/**
 	 * Program Entry Point
 	 * @param args
+	 * @author David Wang
 	 */
 	public static void main (String[] args) {
 		//Log init
@@ -44,7 +44,6 @@ public class Main {
 		}
 		
 		LOG.debug("Program Exit");
-		sc.close();
 	}
 	
 	//INPUT - Milestone 1 Only
@@ -52,6 +51,7 @@ public class Main {
 	 * Processes the menu commands (load and quit)
 	 * @param command
 	 * @return True if the command was valid, false otherwise
+	 * @author Michael Pastula; Modifications by David Wang
 	 */
 	public static boolean menuProcessing(Command command)
 	{
