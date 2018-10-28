@@ -50,7 +50,6 @@ public class Plant implements Unit{
 	@Override
 	public void takeDamage(int dmg)	{
 		this.hitPoints -= dmg;
-		isAlive();
 	}
 	
 	@Override
