@@ -73,7 +73,6 @@ public abstract class Zombie implements Unit{
 	@Override
 	public void takeDamage(int dmg) {
 		this.hitPoints -= dmg;
-		isAlive();
 	}
 
 	public boolean isAlive() {
