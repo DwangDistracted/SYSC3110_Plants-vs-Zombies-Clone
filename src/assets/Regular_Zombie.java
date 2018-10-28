@@ -12,6 +12,9 @@ public class Regular_Zombie extends Zombie{
 		super(1,1,4);
 	}
 	
+	/**
+	 * returns the name of regular type zombie
+	 */
 	public String toString() {
 		return "RZ";	
 	}

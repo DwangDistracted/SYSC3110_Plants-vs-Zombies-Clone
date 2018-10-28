@@ -8,16 +8,23 @@ package assets;
  */
 
 public class Flower extends Plant{
-	private int points;
+	private int points; //points that a sunflower provides a player to buy other plants
 	
 	public Flower()	{
 		super(2,0, 25);
 	}
 	
+	/**
+	 * returns points of a sunflower
+	 * @return
+	 */
 	public int getPoints() {
 		return this.points;
 	}
 	
+	/**
+	 * returns name of the sunflower
+	 */
 	public String toString() {
 		return "F";
 	}
