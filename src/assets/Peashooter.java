@@ -8,10 +8,10 @@ package assets;
  */
 
 public class Peashooter extends Plant{
-	private static final int cost = 50;
+	private static final int COST = 50;
 	
 	public Peashooter()	{
-		super(2,2,cost);
+		super(2,2,COST);
 	}
 	
 	public String toString() {
