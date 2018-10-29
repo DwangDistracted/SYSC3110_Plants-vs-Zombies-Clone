@@ -26,7 +26,7 @@ public class Plant implements Unit{
 
 	/**
 	 * returns power of a plant
-	 * @return
+	 * @return the power value
 	 */
 	@Override
 	public int getPower() {
@@ -35,7 +35,7 @@ public class Plant implements Unit{
 	
 	/**
 	 * sets the power of a plant to a desired value
-	 * @param pwr
+	 * @param pwr the power value
 	 */
 	@Override
 	public void setPower(int pwr) {
@@ -44,7 +44,7 @@ public class Plant implements Unit{
 
 	/**
 	 * returns hit-point(life left) of a plant
-	 * @return
+	 * @return the hit points remaining
 	 */
 	@Override
 	public int getHP() {
@@ -53,7 +53,7 @@ public class Plant implements Unit{
 	
 	/**
 	 * sets hit-point(life left) of a plant
-	 * @param hp
+	 * @param hp the hit point value
 	 */
 	@Override
 	public void setHp(int hp) {
@@ -62,7 +62,7 @@ public class Plant implements Unit{
 
 	/**
 	 * returns cost of a plant
-	 * @return
+	 * @return cost of plant
 	 */
 	public int getCost() {
 		return this.cost;
@@ -70,7 +70,7 @@ public class Plant implements Unit{
 	
 	/**
 	 * calculates the hit-points(life left) of a plant after taking damage from zombie
-	 * @param dmg
+	 * @param dmg the amount of hitpoints to be reduced
 	 */
 	@Override
 	public void takeDamage(int dmg)	{
@@ -80,7 +80,7 @@ public class Plant implements Unit{
 	/**
 	 * returns true if a plant is alive 
 	 * otherwise returns false
-	 * @return
+	 * @return true if alive, false otherwise
 	 */
 	@Override
 	public boolean isAlive() {

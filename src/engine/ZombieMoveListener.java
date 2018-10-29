@@ -2,6 +2,13 @@ package engine;
 
 import assets.Zombie;
 
+/**
+ * The listener interface for when a Zombie object moves. Board will update the location of 
+ * the Zombie object that moved. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public interface ZombieMoveListener {
 	
 	/**
