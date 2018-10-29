@@ -7,9 +7,12 @@ package assets;
  */
 
 public class Regular_Zombie extends Zombie{
+	private static final int DEFAULT_SPEED = 1;
+	private static final int DEFAULT_POWER = 1;
+	private static final int DEFAULT_HP = 4;
 	
 	public Regular_Zombie()	{
-		super(1,1,4);
+		super(DEFAULT_SPEED, DEFAULT_POWER, DEFAULT_HP);
 	}
 	
 	/**
