@@ -20,8 +20,8 @@ public class Flower extends Plant{
 	 * returns points of a sunflower
 	 * @return
 	 */
-	public int getPoints() {
-		return this.points;
+	public static int getPoints() {
+		return points;
 	}
 	
 	/**
