@@ -10,16 +10,23 @@ package assets;
 public class Flower extends Plant{
 	private static final int COST = 25;
 	//The Amount of Points that are added per turn per sunflower
-	private static int points = 10;
+	private static int points = 10; //points that a sunflower provides a player to buy other plants
 	
 	public Flower()	{
 		super(2,0, COST);
 	}
 	
-	public static int getPoints() {
-		return points;
+	/**
+	 * returns points of a sunflower
+	 * @return
+	 */
+	public int getPoints() {
+		return this.points;
 	}
 	
+	/**
+	 * returns name of the sunflower
+	 */
 	public String toString() {
 		return "F";
 	}

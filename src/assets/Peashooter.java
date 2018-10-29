@@ -14,6 +14,9 @@ public class Peashooter extends Plant{
 		super(2,2,COST);
 	}
 	
+	/**
+	 * returns name of Peashooter
+	 */
 	public String toString() {
 		return "P";
 	}
