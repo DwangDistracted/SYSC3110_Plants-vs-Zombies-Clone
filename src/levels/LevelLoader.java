@@ -57,6 +57,9 @@ public class LevelLoader {
 		//nothing for milestone 1
 	}
 	
+	/**
+	 * Must be called before this class is used
+	 */
 	public static void init() {
 		levels = new ArrayList<>();
 		currentLevel = -1;
