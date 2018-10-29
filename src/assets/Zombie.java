@@ -29,7 +29,7 @@ public abstract class Zombie implements Unit{
 	
 	/**
 	 * returns speed of a zombie
-	 * @return
+	 * @return the speed value
 	 */
 	public int getSpeed() {
 		return this.speed;
@@ -37,7 +37,7 @@ public abstract class Zombie implements Unit{
 	
 	/**
 	 * sets the speed of a zombie
-	 * @param speed
+	 * @param speed the speed value
 	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
@@ -45,7 +45,7 @@ public abstract class Zombie implements Unit{
 
 	/**
 	 * returns power of an zombie
-	 * @return
+	 * @return the power value
 	 */
 	@Override
 	public int getPower() {
@@ -54,7 +54,7 @@ public abstract class Zombie implements Unit{
 	
 	/**
 	 * sets the power of an zombie to a desired value
-	 * @param pwr
+	 * @param pwr the power value
 	 */
 	@Override
 	public void setPower(int pwr) {
@@ -63,7 +63,7 @@ public abstract class Zombie implements Unit{
 
 	/**
 	 * returns hit-point(life left) of an unit
-	 * @return
+	 * @return the hitpoints remaining
 	 */
 	@Override
 	public int getHP() {
@@ -72,7 +72,7 @@ public abstract class Zombie implements Unit{
 	
 	/**
 	 * sets hit-point(life left) of an unit
-	 * @param hp
+	 * @param hp the hit points value
 	 */
 	@Override
 	public void setHp(int hp) {
@@ -81,7 +81,7 @@ public abstract class Zombie implements Unit{
 	
 	/**
 	 * returns the row of a zombie
-	 * @return
+	 * @return row of a zombie
 	 */
 	public int getRow() {
 		return this.row;
@@ -89,23 +89,31 @@ public abstract class Zombie implements Unit{
   
 	/**
 	 * returns the column of a zombie
-	 * @return
+	 * @return column of a zombie
 	 */
 	public int getCol() {
 		return this.column;
 	}
 	
+	/**
+	 * Set the row of where the zombie is to be located
+	 * @param row
+	 */
 	public void setRow(int row) {
 		this.row = row;
 	}
 	
+	/**
+	 * Set the column of where the zombie is to be located
+	 * @param column
+	 */
 	public void setColumn(int column) {
 		this.column = column;
 	}
 
 	/**
 	 * calculates the hit-points(life left) of a zombie after taking damage from a plant
-	 * @param dmg
+	 * @param dmg the hit points to be reduced
 	 */
 	@Override
 	public void takeDamage(int dmg) {
@@ -115,7 +123,7 @@ public abstract class Zombie implements Unit{
 	/**
 	 * returns true if a zombie is alive 
 	 * otherwise returns false
-	 * @return
+	 * @return true if a zombie alive, false otherwise
 	 */
 	@Override
 	public boolean isAlive() {
@@ -126,10 +134,18 @@ public abstract class Zombie implements Unit{
 		return true;
 	}
 	
+	/**
+	 * Set the listener for this zombie when it moves
+	 * @param board The listener that is listening
+	 */
 	public void setListener(Board board) {
 		this.listener = board;
 	}
 	
+	/**
+	 * Notify listener that this zombie is moving
+	 * @return true if move was successful, false otherwise
+	 */
 	public boolean move() {
 
 		return listener.onZombieMove(this);
