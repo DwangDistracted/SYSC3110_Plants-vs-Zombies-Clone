@@ -1,21 +1,28 @@
 package main;
 
-import java.util.Scanner;
 import engine.Game;
+import input.Command;
+import input.CommandWords;
+import input.Parser;
 import levels.LevelInfo;
 import levels.LevelLoader;
 import util.Logger;
+
 /**
  * This class acts as the program entry point; loading the UI and Game Levels. AKA - The Main Menu
  */
 public class Main {
 	private static Logger LOG = new Logger("Main");
+	private static boolean quit = false;
 	
-	public static Scanner sc = new Scanner(System.in);
-	
+	/**
+	 * Program Entry Point
+	 * @param args
+	 * @author David Wang
+	 */
 	public static void main (String[] args) {
 		//Log init
-		Logger.setDebug(); //change to clearDebug to get rid of debug messages
+		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
 		
 		//Title Card
 		LOG.info("==================================");
@@ -25,41 +32,68 @@ public class Main {
 		LOG.info(" Michael Pastula | Tanisha Garg   ");
 		LOG.info("==================================");
 		
-		//Load Data
+		//Load Level Data
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
 		
-		while(true) {
-			LOG.prompt("Press 1 to Load Sample Level. Press 2 to Exit.");
-			String s = sc.nextLine();
-			
-			if (s.equals("1")) {
-				LOG.info("Loading Sample Level...");
-				
-				LevelInfo lvl = LevelLoader.getNextLevel();
-				if (lvl != null) {
-					new Game(lvl).start();
-				} else {
-					LOG.info("No More Levels");
-					LOG.prompt("Do You want to restart from the first level? (Y/N)");
-					
-					String yn = sc.nextLine();
-					
-					if (yn.equalsIgnoreCase("Y")) {
-						LevelLoader.reset();
-					} else {
-						break;
-					}
-				}
-				
-			} else if (s.equals("2")){
-				break;
-			} else {
-				LOG.error("Invalid Input");
-			}
+		while(!quit) {
+			LOG.prompt(CommandWords.getPrimaryMenuCommands());
+			if (!menuProcessing(Parser.getCommand())) {
+				LOG.warn("Invalid Command");
+			};
 		}
 		
 		LOG.debug("Program Exit");
-		sc.close();
+	}
+	
+	//INPUT - Milestone 1 Only
+	/**
+	 * Processes the menu commands (load and quit)
+	 * @param command
+	 * @return True if the command was valid, false otherwise
+	 * @author Michael Pastula; Modifications by David Wang
+	 */
+	public static boolean menuProcessing(Command command)
+	{
+		if (command == null) {
+			LOG.debug("Command is null");
+			return false;
+		}
+		if(CommandWords.isPrimaryCommand(command.getWord(1)))
+        {
+	        String commandWord = command.getWord(1);
+	        LOG.debug("CommandWord is " + commandWord);
+	        if (commandWord.equalsIgnoreCase(CommandWords.PLAY.toString())) {
+				LOG.info("Loading Level 1...");
+				
+				LevelInfo lvl = LevelLoader.getLevel(1);
+				if (lvl != null) {
+					new Game(lvl).start();
+					return true;
+				} else {
+					LOG.warn("Level 1 does not exist!");
+					return false;
+				}
+	        }
+	        else if (commandWord.equalsIgnoreCase(CommandWords.LOAD.toString()) && command.getWord(2) != null)
+	        {
+				LOG.info("Loading Level " + command.getWord(2) + "...");
+				LevelInfo lvl = LevelLoader.getLevel(Integer.valueOf(command.getWord(2))); //where commandSecondWord is the level selector
+				if (lvl != null) {
+					new Game(lvl).start();
+	    			return true;
+				} else {
+					LOG.warn("Level " + command.getWord(2) + " does not exist!");
+					return false;
+				}
+	        }
+	        else if (commandWord.equalsIgnoreCase(CommandWords.QUIT.toString())) 
+	        {
+	        	quit = true;
+				LOG.debug("User is Quitting");
+				return true;
+	        }
+        }
+		return false;
 	}
 }

@@ -47,15 +47,12 @@ public interface Unit{
 	public boolean isAlive();
 	
 	/**
-	 * updates the current coordinates of an unit
-	 * @param row
-	 * @param column
-	 */
-	public void currentCoordinates(int row, int column);
-	
-	/**
 	 * returns the name of an unit
 	 * @return
 	 */
 	public String toString();
+	
+	public int getRow();
+	
+	public int getCol();
 }

@@ -8,10 +8,12 @@ package assets;
  */
 
 public class Flower extends Plant{
-	private int points; //points that a sunflower provides a player to buy other plants
+	private static final int COST = 25;
+	//The Amount of Points that are added per turn per sunflower
+	private static int points = 10; //points that a sunflower provides a player to buy other plants
 	
 	public Flower()	{
-		super(2,0, 25);
+		super(2,0, COST);
 	}
 	
 	/**

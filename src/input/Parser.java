@@ -2,64 +2,50 @@ package input;
 
 import java.util.Scanner;
 
- 
-public class Parser 
-{
-    private CommandWords commands;  // holds all valid command words
-    private Scanner reader;         // source of command input
+import util.Logger;
 
-    /**
-     * Create a parser to read from the terminal window.
-     */
-    public Parser() 
-    {
-        commands = new CommandWords();
-        reader = new Scanner(System.in);
-    }
 
-    /**
-     * @return The next command from the user.
-     */
-    public Command getCommand() 
-    {
-        String inputLine;   // will hold the full input line
-        String word1 = null;
-        String word2 = null;
-        String word3 = null;
+/**
+ * This class converts the user's input into an instance of Command ie. converts
+ * the input into words.
+ * 
+ * @author Michael Patsula
+ *
+ */
+public class Parser {
+	private Parser() {
+	}
 
-        System.out.print("> ");     // print prompt
+	private static Logger LOG = new Logger("Parser");
+	private static Scanner reader = new Scanner(System.in);
 
-        inputLine = reader.nextLine();
+	/**
+	 * Creates a Command instance based on the user input (ie converts the input
+	 * tokens into variables)
+	 * 
+	 * @return a Command instance
+	 */
+	public static Command getCommand() {
+		String inputLine; // will hold the full input line
+		String[] words = { null, null, null, null };
 
-        // Find up to two words on the line.
-        Scanner tokenizer = new Scanner(inputLine);
-        if(tokenizer.hasNext()) {
-            word1 = tokenizer.next();      // get first word
-            if(tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
-                if(tokenizer.hasNext()) {
-                    word3 = tokenizer.next();
-                // note: we just ignore the rest of the input line.
-            }
-           }
-        }
+		inputLine = reader.nextLine();
+		LOG.debug("Read " + inputLine);
 
-        // Now check whether this word is known. If so, create a command
-        // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(word1)) 
-            return new Command(word1, word2, word3);
-        
-        else 
-            return new Command(null, word2, word3); 
-        
-    }
-    
+		Scanner tokenizer = new Scanner(inputLine);
+		for (int counter = 0; counter < words.length; counter++) {
+			if (tokenizer.hasNext()) {
+				words[counter] = tokenizer.next();
+				LOG.debug("Tokenized " + counter + ": " + words[counter]);
+			}
+		}
+		tokenizer.close();
+		if (!CommandWords.isPrimaryCommand(words[0])) {
+			LOG.debug("Not a primary command");
+			return null; // invalid command
+		} else {
+			return new Command(words[0], words[1], words[2], words[3]);
+		}
+	}
 
-    /**
-     * Print out a list of valid command words.
-     */
-    public void showCommands()
-    {
-        commands.showAll();
-    }
 }

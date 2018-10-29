@@ -1,49 +1,49 @@
 package input;
+/**
+ * This class holds the tokenized version of the user input.
+ * From this class the user will be able to get specified tokens of the user's input.
+ * @author Michael Patsula
+ *
+ */
 public class Command
 {
-    private String commandWord;
-    private String secondWord;
-    private String thirdWord;
-
+	private String[] commandWords = new String[4];
    
-    public Command(String firstWord, String secondWord, String thirdWord)
+    public Command(String firstWord, String secondWord, String thirdWord, String fourthWord)
     {
-        commandWord = firstWord;
-        this.secondWord = secondWord;
-        this.thirdWord = thirdWord;
-    }
-
-    
-    public String getCommandWord()
-    {
-        return commandWord;
-    }
-
-   
-    public String getSecondWord()
-    {
-        return secondWord;
+        commandWords[0] = firstWord;
+        commandWords[1] = secondWord;
+        commandWords[2] = thirdWord;
+        commandWords[3] = fourthWord;
     }
     
-    public String getThirdWord()
+    /**
+     * Returns a word corresponding to the given index. Word one would corresponds
+     * to index = 1.
+     * @param index - ex: second word is index 2
+     * @return The word corresponding to the given index
+     */
+    public String getWord(int index)
     {
-    	return thirdWord;
-    }
-  
-    public boolean isUnknown()
-    {
-        return (commandWord == null);
-    }
-
-   
-    public boolean hasSecondWord()
-    {
-        return (secondWord != null);
+    	return commandWords[index - 1];
     }
     
-    public boolean hasThirdWord()
+    /**
+     * Determines if the word is unknown (null)
+     * @param index - where word 2 equals index 1
+     * @return true if the word is null, otherwise returns false
+     */
+    public boolean isUnknownWord(int index)
     {
-    	return (thirdWord != null);
+    	 return (commandWords[index - 1] == null);
+    }
+    
+    /**
+     * @return the command 
+     */
+    public String[] getCommandWords()
+    {
+    	return commandWords;
     }
 }
 

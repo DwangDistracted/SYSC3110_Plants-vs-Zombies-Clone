@@ -4,12 +4,17 @@ package assets;
  * This is the listing of all zombie types we have
  * 
  * Useful for command parsing and spawning
- * @author david
+ * @author David Wang
  *
  */
 public enum ZombieTypes {
 	REG_ZOMBIE;
-	
+
+	/**
+	 * Translates a ZombieTypes Enumeration into a Zombie Object
+	 * @param e the Zombie Type
+	 * @return Zombie Object
+	 */
 	public static Zombie toZombie(ZombieTypes e) 
 	{
 		switch (e) {
