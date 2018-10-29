@@ -60,6 +60,7 @@ public class Game {
 	 * Starts the Game Loop
 	 */
 	public void start() {
+		board.displayBoard();
 		while (!finished) {
 			playerTurn();
 			if (finished) { break; }
