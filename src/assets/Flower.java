@@ -8,9 +8,9 @@ package assets;
  */
 
 public class Flower extends Plant{
-	private static final int COST = 25;
-	private static final int DEFAULT_POWER = 0;
 	private static final int DEFAULT_HP = 2;
+	private static final int DEFAULT_POWER = 0;
+	private static final int COST = 25;
 	
 	//The Amount of Points that are added per turn per sunflower
 	private static int points = 10; //points that a sunflower provides a player to buy other plants
