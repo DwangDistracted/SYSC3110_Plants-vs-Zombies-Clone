@@ -29,18 +29,8 @@ public class MainMenu extends JFrame {
 	private static final long serialVersionUID = -1199792392732674767L;
 	private static final String VERSION = "Milestone 2";
 	private static final String DATE = "2018/11/11";
-	private static MainMenu self = null;
-	
-	public static void close() {
-		if(self == null) return;
-		self.dispose();
-		self = null;
-	}
-	
-	public MainMenu() throws Exception {
-		if (self != null) throw new Exception("Cannot Create Main Menu");
-		self = this;
 		
+	public MainMenu() {
 		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setUndecorated(true);
@@ -96,10 +86,10 @@ public class MainMenu extends JFrame {
 		quitBtn.setFont(btnFont);
 
 		//TODO - set Action Handlers
-		playBtn.addActionListener(MenuInteractions.getPlayHandler());
-		levelsBtn.addActionListener(MenuInteractions.getLevelsHandler());
-		loadBtn.addActionListener(MenuInteractions.getLoadHandler());
-		quitBtn.addActionListener(MenuInteractions.getQuitHandler());
+		playBtn.addActionListener(MenuInteractions.getPlayHandler(this));
+		levelsBtn.addActionListener(MenuInteractions.getLevelsHandler(this));
+		loadBtn.addActionListener(MenuInteractions.getLoadHandler(this));
+		quitBtn.addActionListener(MenuInteractions.getQuitHandler(this));
 		
 		btnPane.add(versionFld);
 		btnPane.add(playBtn);

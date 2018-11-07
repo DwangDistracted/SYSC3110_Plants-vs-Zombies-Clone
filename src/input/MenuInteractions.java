@@ -3,6 +3,8 @@ package input;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+
 import ui.*;
 
 /**
@@ -12,36 +14,36 @@ import ui.*;
 public class MenuInteractions {
 	private MenuInteractions() {} //this is a collection of statics
 	
-	public static ActionListener getQuitHandler() {
+	public static ActionListener getQuitHandler(JFrame frame) {
 		return new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					MainMenu.close();
+					frame.dispose();
 				}
 			};
 	}
 	
-	public static ActionListener getPlayHandler () {
+	public static ActionListener getPlayHandler (JFrame frame) {
 		return new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					new GameUI();
-					MainMenu.close();
+					frame.dispose();
 				}
 			};
 	}
 	
-	public static ActionListener getLevelsHandler () {
+	public static ActionListener getLevelsHandler (JFrame frame) {
 		return new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					new LevelMenu();
-					MainMenu.close();
+					frame.dispose();
 				}
 			};
 	}
 
-	public static ActionListener getLoadHandler () {
+	public static ActionListener getLoadHandler (JFrame frame) {
 		return new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

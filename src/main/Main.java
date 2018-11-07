@@ -36,11 +36,7 @@ public class Main {
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
 
-		try {
-			MainMenu menu = new MainMenu();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		new MainMenu();
 	}
 	
 	//INPUT - Milestone 1 Only
