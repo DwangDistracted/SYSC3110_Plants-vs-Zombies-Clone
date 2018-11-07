@@ -6,6 +6,7 @@ import input.CommandWords;
 import input.Parser;
 import levels.LevelInfo;
 import levels.LevelLoader;
+import ui.MainMenu;
 import util.Logger;
 
 /**
@@ -13,7 +14,6 @@ import util.Logger;
  */
 public class Main {
 	private static Logger LOG = new Logger("Main");
-	private static boolean quit = false;
 	
 	/**
 	 * Program Entry Point
@@ -35,15 +35,12 @@ public class Main {
 		//Load Level Data
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
-		
-		while(!quit) {
-			LOG.prompt(CommandWords.getPrimaryMenuCommands());
-			if (!menuProcessing(Parser.getCommand())) {
-				LOG.warn("Invalid Command");
-			};
+
+		try {
+			MainMenu menu = new MainMenu();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		LOG.debug("Program Exit");
 	}
 	
 	//INPUT - Milestone 1 Only
@@ -89,7 +86,7 @@ public class Main {
 	        }
 	        else if (commandWord.equalsIgnoreCase(CommandWords.QUIT.toString())) 
 	        {
-	        	quit = true;
+//	        	quit = true;
 				LOG.debug("User is Quitting");
 				return true;
 	        }
