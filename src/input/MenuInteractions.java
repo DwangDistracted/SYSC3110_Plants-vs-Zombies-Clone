@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import engine.Game;
+import levels.LevelInfo;
+import levels.LevelLoader;
 import ui.*;
 
 /**
@@ -27,8 +30,13 @@ public class MenuInteractions {
 		return new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new GameUI();
+					LevelInfo lvl = LevelLoader.getLevel(1); //Load first level
+					Game game = new Game(lvl);
+					
+					new GameUI(game);
 					frame.dispose();
+					
+					game.start();
 				}
 			};
 	}
