@@ -3,7 +3,6 @@ package main;
 import engine.Game;
 import input.Command;
 import input.CommandWords;
-import input.Parser;
 import levels.LevelInfo;
 import levels.LevelLoader;
 import ui.MainMenu;
