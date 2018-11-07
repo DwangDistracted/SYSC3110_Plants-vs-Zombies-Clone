@@ -6,7 +6,6 @@ import input.CommandWords;
 import input.Parser;
 import levels.LevelInfo;
 import levels.LevelLoader;
-import ui.LevelMenu;
 import util.Logger;
 
 /**
@@ -37,7 +36,6 @@ public class Main {
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
 		
-		LevelMenu test = new LevelMenu();
 		while(!quit) {
 			LOG.prompt(CommandWords.getPrimaryMenuCommands());
 			if (!menuProcessing(Parser.getCommand())) {
