@@ -25,6 +25,10 @@ public class LevelLoader {
 	
 	private LevelLoader() {} //Singleton
 	
+	public static List<LevelInfo> getLevels(){
+		return levels;
+	}
+	
 	/**
 	 * Generates sample levels and adds them to the list.
 	 * @param levels
@@ -65,7 +69,9 @@ public class LevelLoader {
 		currentLevel = -1;
 
 		//Loads sample LevelInfo
-		sampleLevels();
+		for (int i = 0; i < 13; i ++) {
+			sampleLevels();
+		}
 		//DeSerialize all Level Info into Level Info
 		deserializeLevels();
 	}
