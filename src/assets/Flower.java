@@ -14,6 +14,8 @@ public class Flower extends Plant{
 	
 	//The Amount of Points that are added per turn per sunflower
 	private static final int POINTS = 10; //points that a sunflower provides a player to buy other plants
+
+	private static final PlantTypes PLANT_TYPE = PlantTypes.SUNFLOWER;
 	
 	public Flower()	{
 		super(DEFAULT_HP, DEFAULT_POWER, COST);
@@ -33,5 +35,9 @@ public class Flower extends Plant{
 	 */
 	public String toString() {
 		return "F";
+	}
+
+	public PlantTypes getPlantType() {
+		return PLANT_TYPE;
 	}
 }
