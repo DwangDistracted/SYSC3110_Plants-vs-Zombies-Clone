@@ -150,4 +150,11 @@ public abstract class Zombie implements Unit{
 
 		return listener.onZombieMove(this);
 	}
+
+	/**
+	 * Returns the zombie type of this zombie
+	 * 
+	 * @return the zombie type
+	 */
+	public abstract ZombieTypes getZombieType();
 }

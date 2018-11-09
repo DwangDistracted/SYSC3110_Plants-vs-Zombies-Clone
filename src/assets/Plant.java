@@ -10,7 +10,7 @@ package assets;
 
 import util.Logger;
 
-public class Plant implements Unit{
+public abstract class Plant implements Unit{
 	private static Logger LOG = new Logger("Plant");
 	private int hitPoints;	//life left of a plant
 	private int power;		//power of a plant to damage a zombie	
@@ -100,6 +100,12 @@ public class Plant implements Unit{
 		this.row = row;
 		this.column = column;
 	}
+	
+	/**
+	 * Get the plant type of this plant
+	 * @return the plant type
+	 */
+	public abstract PlantTypes getPlantType();
 
 	@Override
 	public int getRow() {
