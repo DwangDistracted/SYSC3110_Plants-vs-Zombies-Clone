@@ -53,7 +53,7 @@ public class MenuInteractions {
 				LevelInfo lvl = LevelLoader.getLevel(1); //Load first level
 				Game game = new Game(lvl);
 				
-				new GameUI(game);
+				//new GameUI(game); // I think we should do this in the game class
 				frame.dispose();
 				
 				game.start();
@@ -78,7 +78,7 @@ public class MenuInteractions {
 				LevelInfo lvl = LevelLoader.getLevel(selected);
 				Game game = new Game(lvl);
 				
-				new GameUI(game);
+				//new GameUI(game);  I think we should do this in the game class
 				frame.dispose();
 				
 				game.start();

@@ -18,6 +18,7 @@ import input.Command;
 import input.CommandWords;
 import input.Parser;
 import levels.LevelInfo;
+import ui.GameUI;
 import util.Logger;
 
 /**
@@ -40,6 +41,8 @@ public class Game {
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	//The number of zombies (total) in the level
 	private int numZombies;
+	//The Game UI
+	private GameUI gameUI;
 
 	/**
 	 * Initializes a Game for a given Level
@@ -54,6 +57,8 @@ public class Game {
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		userResources = new Purse(levelInfo.getInitResources());
+		
+		gameUI = new GameUI(lvl, userResources); 
 	}
 	
 	/**
