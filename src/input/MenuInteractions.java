@@ -55,8 +55,6 @@ public class MenuInteractions {
 				
 				//new GameUI(game); // I think we should do this in the game class
 				frame.dispose();
-				
-				game.start();
 			}
 		};
 	}
@@ -80,8 +78,6 @@ public class MenuInteractions {
 				
 				//new GameUI(game);  I think we should do this in the game class
 				frame.dispose();
-				
-				game.start();
 			}
 		};
 	}

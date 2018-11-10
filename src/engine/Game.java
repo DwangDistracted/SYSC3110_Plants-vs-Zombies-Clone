@@ -58,23 +58,7 @@ public class Game {
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		userResources = new Purse(levelInfo.getInitResources());
 		
-		gameUI = new GameUI(lvl, userResources); 
-	}
-	
-	/**
-	 * Starts the Game Loop
-	 */
-	public void start() {
-		board.displayBoard();
-		while (!finished) {
-			playerTurn();
-			if (finished) { break; }
-			board.displayBoard();
-			zombieTurn();		
-			if (finished) { break; }
-			board.displayBoard();
-			doEndOfTurn();
-		}
+		gameUI = new GameUI(levelInfo, userResources);
 	}
 	
 	/**
