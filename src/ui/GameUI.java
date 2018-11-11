@@ -1,75 +1,81 @@
 package ui;
-import engine.Game;
 import engine.Purse;
 import levels.LevelInfo;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import assets.PlantTypes;
-import assets.Zombie;
-import assets.ZombieTypes;
 
-
-
-public class GameUI extends JFrame
+public class GameUI
 {
-	private final JPanel gui = new JPanel(new BorderLayout(200, 5));
+	private JPanel gui;
 	
 	private JButton[][] boardTiles;
-    private JPanel Board;
+    private JPanel board;
     private int row;
     private int column;
     
-    private JPanel lawnMowers = new JPanel();
+    private JPanel lawnMowers;
     private JButton[] mowers;
-    
-    private JPanel unitSelect = new JPanel();
+    private JPanel unitSelect;
     
     private int currentLevel;
-    private JLabel levelMessage = new JLabel("Level: " + currentLevel);
     private int currentWave;
-    private JLabel waveMessage = new JLabel("Wave: " + currentWave);
     private int points;
-    private JLabel pointsAvaliable = new JLabel("Points: " + points);
+    
+    private JLabel levelMessage;
+    private JLabel waveMessage;
+    private JLabel pointsAvaliable;
     
     private LevelInfo lvl;
     private Purse userResources;
-   
     
     public GameUI(LevelInfo lvl, Purse userResources)
     {
-    	JFrame f = new JFrame("Plants Are Vegan");
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setLocationByPlatform(true);
-        f.setSize(750,750);
-        f.add(this.getGui());
-        
     	this.row = lvl.getRows();
     	this.column = lvl.getColumns();
     	this.lvl = lvl;
     	this.points = userResources.getPoints();
     	this.userResources = userResources;
-    	
-    	boardTiles = new JButton[row][column];
-    	mowers = new JButton[row];
-    	
+
+    	initializeComponents();
         initializeGui();
         initUnitSelection();
-        
-        f.setVisible(true);
-        //f.pack();
+        initializeJFrame();
     }
 
-    public final void initializeGui()
+    private final void initializeJFrame() 
+    {
+		GraphicsDevice gd =GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		
+    	JFrame f = new JFrame("Plants Are Vegan");
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setLocationByPlatform(true);
+        f.setSize(width, height);
+        f.add(gui);
+        f.setVisible(true);
+    }
+    
+    private final void initializeComponents() 
+    {   	
+    	levelMessage = new JLabel("Level: " + currentLevel);
+    	waveMessage = new JLabel("Wave: " + currentWave);
+    	pointsAvaliable = new JLabel("Points: " + points);
+    	boardTiles = new JButton[row][column];
+    	mowers = new JButton[row];
+    	gui = new JPanel(new BorderLayout(200, 5));
+    	lawnMowers = new JPanel();
+    	unitSelect  = new JPanel();
+    }
+    
+    private final void initializeGui()
     {
         gui.setBorder(new EmptyBorder(5,5,5,5));
         
@@ -88,9 +94,9 @@ public class GameUI extends JFrame
         tools.addSeparator();
         tools.add(pointsAvaliable);
 
-        Board = new JPanel(new GridLayout(row, column + 1));
-        Board.setBorder(new LineBorder(Color.BLACK));
-        gui.add(Board);                                                                 //*
+        board = new JPanel(new GridLayout(row, column + 1));
+        board.setBorder(new LineBorder(Color.BLACK));
+        gui.add(board);                                                                 //*
         
         
         // create the chess board squares
@@ -111,8 +117,7 @@ public class GameUI extends JFrame
         }
         
         
-        ImageIcon img = new ImageIcon("images\\MTD_Lawn_Mower.JPG");
-    	Image image = img.getImage(); // transform it
+        Image image = Images.getLawnMowerImage();
     	image = image.getScaledInstance(200,200, Image.SCALE_DEFAULT);
         // fill the black non-pawn piece row
         for (int r = 0; r < row; r++) 
@@ -122,13 +127,12 @@ public class GameUI extends JFrame
                 switch (c)
                 {
                     case 0:
-                    	JButton b = new JButton(new ImageIcon (image));
-                    	//b.setBorder(BorderFactory.createEmptyBorder());
+                    	JButton b = new JButton(new ImageIcon(image));
                     	b.setContentAreaFilled(false);
                     	mowers[r] = b;
-                        Board.add(mowers[r]);  //$
+                        board.add(mowers[r]);  //$
                     default:
-                        Board.add(boardTiles[r][c]);                                //$
+                        board.add(boardTiles[r][c]);                                //$
                 }
             }
         }
@@ -136,44 +140,40 @@ public class GameUI extends JFrame
         
     } //end of initialization
     
-    public final void initUnitSelection()
+    private final void initUnitSelection()
     {
-    	
-    	Images image = new Images();
     	
     	JPanel cardHolder = new JPanel();
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
-    	
+    	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+
+
     	for(PlantTypes p: lvl.getAllowedPlants())         //build plant cards
     	{
     		JPanel card = new JPanel(new BorderLayout(5, 5));
+    		card.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+    		card.setMaximumSize(new Dimension(90, 140));
     		
-    		Image img = null;
-			try {
-				img = image.getImage2(p.toPlant(p));
-			} catch (IOException e) {
-				System.out.println("Image error");
-				e.printStackTrace();
-			}
+    		Image img = Images.getPlantImage(p);
 			
-    		JLabel labelPic = new JLabel(new ImageIcon(img));
+			JLabel labelPic = new JLabel();
+			labelPic.setSize(80, 80);
+			Image plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
+			labelPic.setIcon(new ImageIcon(plantImage));
     		card.add(labelPic, BorderLayout.CENTER);
     		
-    		JLabel nameLabel = new JLabel(p.toPlant(p).toString());
+    		JLabel nameLabel = new JLabel(PlantTypes.toPlant(p).toString());
     		nameLabel.setHorizontalAlignment(JLabel.CENTER);
     		card.add(nameLabel, BorderLayout.NORTH);
     		
-    		JLabel costLabel = new JLabel(String.valueOf(p.toPlant(p).getCost()));  //cost of the plant
+    		JLabel costLabel = new JLabel(String.valueOf(PlantTypes.toPlant(p).getCost()));  //cost of the plant
     		costLabel.setHorizontalAlignment(JLabel.CENTER);
     		card.add(costLabel, BorderLayout.SOUTH);
-    		
     		cardHolder.add(card);
+        	cardHolder.add(Box.createRigidArea(new Dimension(5, 5)));	
     	}
-    	JScrollPane pane = new JScrollPane(cardHolder,
-    			ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-    			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     	
-    	gui.add(pane, BorderLayout.SOUTH);
+    	gui.add(cardHolder, BorderLayout.SOUTH);
     }
     
     public void setLevelMessage(int level)
@@ -181,47 +181,24 @@ public class GameUI extends JFrame
     	currentLevel = level;
     	levelMessage.setText("Level: " + currentLevel);
     }
+    
     public void setWaveMessage(int wave)
     {
     	currentWave = wave;
     	waveMessage.setText("Level: " + currentWave);
     }
+    
     public void setPointsMessage(int points)
     {
     	this.points = points;
     	waveMessage.setText("Points: " + points);
     }
+    
     public final JComponent getBoard() {
-        return Board;
+        return board;
     }
 
     public final JComponent getGui() {
         return gui;
     }
-    
-    /*
-    public static void main(String[] args)
-    {
-        Runnable r = new Runnable() 
-        {
-            @Override
-            public void run() 
-            {
-            	
-                //GameUI cb = new GameUI(5,8);
-
-                JFrame f = new JFrame("Plants Are Vegan");
-                f.add(cb.getGui());
-                f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                f.setLocationByPlatform(true);
-
-               
-                f.pack();  // ensures the frame is the minimum size it needs to be in order display the components within it
-                f.setMinimumSize(f.getSize());  // ensures the minimum size is enforced.
-                f.setVisible(true);
-                
-            }
-        };
-        SwingUtilities.invokeLater(r);
-    } */
 }

@@ -18,18 +18,7 @@ public class Main {
 	public static void main (String[] args) {
 		//Log init
 		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
-		
-		//Title Card
-		LOG.info("==================================");
-		LOG.info("        Zombies are Vegan         ");
-		LOG.info("==================================");
-		LOG.info("      Derek Shao | David Wang     ");
-		LOG.info(" Michael Pastula | Tanisha Garg   ");
-		LOG.info("==================================");
-		
-		//Load Level Data
 		LevelLoader.init();
-		LOG.debug("Data Loading Complete");
 
 		new MainMenu();
 	}
