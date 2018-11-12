@@ -1,4 +1,5 @@
 package ui;
+import engine.Game;
 import engine.Purse;
 import levels.LevelInfo;
 
@@ -35,13 +36,13 @@ public class GameUI
     private LevelInfo lvl;
     private Purse userResources;
     
-    public GameUI(LevelInfo lvl, Purse userResources)
+    public GameUI(Game game)
     {
+    	this.lvl = game.getLevelInfo();
     	this.row = lvl.getRows();
     	this.column = lvl.getColumns();
-    	this.lvl = lvl;
+    	this.userResources = game.getPurse();
     	this.points = userResources.getPoints();
-    	this.userResources = userResources;
 
     	initializeComponents();
         initializeGui();
@@ -51,7 +52,7 @@ public class GameUI
 
     private final void initializeJFrame() 
     {
-		GraphicsDevice gd =GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
 		

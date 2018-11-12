@@ -18,7 +18,6 @@ import input.Command;
 import input.CommandWords;
 import input.Parser;
 import levels.LevelInfo;
-import ui.GameUI;
 import util.Logger;
 
 /**
@@ -41,14 +40,12 @@ public class Game {
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	//The number of zombies (total) in the level
 	private int numZombies;
-	//The Game UI
-	private GameUI gameUI;
 
 	/**
 	 * Initializes a Game for a given Level
 	 * @param lvl the LevelInfo for the given Level
 	 */
-	public Game (LevelInfo lvl) {
+	public Game(LevelInfo lvl) {
 		//set up config from level config
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
@@ -57,8 +54,6 @@ public class Game {
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		userResources = new Purse(levelInfo.getInitResources());
-		
-		gameUI = new GameUI(levelInfo, userResources);
 	}
 	
 	/**
@@ -304,5 +299,35 @@ public class Game {
 		 }
 		 LOG.warn("Invalid Command");
 		 return false;
+	 }
+	 
+	 /**
+	  * Get the LevelInfo 
+	  * 
+	  * @return the level info
+	  */
+	 public LevelInfo getLevelInfo() {
+		 
+		 return this.levelInfo;
+	 }
+	 
+	 /**
+	  * Get the Board 
+	  * 
+	  * @return the board
+	  */
+	 public Board getBoard() {
+		 
+		 return this.board;
+	 }
+	 
+	 /**
+	  * Get the Purse
+	  * 
+	  * @return the purse
+	  */
+	 public Purse getPurse() {
+		 
+		 return this.userResources;
 	 }
 }

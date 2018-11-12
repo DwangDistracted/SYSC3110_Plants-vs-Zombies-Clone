@@ -50,10 +50,12 @@ public class MenuInteractions {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				LevelInfo lvl = LevelLoader.getLevel(1); //Load first level
 				Game game = new Game(lvl);
+				GameUI ui = new GameUI(game);
+				GameController controller  = new GameController(ui, game);
 				
-				//new GameUI(game); // I think we should do this in the game class
 				frame.dispose();
 			}
 		};
@@ -73,10 +75,12 @@ public class MenuInteractions {
 						break;
 					}
 				}
+				
 				LevelInfo lvl = LevelLoader.getLevel(selected);
 				Game game = new Game(lvl);
+				GameUI ui = new GameUI(game);
+				GameController controller  = new GameController(ui, game);
 				
-				//new GameUI(game);  I think we should do this in the game class
 				frame.dispose();
 			}
 		};
