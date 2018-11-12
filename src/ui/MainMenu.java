@@ -24,7 +24,9 @@ public class MainMenu extends JFrame {
 	private static final long serialVersionUID = -1199792392732674767L;
 	private static final String VERSION = "Milestone 2";
 	private static final String DATE = "2018/11/11";
-		
+
+	public static Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
+	
 	public MainMenu() {
 		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -64,8 +66,6 @@ public class MainMenu extends JFrame {
 		versionFld.setText("<html>&nbsp;" + VERSION +  " - " + DATE + "</html>");
 		versionFld.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
 		versionFld.setVerticalAlignment(SwingConstants.BOTTOM);
-		
-		Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
 		
 		JButton playBtn = new JButton("PLAY");
 		playBtn.setToolTipText("Play from the First Level");
