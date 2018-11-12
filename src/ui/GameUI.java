@@ -26,12 +26,18 @@ public class GameUI
     private JPanel unitSelect;
     
     private int currentLevel;
-    private int currentWave;
+    private int currentTurn;
     private int points;
     
     private JLabel levelMessage;
-    private JLabel waveMessage;
+    private JLabel turnMessage;
     private JLabel pointsAvaliable;
+    
+    //Menu Buttons
+    private JButton menuButton;
+    private JButton saveButton;
+    private JButton undoButton;
+    private JButton quitButton;
     
     private LevelInfo lvl;
     private Purse userResources;
@@ -45,7 +51,8 @@ public class GameUI
     	this.points = userResources.getPoints();
 
     	initializeComponents();
-        initializeGui();
+    	initializeMenu();
+    	initializeBoard();
         initUnitSelection();
         initializeJFrame();
     }
@@ -58,7 +65,7 @@ public class GameUI
 		
     	JFrame f = new JFrame("Plants Are Vegan");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setLocationByPlatform(true);
+        f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         f.setSize(width, height);
         f.add(gui);
         f.setVisible(true);
@@ -67,34 +74,44 @@ public class GameUI
     private final void initializeComponents() 
     {   	
     	levelMessage = new JLabel("Level: " + currentLevel);
-    	waveMessage = new JLabel("Wave: " + currentWave);
+    	turnMessage = new JLabel("Turn: " + currentTurn);
     	pointsAvaliable = new JLabel("Points: " + points);
     	boardTiles = new JButton[row][column];
     	mowers = new JButton[row];
     	gui = new JPanel(new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
     	unitSelect  = new JPanel();
+    	
+    	menuButton = new JButton("Menu");
+    	saveButton = new JButton("Save");
+    	undoButton = new JButton("Undo");
+        quitButton = new JButton("Quit");
     }
     
-    private final void initializeGui()
+    private final void initializeMenu()
     {
         gui.setBorder(new EmptyBorder(5,5,5,5));
         
         JToolBar tools = new JToolBar();
         tools.setFloatable(false);
-        gui.add(tools, BorderLayout.PAGE_START);                                            //*
-        tools.add(new JButton("Menu")); // TODO - add functionality
-        tools.add(new JButton("Save")); // TODO - add functionality
-        tools.add(new JButton("Undo")); // TODO - add functionality
+        gui.add(tools, BorderLayout.PAGE_START); 
+        tools.add(menuButton); 
+        tools.add(saveButton); 
+        tools.add(undoButton);
         tools.addSeparator();
-        tools.add(new JButton("Quit")); // TODO - add functionality
+        tools.add(quitButton);
         tools.addSeparator();
         tools.add(levelMessage);
         tools.addSeparator();
-        tools.add(waveMessage);                               
+        tools.add(turnMessage);                               
         tools.addSeparator();
         tools.add(pointsAvaliable);
-
+        
+    }
+    
+    
+    private final void initializeBoard() {
+    	
         board = new JPanel(new GridLayout(row, column + 1));
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);                                                                 //*
@@ -138,8 +155,7 @@ public class GameUI
             }
         }
         
-        
-    } //end of initialization
+    }
     
     private final void initUnitSelection()
     {
@@ -185,14 +201,14 @@ public class GameUI
     
     public void setWaveMessage(int wave)
     {
-    	currentWave = wave;
-    	waveMessage.setText("Level: " + currentWave);
+    	currentTurn = wave;
+    	turnMessage.setText("Level: " + currentTurn);
     }
     
     public void setPointsMessage(int points)
     {
     	this.points = points;
-    	waveMessage.setText("Points: " + points);
+    	turnMessage.setText("Points: " + points);
     }
     
     public final JComponent getBoard() {
