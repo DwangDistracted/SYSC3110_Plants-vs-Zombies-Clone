@@ -1,9 +1,11 @@
 package engine;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import assets.Plant;
 import assets.Zombie;
+import assets.ZombieTypes;
  
 /**
  * Building block for a grid. Contains 1 Plant and N zombies.
@@ -12,14 +14,20 @@ import assets.Zombie;
  *
  */
 public class Grid {
+	
  	private Plant plant;
+ 	
+ 	// used to determine which zombie arrived on the grid first and to attack first by plant
 	private Queue<Zombie> zombies;
+	
+	// used to keep track of the zombie types and the number of zombies present in grid
+	private HashMap<ZombieTypes, Integer> zombieTypeCount;
 	
 	public Grid() {
 		
 		zombies = new LinkedList<Zombie>();
+		zombieTypeCount = new HashMap<ZombieTypes, Integer>();
 	}
-	
 	
 	/**
 	 * Determines if the current grid is occupied by a plant.
@@ -74,7 +82,14 @@ public class Grid {
 	 */
 	public boolean addZombie(Zombie zombie) {
 		
-		return zombies.add(zombie);
+		if (zombies.add(zombie)) {
+		
+			zombieTypeCount.put(zombie.getZombieType(), zombieTypeCount.getOrDefault(zombie.getZombieType(), 0) + 1);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -97,6 +112,13 @@ public class Grid {
 	public Zombie removeZombie() {
 		
 		if (!zombies.isEmpty()) {
+			
+			Zombie zombieToRemove = zombies.peek();
+			
+			if (zombieTypeCount.put(zombieToRemove.getZombieType(), zombieTypeCount.get(zombieToRemove.getZombieType()) - 1) - 1 == 0) {
+				zombieTypeCount.remove(zombieToRemove.getZombieType());
+			}
+			
 			return zombies.poll();
 		}
 		return null;
@@ -123,5 +145,15 @@ public class Grid {
 	public Queue<Zombie> getZombies() {
 		
 		return zombies;
+	}
+	
+	/**
+	 * Get the map of zombie types and its count on this grid
+	 * 
+	 * @return
+	 */
+	public HashMap<ZombieTypes, Integer> getZombieTypeCount() {
+		
+		return zombieTypeCount;
 	}
 }
