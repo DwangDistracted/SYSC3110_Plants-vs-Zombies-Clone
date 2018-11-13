@@ -12,6 +12,8 @@ public class GridUI extends JPanel {
 
 	private JPanel plantPanel;
 	private Grid grid;
+	private int row;
+	private int col;
 	
 	public GridUI(Grid grid) {
 		
@@ -76,5 +78,25 @@ public class GridUI extends JPanel {
 				add(fullZombieListPanel, c);
 			}
 		}
+	}
+
+	public int getRow() {
+
+		return row;
+	}
+
+	public int getCol() {
+
+		return col;
+	}
+
+	public void setRow(int row) {
+
+		this.row = row;
+	}
+
+	public void setCol(int col) {
+
+		this.col = col;
 	}
 }
