@@ -1,19 +1,32 @@
 package input;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import assets.Plant;
+import assets.PlantTypes;
 import engine.Game;
 import ui.GameUI;
 
 public class GameController {
 	
-	private Game game;
-	private GameUI ui;
+	private static Game game;
+	private static GameUI ui;
+	private static boolean firstClick;
+	private static Plant selectedPlant;
 	
 	public GameController(GameUI ui, Game game) {
 		this.game = game;
 		this.ui = ui;
+		this.selectedPlant = null;
+		firstClick = true;
 	}
 	
 	public ActionListener menuBarActionListener() {
@@ -36,11 +49,77 @@ public class GameController {
 		};
 	}
 	
-	public ActionListener unitSelectActionListener() {
+	public ActionListener unitSelectActionListener(JFrame frame) {
 		return new ActionListener() {
-			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		};
+	}
+	
+	public static MouseListener unitSelectMouseListener()
+	{
+		return new MouseListener()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+		        //if this is the first pick and a square with a piece was picked,
+		        // remember the piece, check if it is viable and highlight the card
+				System.out.println("test");
+				if(firstClick)
+				{
+					JPanel p = (JPanel)e.getSource();
+					for(JPanel i : ui.getCardCollection().keySet())
+					{
+						if(i ==  p)
+						{
+							if(game.getPurse().spendPoints(ui.getCardCollection().get(i).getCost()))
+							{
+								selectedPlant = ui.getCardCollection().get(i);
+								ui.setHighlight(i);
+								firstClick = false;
+							}
+							else
+							{
+								System.out.println("you dont have enough points to purchase this plant");
+							}
+						}
+					}
+				}
+				else //its second click... ie place unit on board
+				{
+					firstClick = true;
+				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0)
+			{
+				// TODO Auto-generated method stub
 				
 			}
 		};

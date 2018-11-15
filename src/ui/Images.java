@@ -80,6 +80,22 @@ public class Images
 		
 		return null;
 	}
+
+	public static Image getGrassTileImage() {
+		
+		File projectDirectory = new File("");
+		
+		try {
+			
+			String imagePath = projectDirectory.getAbsolutePath() + "\\images\\GrassTile.jpg";
+			BufferedImage img = ImageIO.read(new File(imagePath));
+			return img;
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }
 
 
