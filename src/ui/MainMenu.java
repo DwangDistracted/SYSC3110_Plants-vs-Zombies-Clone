@@ -30,7 +30,6 @@ public class MainMenu extends JFrame {
 	public MainMenu() {
 		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setUndecorated(true);
 		
 		GraphicsDevice gd = //Multi-Screen Support
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -39,7 +38,6 @@ public class MainMenu extends JFrame {
 		
 		this.setSize((int)width/3, (int)height/2); //set size relative to screen
 		this.setLocationRelativeTo(null); //create at screen center
-		this.setResizable(false); //prevent resizing
 		
 		Container contents = this.getContentPane();
 		contents.setLayout(new BorderLayout()); //Layout Manager

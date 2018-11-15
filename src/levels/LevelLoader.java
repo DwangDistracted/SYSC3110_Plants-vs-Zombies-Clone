@@ -90,6 +90,7 @@ public class LevelLoader {
 	
 	public static LevelInfo getLevel(int level) {
 		if(level <= getNumLevels()) {
+			currentLevel = level;
 			return levels.get(level-1);
 		} else {
 			return null;
