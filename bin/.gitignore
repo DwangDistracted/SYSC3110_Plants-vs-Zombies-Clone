@@ -1,5 +1,8 @@
-/input/
-/engine/
 /assets/
+/engine/
+/input/
+/levels/
 /main/
 /ui/
+/unittests/
+/util/
