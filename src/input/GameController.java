@@ -20,12 +20,12 @@ import ui.GridUI;
 
 public class GameController {
 	
-	private static Game game;
-	private static GameUI ui;
-	private static boolean firstClick; //Every click should toggle the first flag
-	private static Card selectedCard; //The selected card on click #1
-	private static Board gameBoard;
-	private static Purse userResources;
+	private Game game;
+	private GameUI ui;
+	private boolean firstClick; //Every click should toggle the first flag
+	private Card selectedCard; //The selected card on click #1
+	private Board gameBoard;
+	private Purse userResources;
 	
 	// Selected to remove a plant
 	private boolean removingPlant; 
@@ -125,6 +125,7 @@ public class GameController {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			System.out.println("Mouseclicks");
 			Card card = (Card)e.getSource(); 
 	        //if this is the first pick and a square with a piece was picked,
 	        // remember the piece, check if it is viable and highlight the card

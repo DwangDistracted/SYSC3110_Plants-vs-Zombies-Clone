@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -80,23 +81,15 @@ public class GridUI extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 	
 		int numberOfZombieTypes = 0;
-		//JPanel zombiePanel = new JPanel();
-		//zombiePanel.setPreferredSize(new Dimension(100, 100));
 		
 		for (ZombieTypes zombieType : grid.getZombieTypeCount().keySet()) {
 			
 			if (numberOfZombieTypes < MAX_ZOMBIE_TYPES) {
 				
 				ZombiePanel zombiePanel = new ZombiePanel(zombieType, grid.getZombieTypeCount().get(zombieType));
-				Image zombieImage = Images.getZombieImage(zombieType);
-				
-				if (zombieImage != null) {
-					zombieImage = zombieImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-					
-					zombiePanel.add(new JLabel(new ImageIcon(zombieImage)));
-				} else {
-					zombiePanel.add(new JLabel(ZombieTypes.toZombie(zombieType).toString()));
-				}
+				zombiePanel.setOpaque(false);
+				zombiePanel.setBorder(BorderFactory.createEmptyBorder());
+				zombiePanel.setPreferredSize(new Dimension(100, 100));
 				
 				c.fill = GridBagConstraints.VERTICAL;
 				c.weighty = 0.5;

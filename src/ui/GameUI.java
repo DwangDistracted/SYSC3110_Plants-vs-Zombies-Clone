@@ -42,7 +42,7 @@ public class GameUI extends JFrame
     private JPanel lawnMowers;
     private JButton[] mowers;
     
-	JPanel cardHolder = new JPanel();
+	private JPanel cardHolder;
     
     private int currentLevel;
     private int currentTurn;
@@ -59,6 +59,8 @@ public class GameUI extends JFrame
     private LevelInfo lvl;
     private Purse userResources;
 	private Board gameBoard;
+	
+	private ArrayList<Card> cards;
     
     public GameUI(Game game)
     {
@@ -350,10 +352,9 @@ public class GameUI extends JFrame
      */
     public void addUnitSelectionListeners(MouseListener listener)
     {
-    	for(Component c : cardHolder.getComponents())
-    	{
-        	c.addMouseListener(listener);
-    	}
+//    	for (Component c : cardHolder.getComponents()) {
+//    		c.addMouseListener(listener);
+//    	}
     }
     
     public void addMenuButtonListeners(ActionListener listener) {

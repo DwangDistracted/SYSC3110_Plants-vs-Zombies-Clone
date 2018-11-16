@@ -27,7 +27,7 @@ public class Images
 			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
 			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
 			mowerImage =  ImageIO.read(new File("images\\Lawnmower.jpg"));
-			grassImage = ImageIO.read(new File("images\\Grass.jpg"));
+			grassImage = ImageIO.read(new File("images\\GrassTile.jpg"));
 			titleBanner =  ImageIO.read(new File("images\\title-top-background.jpg"));
 			titleSplash = ImageIO.read(new File("images\\title-background.jpg"));
 			return true;
