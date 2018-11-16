@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import assets.PlantTypes;
 import assets.ZombieTypes;
@@ -106,5 +108,64 @@ public class LevelLoader {
 	 */
 	public static void reset() {
 		currentLevel = -1;
+	}
+	
+	
+	public class LevelFactory {
+		//The level's name
+		private String name;
+		//The Rating of the Level's Difficulty
+		private int levelRating;
+		
+		//The Size of the Game Grid for this level
+		private int column;
+		private int row;
+		
+		//The initial amount of resource points the user has
+		private int initResources;
+		//The amount of resource points the user gains per turn
+		private int resPerTurn;
+		//The zombies that will attack the player
+		private Map<ZombieTypes, Integer> zombies;
+		//The Plants that the player is allowed to use
+		private Set<PlantTypes> allowedPlants;
+		
+		public LevelFactory() {
+			zombies = new HashMap<ZombieTypes, Integer>();
+			allowedPlants = new HashSet<PlantTypes>();
+		}
+		
+		public LevelFactory setName(String str) {
+			this.name = str;
+			return this;
+		}
+		public LevelFactory setRating(int rating) {
+			this.levelRating = rating;
+			return this;
+		}
+		public LevelFactory setGridSize(int x, int y) {
+			this.column = x;
+			this.row = y;
+			return this;
+		}
+		
+		public LevelFactory setResPerTurn(int rpt) {
+			return this;
+		}
+		
+		public LevelFactory setInitResources() {
+			return this;
+		}
+		
+		public LevelFactory 
+		
+		public LevelInfo toLevelInfo() {
+			return new LevelInfo(name, levelRating, column, row, resPerTurn, initResources, zombies, allowedPlants);
+		}
+	}
+	
+	public static LevelFactory getLevelFactory() {
+		LevelLoader x = new LevelLoader();
+		return x.new LevelFactory();
 	}
 }
