@@ -21,7 +21,7 @@ import assets.Regular_Zombie;
  */
 
 public class GameUI extends JFrame
-{
+{	
 	private static final long serialVersionUID = -717683255015646823L;
 
 	private JPanel gui;
@@ -49,8 +49,6 @@ public class GameUI extends JFrame
     private LevelInfo lvl;
     private Purse userResources;
 	private Board gameBoard;
-
-	private ArrayList<Card> cards;
 
     public GameUI(Game game)
     {
