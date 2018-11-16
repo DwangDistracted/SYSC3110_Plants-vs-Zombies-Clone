@@ -4,6 +4,7 @@ import assets.*;
 import engine.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,9 +26,9 @@ public class BoardTest {
 	@Test
 	public void testGetBoard() {
 		Board b = new Board(4, 1);
-		Grid[][] expected = new Grid[4][1];
-		Grid[][] current = b.getBoard();
-		assertTrue("Grid with rows = 4 and columns = 1", expected.equals(current));
+		int expected = new Grid[4][1].length;
+		int current = b.getBoard().length;
+		assertTrue("Grid with rows = 4 and columns = 1", expected == current);
 	}
 	
 	@Test
@@ -38,13 +39,13 @@ public class BoardTest {
 	
 	@Test
 	public void testPlaceZombie() {
-		Board b = new Board(0,3);
-		assertTrue("Zombie Placed.", b.placeZombie(new Regular_Zombie(), 3, 1));
+		Board b = new Board(1,4);
+		assertTrue("Zombie Placed.", b.placeZombie(new Regular_Zombie(), 0, 3));
 	}
 	
 	@Test
 	public void testGetPlantMethods() {
-		Board b = new Board(4,1);
+		Board b = new Board(1,4);
 		Flower f = new Flower();
 		Peashooter p = new Peashooter();
 		b.placePlant(f, 0, 0);
@@ -58,7 +59,7 @@ public class BoardTest {
 	
 	@Test
 	public void testGetZombieMethods() {
-		Board b = new Board(4,1);
+		Board b = new Board(1,4);
 		Zombie z = new Regular_Zombie();
 		b.placeZombie(z, 0, 3);
 		assertEquals("Number of Zombies = 1", 1, b.getNumberOfZombies());
@@ -68,13 +69,14 @@ public class BoardTest {
 	
 	@Test
 	public void testRemovePlant() {
-		Board b = new Board(4,1);
+		Board b = new Board(1,4);
 		Peashooter p = new Peashooter();
 		Flower f = new Flower();
 		b.placePlant(f, 0, 0);
 		b.placePlant(p, 0, 1);
+		b.displayBoard();
 		b.removePlant(0, 1);
-		assertFalse("False", b.getPlantsInGame().contains(p));
+		assertEquals("This should be null" , null , b.getPlant(0, 1));
 	}
 	
 	@Test
@@ -88,18 +90,30 @@ public class BoardTest {
 	
 	@Test
 	public void testOnZombieMove() {
-		Board b = new Board(2,2);
-		Regular_Zombie z = new Regular_Zombie();
+		Board b = new Board(2,4);
+		Regular_Zombie z1 = new Regular_Zombie();
+		Regular_Zombie z2 = new Regular_Zombie();
+		z1.setRow(0);
+		z1.setColumn(2);
+		z2.setRow(1);
+		z2.setColumn(3);
+		z1.setListener(b);
+		z2.setListener(b);
+//		assertTrue("True", z1.move());
+//		assertTrue("True", z2.move());
+		b.displayBoard();
 		
-		//placing zombie and plant on grid[2][0]
-		b.placeZombie(z, 0, 1);
+		//placing zombie and plant on grid[0][]
+		//b.placeZombie(z1, 0, 2);
 		Peashooter p = new Peashooter();
-		b.placePlant(p, 0, 0);
-		assertFalse("False",b.onZombieMove(z));
+		b.placePlant(p, 0, 2);
+		b.placeZombie(z1, z1.getRow(), z1.getCol());
+		assertFalse("False",z1.move());
+		b.displayBoard();
 		
-		//placing zombie without the plant on grid[2][1]
-		b.placeZombie(z, 1, 1);
-		assertTrue("True", b.onZombieMove(z));
+		//placing zombie without the plant on grid[1][]
+		b.placeZombie(z2, z2.getRow(), z2.getCol());
+		b.displayBoard();
+		assertTrue("True", z2.move());//error
 	}
-
 }
