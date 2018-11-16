@@ -68,7 +68,7 @@ public class LevelLoader {
 	 */
 	public static void init() {
 		levels = new ArrayList<>();
-		currentLevel = -1;
+		currentLevel = 0;
 
 		//Loads sample LevelInfo
 		for (int i = 0; i < 13; i ++) {
@@ -90,23 +90,41 @@ public class LevelLoader {
 		return null;
 	}
 	
+	/**
+	 * Fetches the LevelInfo for a particular level
+	 * @param level
+	 * @return
+	 */
 	public static LevelInfo getLevel(int level) {
 		if(level <= getNumLevels()) {
-			return levels.get(level-1);
+			currentLevel = level - 1;
+			return levels.get(currentLevel);
 		} else {
 			return null;
 		}
 	}
 	
+	/**
+	 * Returns the number of levels
+	 * @return
+	 */
 	public static int getNumLevels() {
 		return levels.size();
+	}
+	
+	/**
+	 * Returns the number of the current Level
+	 * @return
+	 */
+	public static int getCurrentLevel() {
+		return currentLevel + 1;
 	}
 	
 	/**
 	 * Resets progress through the levels.
 	 */
 	public static void reset() {
-		currentLevel = -1;
+		currentLevel = 0;
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import engine.Game;
 import engine.Purse;
 import input.MenuInteractions;
 import levels.LevelInfo;
+import levels.LevelLoader;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -22,6 +23,10 @@ import assets.Regular_Zombie;
 
 public class GameUI extends JFrame
 {	
+	private static Font lblFont = new Font(Font.MONOSPACED, Font.PLAIN, 15);
+	private static Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
+	private static Font endTurnFont = new Font(Font.MONOSPACED, Font.BOLD, 20);
+	
 	private static final long serialVersionUID = -717683255015646823L;
 
 	private JPanel gui;
@@ -35,7 +40,8 @@ public class GameUI extends JFrame
 
 	private JPanel cardHolder;
 
-    private int currentLevel;
+    private String currentLevel;
+    private int currentLevelNum;
     private int currentTurn;
     private int points;
 
@@ -53,6 +59,8 @@ public class GameUI extends JFrame
     public GameUI(Game game)
     {
     	this.lvl = game.getLevelInfo();
+    	this.currentLevel = game.getLevelInfo().getName();
+    	this.currentLevelNum = LevelLoader.getCurrentLevel();
     	this.row = lvl.getRows();
     	this.column = lvl.getColumns();
     	this.userResources = game.getPurse();
@@ -100,9 +108,12 @@ public class GameUI extends JFrame
      */
     private final void initializeComponents()
     {
-    	levelMessage = new JLabel("Level: " + currentLevel);
-    	turnMessage = new JLabel("Turn: " + currentTurn);
-    	pointsAvailable = new JLabel("Points: " + points);
+    	levelMessage = new JLabel("<html><b>Level:</b> " + currentLevelNum + " - " + currentLevel + "</html>");
+    	levelMessage.setFont(lblFont);
+    	turnMessage = new JLabel("<html><b>Turn:</b> " + currentTurn + "</html>");
+    	turnMessage.setFont(lblFont);
+    	pointsAvailable = new JLabel("<html><b>Points:</b> " + points + "</html>");
+    	pointsAvailable.setFont(lblFont);
     	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
     	gui = new JPanel(new BorderLayout(200, 5));
@@ -120,10 +131,13 @@ public class GameUI extends JFrame
 
     	gameButtons = new ArrayList<JButton>();
     	JButton digUpButton = new JButton("Dig Up");
+    	digUpButton.setFont(btnFont);
     	digUpButton.setActionCommand("Dig Up");
     	JButton undoButton = new JButton("Undo");
+    	undoButton.setFont(btnFont);
     	undoButton.setActionCommand("Undo");
     	JButton endTurnButton = new JButton("End Turn");
+    	endTurnButton.setFont(endTurnFont);
     	endTurnButton.setActionCommand("End Turn");
     	gameButtons.add(digUpButton);
     	gameButtons.add(undoButton);
@@ -173,9 +187,6 @@ public class GameUI extends JFrame
         board = new JImagePanel(Images.getGrassTileImage(), new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);
-
-        gameBoard.getGrid(0, 0).setPlant(PlantTypes.toPlant(PlantTypes.SUNFLOWER));
-        gameBoard.getGrid(0, 0).addZombie(new Regular_Zombie());
 
         for (int r = 0; r < boardTiles.length; r++)
         {
@@ -270,16 +281,7 @@ public class GameUI extends JFrame
     		p.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     	}
     }
-    /**
-     * Sets the displayed level number
-     * @param level - ultimately should be the current level number
-     * @author Michael Patsula
-     */
-    public void setLevelMessage(int level)
-    {
-    	currentLevel = level;
-    	levelMessage.setText("Level: " + currentLevel);
-    }
+    
     /**
      * Sets the displayed wave number
      * @param wave - ultimately should be the current wave number
