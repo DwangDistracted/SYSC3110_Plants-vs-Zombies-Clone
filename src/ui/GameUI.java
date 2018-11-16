@@ -27,7 +27,6 @@ public class GameUI extends JFrame
 {
 	private static final long serialVersionUID = -717683255015646823L;
 
-	private JImagePanel gui;
 	private JPanel gui;
 	
 	private GridUI[][] boardTiles;
