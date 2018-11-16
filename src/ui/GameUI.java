@@ -115,9 +115,15 @@ public class GameUI extends JFrame
     	menuButtons.add(new JMenuItem("Quit"));
     	
     	gameButtons = new ArrayList<JButton>();
-    	gameButtons.add(new JButton("Dig Up"));
-    	gameButtons.add(new JButton("Undo"));
-    	gameButtons.add(new JButton("End Turn"));
+    	JButton digUpButton = new JButton("Dig Up");
+    	digUpButton.setActionCommand("Dig Up");
+    	JButton undoButton = new JButton("Undo");
+    	undoButton.setActionCommand("Undo");
+    	JButton endTurnButton = new JButton("End Turn");
+    	endTurnButton.setActionCommand("End Turn");
+    	gameButtons.add(digUpButton);
+    	gameButtons.add(undoButton);
+    	gameButtons.add(endTurnButton);
     }
     
     /**

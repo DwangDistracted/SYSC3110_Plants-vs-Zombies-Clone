@@ -39,6 +39,18 @@ public class GameController {
 		this.userResources = this.game.getPurse();
 		
 		this.ui.addGridListeners(new GridListener());
+		this.ui.addMenuButtonListeners(new MenuBarListener());
+		this.ui.addUnitSelectionListeners(new UnitSelectListener());
+		this.ui.addGameButtonListeners(new GameButtonListener());
+		firstClick = true;
+	}
+	
+	private class GameButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			
+		}		
 	}
 	
 	private class MenuBarListener implements ActionListener {
