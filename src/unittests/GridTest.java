@@ -21,6 +21,7 @@ public class GridTest {
 		assertFalse("False", g.getPlant()==p);
 	}
 	
+	@Test
 	public void testZombieMethods() {
 		Grid g = new Grid();
 		Regular_Zombie z = new Regular_Zombie();

@@ -63,6 +63,7 @@ public class BoardTest {
 		assertEquals("Regular Zombie", z, b.getZombie(3, 1));
 	}
 	
+	@Test
 	public void testRemovePlant() {
 		Board b = new Board(4,1);
 		Peashooter p = new Peashooter();
@@ -73,13 +74,16 @@ public class BoardTest {
 		assertFalse("False", b.getPlantsInGame().contains(p));
 	}
 	
+	@Test
 	public void testRemoveZombie() {
 		Board b = new Board(4,1);
 		Zombie z = new Regular_Zombie();
 		b.placeZombie(z, 3, 1);
 		b.removeZombie(4, 1);
+		assertFalse("False", b.getZombiesInGame().contains(z));
 	}
 	
+	@Test
 	public void testOnZombieMove() {
 		
 	}
