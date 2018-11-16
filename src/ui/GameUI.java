@@ -9,15 +9,20 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import assets.Flower;
+import assets.Plant;
 import assets.PlantTypes;
 import assets.Regular_Zombie;
 
+/**
+ * This class acts as the view (gui) when running the basic game loop.
+ */
 public class GameUI extends JFrame
 {
 	private static final long serialVersionUID = -717683255015646823L;
@@ -31,7 +36,8 @@ public class GameUI extends JFrame
     
     private JPanel lawnMowers;
     private JButton[] mowers;
-    private JPanel unitSelect;
+    
+	private HashMap<JPanel, Plant> cardCollection; 
     
     private int currentLevel;
     private int currentTurn;
@@ -58,6 +64,7 @@ public class GameUI extends JFrame
     	this.userResources = game.getPurse();
         this.points = userResources.getPoints();
         this.gameBoard = game.getBoard();
+    	this.cardCollection = new HashMap<JPanel,Plant>();
 
     	initializeComponents();
     	initializeMenu();
@@ -66,6 +73,10 @@ public class GameUI extends JFrame
         initializeJFrame();
     }
 
+    /**
+     * Initializes the JFrame that contains all the GameUI gui components
+     * @author Michael Patsula
+     */
     private final void initializeJFrame() 
     {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -81,6 +92,10 @@ public class GameUI extends JFrame
 	    
     }
     
+    /**
+     * Initializes the gui components
+     * @author Michael Patsula
+     */
     private final void initializeComponents() 
     {   	
     	levelMessage = new JLabel("Level: " + currentLevel);
@@ -90,7 +105,6 @@ public class GameUI extends JFrame
     	mowers = new JButton[row];
     	gui = new JImagePanel(Images.getDefaultImage(), new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
-    	unitSelect  = new JPanel();
     	
     	menuButtons = new ArrayList<JMenuItem>();
     	menuButtons.add(new JMenuItem("Main Menu"));
@@ -103,6 +117,10 @@ public class GameUI extends JFrame
     	gameButtons.add(new JButton("End Turn"));
     }
     
+    /**
+     * Initializes the menu Jtool bar 
+     * @author Michael Patsula
+     */
     private final void initializeMenu()
     {
         gui.setBorder(new EmptyBorder(5,5,5,5));
@@ -132,7 +150,11 @@ public class GameUI extends JFrame
         gui.add(tools, BorderLayout.PAGE_START);
     }
     
-    
+    /**
+     * Initializes the PVZ game board (a grid of tiles)
+     * The game board consists of unit tiles and the lawn mower functionality/buttons.
+     * @author Michael Patsula
+     */
     private final void initializeBoard() {
     	
         board = new JPanel(new GridLayout(row, column + 1, 5, 0));
@@ -174,6 +196,12 @@ public class GameUI extends JFrame
         
     }
     
+    /**
+     * Initializes the unit selection panel.
+     * This gui will allow the user to select a particular unit among many to 
+     * place on the board
+     * @author Michael Patsula
+     */
     private final void initUnitSelection()
     {
     	
@@ -181,9 +209,9 @@ public class GameUI extends JFrame
     	cardHolder.setOpaque(false);
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-
-
-    	for(PlantTypes p: lvl.getAllowedPlants())         //build plant cards
+    	
+    	int index = 0; //to keep track of cardCollection index
+    	for(PlantTypes p: lvl.getAllowedPlants())      //build plant cards
     	{
     		JPanel card = new JPanel(new BorderLayout(5, 5));
     		card.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
@@ -206,34 +234,79 @@ public class GameUI extends JFrame
     		card.add(costLabel, BorderLayout.SOUTH);
     		cardHolder.add(card);
         	cardHolder.add(Box.createRigidArea(new Dimension(5, 5)));	
+        	
+        	cardCollection.put(card, PlantTypes.toPlant(p)); //store the card for actionlisteners implementation
+        	index++;
     	}
     	
     	gui.add(cardHolder, BorderLayout.SOUTH);
     }
     
+    /**
+     * Once called, the specified unit card will be "highlighted".
+     * ie boarder will change color
+     * @param p - JPanel that will be "highlighted"
+     * @author Michael Patsula
+     */
+    public void setHighlight(JPanel p)
+    {
+    	p.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+    }
+    /**
+     * once called, the specified JPanel will have a black boarder
+     * Used to "unhighlight" a unit card
+     * @param p - JPanel that will be "unhighlighted"
+     * @author Michael Patsula
+     */
+    public void revertHighlight(JPanel p)
+    {
+    	p.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+    }
+    /**
+     * Sets the displayed level number 
+     * @param level - ultimately should be the current level number
+     * @author Michael Patsula
+     */
     public void setLevelMessage(int level)
     {
     	currentLevel = level;
     	levelMessage.setText("Level: " + currentLevel);
     }
-    
+    /**
+     * Sets the displayed wave number
+     * @param wave - ultimately should be the current wave number
+     * @author Michael Patsula
+     */
     public void setWaveMessage(int wave)
     {
     	currentTurn = wave;
     	turnMessage.setText("Level: " + currentTurn);
     }
-    
+    /**
+     * Sets the displayed amount of points
+     * @param points - ultimately should be the current amount of points the user has.
+     * @author Michael Patsula
+     */
     public void setPointsMessage(int points)
     {
     	this.points = points;
     	turnMessage.setText("Points: " + points);
     }
-    
-    public final JComponent getBoard() {
+    /**
+     * @return the board JPanel containing the game board grid
+     * @author Michael Patsula
+     */
+    public final JComponent getBoard()
+    {
         return board;
     }
-
-    public final JComponent getGui() {
+    /**
+     * @return the gui JPanel which consists of the all the gui components that
+     * make up the GameUI
+     * @author Michael Patsula
+     */
+    public final JComponent getGui()
+    {
         return gui;
     }
     
@@ -246,8 +319,16 @@ public class GameUI extends JFrame
     	}
     }
     
+    /**
+     * Sets mouse listeners to gameui's interactable components
+     * @param e
+     * @author Michael Patsula
+     */
     public void addUnitSelectionListeners(MouseListener listener) {
-    	
+    	for (JPanel i : cardCollection.keySet()) 
+    	{
+    		i.addMouseListener(listener);
+    	}
     }
     
     public void addMenuButtonListeners(ActionListener listener) {
@@ -260,5 +341,15 @@ public class GameUI extends JFrame
     	for (JButton button : gameButtons) {
     		button.addActionListener(listener);
     	}
+    }
+    
+    /**
+     * @return the cardCollection data structure containing card JPanels (for unit selection) and 
+     * the Plant sub-class that it corresponds to.
+     * @author Michael Patsula
+     */
+    public HashMap<JPanel, Plant> getCardCollection()
+    {
+    	return cardCollection;
     }
 }

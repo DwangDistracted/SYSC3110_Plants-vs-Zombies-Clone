@@ -78,8 +78,8 @@ public class Images
 		
 		return null;
 	}
-	
-	public static Image getDefaultImage() {
+
+	public static Image getGrassTileImage() {
 		
 		File projectDirectory = new File("");
 		
