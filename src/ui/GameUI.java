@@ -34,7 +34,7 @@ public class GameUI extends JFrame
 
 	private JPanel gui;
 	
-	private JButton[][] boardTiles;
+	private GridUI[][] boardTiles;
     private JPanel board;
     private int row;
     private int column;
@@ -241,7 +241,6 @@ public class GameUI extends JFrame
     		cardHolder.add(card);
         	cardHolder.add(Box.createRigidArea(new Dimension(5, 5)));	
         	
-        	cardCollection.put(card, PlantTypes.toPlant(p)); //store the card for actionlisteners implementation
         	index++;
     	}
     	
@@ -356,15 +355,5 @@ public class GameUI extends JFrame
     	for (JButton button : gameButtons) {
     		button.addActionListener(listener);
     	}
-    }
-    
-    /**
-     * @return the cardCollection data structure containing card JPanels (for unit selection) and 
-     * the Plant sub-class that it corresponds to.
-     * @author Michael Patsula
-     */
-    public HashMap<JPanel, Plant> getCardCollection()
-    {
-    	return cardCollection;
     }
 }

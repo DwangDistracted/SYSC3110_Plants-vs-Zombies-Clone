@@ -121,65 +121,53 @@ public class GameController {
 	}
 	
 	
-	public static MouseListener unitSelectMouseListener()
-	{
-		return new MouseListener()
-		{
-			System.out.println("unit select clicked");
-			//if this is the first pick and a square with a piece was picked,
-			// remember the piece, check if it is viable and highlight the card
+	private class UnitSelectListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Card card = (Card)e.getSource(); 
+	        //if this is the first pick and a square with a piece was picked,
+	        // remember the piece, check if it is viable and highlight the card
 			if(firstClick)
-			@Override
-			public void mouseClicked(MouseEvent e)
 			{
-				Card card = (Card)e.getSource(); 
-		        //if this is the first pick and a square with a piece was picked,
-		        // remember the piece, check if it is viable and highlight the card
-				if(firstClick)
-				{
-					selectedCard = card; //save the selected card (to perhaps compare for second click)
-					ui.setHighlight(card);
-					firstClick = false;
-				}
-				else //indicates that the second click is on another unit card 
-				{
-					ui.revertHighlight(selectedCard);
-					ui.setHighlight(card);
-					selectedCard = card;
-					firstClick = true;
-				}
+				selectedCard = card; //save the selected card (to perhaps compare for second click)
+				ui.setHighlight(card);
+				firstClick = false;
 			}
+			else //indicates that the second click is on another unit card 
+			{
+				ui.revertHighlight(selectedCard);
+				ui.setHighlight(card);
+				selectedCard = card;
+				firstClick = true;
+			}
+		}
 
-			@Override
-			public void mouseEntered(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 
-			@Override
-			public void mouseExited(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 
-			@Override
-			public void mousePressed(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 
-			@Override
-			public void mouseReleased(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-		};
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
-	
 	
 	private class LawnMowerListener implements ActionListener {
 
