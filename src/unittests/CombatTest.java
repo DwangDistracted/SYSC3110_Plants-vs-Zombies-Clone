@@ -1,6 +1,7 @@
 package unittests;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,6 +10,11 @@ import assets.*;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests Combat Class
+ * @author Tanisha Garg
+ *
+ */
 public class CombatTest {
 	
 	@Test

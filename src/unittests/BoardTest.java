@@ -12,6 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import engine.Board;
 
+/**
+ * Tests Board Class
+ * @author Tanisha Garg
+ *
+ */
 public class BoardTest {
 
 	@Test

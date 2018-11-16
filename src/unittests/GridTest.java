@@ -9,6 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import engine.Grid;
 
+/**
+ * Test Grid Class
+ * @author Tanisha Garg
+ *
+ */
 public class GridTest {
 
 	@Test

@@ -6,6 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import engine.*;
 
+/**
+ * Test Purse Class
+ * @author Tanisha Garg
+ *
+ */
 public class PurseTest {
 
 	@Test
