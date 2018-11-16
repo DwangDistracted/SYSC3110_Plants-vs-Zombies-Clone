@@ -1,5 +1,7 @@
 package main;
 
+import assets.PlantTypes;
+import assets.ZombieTypes;
 import levels.LevelLoader;
 import ui.MainMenu;
 import util.Logger;
@@ -31,6 +33,8 @@ public class Main {
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
 
+		LevelLoader.getLevelFactory().addAllowedPlant(PlantTypes.PEASHOOTER).addZombies(ZombieTypes.REG_ZOMBIE, 20).setName("Test").toLevelInfo();
+		
 		new MainMenu();
 	}
 }

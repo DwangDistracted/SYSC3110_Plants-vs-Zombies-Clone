@@ -111,24 +111,24 @@ public class LevelLoader {
 	}
 	
 	/**
-	 * Factory Class for building LevelInfos.
+	 * Factory Class for building LevelInfos. Contains some default values
 	 * @author david
 	 *
 	 */
 	public class LevelFactory {
 		//The level's name
-		private String name;
+		private String name = "default";
 		//The Rating of the Level's Difficulty
-		private int levelRating;
+		private int levelRating = 1;
 		
 		//The Size of the Game Grid for this level
-		private int column;
-		private int row;
+		private int column = 5;
+		private int row = 5;
 		
 		//The initial amount of resource points the user has
-		private int initResources;
+		private int initResources = 100;
 		//The amount of resource points the user gains per turn
-		private int resPerTurn;
+		private int resPerTurn = 50;
 		//The zombies that will attack the player
 		private Map<ZombieTypes, Integer> zombies;
 		//The Plants that the player is allowed to use
@@ -139,40 +139,80 @@ public class LevelLoader {
 			allowedPlants = new HashSet<PlantTypes>();
 		}
 		
+		/**
+		 * Sets the name of the level
+		 * @param str set the name
+		 * @return
+		 */
 		public LevelFactory setName(String str) {
 			this.name = str;
 			return this;
 		}
+		
+		/**
+		 * Set the difficulty rating of the level
+		 * @param rating
+		 * @return
+		 */
 		public LevelFactory setRating(int rating) {
 			this.levelRating = rating;
 			return this;
 		}
+		
+		/**
+		 * Set the grid size of the level
+		 */
 		public LevelFactory setGridSize(int x, int y) {
 			this.column = x;
 			this.row = y;
 			return this;
 		}
 		
+		/**
+		 * Set the resource gain per turn for the player
+		 * @param rpt
+		 * @return
+		 */
 		public LevelFactory setResPerTurn(int rpt) {
 			this.resPerTurn = rpt;
 			return this;
 		}
-		
+
+		/**
+		 * Set the initial resources for the player
+		 * @param rpt
+		 * @return
+		 */
 		public LevelFactory setInitResources(int initResources) {
 			this.initResources = initResources;
 			return this;
 		}
 		
+		/**
+		 * adds an plant to the allowed list for the player
+		 * @param type
+		 * @return
+		 */
 		public LevelFactory addAllowedPlant(PlantTypes type) {
 			allowedPlants.add(type);
 			return this;
 		}
 		
+		/** 
+		 * Adds zombies to the level
+		 * @param type
+		 * @param number
+		 * @return
+		 */
 		public LevelFactory addZombies(ZombieTypes type, int number) {
 			zombies.put(type, number);
 			return this;
 		}
 		
+		/**
+		 * builds a levelinfo object
+		 * @return
+		 */
 		public LevelInfo toLevelInfo() {
 			return new LevelInfo(name, levelRating, column, row, resPerTurn, initResources, zombies, allowedPlants);
 		}
