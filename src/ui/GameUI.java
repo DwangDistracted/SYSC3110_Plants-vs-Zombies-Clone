@@ -53,7 +53,6 @@ public class GameUI extends JFrame
     private JLabel pointsAvailable;
 
     private ArrayList<JMenuItem> menuButtons;
-    //Game Buttons
     private ArrayList<JButton> gameButtons;
     
     private LevelInfo lvl;
@@ -92,7 +91,6 @@ public class GameUI extends JFrame
 	    setSize(width, height);
 	    add(gui);
 	    setVisible(true);
-	    
     }
     
     /**
@@ -121,7 +119,7 @@ public class GameUI extends JFrame
     }
     
     /**
-     * Initializes the menu Jtool bar 
+     * Initializes the menu components
      * @author Michael Patsula
      */
     private final void initializeMenu()
@@ -144,6 +142,7 @@ public class GameUI extends JFrame
         tools.addSeparator();
         tools.add(pointsAvailable);
         tools.addSeparator();
+        
         for (JButton button : gameButtons) {
         	tools.add(button);
         }
@@ -178,9 +177,7 @@ public class GameUI extends JFrame
         
         
         Image image = Images.getLawnMowerImage();
-    	if (image != null) {
-    		image = image.getScaledInstance(200,200, Image.SCALE_DEFAULT);
-    	}
+    	image = image.getScaledInstance(200,200, Image.SCALE_DEFAULT);
         // fill the black non-pawn piece row
         for (int r = 0; r < row; r++) 
         {
@@ -189,12 +186,7 @@ public class GameUI extends JFrame
                 switch (c)
                 {
                     case 0:
-                    	JButton b;
-                    	if (image != null ) {
-                    		b = new JButton(new ImageIcon(image));
-                    	} else {
-                    		b= new JButton("Mower");
-                    	}
+                    	JButton b = new JButton(new ImageIcon(image));
                     	b.setContentAreaFilled(false);
                     	mowers[r] = b;
                         board.add(mowers[r]);  //$
@@ -230,12 +222,8 @@ public class GameUI extends JFrame
 			
 			JLabel labelPic = new JLabel();
 			labelPic.setSize(80, 80);
-			if (img != null) {
-				Image plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
-				labelPic.setIcon(new ImageIcon(plantImage));
-			} else {
-				labelPic.setText(PlantTypes.toPlant(p).toString());
-			}
+			Image plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
+			labelPic.setIcon(new ImageIcon(plantImage));
     		card.add(labelPic, BorderLayout.CENTER);
     		
     		JLabel nameLabel = new JLabel(PlantTypes.toPlant(p).toString());
@@ -306,20 +294,36 @@ public class GameUI extends JFrame
     	turnMessage.setText("Points: " + points);
     }
     /**
-     * @return the board JPanel containing the game board grid
-     * @author Michael Patsula
-     */
-    public final JComponent getBoard()
-    {
-        return board;
-    }
-    /**
      * @return the JPanel holding all the unit selection cards
      * @author Michael Patsula
      */
     public JPanel getCardHolder()
     {
     	return cardHolder;
+    }
+    /**
+     * @return a list of JMeuItem components
+     * @author Michael Patsula
+     */
+    public ArrayList<JMenuItem> getMenuButtons()
+    {
+    	return menuButtons;
+    }
+    /**
+     * @return a list of JMeuItem components
+     * @author Michael Patsula
+     */
+    public ArrayList<JButton> getGameButtons()
+    {
+    	return gameButtons;
+    }
+    /**
+     * @return the board JPanel containing the game board grid
+     * @author Michael Patsula
+     */
+    public final JComponent getBoard()
+    {
+        return board;
     }
     /**
      * @return the gui JPanel which consists of the all the gui components that
@@ -330,6 +334,15 @@ public class GameUI extends JFrame
     {
         return gui;
     }
+    public  JButton getDigUp()
+    {
+    	return 
+    }
+    public JButton getEndTurn()
+    {
+    	return endTurn;
+    }
+   
 
     public void addGridListeners(MouseListener listener) {
     	
@@ -363,15 +376,5 @@ public class GameUI extends JFrame
     	for (JButton button : gameButtons) {
     		button.addActionListener(listener);
     	}
-    }
-    
-    /**
-     * @return the cardCollection data structure containing card JPanels (for unit selection) and 
-     * the Plant sub-class that it corresponds to.
-     * @author Michael Patsula
-     */
-    public HashMap<JPanel, Plant> getCardCollection()
-    {
-    	return cardCollection;
     }
 }

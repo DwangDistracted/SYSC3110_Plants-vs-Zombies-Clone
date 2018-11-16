@@ -9,6 +9,9 @@ import java.awt.event.MouseListener;
 import assets.Plant;
 import assets.PlantTypes;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 
 import assets.Plant;
 import engine.Board;
@@ -37,15 +40,29 @@ public class GameController {
 		this.firstClick = true;
 		this.gameBoard = this.game.getBoard();
 		this.userResources = this.game.getPurse();
+		this.removingPlant = false;
 		
 		this.ui.addGridListeners(new GridListener());
+		this.ui.addUnitSelectionListeners(new unitSelectListener());
+		this.ui.addGameButtonListeners(new GameButtonListener());
 	}
 	
-	private class MenuBarListener implements ActionListener {
-
+	
+	private class GameButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			JButton source = (JButton) e.getSource();
 			
+			if(ui.getDigUp() == source)
+			{
+				removingPlant = true;
+				selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
+				ui.revertHighlight(selectedCard); 
+			}
+			else if(ui.getEndTurn() == source)
+			{
+				game.zombieTurn();
+			}
 		}
 	}
 	
@@ -58,8 +75,8 @@ public class GameController {
 			final int sourceRow = source.getRow();
 			final int sourceCol = source.getCol();
 			
-			Plant selectedPlant = selectedCard.getPlant();
-			if (selectedCard != null) {
+			Plant selectedPlant = selectedCard.getPlant();   
+			if (selectedCard != null) {      
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
 						userResources.spendPoints(selectedPlant.getCost());
@@ -71,6 +88,7 @@ public class GameController {
 			} else if (removingPlant) {
 				gameBoard.getGrid(sourceRow, sourceCol).setPlant(null);
 				source.renderPlant();
+				removingPlant = false;
 			}
 		}
 
@@ -100,7 +118,7 @@ public class GameController {
 		
 	}
 	
-	
+
 	public static MouseListener unitSelectMouseListener()
 	{
 		return new MouseListener()

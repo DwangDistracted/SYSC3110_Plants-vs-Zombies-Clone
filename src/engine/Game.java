@@ -84,7 +84,7 @@ public class Game {
 	 * Processes the Zombie's Turn.
 	 * @author David Wang; Modified by Derek Shao
 	 */
-	private void zombieTurn() {
+	public void zombieTurn() {
 		LOG.info("It is the zombie's turn.");
 		
 		//create a new collection to prevent concurrent modification of Board zombies attribute
