@@ -2,6 +2,7 @@ package ui;
 import engine.Board;
 import engine.Game;
 import engine.Purse;
+import input.MenuInteractions;
 import levels.LevelInfo;
 
 import java.awt.*;
@@ -15,9 +16,6 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-
-import com.sun.glass.events.MouseEvent;
 
 import assets.Flower;
 import assets.Plant;
@@ -34,7 +32,7 @@ public class GameUI extends JFrame
 
 	private JPanel gui;
 	
-	private JButton[][] boardTiles;
+	private GridUI[][] boardTiles;
     private JPanel board;
     private int row;
     private int column;
@@ -42,7 +40,7 @@ public class GameUI extends JFrame
     private JPanel lawnMowers;
     private JButton[] mowers;
     
-	JPanel cardHolder = new JPanel();
+	private JPanel cardHolder;
     
     private int currentLevel;
     private int currentTurn;
@@ -58,6 +56,8 @@ public class GameUI extends JFrame
     private LevelInfo lvl;
     private Purse userResources;
 	private Board gameBoard;
+	
+	private ArrayList<Card> cards;
     
     public GameUI(Game game)
     {
@@ -107,15 +107,27 @@ public class GameUI extends JFrame
     	gui = new JPanel(new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
     	
-    	menuButtons = new ArrayList<JMenuItem>();
-    	menuButtons.add(new JMenuItem("Main Menu"));
-    	menuButtons.add(new JMenuItem("Save"));
-    	menuButtons.add(new JMenuItem("Quit"));
+        menuButtons = new ArrayList<JMenuItem>();
+		JMenuItem backItem = new JMenuItem("Main Menu");
+		backItem.addActionListener(MenuInteractions.getBackHandler(this));
+		menuButtons.add(backItem);
+		JMenuItem saveItem = new JMenuItem("Save");
+		saveItem.addActionListener(MenuInteractions.getSaveHandler(this));
+		menuButtons.add(saveItem);
+		JMenuItem quitItem = new JMenuItem("Quit");
+		quitItem.addActionListener(MenuInteractions.getQuitHandler(this));
+		menuButtons.add(quitItem);
     	
     	gameButtons = new ArrayList<JButton>();
-    	gameButtons.add(new JButton("Dig Up"));
-    	gameButtons.add(new JButton("Undo"));
-    	gameButtons.add(new JButton("End Turn"));
+    	JButton digUpButton = new JButton("Dig Up");
+    	digUpButton.setActionCommand("Dig Up");
+    	JButton undoButton = new JButton("Undo");
+    	undoButton.setActionCommand("Undo");
+    	JButton endTurnButton = new JButton("End Turn");
+    	endTurnButton.setActionCommand("End Turn");
+    	gameButtons.add(digUpButton);
+    	gameButtons.add(undoButton);
+    	gameButtons.add(endTurnButton);
     }
     
     /**
@@ -163,18 +175,16 @@ public class GameUI extends JFrame
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);                                                                 
         
-        // create the chess board squares
-        Insets buttonMargin = new Insets(25,25,25,25); 
+        gameBoard.getGrid(0, 0).setPlant(PlantTypes.toPlant(PlantTypes.SUNFLOWER));
+        gameBoard.getGrid(0, 0).addZombie(new Regular_Zombie());
+
         for (int r = 0; r < boardTiles.length; r++)
         {
             for (int c = 0; c < boardTiles[r].length; c++)
             {
-            	gameBoard.getGrid(r, c).addZombie(new Regular_Zombie());
-            	gameBoard.getGrid(r, c).setPlant(new Flower());
                 boardTiles[r][c] = new GridUI(gameBoard.getGrid(r, c));
             }
         }
-        
         
         Image image = Images.getLawnMowerImage();
     	image = image.getScaledInstance(200,200, Image.SCALE_DEFAULT);
@@ -206,17 +216,17 @@ public class GameUI extends JFrame
      */
     private final void initUnitSelection()
     {
-    	JPanel cardHolder = new JPanel();
+    	cardHolder = new JPanel();
     	cardHolder.setOpaque(false);
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     	
-    	int index = 0; //to keep track of cardCollection index
     	for(PlantTypes p: lvl.getAllowedPlants())      //build plant cards
     	{
     		Card card = new Card(new BorderLayout(5,5), PlantTypes.toPlant(p)); 
     		card.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     		card.setMaximumSize(new Dimension(90, 140));
+    		card.setUnit(PlantTypes.toPlant(p));
     		
     		Image img = Images.getPlantImage(p);
 			
@@ -235,9 +245,6 @@ public class GameUI extends JFrame
     		card.add(costLabel, BorderLayout.SOUTH);
     		cardHolder.add(card);
         	cardHolder.add(Box.createRigidArea(new Dimension(5, 5)));	
-        	
-        	cardCollection.put(card, PlantTypes.toPlant(p)); //store the card for actionlisteners implementation
-        	index++;
     	}
     	
     	gui.add(cardHolder, BorderLayout.SOUTH);
@@ -360,9 +367,8 @@ public class GameUI extends JFrame
      */
     public void addUnitSelectionListeners(MouseListener listener)
     {
-    	for(Component c : cardHolder.getComponents())
-    	{
-        	c.addMouseListener(listener);
+    	for (Component c : cardHolder.getComponents()) {
+    		c.addMouseListener(listener);
     	}
     }
     
@@ -378,3 +384,4 @@ public class GameUI extends JFrame
     	}
     }
 }
+

@@ -23,12 +23,11 @@ import ui.GridUI;
 
 public class GameController {
 	
-	private static Game game;
-	private static GameUI ui;
-	private static boolean firstClick; //Every click should toggle the first flag
-	private static Card selectedCard; //The selected card on click #1
-	private static Board gameBoard;
-	private static Purse userResources;
+	private Game game;
+	private GameUI ui;
+	private Card selectedCard; //The selected card on click #1
+	private Board gameBoard;
+	private Purse userResources;
 	
 	// Selected to remove a plant
 	private boolean removingPlant; 
@@ -37,20 +36,20 @@ public class GameController {
 		this.game = game;
 		this.ui = ui;
 		this.selectedCard = null;
-		this.firstClick = true;
 		this.gameBoard = this.game.getBoard();
 		this.userResources = this.game.getPurse();
 		this.removingPlant = false;
 		
 		this.ui.addGridListeners(new GridListener());
-		this.ui.addUnitSelectionListeners(new unitSelectListener());
+		this.ui.addUnitSelectionListeners(new UnitSelectListener());
 		this.ui.addGameButtonListeners(new GameButtonListener());
 	}
 	
-	
 	private class GameButtonListener implements ActionListener {
+
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent arg0) {
+			
 			JButton source = (JButton) e.getSource();
 			
 			if(ui.getDigUp() == source)
@@ -74,17 +73,17 @@ public class GameController {
 			
 			final int sourceRow = source.getRow();
 			final int sourceCol = source.getCol();
-			
-			Plant selectedPlant = selectedCard.getPlant();   
-			if (selectedCard != null) {      
+
+			if (selectedCard != null) {
+				Plant selectedPlant = selectedCard.getPlant();
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
 						userResources.spendPoints(selectedPlant.getCost());
 						source.renderPlant();
 					}
 				}
-				selectedCard = null;
 				ui.revertHighlight(selectedCard);
+				selectedCard = null;
 			} else if (removingPlant) {
 				gameBoard.getGrid(sourceRow, sourceCol).setPlant(null);
 				source.renderPlant();
@@ -118,62 +117,47 @@ public class GameController {
 		
 	}
 	
+	private class UnitSelectListener implements MouseListener {
 
-	public static MouseListener unitSelectMouseListener()
-	{
-		return new MouseListener()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				Card card = (Card)e.getSource(); 
-		        //if this is the first pick and a square with a piece was picked,
-		        // remember the piece, check if it is viable and highlight the card
-				if(firstClick)
-				{
-					selectedCard = card; //save the selected card (to perhaps compare for second click)
-					ui.setHighlight(card);
-					firstClick = false;
-				}
-				else //indicates that the second click is on another unit card 
-				{
-					ui.revertHighlight(selectedCard);
-					ui.setHighlight(card);
-					selectedCard = card;
-					firstClick = true;
-				}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Card card = (Card)e.getSource(); 
+			
+			if (selectedCard != null) {
+				ui.revertHighlight(selectedCard);
 			}
+			
+			if (selectedCard == null || selectedCard != card) {
+				ui.setHighlight(card);
+				selectedCard = card;
+			}
+		}
 
-			@Override
-			public void mouseEntered(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 
-			@Override
-			public void mouseExited(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 
-			@Override
-			public void mousePressed(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 
-			@Override
-			public void mouseReleased(MouseEvent arg0)
-			{
-				// TODO Auto-generated method stub
-				
-			}
-		};
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
-	
 	
 	private class LawnMowerListener implements ActionListener {
 
@@ -182,6 +166,6 @@ public class GameController {
 			// TODO Auto-generated method stub
 			
 		}
-\\
+
 	}
 }

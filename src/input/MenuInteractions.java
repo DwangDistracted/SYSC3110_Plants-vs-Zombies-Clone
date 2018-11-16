@@ -17,45 +17,54 @@ import ui.*;
  */
 public class MenuInteractions {
 	private MenuInteractions() {} //this is a collection of statics
-	
+
 	public static ActionListener getQuitHandler(JFrame frame) {
 		return new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					frame.dispose();
-				}
-			};
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		};
 	}
-	
+
 	public static ActionListener getLevelsHandler (JFrame frame) {
 		return new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					new LevelMenu();
-					frame.dispose();
-				}
-			};
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LevelMenu();
+				frame.dispose();
+			}
+		};
+	}
+
+	public static ActionListener getSaveHandler (JFrame frame) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//not implemented
+			}
+		};
 	}
 
 	public static ActionListener getLoadHandler (JFrame frame) {
 		return new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					//not implemented
-				}
-			};
-  }
-  
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//not implemented
+			}
+		};
+	}
+
 	public static ActionListener getPlayHandler(JFrame frame) {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				LevelInfo lvl = LevelLoader.getLevel(1); //Load first level
 				Game game = new Game(lvl);
 				GameUI ui = new GameUI(game);
 				GameController controller  = new GameController(ui, game);
-				
+
 				frame.dispose();
 			}
 		};
@@ -75,12 +84,12 @@ public class MenuInteractions {
 						break;
 					}
 				}
-				
+
 				LevelInfo lvl = LevelLoader.getLevel(selected);
 				Game game = new Game(lvl);
 				GameUI ui = new GameUI(game);
 				GameController controller  = new GameController(ui, game);
-				
+
 				frame.dispose();
 			}
 		};
