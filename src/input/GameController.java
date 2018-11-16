@@ -127,7 +127,7 @@ public class GameController {
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
 			} else if (removingPlant) {
-				gameBoard.getGrid(sourceRow, sourceCol).setPlant(null);
+				gameBoard.getGrid(sourceRow, sourceCol).removePlant();
 				source.renderPlant();
 				removingPlant = false;
 				LOG.debug("Removed Plant");

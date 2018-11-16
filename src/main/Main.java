@@ -1,5 +1,7 @@
 package main;
 
+import assets.PlantTypes;
+import assets.ZombieTypes;
 import levels.LevelLoader;
 import ui.Images;
 import ui.MainMenu;
@@ -23,6 +25,7 @@ public class Main {
 		if(!Images.preloadImages()) {
 			LOG.error("Failed to Load Graphics Images");
 		}
+		LOG.debug("Data Loading Complete");
 		
 		new MainMenu();
 	}
