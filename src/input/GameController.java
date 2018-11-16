@@ -29,8 +29,8 @@ public class GameController {
 	
 	private static Game game;
 	private static GameUI ui;
-	private static boolean firstClick; //Each click should 
-	private static Card selectedCard;
+	private static boolean firstClick; //Every click should toggle the first flag
+	private static Card selectedCard; //The selected card on click #1
 	private static Board gameBoard;
 	private static Purse userResources;
 	
@@ -128,6 +128,7 @@ public class GameController {
 				{
 					ui.revertHighlight(selectedCard);
 					ui.setHighlight(card);
+					selectedCard = card;
 					firstClick = true;
 				}
 			}
