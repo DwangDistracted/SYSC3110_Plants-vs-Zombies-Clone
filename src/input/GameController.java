@@ -48,8 +48,6 @@ public class GameController {
 	private class GameButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JButton source = (JButton) e.getSource();
-			
 			switch(e.getActionCommand())
 			{
 				case "Dig Up": 
@@ -61,7 +59,7 @@ public class GameController {
 					}
 					break;
 				case "End turn":
-					game.zombieTurn();
+					game.doEndOfTurn();
 			}
 		}
 	}
