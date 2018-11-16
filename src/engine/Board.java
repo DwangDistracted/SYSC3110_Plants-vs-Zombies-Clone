@@ -278,34 +278,35 @@ public class Board implements ZombieMoveListener {
 	 * Prints the current game state to console.
 	 * 
 	 */
-	public void displayBoard() {
-		
+	public String displayBoard() {
+		StringBuilder str = new StringBuilder("\n");
 		int rowCount = 0;
 		for(int row = 0; row < gameBoard.length; row++) {
 			//label the rows
-			System.out.print(rowCount + " ");
+			str.append(rowCount + " ");
 			rowCount++;
 			
 			for(int col = 0; col < gameBoard[row].length; col++) {
-				System.out.print(" | ");
+				str.append(" | ");
 				if (gameBoard[row][col].getPlant() != null) {
-					System.out.print(gameBoard[row][col].getPlant().toString() + " ");
+					str.append(gameBoard[row][col].getPlant().toString() + " ");
 				} else {
-					System.out.print("N ");
+					str.append("N ");
 				}
-				System.out.print(gameBoard[row][col].getNumberOfZombies() + "Z");
-				System.out.print(" | ");
+				str.append(gameBoard[row][col].getNumberOfZombies() + "Z");
+				str.append(" | ");
 			}
 			
-			System.out.println();
+			str.append("\n");
 		}
 		
 		// label the columns
 		for (int i = 0; i < gameBoard[0].length; i++) {
-			System.out.print("      " + i + "   ");
+			str.append("      " + i + "   ");
 		}
-		
-		System.out.println();
+
+		str.append("\n");
+		return str.toString();
 	}
 
 	@Override

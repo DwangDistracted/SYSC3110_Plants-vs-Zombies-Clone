@@ -1,7 +1,5 @@
 package main;
 
-import assets.PlantTypes;
-import assets.ZombieTypes;
 import levels.LevelLoader;
 import ui.Images;
 import ui.MainMenu;
@@ -20,7 +18,7 @@ public class Main {
 	 */
 	public static void main (String[] args) {
 		//Log init
-		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
+		Logger.setDebug(); //change to clearDebug to get rid of debug messages
 		LevelLoader.init();
 		if(!Images.preloadImages()) {
 			LOG.error("Failed to Load Graphics Images");

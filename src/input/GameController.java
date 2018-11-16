@@ -11,10 +11,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import com.oracle.tools.packager.Log;
+
 import engine.Board;
 import engine.Game;
 import engine.Purse;
-import levels.LevelInfo;
 import levels.LevelLoader;
 import ui.Card;
 import ui.GameUI;
@@ -73,10 +74,14 @@ public class GameController {
 						int result = JOptionPane.showConfirmDialog(ui, "You won in " + game.getTurns() + " Turns! The Zombies have been slain! \n\n Do you want to play the next level?", "You WON!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
 						
 						if (result == JOptionPane.YES_OPTION) { //load next level
+							LOG.debug("Load Next Level");
+							
 							Game g = new Game(LevelLoader.getNextLevel());
-							GameUI ui = new GameUI(g);
-							new GameController(ui, g);
 							ui.dispose();
+							new GameController(ui, g);
+							new GameController(new GameUI(g), g);
+							ui.dispose();
+							LOG.debug(g.getBoard().displayBoard());
 						} else { //return to main menu
 							new MainMenu();
 							ui.dispose();
@@ -88,10 +93,12 @@ public class GameController {
 						int result1 = JOptionPane.showConfirmDialog(ui, "You lost in " + game.getTurns() + " Turns! You were eaten by Zombies! \n\n Do you want to retry?", "You Lost", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 						if (result1 == JOptionPane.YES_OPTION && game != null) { //reload this level
+							LOG.debug("Reloading Level");
 							Game g = new Game(game.getLevelInfo());
-							GameUI ui = new GameUI(g);
-							new GameController(ui, g);
+							LOG.debug(g.getBoard().displayBoard());
+							new GameController(new GameUI(g), g);
 							ui.dispose();
+							LOG.debug(g.getBoard().displayBoard());
 						} else { //return to main menu
 							new MainMenu();
 							ui.dispose();
@@ -177,26 +184,22 @@ public class GameController {
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 		
 	}
@@ -217,6 +220,7 @@ public class GameController {
 			{
 				if(source == mowers[i]) //see what row the button was pressed in
 				{
+					LOG.info("Mower's Not Implemented for Milestone 2");
 					//not implemented yet - need to remove all zombies and plants in the specified row 
 				}
 			}
