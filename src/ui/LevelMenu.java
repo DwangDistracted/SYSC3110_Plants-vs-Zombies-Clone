@@ -23,16 +23,18 @@ import input.MenuInteractions;
 import levels.LevelInfo;
 import levels.LevelLoader;
 
+/**
+ * A Menu that allows the selection of a specific level to start a game with
+ * @author David Wang
+ */
 public class LevelMenu extends JFrame {
 	private static final long serialVersionUID = -4952911219010614232L;
-	Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
 
 	public LevelMenu() {
 		this.setTitle("Zombies are Vegan - Levels");
 		
 		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setUndecorated(true);
 		
 		GraphicsDevice gd = //Multi-Screen Support
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -41,7 +43,6 @@ public class LevelMenu extends JFrame {
 		
 		this.setSize((int)width/3, (int)height/2); //set size relative to screen
 		this.setLocationRelativeTo(null); //create at screen center
-		this.setResizable(false); //prevent resizing
 		
 		Container contents = this.getContentPane();
 		contents.setLayout(new BorderLayout()); //Layout Manager
@@ -59,16 +60,20 @@ public class LevelMenu extends JFrame {
 		levelFld.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 		titlePane.add(levelFld, BorderLayout.WEST);
 		
-		JPanel levelsPane = new JPanel();
+		JPanel levelsPane = new JPanel(); //Generate a button group of all the levels
 		List<LevelInfo> levels = LevelLoader.getLevels();
-		levelsPane.setLayout(new GridLayout(levels.size()%3 != 0? levels.size()/3 +1 : levels.size()/3, levels.size() > 3? 2 : levels.size())); //width should always be 3
+		levelsPane.setLayout(new GridLayout(
+					LevelLoader.getNumLevels()%3 != 0 ? 
+						LevelLoader.getNumLevels()/3 +1 : LevelLoader.getNumLevels()/3, //we need to find out how many rows we need
+					3));//width should always be 3
+		
 		ButtonGroup levelOptions = new ButtonGroup();
 
 		for (int i = 0; i < levels.size(); i++) {
 			JRadioButton option = new JRadioButton("<html>&nbsp;" + levels.get(i).getName() + "<br>" + levels.get(i).getLevelRating() + " Stars</html>");
-			option.setFont(btnFont);
+			option.setFont(MainMenu.btnFont);
 			option.setHorizontalAlignment(SwingConstants.CENTER);
-			option.setName(String.valueOf(i+1));
+			option.setName(String.valueOf(i+1)); //the name of the button is what gets passed to LevelLoader
 			levelOptions.add(option);
 			levelsPane.add(option);
 		}
@@ -77,10 +82,10 @@ public class LevelMenu extends JFrame {
 		btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));
 		
 		JButton playBtn = new JButton("Play Level");
-		playBtn.setFont(btnFont);
+		playBtn.setFont(MainMenu.btnFont);
 		playBtn.setAlignmentX(RIGHT_ALIGNMENT);
 		JButton backBtn = new JButton("Back");
-		backBtn.setFont(btnFont);
+		backBtn.setFont(MainMenu.btnFont);
 		backBtn.setAlignmentX(RIGHT_ALIGNMENT);
 		
 		//Set Action Listeners
