@@ -75,7 +75,7 @@ public class Board implements ZombieMoveListener {
 		gameBoard = new Grid[row][col];
 		for (int r = 0; r < row; r++) {
 			for (int c = 0; c < col; c++) {
-				gameBoard[r][c] = new Grid(r, c);
+				gameBoard[r][c] = new Grid();
 			}
 		}
 	}
@@ -261,19 +261,6 @@ public class Board implements ZombieMoveListener {
 		
 		return this.sfCounter;
 	}
-	
-	/**
-	 * Return the grid at a specified position.
-	 * 
-	 * @param row the row of the grid
-	 * @param col the column of the grid
-	 * @return the grid at specified position
-	 */
-	public Grid getGrid(int row, int col) {
-		
-		return this.gameBoard[row][col];
-	}
-	
  	/**
 	 * Method for Milestone 1 only.
 	 * Prints the current game state to console.

@@ -34,7 +34,7 @@ public class Flower extends Plant{
 	 * @return name of the sunflower
 	 */
 	public String toString() {
-		return "Sunflower";
+		return "F";
 	}
 
 	public PlantTypes getPlantType() {
