@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -14,6 +13,7 @@ import assets.ZombieTypes;
 import engine.Grid;
 
 public class GridUI extends JPanel {
+	private static final long serialVersionUID = -6720923029166827998L;
 
 	private static final int MAX_ZOMBIE_TYPES = 3;
 	
@@ -23,22 +23,18 @@ public class GridUI extends JPanel {
 	private int col;
 	
 	public GridUI(Grid grid) {
-		
 		setLayout(new GridBagLayout());
+		
 		plantPanel = new JPanel();
+		plantPanel.setOpaque(false);
+		
 		this.grid = grid;
 		this.row = grid.getRow();
 		this.col = grid.getCol();
+		this.setOpaque(false);
 		
 		renderPlant();
 		renderZombies();
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Image backgroundImage = Images.getGrassTileImage();
-		g.drawImage(backgroundImage, 0, 0, null);
 	}
 	
 	/**
@@ -79,6 +75,7 @@ public class GridUI extends JPanel {
 	
 		int numberOfZombieTypes = 0;
 		JPanel zombiePanel = new JPanel();
+		zombiePanel.setOpaque(false);
 		zombiePanel.setPreferredSize(new Dimension(100, 100));
 		
 		for (ZombieTypes zombieType : grid.getZombieTypeCount().keySet()) {
@@ -95,7 +92,6 @@ public class GridUI extends JPanel {
 				c.gridx = 1;
 				c.gridy = numberOfZombieTypes;
 				
-				zombiePanel.setOpaque(false);
 				add(zombiePanel, c);
 				
 				numberOfZombieTypes++;
