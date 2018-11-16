@@ -1,22 +1,26 @@
 package ui;
+
+import engine.Board;
 import engine.Game;
 import engine.Purse;
 import levels.LevelInfo;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import assets.Flower;
 import assets.PlantTypes;
+import assets.Regular_Zombie;
 
-public class GameUI
+public class GameUI extends JFrame
 {
 	private JPanel gui;
 	
-	private JButton[][] boardTiles;
+	private GridUI[][] boardTiles;
     private JPanel board;
     private int row;
     private int column;
@@ -38,9 +42,11 @@ public class GameUI
     private JButton saveButton;
     private JButton undoButton;
     private JButton quitButton;
+    private JButton endTurnButton;
     
     private LevelInfo lvl;
     private Purse userResources;
+    private Board gameBoard;
     
     public GameUI(Game game)
     {
@@ -48,7 +54,8 @@ public class GameUI
     	this.row = lvl.getRows();
     	this.column = lvl.getColumns();
     	this.userResources = game.getPurse();
-    	this.points = userResources.getPoints();
+        this.points = userResources.getPoints();
+        this.gameBoard = game.getBoard();
 
     	initializeComponents();
     	initializeMenu();
@@ -63,12 +70,12 @@ public class GameUI
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
 		
-    	JFrame f = new JFrame("Plants Are Vegan");
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        f.setSize(width, height);
-        f.add(gui);
-        f.setVisible(true);
+    	setTitle("Plants Are Vegan");
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setExtendedState(JFrame.MAXIMIZED_BOTH); 
+	    setSize(width, height);
+	    add(gui);
+	    setVisible(true);
     }
     
     private final void initializeComponents() 
@@ -76,7 +83,7 @@ public class GameUI
     	levelMessage = new JLabel("Level: " + currentLevel);
     	turnMessage = new JLabel("Turn: " + currentTurn);
     	pointsAvaliable = new JLabel("Points: " + points);
-    	boardTiles = new JButton[row][column];
+    	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
     	gui = new JPanel(new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
@@ -86,6 +93,7 @@ public class GameUI
     	saveButton = new JButton("Save");
     	undoButton = new JButton("Undo");
         quitButton = new JButton("Quit");
+        endTurnButton = new JButton("End Turn");
     }
     
     private final void initializeMenu()
@@ -98,8 +106,8 @@ public class GameUI
         tools.add(menuButton); 
         tools.add(saveButton); 
         tools.add(undoButton);
-        tools.addSeparator();
         tools.add(quitButton);
+        tools.add(endTurnButton);
         tools.addSeparator();
         tools.add(levelMessage);
         tools.addSeparator();
@@ -112,31 +120,24 @@ public class GameUI
     
     private final void initializeBoard() {
     	
-        board = new JPanel(new GridLayout(row, column + 1));
+        board = new JPanel(new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
-        gui.add(board);                                                                 //*
+        gui.add(board);
         
-        
-        // create the chess board squares
-        Insets buttonMargin = new Insets(25,25,25,25); 
+
         for (int r = 0; r < boardTiles.length; r++)
         {
             for (int c = 0; c < boardTiles[r].length; c++)
             {
-                JButton b = new JButton();
-                b.setMargin(buttonMargin);
-         
-                ImageIcon icon = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
-                b.setIcon(icon);
-                b.setBackground(Color.GREEN);
-
-                boardTiles[r][c] = b;
+            	gameBoard.getGrid(r, c).addZombie(new Regular_Zombie());
+            	gameBoard.getGrid(r, c).setPlant(new Flower());
+                boardTiles[r][c] = new GridUI(gameBoard.getGrid(r, c));
             }
         }
         
         
         Image image = Images.getLawnMowerImage();
-    	image = image.getScaledInstance(200,200, Image.SCALE_DEFAULT);
+    	image = image.getScaledInstance(200,100, Image.SCALE_DEFAULT);
         // fill the black non-pawn piece row
         for (int r = 0; r < row; r++) 
         {
@@ -148,9 +149,9 @@ public class GameUI
                     	JButton b = new JButton(new ImageIcon(image));
                     	b.setContentAreaFilled(false);
                     	mowers[r] = b;
-                        board.add(mowers[r]);  //$
+                        board.add(mowers[r]);
                     default:
-                        board.add(boardTiles[r][c]);                                //$
+                        board.add(boardTiles[r][c]);
                 }
             }
         }
@@ -217,5 +218,18 @@ public class GameUI
 
     public final JComponent getGui() {
         return gui;
+    }
+    
+    public void addGridListeners(MouseListener listener) {
+    	
+    	for (int i = 0; i < boardTiles.length; i++) {
+    		for (int j = 0; j < boardTiles[i].length; j++) {
+    			boardTiles[i][j].addMouseListener(listener);
+    		}
+    	}
+    }
+    
+    public void addUnitSelectoinListeners(MouseListener listener) {
+    	
     }
 }

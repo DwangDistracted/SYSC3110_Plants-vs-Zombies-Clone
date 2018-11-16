@@ -50,7 +50,6 @@ public class Images
 		switch(zombie) {
 			case REG_ZOMBIE:
 				try {
-					
 					String imagePath = projectDirectory.getAbsolutePath() + "\\images\\Zombie_Regular.png";
 					BufferedImage img = ImageIO.read(new File(imagePath));
 					return img;
