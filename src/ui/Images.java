@@ -70,11 +70,25 @@ public class Images
 		File projectDirectory = new File("");
 		
 		try {
-			
 			String imagePath = projectDirectory.getAbsolutePath() + "\\images\\Lawnmower.jpg";
 			BufferedImage img = ImageIO.read(new File(imagePath));
 			return img;
 		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static Image getDefaultImage() {
+		
+		File projectDirectory = new File("");
+		
+		try {
+			String imagePath = projectDirectory.getAbsolutePath() + "\\images\\Grass.jpg";
+			BufferedImage img = ImageIO.read(new File(imagePath));
+			return img;
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
