@@ -2,6 +2,7 @@ package ui;
 import engine.Board;
 import engine.Game;
 import engine.Purse;
+import input.MenuInteractions;
 import levels.LevelInfo;
 
 import java.awt.*;
@@ -223,17 +224,17 @@ public class GameUI extends JFrame
      */
     private final void initUnitSelection()
     {
-    	JPanel cardHolder = new JPanel();
+    	cardHolder = new JPanel();
     	cardHolder.setOpaque(false);
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     	
-    	int index = 0; //to keep track of cardCollection index
     	for(PlantTypes p: lvl.getAllowedPlants())      //build plant cards
     	{
     		Card card = new Card(new BorderLayout(5,5), PlantTypes.toPlant(p)); 
     		card.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     		card.setMaximumSize(new Dimension(90, 140));
+    		card.setUnit(PlantTypes.toPlant(p));
     		
     		Image img = Images.getPlantImage(p);
 			
@@ -256,8 +257,6 @@ public class GameUI extends JFrame
     		card.add(costLabel, BorderLayout.SOUTH);
     		cardHolder.add(card);
         	cardHolder.add(Box.createRigidArea(new Dimension(5, 5)));	
-        	
-        	index++;
     	}
     	
     	gui.add(cardHolder, BorderLayout.SOUTH);
@@ -355,9 +354,9 @@ public class GameUI extends JFrame
      */
     public void addUnitSelectionListeners(MouseListener listener)
     {
-//    	for (Component c : cardHolder.getComponents()) {
-//    		c.addMouseListener(listener);
-//    	}
+    	for (Component c : cardHolder.getComponents()) {
+    		c.addMouseListener(listener);
+    	}
     }
     
     public void addMenuButtonListeners(ActionListener listener) {
