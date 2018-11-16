@@ -83,11 +83,12 @@ public class GridUI extends JPanel {
 	
 		int numberOfZombieTypes = 0;
 		
+		ZombiePanel zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount());
+		
 		for (ZombieTypes zombieType : grid.getZombieTypeCount().keySet()) {
 			
 			if (numberOfZombieTypes < MAX_ZOMBIE_TYPES) {
 				
-				ZombiePanel zombiePanel = new ZombiePanel(zombieType, grid.getZombieTypeCount().get(zombieType));
 				zombiePanel.setOpaque(false);
 				zombiePanel.setBorder(BorderFactory.createEmptyBorder());
 				zombiePanel.setPreferredSize(new Dimension(100, 100));

@@ -11,8 +11,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import com.oracle.tools.packager.Log;
-
 import engine.Board;
 import engine.Game;
 import engine.Purse;
@@ -105,7 +103,8 @@ public class GameController {
 						}
 						
 						break;
-					default: //no action needed 
+					default: //update user points if still playing
+						ui.setPointsLabel(userResources.getPoints());
 						break;
 					}
 			}

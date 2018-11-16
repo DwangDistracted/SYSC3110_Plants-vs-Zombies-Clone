@@ -12,6 +12,7 @@ import assets.Plant;
 
 public class Card extends JPanel
 {
+	private static final long serialVersionUID = 1L;
 	private Plant plant;
 	
 	public Card(LayoutManager layout, Plant unit)

@@ -188,7 +188,9 @@ public class GameUI extends JFrame
         board = new JImagePanel(Images.getGrassTileImage(), new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);
-
+        gameBoard.getGrid(0, 0).setPlant(PlantTypes.toPlant(PlantTypes.SUNFLOWER));
+        gameBoard.getGrid(0, 0).addZombie(new Regular_Zombie());
+        
         for (int r = 0; r < boardTiles.length; r++)
         {
             for (int c = 0; c < boardTiles[r].length; c++)
@@ -399,7 +401,7 @@ public class GameUI extends JFrame
      */
     public void setPointsLabel(int points) {
     	
-        pointsAvailable.setText("Points: " + Integer.toString(points));
+        pointsAvailable.setText("<html><b>Points: </b>" + Integer.toString(points) + "</html>");
     }
     
     /**
