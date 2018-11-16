@@ -7,21 +7,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import assets.Plant;
-import assets.PlantTypes;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
-import assets.Plant;
+import com.oracle.tools.packager.Log;
+
 import engine.Board;
 import engine.Game;
 import engine.Purse;
+import levels.LevelLoader;
 import ui.Card;
 import ui.GameUI;
 import ui.GridUI;
+import ui.MainMenu;
+import util.Logger;
 
 public class GameController {
+	private static Logger LOG = new Logger("Game Controller");
 	
 	private Game game;
 	private GameUI ui;
@@ -52,6 +55,7 @@ public class GameController {
 			switch(e.getActionCommand())
 			{
 				case "Dig Up": 
+					LOG.debug("Digging up plant");
 					removingPlant = true;
 					if(selectedCard != null)
 					{
@@ -59,8 +63,51 @@ public class GameController {
 						selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
 					}
 					break;
-				case "End turn":
+				case "End Turn":
+					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
+					
+					switch (game.getState()) { //check if there was a resolution to the game
+					
+					case WON:
+						LOG.debug("Player Won");
+						int result = JOptionPane.showConfirmDialog(ui, "You won in " + game.getTurns() + " Turns! The Zombies have been slain! \n\n Do you want to play the next level?", "You WON!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+						
+						if (result == JOptionPane.YES_OPTION) { //load next level
+							LOG.debug("Load Next Level");
+							
+							Game g = new Game(LevelLoader.getNextLevel());
+							ui.dispose();
+							new GameController(ui, g);
+							new GameController(new GameUI(g), g);
+							ui.dispose();
+							LOG.debug(g.getBoard().displayBoard());
+						} else { //return to main menu
+							new MainMenu();
+							ui.dispose();
+						}
+						
+						break;
+					case LOST:
+						LOG.debug("Player Lost");
+						int result1 = JOptionPane.showConfirmDialog(ui, "You lost in " + game.getTurns() + " Turns! You were eaten by Zombies! \n\n Do you want to retry?", "You Lost", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+						if (result1 == JOptionPane.YES_OPTION && game != null) { //reload this level
+							LOG.debug("Reloading Level");
+							Game g = new Game(game.getLevelInfo());
+							LOG.debug(g.getBoard().displayBoard());
+							new GameController(new GameUI(g), g);
+							ui.dispose();
+							LOG.debug(g.getBoard().displayBoard());
+						} else { //return to main menu
+							new MainMenu();
+							ui.dispose();
+						}
+						
+						break;
+					default: //no action needed 
+						break;
+					}
 			}
 		}
 	}
@@ -75,6 +122,7 @@ public class GameController {
 			final int sourceCol = source.getCol();
 
 			if (selectedCard != null) {
+				LOG.debug("Planting in Grid");
 				Plant selectedPlant = selectedCard.getPlant();
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
@@ -91,6 +139,7 @@ public class GameController {
 				gameBoard.getGrid(sourceRow, sourceCol).removePlant();
 				source.renderPlant();
 				removingPlant = false;
+				LOG.debug("Removed Plant");
 			}
 		}
 
@@ -138,35 +187,31 @@ public class GameController {
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			//Not Implemented
 		}
 		
 	}
 	
 	/**
-	 * Not Implemented yet
+	 * Not Implemented For Milestone 2
 	 * calls the lawn mower functionalility for a specified row
 	 * The row is dependent on which button the user presses.
-	 * @author micha
+	 * @author michael
 	 */
 	private class LawnMowerListener implements ActionListener {
 		@Override
@@ -178,7 +223,8 @@ public class GameController {
 			{
 				if(source == mowers[i]) //see what row the button was pressed in
 				{
-					//not implemented yet - need to remove all zombies in the specified row 
+					LOG.info("Mower's Not Implemented for Milestone 2");
+					//not implemented yet - need to remove all zombies and plants in the specified row 
 				}
 			}
 		}

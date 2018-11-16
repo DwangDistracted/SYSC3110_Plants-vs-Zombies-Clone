@@ -17,6 +17,12 @@ import util.Logger;
  * @author David Wang
  */
 public class Game {
+	public enum GameState {
+		PLAYING,
+		WON,
+		LOST
+	}
+	
 	private static Logger LOG = new Logger("Game");
 	//combat engine
 	private Combat combat; 
@@ -26,13 +32,15 @@ public class Game {
 	private Board board;
 	//The Player's Purse
 	private Purse userResources;
-	//Whether or not the Game has concluded
-	private boolean finished = false;
 	//The Zombies that have not yet spawned into the game
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	//The number of zombies (total) in the level
 	private int numZombies;
+	//the number of turns elapsed
+	private int numTurns;
 
+	private GameState gamestate;
+	
 	/**
 	 * Initializes a Game for a given Level
 	 * @param lvl the LevelInfo for the given Level
@@ -46,6 +54,8 @@ public class Game {
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		userResources = new Purse(levelInfo.getInitResources());
+		gamestate = GameState.PLAYING;
+		numTurns = 0;
 	}
 	
 	/**
@@ -120,6 +130,7 @@ public class Game {
 	 * Tells Combat Engine to handle attack and damage calculations. Adds Resources to Player Purse. Checks if the pLayer has won
 	 */
 	public void doEndOfTurn() {
+		numTurns++;
 		//do the zombie Turn
 		zombieTurn();
 		
@@ -138,12 +149,12 @@ public class Game {
 	 * @param playerWin True if the player won, false otherwise
 	 */
 	private void endGame(boolean playerWin) {
-		board.displayBoard();
-		this.finished = true;
 		if(playerWin) {
 			LOG.info("Player has Won");
+			gamestate = GameState.WON;
 		} else {
 			LOG.info("Player was eaten by Zombies");
+			gamestate = GameState.LOST;
 		}
 	}
 	 
@@ -176,4 +187,12 @@ public class Game {
 		 
 		 return this.userResources;
 	 }
+	 
+	 public GameState getState() {
+		 return gamestate;
+	 }
+
+	public int getTurns() {
+		return numTurns;
+	}
 }

@@ -63,7 +63,7 @@ public class MenuInteractions {
 				LevelInfo lvl = LevelLoader.getLevel(1); //Load first level
 				Game game = new Game(lvl);
 				GameUI ui = new GameUI(game);
-				GameController controller  = new GameController(ui, game);
+				new GameController(ui, game);
 
 				frame.dispose();
 			}
@@ -88,7 +88,7 @@ public class MenuInteractions {
 				LevelInfo lvl = LevelLoader.getLevel(selected);
 				Game game = new Game(lvl);
 				GameUI ui = new GameUI(game);
-				GameController controller  = new GameController(ui, game);
+				new GameController(ui, game);
 
 				frame.dispose();
 			}
