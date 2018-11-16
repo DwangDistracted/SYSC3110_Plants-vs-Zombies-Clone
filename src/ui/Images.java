@@ -15,6 +15,9 @@ public class Images
 	private static BufferedImage regZombieImage = null;
 	private static BufferedImage mowerImage = null;
 	private static BufferedImage grassImage = null;
+	
+	private static BufferedImage titleBanner = null;
+	private static BufferedImage titleSplash = null;
 
 	private Images() {}
 
@@ -25,8 +28,11 @@ public class Images
 			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
 			mowerImage =  ImageIO.read(new File("images\\Lawnmower.jpg"));
 			grassImage = ImageIO.read(new File("images\\Grass.jpg"));
+			titleBanner =  ImageIO.read(new File("images\\title-top-background.jpg"));
+			titleSplash = ImageIO.read(new File("images\\title-background.jpg"));
 			return true;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -62,6 +68,14 @@ public class Images
 
 	public static Image getGrassTileImage() {
 		return grassImage;
+	}
+	
+	public static Image getTitleBannerImage() {
+		return titleBanner;
+	}
+	
+	public static Image getTitleSplashImage() {
+		return titleSplash;
 	}
 }
 

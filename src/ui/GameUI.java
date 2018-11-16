@@ -174,7 +174,9 @@ public class GameUI extends JFrame
         
         
         Image image = Images.getLawnMowerImage();
-    	image = image.getScaledInstance(200,100, Image.SCALE_DEFAULT);
+    	if (image != null) {
+    		image = image.getScaledInstance(200,100, Image.SCALE_DEFAULT);
+    	}
         // fill the black non-pawn piece row
         for (int r = 0; r < row; r++) 
         {
@@ -183,7 +185,12 @@ public class GameUI extends JFrame
                 switch (c)
                 {
                     case 0:
-                    	JButton b = new JButton(new ImageIcon(image));
+                    	JButton b;
+                    	if (image != null ) {
+                    		b = new JButton(new ImageIcon(image));
+                    	} else {
+                    		b= new JButton("Mower");
+                    	}
                     	b.setContentAreaFilled(false);
                     	mowers[r] = b;
                         board.add(mowers[r]);
@@ -220,8 +227,12 @@ public class GameUI extends JFrame
 			
 			JLabel labelPic = new JLabel();
 			labelPic.setSize(80, 80);
-			Image plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
-			labelPic.setIcon(new ImageIcon(plantImage));
+			if (img != null) {
+				Image plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
+				labelPic.setIcon(new ImageIcon(plantImage));
+			} else {
+				labelPic.setText(PlantTypes.toPlant(p).toString());
+			}
     		card.add(labelPic, BorderLayout.CENTER);
     		
     		JLabel nameLabel = new JLabel(PlantTypes.toPlant(p).toString());
