@@ -6,19 +6,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-<<<<<<< HEAD
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import assets.Plant;
 import assets.PlantTypes;
-=======
 import javax.swing.BorderFactory;
 
 import assets.Plant;
 import engine.Board;
->>>>>>> 1a9b918af8faa5d6cd8d392c5c6d70a9fc946638
 import engine.Game;
 import engine.Purse;
 import ui.Card;

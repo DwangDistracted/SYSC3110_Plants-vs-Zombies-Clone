@@ -30,7 +30,8 @@ import assets.Regular_Zombie;
 
 public class GameUI extends JFrame
 {
-	private JFrame f;
+	private static final long serialVersionUID = -717683255015646823L;
+
 	private JPanel gui;
 	
 	private JButton[][] boardTiles;
@@ -49,15 +50,11 @@ public class GameUI extends JFrame
     
     private JLabel levelMessage;
     private JLabel turnMessage;
-    private JLabel pointsAvaliable;
-    
-    //Menu Buttons
-    private JButton menuButton;
-    private JButton saveButton;
-    private JButton undoButton;
-    private JButton quitButton;
-    
-    private ArrayList<JButton> toolBarButtons;
+    private JLabel pointsAvailable;
+
+    private ArrayList<JMenuItem> menuButtons;
+    //Game Buttons
+    private ArrayList<JButton> gameButtons;
     
     private LevelInfo lvl;
     private Purse userResources;
@@ -95,6 +92,7 @@ public class GameUI extends JFrame
 	    setSize(width, height);
 	    add(gui);
 	    setVisible(true);
+	    
     }
     
     /**
@@ -105,23 +103,21 @@ public class GameUI extends JFrame
     {   	
     	levelMessage = new JLabel("Level: " + currentLevel);
     	turnMessage = new JLabel("Turn: " + currentTurn);
-    	pointsAvaliable = new JLabel("Points: " + points);
-    	boardTiles = new JButton[row][column];
+    	pointsAvailable = new JLabel("Points: " + points);
+    	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
     	gui = new JPanel(new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
     	
-    	menuButton = new JButton("Menu");
-    	saveButton = new JButton("Save");
-    	undoButton = new JButton("Undo");
-        quitButton = new JButton("Quit");
-        
-    	toolBarButtons = new ArrayList<JButton>();
-    	toolBarButtons.add(new JButton("Menu"));
-    	toolBarButtons.add(new JButton("Save"));
-    	toolBarButtons.add(new JButton("Undo"));
-    	toolBarButtons.add(new JButton("Quit"));
-    	toolBarButtons.add(new JButton("End Turn"));
+    	menuButtons = new ArrayList<JMenuItem>();
+    	menuButtons.add(new JMenuItem("Main Menu"));
+    	menuButtons.add(new JMenuItem("Save"));
+    	menuButtons.add(new JMenuItem("Quit"));
+    	
+    	gameButtons = new ArrayList<JButton>();
+    	gameButtons.add(new JButton("Dig Up"));
+    	gameButtons.add(new JButton("Undo"));
+    	gameButtons.add(new JButton("End Turn"));
     }
     
     /**
@@ -131,28 +127,30 @@ public class GameUI extends JFrame
     private final void initializeMenu()
     {
         gui.setBorder(new EmptyBorder(5,5,5,5));
+       
+        JMenuBar menubar = new JMenuBar();
+        JMenu menu = new JMenu("Menu");
+        for (JMenuItem button : menuButtons) {
+        	menu.add(button);
+        }
+        menubar.add(menu);
+        this.setJMenuBar(menubar);
         
         JToolBar tools = new JToolBar();
-        tools.setFloatable(false);
-        gui.add(tools, BorderLayout.PAGE_START); 
-        
-        tools.add(menuButton); 
-        tools.add(saveButton); 
-        tools.add(undoButton);
-        tools.addSeparator();
-        tools.add(quitButton);
-        
-        for (JButton button : toolBarButtons) {
-        	tools.add(button);
-        }
-        
-        tools.addSeparator();
+        tools.add(Box.createHorizontalGlue());
         tools.add(levelMessage);
         tools.addSeparator();
         tools.add(turnMessage);                               
         tools.addSeparator();
-        tools.add(pointsAvaliable);
+        tools.add(pointsAvailable);
+        tools.addSeparator();
+        for (JButton button : gameButtons) {
+        	tools.add(button);
+        }
         
+        tools.setFloatable(false);
+        tools.setOpaque(false);
+        gui.add(tools, BorderLayout.PAGE_START);
     }
     
     /**
@@ -161,8 +159,8 @@ public class GameUI extends JFrame
      * @author Michael Patsula
      */
     private final void initializeBoard() {
-    	
-        board = new JPanel(new GridLayout(row, column + 1));
+
+        board = new JImagePanel(Images.getGrassTileImage(), new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);                                                                 
         
@@ -209,6 +207,8 @@ public class GameUI extends JFrame
      */
     private final void initUnitSelection()
     {
+    	JPanel cardHolder = new JPanel();
+    	cardHolder.setOpaque(false);
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     	
@@ -343,7 +343,13 @@ public class GameUI extends JFrame
     }
     
     public void addMenuButtonListeners(ActionListener listener) {
-    	for (JButton button : toolBarButtons) {
+    	for (JMenuItem button : menuButtons) {
+    		button.addActionListener(listener);
+    	}
+    }
+    
+    public void addGameButtonListeners(ActionListener listener) {
+    	for (JButton button : gameButtons) {
     		button.addActionListener(listener);
     	}
     }
