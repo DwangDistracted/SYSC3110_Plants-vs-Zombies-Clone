@@ -88,7 +88,7 @@ public class GameUI extends JFrame
     	pointsAvailable = new JLabel("Points: " + points);
     	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
-    	gui = new JPanel(new BorderLayout(200, 5));
+    	gui = new JImagePanel(Images.getDefaultImage(), new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
     	unitSelect  = new JPanel();
     	
@@ -128,6 +128,7 @@ public class GameUI extends JFrame
         }
         
         tools.setFloatable(false);
+        tools.setOpaque(false);
         gui.add(tools, BorderLayout.PAGE_START);
     }
     
@@ -136,6 +137,7 @@ public class GameUI extends JFrame
     	
         board = new JPanel(new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
+        board.setOpaque(false);
         gui.add(board);
         
 
@@ -176,6 +178,7 @@ public class GameUI extends JFrame
     {
     	
     	JPanel cardHolder = new JPanel();
+    	cardHolder.setOpaque(false);
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
 

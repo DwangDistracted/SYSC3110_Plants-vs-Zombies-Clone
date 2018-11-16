@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.LayoutManager;
 
 /**
  * This is an implementation of JPanel that allows for background images
@@ -14,9 +15,18 @@ public class JImagePanel extends javax.swing.JPanel {
 	public JImagePanel() {
 		super();
 	}
-
+	
+	public JImagePanel(LayoutManager l) {
+		super(l);
+	}
+	
 	public JImagePanel(Image bgImage) {
 		super();
+		this.bgImage = bgImage;
+	}
+	
+	public JImagePanel(Image bgImage, LayoutManager l) {
+		super(l);
 		this.bgImage = bgImage;
 	}
 
