@@ -6,7 +6,14 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +33,7 @@ public class MainMenu extends JFrame {
 	private static final String DATE = "2018/11/11";
 
 	public static Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
-	
+		
 	public MainMenu() {
 		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -42,28 +49,45 @@ public class MainMenu extends JFrame {
 		Container contents = this.getContentPane();
 		contents.setLayout(new BorderLayout()); //Layout Manager
 		
-		JPanel titlePane = new JPanel();
+		JPanel titlePane;
+		try { //try to use a background image
+			titlePane = new JImagePanel(ImageIO.read(new File("images/title-top-background.jpg")));
+		} catch (IOException e1) {
+			titlePane = new JPanel();
+			titlePane.setBackground(Color.WHITE);
+			e1.printStackTrace();
+		}
 		titlePane.setLayout(new BoxLayout(titlePane, BoxLayout.PAGE_AXIS));
 		
 		JLabel titleFld = new JLabel("<html><br>Zombies are Vegan</html>");
 		titleFld.setHorizontalAlignment(SwingConstants.CENTER);
 		titleFld.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+		titleFld.setForeground(Color.white);
 		
 		JLabel authorFld = new JLabel("<html>Tanisha Garg | Michael Patsula | Derek Shao | David Wang</html>");
 		authorFld.setHorizontalAlignment(SwingConstants.CENTER);
 		authorFld.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+		authorFld.setForeground(Color.white);
 		
 		titlePane.add(titleFld);
 		titlePane.add(authorFld);
 		contents.add(titlePane, BorderLayout.NORTH);
-		
-		JPanel btnPane = new JPanel();
+
+		JPanel btnPane;
+		try { //try to use a background image
+			btnPane = new JImagePanel(ImageIO.read(new File("images/title-top-background.jpg")));
+		} catch (IOException e1) {
+			btnPane = new JPanel();
+			btnPane.setBackground(Color.WHITE);
+			e1.printStackTrace();
+		}
 		btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));
 		
 		JLabel versionFld = new JLabel();
 		versionFld.setText("<html>&nbsp;" + VERSION +  " - " + DATE + "</html>");
 		versionFld.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
 		versionFld.setVerticalAlignment(SwingConstants.BOTTOM);
+		versionFld.setForeground(Color.WHITE);
 		
 		JButton playBtn = new JButton("PLAY");
 		playBtn.setToolTipText("Play from the First Level");
@@ -91,9 +115,18 @@ public class MainMenu extends JFrame {
 		btnPane.add(quitBtn);
 		contents.add(btnPane, BorderLayout.SOUTH);
 		
-		contents.setBackground(Color.WHITE); //TODO - set Background Images and Colors
-		btnPane.setBackground(Color.WHITE);
-		titlePane.setBackground(Color.WHITE);
+		BufferedImage myPicture;
+		try { //insert a background image
+			myPicture = ImageIO.read(new File("images/title-background.jpg"));
+			JLabel picLabel = new JLabel(new ImageIcon(myPicture.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT)));
+			contents.add(picLabel, BorderLayout.CENTER);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			contents.setBackground(Color.WHITE);
+			btnPane.setBackground(Color.WHITE);
+			titlePane.setBackground(Color.WHITE);
+		}
 		
 		this.setVisible(true); //Show this monstrosity
 	}

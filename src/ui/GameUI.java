@@ -22,7 +22,7 @@ public class GameUI extends JFrame
 {
 	private static final long serialVersionUID = -717683255015646823L;
 
-	private JPanel gui;
+	private JImagePanel gui;
 	
 	private GridUI[][] boardTiles;
     private JPanel board;
@@ -78,6 +78,7 @@ public class GameUI extends JFrame
 	    setSize(width, height);
 	    add(gui);
 	    setVisible(true);
+	    
     }
     
     private final void initializeComponents() 
