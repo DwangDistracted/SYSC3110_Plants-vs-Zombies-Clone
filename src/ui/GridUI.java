@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -33,6 +34,13 @@ public class GridUI extends JPanel {
 		renderZombies();
 	}
 
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Image backgroundImage = Images.getDefaultImage();
+		g.drawImage(backgroundImage, 0, 0, null);
+	}
+	
 	/**
 	 * 
 	 */
@@ -52,17 +60,13 @@ public class GridUI extends JPanel {
 
 		if (grid.getPlant() != null) {
 			plantImage = Images.getPlantImage(grid.getPlant().getPlantType());
+			plantImage = plantImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+			plantPanel.setPreferredSize(new Dimension(100, 100));
+			plantLabel.setIcon(new ImageIcon(plantImage));
+			plantPanel.add(plantLabel);
+		} 
 
-		} else {
-			plantImage = Images.getDefaultImage();
-		}
-		
-		plantImage = plantImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-		plantLabel.setIcon(new ImageIcon(plantImage));
-		
-		plantPanel.add(plantLabel);
-		plantPanel.setPreferredSize(new Dimension(100, 100));
-		
+		plantPanel.setOpaque(false);
 		add(plantPanel, c);
 	}
 	
@@ -91,6 +95,7 @@ public class GridUI extends JPanel {
 				c.gridx = 1;
 				c.gridy = numberOfZombieTypes;
 				
+				zombiePanel.setOpaque(false);
 				add(zombiePanel, c);
 				
 				numberOfZombieTypes++;
@@ -106,20 +111,6 @@ public class GridUI extends JPanel {
 				
 				add(fullZombieListPanel, c);
 			}
-		}
-		
-		if (numberOfZombieTypes == 0) {
-			
-			Image defaultImage = Images.getDefaultImage();
-			defaultImage = defaultImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-			zombiePanel.add(new JLabel(new ImageIcon(defaultImage)));
-			
-			c.fill = GridBagConstraints.VERTICAL;
-			c.weighty = 0.5;
-			c.gridx = 1;
-			c.gridy = 0;
-			
-			add(zombiePanel, c);
 		}
 	}
 
