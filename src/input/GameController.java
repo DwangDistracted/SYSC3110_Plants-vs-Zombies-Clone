@@ -43,6 +43,7 @@ public class GameController {
 		this.ui.addGridListeners(new GridListener());
 		this.ui.addUnitSelectionListeners(new UnitSelectListener());
 		this.ui.addGameButtonListeners(new GameButtonListener());
+		this.ui.addLawnMowerListeners(new LawnMowerListener());
 	}
 	
 	private class GameButtonListener implements ActionListener {
@@ -165,7 +166,6 @@ public class GameController {
 	 * @author micha
 	 */
 	private class LawnMowerListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton) e.getSource();

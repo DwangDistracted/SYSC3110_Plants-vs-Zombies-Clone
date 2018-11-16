@@ -8,17 +8,11 @@ import levels.LevelInfo;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import assets.Flower;
-import assets.Plant;
 import assets.PlantTypes;
 import assets.Regular_Zombie;
 
