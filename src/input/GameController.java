@@ -46,21 +46,19 @@ public class GameController {
 	}
 	
 	private class GameButtonListener implements ActionListener {
-
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			
+		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton) e.getSource();
 			
-			if(ui.getDigUp() == source)
+			switch(e.getActionCommand())
 			{
-				removingPlant = true;
-				ui.revertHighlight(selectedCard);
-				selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
-			}
-			else if(ui.getEndTurn() == source)
-			{
-				game.zombieTurn();	
+				case "Dig Up": 
+					removingPlant = true;
+					selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
+					ui.revertHighlight(selectedCard); 
+					break;
+				case "End turn":
+					game.zombieTurn();
 			}
 		}
 	}
@@ -163,7 +161,7 @@ public class GameController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
