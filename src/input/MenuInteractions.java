@@ -11,62 +11,41 @@ import engine.Game;
 import levels.LevelInfo;
 import levels.LevelLoader;
 import ui.*;
-
 /**
  * This is a collection of statics that generate action listeners for Menu Buttons
- * @author David Wang
+ * @author david
  */
 public class MenuInteractions {
 	private MenuInteractions() {} //this is a collection of statics
-
-	/**
-	 * Generates a Quit Button Action Listener for a given frame
-	 * @param frame
-	 * @return An ActionListener
-	 */
+	
 	public static ActionListener getQuitHandler(JFrame frame) {
 		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-			}
-		};
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			};
 	}
-
-	/**
-	 * Generates an Action Listener that creates a LevelMenu frame and closes the given frame.
-	 * @param frame
-	 * @return An ActionListener
-	 */
+	
 	public static ActionListener getLevelsHandler (JFrame frame) {
 		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new LevelMenu();
-				frame.dispose();
-			}
-		};
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new LevelMenu();
+					frame.dispose();
+				}
+			};
 	}
 
-	/**
-	 * Generates an Action Listeners that triggers the loading of a save game
-	 * @param frame
-	 * @return An ActionListener
-	 */
 	public static ActionListener getLoadHandler (JFrame frame) {
 		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//not implemented
-			}
-		};
-	}
-
-	/**
-	 * Generates an Action Listener that starts level 1
-	 * @param frame
-	 * @return An ActionListener
-	 */
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//not implemented
+				}
+			};
+  }
+  
 	public static ActionListener getPlayHandler(JFrame frame) {
 		return new ActionListener() {
 			@Override
@@ -82,12 +61,6 @@ public class MenuInteractions {
 		};
 	}
 
-	/**
-	 * Generates an Action Listener that starts a selected Level
-	 * @param frame
-	 * @param levelOptions
-	 * @return An ActionListener
-	 */
 	public static ActionListener getPlayHandler(JFrame frame, ButtonGroup levelOptions) {
 		return new ActionListener() {
 			@Override
@@ -113,11 +86,7 @@ public class MenuInteractions {
 		};
 	}
 
-	/**
-	 * Generates an Action Listener that returns the user to the Main Menu
-	 * @param frame
-	 * @return An ActionListener
-	 */
+
 	public static ActionListener getBackHandler(JFrame frame) {
 		return new ActionListener() {
 			@Override

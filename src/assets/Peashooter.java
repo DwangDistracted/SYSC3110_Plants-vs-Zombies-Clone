@@ -21,7 +21,7 @@ public class Peashooter extends Plant{
 	 * returns name of Peashooter
 	 */
 	public String toString() {
-		return "Peashooter";
+		return "P";
 	}
 
 	public PlantTypes getPlantType() {

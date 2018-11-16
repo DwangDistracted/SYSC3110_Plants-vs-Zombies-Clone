@@ -20,7 +20,7 @@ public class Regular_Zombie extends Zombie{
 	 * returns the name of regular type zombie
 	 */
 	public String toString() {
-		return "Zombie";	
+		return "RZ";	
 	}
 
 	public ZombieTypes getZombieType() {
