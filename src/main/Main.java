@@ -20,7 +20,9 @@ public class Main {
 		//Log init
 		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
 		LevelLoader.init();
-		Images.preloadImages();
+		if(!Images.preloadImages()) {
+			LOG.error("Failed to Load Graphics Images");
+		}
 		
 		new MainMenu();
 	}

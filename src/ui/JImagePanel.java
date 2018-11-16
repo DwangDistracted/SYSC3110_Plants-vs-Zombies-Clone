@@ -25,7 +25,7 @@ public class JImagePanel extends javax.swing.JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(bgImage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT), 0, 0, null); //have to add this to add image support
+		if (bgImage != null ) g.drawImage(bgImage.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT), 0, 0, null); //have to add this to add image support
 	}
 
 	/**

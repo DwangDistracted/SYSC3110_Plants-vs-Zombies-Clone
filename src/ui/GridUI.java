@@ -56,9 +56,15 @@ public class GridUI extends JPanel {
 
 		if (grid.getPlant() != null) {
 			plantImage = Images.getPlantImage(grid.getPlant().getPlantType());
-			plantImage = plantImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-			plantPanel.setPreferredSize(new Dimension(100, 100));
-			plantLabel.setIcon(new ImageIcon(plantImage));
+			
+			if (plantImage != null) {
+				plantImage = plantImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+				plantPanel.setPreferredSize(new Dimension(100, 100));
+				plantLabel.setIcon(new ImageIcon(plantImage));
+			} else {
+				plantLabel.setText(grid.getPlant().toString());
+			}
+			
 			plantPanel.add(plantLabel);
 		} 
 
@@ -82,6 +88,15 @@ public class GridUI extends JPanel {
 			if (numberOfZombieTypes < MAX_ZOMBIE_TYPES) {
 				
 				ZombiePanel zombiePanel = new ZombiePanel(zombieType, grid.getZombieTypeCount().get(zombieType));
+				Image zombieImage = Images.getZombieImage(zombieType);
+				
+				if (zombieImage != null) {
+					zombieImage = zombieImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+					
+					zombiePanel.add(new JLabel(new ImageIcon(zombieImage)));
+				} else {
+					zombiePanel.add(new JLabel(ZombieTypes.toZombie(zombieType).toString()));
+				}
 				
 				c.fill = GridBagConstraints.VERTICAL;
 				c.weighty = 0.5;
