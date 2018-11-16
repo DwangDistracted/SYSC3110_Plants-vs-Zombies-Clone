@@ -79,8 +79,11 @@ public class GameController {
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
 						userResources.spendPoints(selectedPlant.getCost());
+						ui.setPointsLabel(userResources.getPoints());
 						source.renderPlant();
 					}
+				} else {
+					ui.showInsufficientFundsOptionPane(selectedPlant);
 				}
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
@@ -179,6 +182,5 @@ public class GameController {
 				}
 			}
 		}
-
 	}
 }
