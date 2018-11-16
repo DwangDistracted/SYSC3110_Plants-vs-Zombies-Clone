@@ -10,90 +10,58 @@ import javax.imageio.ImageIO;
 
 public class Images
 {
-	private static final File PROJECT_DIRECTORY = new File(""); 
-	private static final String SUNFLOWER_IMAGE_PATH = PROJECT_DIRECTORY.getAbsolutePath() + "\\images\\Plant_Sunflower.png";
-	private static final String PEASHOOTER_IMAGE_PATH = PROJECT_DIRECTORY.getAbsolutePath() + "\\images\\Plant_Peashooter.png";
-	private static final String REG_ZOMBIE_IMAGE_PATH = PROJECT_DIRECTORY.getAbsolutePath() + "\\images\\Zombie_Regular.png";
-	private static final String DEFAULT_IMAGE_PATH = PROJECT_DIRECTORY.getAbsolutePath() + "\\images\\Grass.jpg";
-	private static BufferedImage SUNFLOWER_IMAGE;
-	private static BufferedImage PEASHOOTER_IMAGE;
-	private static BufferedImage REG_ZOMBIE_IMAGE;
-	private static BufferedImage DEFAULT_IMAGE;
-	
-	public static Images __Images = new Images();
-	
-	private Images() {
-		File projectDirectory = new File("");
-		
+	private static BufferedImage sunflowerImage = null;
+	private static BufferedImage peashooterImage = null;
+	private static BufferedImage regZombieImage = null;
+	private static BufferedImage mowerImage = null;
+	private static BufferedImage grassImage = null;
+
+	private Images() {}
+
+	public static boolean preloadImages() {
 		try {
-			SUNFLOWER_IMAGE = ImageIO.read(new File(SUNFLOWER_IMAGE_PATH));
-			PEASHOOTER_IMAGE = ImageIO.read(new File(PEASHOOTER_IMAGE_PATH));
-			REG_ZOMBIE_IMAGE = ImageIO.read(new File(REG_ZOMBIE_IMAGE_PATH));
-			DEFAULT_IMAGE = ImageIO.read(new File(DEFAULT_IMAGE_PATH));
+			sunflowerImage = ImageIO.read(new File("images\\Plant_Sunflower.png"));
+			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
+			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
+			mowerImage =  ImageIO.read(new File("images\\Lawnmower.jpg"));
+			grassImage = ImageIO.read(new File("images\\Grass.jpg"));
+			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			return false;
 		}
-		
 	}
-	
+
 	public static Image getPlantImage(PlantTypes plant)
 	{
-		File projectDirectory = new File("");
-		
 		switch(plant) {
-			case SUNFLOWER:
-				return SUNFLOWER_IMAGE;
-			case PEASHOOTER:
-				return PEASHOOTER_IMAGE;
-			default:
-				System.out.println("Invalid Plant type");
+		case SUNFLOWER:
+			return sunflowerImage;
+		case PEASHOOTER:
+			return peashooterImage;
+		default:
+			System.out.println("Invalid Plant type");
 		}
-		
-		return null;
-	}
-	
-	public static Image getZombieImage(ZombieTypes zombie) {
-		
-		File projectDirectory = new File("");
-		
-		switch(zombie) {
-			case REG_ZOMBIE:
-				return REG_ZOMBIE_IMAGE;
-			default:
-				System.out.println("Invalid zombie type");
-		}
-		
-		return null;
-	}
-	
-	public static Image getLawnMowerImage() {
-		
-		File projectDirectory = new File("");
-		
-		try {
-			String imagePath = projectDirectory.getAbsolutePath() + "\\images\\Lawnmower.jpg";
-			BufferedImage img = ImageIO.read(new File(imagePath));
-			return img;
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		
+
 		return null;
 	}
 
-	public static Image getGrassTileImage() {
-		
-		File projectDirectory = new File("");
-		
-		try {
-			String imagePath = projectDirectory.getAbsolutePath() + "\\images\\Grass.jpg";
-			BufferedImage img = ImageIO.read(new File(imagePath));
-			return img;
-		} catch (IOException e) {
-			e.printStackTrace();
+	public static Image getZombieImage(ZombieTypes zombie) {
+		switch(zombie) {
+		case REG_ZOMBIE:
+			return regZombieImage;
+		default:
+			System.out.println("Invalid zombie type");
 		}
-		
+
 		return null;
+	}
+
+	public static Image getLawnMowerImage() {
+		return mowerImage;
+	}
+
+	public static Image getGrassTileImage() {
+		return grassImage;
 	}
 }
 

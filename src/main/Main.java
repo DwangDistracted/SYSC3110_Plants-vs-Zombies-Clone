@@ -1,6 +1,7 @@
 package main;
 
 import levels.LevelLoader;
+import ui.Images;
 import ui.MainMenu;
 import util.Logger;
 
@@ -19,7 +20,8 @@ public class Main {
 		//Log init
 		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
 		LevelLoader.init();
-
+		Images.preloadImages();
+		
 		new MainMenu();
 	}
 }
