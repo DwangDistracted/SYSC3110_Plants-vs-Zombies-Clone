@@ -217,7 +217,7 @@ public class GameUI extends JFrame
      */
     private final void initUnitSelection()
     {
-    	JPanel cardHolder = new JPanel();
+    	cardHolder = new JPanel();
     	cardHolder.setOpaque(false);
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
@@ -248,6 +248,7 @@ public class GameUI extends JFrame
     		JLabel costLabel = new JLabel(String.valueOf(PlantTypes.toPlant(p).getCost()));  //cost of the plant
     		costLabel.setHorizontalAlignment(JLabel.CENTER);
     		card.add(costLabel, BorderLayout.SOUTH);
+    		card.setUnit(PlantTypes.toPlant(p));
     		cardHolder.add(card);
         	cardHolder.add(Box.createRigidArea(new Dimension(5, 5)));	
         	
@@ -349,9 +350,9 @@ public class GameUI extends JFrame
      */
     public void addUnitSelectionListeners(MouseListener listener)
     {
-//    	for (Component c : cardHolder.getComponents()) {
-//    		c.addMouseListener(listener);
-//    	}
+    	for (Component c : cardHolder.getComponents()) {
+    		c.addMouseListener(listener);
+    	}
     }
     
     public void addMenuButtonListeners(ActionListener listener) {

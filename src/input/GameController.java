@@ -22,7 +22,6 @@ public class GameController {
 	
 	private Game game;
 	private GameUI ui;
-	private boolean firstClick; //Every click should toggle the first flag
 	private Card selectedCard; //The selected card on click #1
 	private Board gameBoard;
 	private Purse userResources;
@@ -34,7 +33,6 @@ public class GameController {
 		this.game = game;
 		this.ui = ui;
 		this.selectedCard = null;
-		this.firstClick = true;
 		this.gameBoard = this.game.getBoard();
 		this.userResources = this.game.getPurse();
 		
@@ -42,7 +40,6 @@ public class GameController {
 		this.ui.addMenuButtonListeners(new MenuBarListener());
 		this.ui.addUnitSelectionListeners(new UnitSelectListener());
 		this.ui.addGameButtonListeners(new GameButtonListener());
-		firstClick = true;
 	}
 	
 	private class GameButtonListener implements ActionListener {
@@ -78,16 +75,17 @@ public class GameController {
 			final int sourceRow = source.getRow();
 			final int sourceCol = source.getCol();
 			
-			Plant selectedPlant = selectedCard.getPlant();
+
 			if (selectedCard != null) {
+				Plant selectedPlant = selectedCard.getPlant();
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
 						userResources.spendPoints(selectedPlant.getCost());
 						source.renderPlant();
 					}
 				}
-				selectedCard = null;
 				ui.revertHighlight(selectedCard);
+				selectedCard = null;
 			} else if (removingPlant) {
 				gameBoard.getGrid(sourceRow, sourceCol).setPlant(null);
 				source.renderPlant();
@@ -125,22 +123,15 @@ public class GameController {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			System.out.println("Mouseclicks");
 			Card card = (Card)e.getSource(); 
-	        //if this is the first pick and a square with a piece was picked,
-	        // remember the piece, check if it is viable and highlight the card
-			if(firstClick)
-			{
-				selectedCard = card; //save the selected card (to perhaps compare for second click)
-				ui.setHighlight(card);
-				firstClick = false;
-			}
-			else //indicates that the second click is on another unit card 
-			{
+			
+			if (selectedCard != null) {
 				ui.revertHighlight(selectedCard);
+			}
+			
+			if (selectedCard == null || selectedCard != card) {
 				ui.setHighlight(card);
 				selectedCard = card;
-				firstClick = true;
 			}
 		}
 
