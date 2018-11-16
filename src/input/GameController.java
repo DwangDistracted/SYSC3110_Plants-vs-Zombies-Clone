@@ -53,6 +53,14 @@ public class GameController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			switch(e.getActionCommand()) {
+				case "Menu":
+					break;
+				case "End turn":
+					break;
+				case "Quit":
+					break;
+			}
 		}
 	}
 	

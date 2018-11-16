@@ -78,17 +78,14 @@ public class GridUI extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 	
 		int numberOfZombieTypes = 0;
-		JPanel zombiePanel = new JPanel();
-		zombiePanel.setPreferredSize(new Dimension(100, 100));
+		//JPanel zombiePanel = new JPanel();
+		//zombiePanel.setPreferredSize(new Dimension(100, 100));
 		
 		for (ZombieTypes zombieType : grid.getZombieTypeCount().keySet()) {
 			
 			if (numberOfZombieTypes < MAX_ZOMBIE_TYPES) {
 				
-				Image zombieImage = Images.getZombieImage(zombieType);
-				zombieImage = zombieImage.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-				
-				zombiePanel.add(new JLabel(new ImageIcon(zombieImage)));
+				ZombiePanel zombiePanel = new ZombiePanel(zombieType, grid.getZombieTypeCount().get(zombieType));
 				
 				c.fill = GridBagConstraints.VERTICAL;
 				c.weighty = 0.5;
