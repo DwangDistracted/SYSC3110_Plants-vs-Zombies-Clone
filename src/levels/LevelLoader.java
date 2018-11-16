@@ -110,7 +110,11 @@ public class LevelLoader {
 		currentLevel = -1;
 	}
 	
-	
+	/**
+	 * Factory Class for building LevelInfos.
+	 * @author david
+	 *
+	 */
 	public class LevelFactory {
 		//The level's name
 		private String name;
@@ -150,20 +154,34 @@ public class LevelLoader {
 		}
 		
 		public LevelFactory setResPerTurn(int rpt) {
+			this.resPerTurn = rpt;
 			return this;
 		}
 		
-		public LevelFactory setInitResources() {
+		public LevelFactory setInitResources(int initResources) {
+			this.initResources = initResources;
 			return this;
 		}
 		
-		public LevelFactory 
+		public LevelFactory addAllowedPlant(PlantTypes type) {
+			allowedPlants.add(type);
+			return this;
+		}
+		
+		public LevelFactory addZombies(ZombieTypes type, int number) {
+			zombies.put(type, number);
+			return this;
+		}
 		
 		public LevelInfo toLevelInfo() {
 			return new LevelInfo(name, levelRating, column, row, resPerTurn, initResources, zombies, allowedPlants);
 		}
 	}
 	
+	/**
+	 * Get a LevelLoader instance
+	 * @return
+	 */
 	public static LevelFactory getLevelFactory() {
 		LevelLoader x = new LevelLoader();
 		return x.new LevelFactory();
