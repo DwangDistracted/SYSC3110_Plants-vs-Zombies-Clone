@@ -28,6 +28,7 @@ public class GameUI extends JFrame
 	private static final long serialVersionUID = -717683255015646823L;
 
 	private JImagePanel gui;
+	private JPanel gui;
 	
 	private GridUI[][] boardTiles;
     private JPanel board;
@@ -103,8 +104,7 @@ public class GameUI extends JFrame
     	pointsAvailable = new JLabel("Points: " + points);
     	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
-    	gui = new JImagePanel(Images.getDefaultImage(), new BorderLayout(200, 5));
-    	gui = new JImagePanel(Images.getGrassTileImage(), new BorderLayout(200, 5));
+    	gui = new JPanel(new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
     	
     	menuButtons = new ArrayList<JMenuItem>();
@@ -158,9 +158,8 @@ public class GameUI extends JFrame
      */
     private final void initializeBoard() {
     	
-        board = new JPanel(new GridLayout(row, column + 1, 5, 0));
+        board = new JImagePanel(Images.getGrassTileImage(), new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
-        board.setOpaque(false);
         gui.add(board);
         
 

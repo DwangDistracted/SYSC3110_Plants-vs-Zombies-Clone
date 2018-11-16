@@ -11,14 +11,6 @@ import java.awt.LayoutManager;
 public class JImagePanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image bgImage;
-
-	public JImagePanel() {
-		super();
-	}
-	
-	public JImagePanel(LayoutManager l) {
-		super(l);
-	}
 	
 	public JImagePanel(Image bgImage) {
 		super();
