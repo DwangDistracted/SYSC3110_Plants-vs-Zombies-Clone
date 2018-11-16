@@ -67,6 +67,7 @@ public class GameUI
     	initializeBoard();
         initUnitSelection();
         initializeJFrame();
+        setMouseListeners();
     }
 
     /**
@@ -314,7 +315,7 @@ public class GameUI
      * @param e
      * @author Michael Patsula
      */
-    public void setMouseListeners(MouseListener e)
+    public void setMouseListeners()
     {
     	for(JPanel i : cardCollection.keySet())
     	{

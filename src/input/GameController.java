@@ -21,11 +21,13 @@ public class GameController {
 	private static GameUI ui;
 	private static boolean firstClick;
 	private static Plant selectedPlant;
+	private static JPanel selectedPane;
 	
 	public GameController(GameUI ui, Game game) {
 		this.game = game;
 		this.ui = ui;
 		this.selectedPlant = null;
+		this.selectedPane = null;
 		firstClick = true;
 	}
 	
@@ -68,7 +70,6 @@ public class GameController {
 			{
 		        //if this is the first pick and a square with a piece was picked,
 		        // remember the piece, check if it is viable and highlight the card
-				System.out.println("test");
 				if(firstClick)
 				{
 					JPanel p = (JPanel)e.getSource();
@@ -78,8 +79,11 @@ public class GameController {
 						{
 							if(game.getPurse().spendPoints(ui.getCardCollection().get(i).getCost()))
 							{
-								selectedPlant = ui.getCardCollection().get(i);
+								selectedPlant = ui.getCardCollection().get(i); //save the selected plant type
+								selectedPane = i; //save the selected JPanel
+								
 								ui.setHighlight(i);
+								ui.setPointsMessage(game.getPurse().getPoints()); //update the number of points the player has
 								firstClick = false;
 							}
 							else
@@ -91,6 +95,7 @@ public class GameController {
 				}
 				else //its second click... ie place unit on board
 				{
+					ui.revertHighlight(selectedPane);
 					firstClick = true;
 				}
 			}
