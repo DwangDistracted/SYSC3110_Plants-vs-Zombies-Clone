@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import assets.Plant;
 import assets.PlantTypes;
 import assets.Regular_Zombie;
 
@@ -391,5 +392,24 @@ public class GameUI extends JFrame
     		button.addActionListener(listener);
     	}
     }
-
+    
+    /**
+     * Set the text for indicating remaining points
+     * 
+     */
+    public void setPointsLabel(int points) {
+    	
+        pointsAvailable.setText("Points: " + Integer.toString(points));
+    }
+    
+    /**
+     * Indicate message notifying player they can not afford 
+     * the specified plant
+     * 
+     * @param plant the plant they can not afford
+     */
+    public void showInsufficientFundsOptionPane(Plant plant) {
+    	
+    	JOptionPane.showMessageDialog(null, "You do not have enough funds for: " + plant.toString());
+    }
 }
