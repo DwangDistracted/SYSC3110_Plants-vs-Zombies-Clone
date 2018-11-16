@@ -55,12 +55,12 @@ public class GameController {
 			if(ui.getDigUp() == source)
 			{
 				removingPlant = true;
+				ui.revertHighlight(selectedCard);
 				selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
-				ui.revertHighlight(selectedCard); 
 			}
 			else if(ui.getEndTurn() == source)
 			{
-				game.zombieTurn();
+				game.zombieTurn();	
 			}
 		}
 	}
