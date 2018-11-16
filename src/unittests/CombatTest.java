@@ -16,11 +16,10 @@ public class CombatTest {
 		Board b = new Board(7, 1);
 		Peashooter p = new Peashooter();
 		Regular_Zombie z = new Regular_Zombie();
-		b.placePlant(p, 0, 1);
-		b.placeZombie(z, 7, 1);
-		int[] expectedCoordinates = {7, 1};
-		int[] killedZombieCoordinates = c.plantAttack(p);
-		assertEquals("Zombie's row = 7 and row =1", expectedCoordinates, killedZombieCoordinates);
+		b.placePlant(p, 0, 0);
+		b.placeZombie(z, 7, 0);
+		c.plantAttack(p);
+		assertTrue("Zombie is dead", z.isAlive());
 	}
 	
 	@Test
