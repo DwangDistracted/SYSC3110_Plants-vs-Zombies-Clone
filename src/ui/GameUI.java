@@ -37,7 +37,6 @@ public class GameUI extends JFrame
     private int row;
     private int column;
     
-    private JPanel lawnMowers;
     private JButton[] mowers;
     
 	private JPanel cardHolder;
@@ -49,7 +48,7 @@ public class GameUI extends JFrame
     private JLabel levelMessage;
     private JLabel turnMessage;
     private JLabel pointsAvailable;
-
+    
     private ArrayList<JMenuItem> menuButtons;
     private ArrayList<JButton> gameButtons;
     
@@ -73,9 +72,19 @@ public class GameUI extends JFrame
     	initializeBoard();
         initUnitSelection();
         initializeJFrame();
+        initializeImages();
     }
 
-    /**
+    private void initializeImages() {
+    	for (int i = 0; i < mowers.length; i++) {
+	        Image image = Images.getLawnMowerImage();
+	    	image = image.getScaledInstance(mowers[i].getHeight(), mowers[i].getHeight(), Image.SCALE_DEFAULT);
+	    	mowers[i].setIcon(new ImageIcon(image));
+	    	mowers[i].setText("");
+    	}
+	}
+
+	/**
      * Initializes the JFrame that contains all the GameUI gui components
      * @author Michael Patsula
      */
@@ -105,7 +114,6 @@ public class GameUI extends JFrame
     	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
     	gui = new JPanel(new BorderLayout(200, 5));
-    	lawnMowers = new JPanel();
     	
         menuButtons = new ArrayList<JMenuItem>();
 		JMenuItem backItem = new JMenuItem("Main Menu");
@@ -170,7 +178,6 @@ public class GameUI extends JFrame
      * @author Michael Patsula
      */
     private final void initializeBoard() {
-
         board = new JImagePanel(Images.getGrassTileImage(), new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);                                                                 
@@ -186,8 +193,6 @@ public class GameUI extends JFrame
             }
         }
         
-        Image image = Images.getLawnMowerImage();
-    	image = image.getScaledInstance(200,200, Image.SCALE_DEFAULT);
         // fill the black non-pawn piece row
         for (int r = 0; r < row; r++) 
         {
@@ -196,10 +201,10 @@ public class GameUI extends JFrame
                 switch (c)
                 {
                     case 0:
-                    	JButton b = new JButton(new ImageIcon(image));
+                    	JButton b = new JButton("Mower");
                     	b.setContentAreaFilled(false);
                     	mowers[r] = b;
-                        board.add(mowers[r]);  //$
+                        board.add(mowers[r]);
                     default:
                         board.add(boardTiles[r][c]);                                
                 }
