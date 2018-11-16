@@ -37,7 +37,6 @@ public class GameUI extends JFrame
     private int row;
     private int column;
     
-    private JPanel lawnMowers;
     private JButton[] mowers;
     
 	private JPanel cardHolder;
@@ -105,7 +104,6 @@ public class GameUI extends JFrame
     	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
     	gui = new JPanel(new BorderLayout(200, 5));
-    	lawnMowers = new JPanel();
     	
         menuButtons = new ArrayList<JMenuItem>();
 		JMenuItem backItem = new JMenuItem("Main Menu");
@@ -199,13 +197,12 @@ public class GameUI extends JFrame
                     	JButton b = new JButton(new ImageIcon(image));
                     	b.setContentAreaFilled(false);
                     	mowers[r] = b;
-                        board.add(mowers[r]);  //$
+                        board.add(mowers[r]);  
                     default:
                         board.add(boardTiles[r][c]);                                
                 }
             }
         }
-        
     }
     
     /**
@@ -341,13 +338,9 @@ public class GameUI extends JFrame
     {
         return gui;
     }
-    public  JButton getDigUp()
+    public JButton[] getMowers()
     {
-    	return 
-    }
-    public JButton getEndTurn()
-    {
-    	return endTurn;
+    	return mowers;
     }
    
 
@@ -361,7 +354,7 @@ public class GameUI extends JFrame
     }
     
     /**
-     * Sets mouse listeners to gameui's interactable components
+     * Sets the unit selection cards as mouse listeners
      * @param e
      * @author Michael Patsula
      */
@@ -372,16 +365,27 @@ public class GameUI extends JFrame
     	}
     }
     
-    public void addMenuButtonListeners(ActionListener listener) {
-    	for (JMenuItem button : menuButtons) {
-    		button.addActionListener(listener);
-    	}
-    }
-    
+    /**
+     * Sets the game buttons as action listeners
+     * @param e
+     * @author Michael Patsula
+     */
     public void addGameButtonListeners(ActionListener listener) {
     	for (JButton button : gameButtons) {
     		button.addActionListener(listener);
     	}
     }
+    
+    /**
+     * Sets the lawn mower buttons as action listeners
+     * @param e
+     * @author Michael Patsula
+     */
+    public void addLawnMowerListeners(ActionListener listener) {
+    	for (JButton button : mowers) {
+    		button.addActionListener(listener);
+    	}
+    }
+    
 }
 
