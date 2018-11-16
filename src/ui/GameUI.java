@@ -108,10 +108,16 @@ public class GameUI extends JFrame
     	gui = new JPanel(new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
     	
-    	menuButtons = new ArrayList<JMenuItem>();
-    	menuButtons.add(new JMenuItem("Main Menu"));
-    	menuButtons.add(new JMenuItem("Save"));
-    	menuButtons.add(new JMenuItem("Quit"));
+        menuButtons = new ArrayList<JMenuItem>();
+		JMenuItem backItem = new JMenuItem("Main Menu");
+		backItem.addActionListener(MenuInteractions.getBackHandler(this));
+		menuButtons.add(backItem);
+		JMenuItem saveItem = new JMenuItem("Save");
+		saveItem.addActionListener(MenuInteractions.getSaveHandler(this));
+		menuButtons.add(saveItem);
+		JMenuItem quitItem = new JMenuItem("Quit");
+		quitItem.addActionListener(MenuInteractions.getQuitHandler(this));
+		menuButtons.add(quitItem);
     	
     	gameButtons = new ArrayList<JButton>();
     	JButton digUpButton = new JButton("Dig Up");
@@ -217,7 +223,7 @@ public class GameUI extends JFrame
      */
     private final void initUnitSelection()
     {
-    	cardHolder = new JPanel();
+    	JPanel cardHolder = new JPanel();
     	cardHolder.setOpaque(false);
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
@@ -248,7 +254,6 @@ public class GameUI extends JFrame
     		JLabel costLabel = new JLabel(String.valueOf(PlantTypes.toPlant(p).getCost()));  //cost of the plant
     		costLabel.setHorizontalAlignment(JLabel.CENTER);
     		card.add(costLabel, BorderLayout.SOUTH);
-    		card.setUnit(PlantTypes.toPlant(p));
     		cardHolder.add(card);
         	cardHolder.add(Box.createRigidArea(new Dimension(5, 5)));	
         	
@@ -350,9 +355,9 @@ public class GameUI extends JFrame
      */
     public void addUnitSelectionListeners(MouseListener listener)
     {
-    	for (Component c : cardHolder.getComponents()) {
-    		c.addMouseListener(listener);
-    	}
+//    	for (Component c : cardHolder.getComponents()) {
+//    		c.addMouseListener(listener);
+//    	}
     }
     
     public void addMenuButtonListeners(ActionListener listener) {
