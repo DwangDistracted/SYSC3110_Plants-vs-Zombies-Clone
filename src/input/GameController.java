@@ -45,6 +45,7 @@ public class GameController {
 		
 		this.ui.addGridListeners(new GridListener());
 		this.ui.addMenuButtonListeners(new MenuBarListener());
+		this.ui.addUnitSelectionListeners(new UnitSelectListener());
 		firstClick = true;
 	}
 	
@@ -117,6 +118,7 @@ public class GameController {
 		@Override
 		public void mouseClicked(MouseEvent e)
 		{
+			System.out.println("unit select clicked");
 			//if this is the first pick and a square with a piece was picked,
 			// remember the piece, check if it is viable and highlight the card
 			if(firstClick)
@@ -147,6 +149,29 @@ public class GameController {
 				ui.revertHighlight(selectedPane);
 				firstClick = true;
 			}
+			
+			JPanel p = (JPanel)e.getSource();
+			for(JPanel i : ui.getCardCollection().keySet())
+			{
+				if(i ==  p)
+				{
+					if(game.getPurse().spendPoints(ui.getCardCollection().get(i).getCost()))
+					{
+						selectedPlant = ui.getCardCollection().get(i); //save the selected plant type
+						selectedPane = i; //save the selected JPanel
+						
+						ui.setHighlight(i);
+						ui.setPointsMessage(game.getPurse().getPoints()); //update the number of points the player has
+						firstClick = false;
+					}
+					else
+					{
+						System.out.println("you dont have enough points to purchase this plant");
+					}
+				}
+			}
+			
+			
 		}
 
 		@Override

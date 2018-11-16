@@ -146,17 +146,16 @@ public class GameUI extends JFrame
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);
         
+        gameBoard.getGrid(0, 0).setPlant(PlantTypes.toPlant(PlantTypes.SUNFLOWER));
+        gameBoard.getGrid(0, 0).addZombie(new Regular_Zombie());
 
         for (int r = 0; r < boardTiles.length; r++)
         {
             for (int c = 0; c < boardTiles[r].length; c++)
             {
-            	gameBoard.getGrid(r, c).addZombie(new Regular_Zombie());
-            	gameBoard.getGrid(r, c).setPlant(new Flower());
                 boardTiles[r][c] = new GridUI(gameBoard.getGrid(r, c));
             }
         }
-        
         
         Image image = Images.getLawnMowerImage();
     	image = image.getScaledInstance(200,100, Image.SCALE_DEFAULT);
