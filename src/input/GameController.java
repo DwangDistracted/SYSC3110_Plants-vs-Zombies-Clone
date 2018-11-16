@@ -43,22 +43,24 @@ public class GameController {
 		this.ui.addGridListeners(new GridListener());
 		this.ui.addUnitSelectionListeners(new UnitSelectListener());
 		this.ui.addGameButtonListeners(new GameButtonListener());
+		this.ui.addLawnMowerListeners(new LawnMowerListener());
 	}
 	
 	private class GameButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JButton source = (JButton) e.getSource();
-			
 			switch(e.getActionCommand())
 			{
 				case "Dig Up": 
 					removingPlant = true;
-					ui.revertHighlight(selectedCard); 
-					selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
+					if(selectedCard != null)
+					{
+						ui.revertHighlight(selectedCard); 
+						selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
+					}
 					break;
 				case "End turn":
-					game.zombieTurn();
+					game.doEndOfTurn();
 			}
 		}
 	}
@@ -157,12 +159,25 @@ public class GameController {
 		
 	}
 	
+	/**
+	 * Not Implemented yet
+	 * calls the lawn mower functionalility for a specified row
+	 * The row is dependent on which button the user presses.
+	 * @author micha
+	 */
 	private class LawnMowerListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			JButton source = (JButton) e.getSource();
+			JButton[] mowers = ui.getMowers();
 			
-			
+			for(int i = 0; i < ui.getMowers().length; i++)
+			{
+				if(source == mowers[i]) //see what row the button was pressed in
+				{
+					//not implemented yet - need to remove all zombies in the specified row 
+				}
+			}
 		}
 
 	}
