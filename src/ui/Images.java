@@ -86,11 +86,10 @@ public class Images
 		File projectDirectory = new File("");
 		
 		try {
-			
-			String imagePath = projectDirectory.getAbsolutePath() + "\\images\\GrassTile.jpg";
+			String imagePath = projectDirectory.getAbsolutePath() + "\\images\\Grass.jpg";
 			BufferedImage img = ImageIO.read(new File(imagePath));
 			return img;
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

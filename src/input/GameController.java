@@ -6,60 +6,107 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+<<<<<<< HEAD
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import assets.Plant;
 import assets.PlantTypes;
+=======
+import javax.swing.BorderFactory;
+
+import assets.Plant;
+import engine.Board;
+>>>>>>> 1a9b918af8faa5d6cd8d392c5c6d70a9fc946638
 import engine.Game;
+import engine.Purse;
+import ui.Card;
 import ui.GameUI;
+import ui.GridUI;
 
 public class GameController {
 	
 	private static Game game;
 	private static GameUI ui;
-	private static boolean firstClick;
-	private static Plant selectedPlant;
-	private static JPanel selectedPane;
+	private static boolean firstClick; //Each click should 
+	private static Card selectedCard;
+	private static Board gameBoard;
+	private static Purse userResources;
+	
+	// Selected to remove a plant
+	private boolean removingPlant; 
 	
 	public GameController(GameUI ui, Game game) {
 		this.game = game;
 		this.ui = ui;
-		this.selectedPlant = null;
-		this.selectedPane = null;
-		firstClick = true;
+		this.selectedCard = null;
+		this.firstClick = true;
+		this.gameBoard = this.game.getBoard();
+		this.userResources = this.game.getPurse();
+		
+		this.ui.addGridListeners(new GridListener());
 	}
 	
-	public ActionListener menuBarActionListener() {
-		return new ActionListener() {
+	private class MenuBarListener implements ActionListener {
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		};
-	}
-	
-	public ActionListener boardActionListener() {
-		return new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
 			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		};
+		}
 	}
 	
-	public ActionListener unitSelectActionListener(JFrame frame) {
-		return new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				
+	private class GridListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			GridUI source = (GridUI) arg0.getSource();
+			
+			final int sourceRow = source.getRow();
+			final int sourceCol = source.getCol();
+			
+			Plant selectedPlant = selectedCard.getPlant();
+			if (selectedCard != null) {
+				if (userResources.canSpend(selectedPlant.getCost())) {
+					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
+						userResources.spendPoints(selectedPlant.getCost());
+						source.renderPlant();
+					}
+				}
+				selectedCard = null;
+				ui.revertHighlight(selectedCard);
+			} else if (removingPlant) {
+				gameBoard.getGrid(sourceRow, sourceCol).setPlant(null);
+				source.renderPlant();
 			}
-		};
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			GridUI source = (GridUI) arg0.getSource();
+			
+			source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			GridUI source = (GridUI) arg0.getSource();
+			
+			source.setBorder(BorderFactory.createEmptyBorder());
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// not implemented
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// not implemented
+		}
+		
 	}
+	
 	
 	public static MouseListener unitSelectMouseListener()
 	{
@@ -68,34 +115,19 @@ public class GameController {
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
+				Card card = (Card)e.getSource(); 
 		        //if this is the first pick and a square with a piece was picked,
 		        // remember the piece, check if it is viable and highlight the card
 				if(firstClick)
 				{
-					JPanel p = (JPanel)e.getSource();
-					for(JPanel i : ui.getCardCollection().keySet())
-					{
-						if(i ==  p)
-						{
-							if(game.getPurse().spendPoints(ui.getCardCollection().get(i).getCost()))
-							{
-								selectedPlant = ui.getCardCollection().get(i); //save the selected plant type
-								selectedPane = i; //save the selected JPanel
-								
-								ui.setHighlight(i);
-								ui.setPointsMessage(game.getPurse().getPoints()); //update the number of points the player has
-								firstClick = false;
-							}
-							else
-							{
-								System.out.println("you dont have enough points to purchase this plant");
-							}
-						}
-					}
+					selectedCard = card; //save the selected card (to perhaps compare for second click)
+					ui.setHighlight(card);
+					firstClick = false;
 				}
-				else //its second click... ie place unit on board
+				else //indicates that the second click is on another unit card 
 				{
-					ui.revertHighlight(selectedPane);
+					ui.revertHighlight(selectedCard);
+					ui.setHighlight(card);
 					firstClick = true;
 				}
 			}
@@ -128,5 +160,16 @@ public class GameController {
 				
 			}
 		};
+	}
+	
+	
+	private class LawnMowerListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+\\
 	}
 }

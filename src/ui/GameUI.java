@@ -1,27 +1,34 @@
 package ui;
+import engine.Board;
 import engine.Game;
 import engine.Purse;
-import input.GameController;
-import input.MenuInteractions;
 import levels.LevelInfo;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+
 import com.sun.glass.events.MouseEvent;
 
+import assets.Flower;
 import assets.Plant;
 import assets.PlantTypes;
+import assets.Regular_Zombie;
+
 /**
  * This class acts as the view (gui) when running the basic game loop.
  */
-public class GameUI
+
+public class GameUI extends JFrame
 {
 	private JFrame f;
 	private JPanel gui;
@@ -34,7 +41,7 @@ public class GameUI
     private JPanel lawnMowers;
     private JButton[] mowers;
     
-	private HashMap<JPanel, Plant> cardCollection; 
+	JPanel cardHolder = new JPanel();
     
     private int currentLevel;
     private int currentTurn;
@@ -50,8 +57,11 @@ public class GameUI
     private JButton undoButton;
     private JButton quitButton;
     
+    private ArrayList<JButton> toolBarButtons;
+    
     private LevelInfo lvl;
     private Purse userResources;
+	private Board gameBoard;
     
     public GameUI(Game game)
     {
@@ -60,14 +70,13 @@ public class GameUI
     	this.column = lvl.getColumns();
     	this.userResources = game.getPurse();
     	this.points = userResources.getPoints();
-    	this.cardCollection = new HashMap<JPanel,Plant>();
+        this.gameBoard = game.getBoard();
 
     	initializeComponents();
     	initializeMenu();
     	initializeBoard();
         initUnitSelection();
         initializeJFrame();
-        setMouseListeners();
     }
 
     /**
@@ -80,12 +89,12 @@ public class GameUI
 		int width = gd.getDisplayMode().getWidth();
 		int height = gd.getDisplayMode().getHeight();
 		
-    	f = new JFrame("Plants Are Vegan");
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        f.setSize(width, height);
-        f.add(gui);
-        f.setVisible(true);
+    	setTitle("Plants Are Vegan");
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setExtendedState(JFrame.MAXIMIZED_BOTH); 
+	    setSize(width, height);
+	    add(gui);
+	    setVisible(true);
     }
     
     /**
@@ -106,6 +115,13 @@ public class GameUI
     	saveButton = new JButton("Save");
     	undoButton = new JButton("Undo");
         quitButton = new JButton("Quit");
+        
+    	toolBarButtons = new ArrayList<JButton>();
+    	toolBarButtons.add(new JButton("Menu"));
+    	toolBarButtons.add(new JButton("Save"));
+    	toolBarButtons.add(new JButton("Undo"));
+    	toolBarButtons.add(new JButton("Quit"));
+    	toolBarButtons.add(new JButton("End Turn"));
     }
     
     /**
@@ -119,11 +135,17 @@ public class GameUI
         JToolBar tools = new JToolBar();
         tools.setFloatable(false);
         gui.add(tools, BorderLayout.PAGE_START); 
+        
         tools.add(menuButton); 
         tools.add(saveButton); 
         tools.add(undoButton);
         tools.addSeparator();
         tools.add(quitButton);
+        
+        for (JButton button : toolBarButtons) {
+        	tools.add(button);
+        }
+        
         tools.addSeparator();
         tools.add(levelMessage);
         tools.addSeparator();
@@ -144,24 +166,15 @@ public class GameUI
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);                                                                 
         
-        
         // create the chess board squares
         Insets buttonMargin = new Insets(25,25,25,25); 
         for (int r = 0; r < boardTiles.length; r++)
         {
             for (int c = 0; c < boardTiles[r].length; c++)
             {
-                JButton b = new JButton();
-                b.setMargin(buttonMargin);
-         
-                //ImageIcon icon = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
-                //b.setIcon(icon);
-                Image image = Images.getGrassTileImage();
-            	image = image.getScaledInstance(200,200, Image.SCALE_DEFAULT);
-                b.setIcon(new ImageIcon(image));
-                b.setBackground(Color.GREEN);
-
-                boardTiles[r][c] = b;
+            	gameBoard.getGrid(r, c).addZombie(new Regular_Zombie());
+            	gameBoard.getGrid(r, c).setPlant(new Flower());
+                boardTiles[r][c] = new GridUI(gameBoard.getGrid(r, c));
             }
         }
         
@@ -196,15 +209,13 @@ public class GameUI
      */
     private final void initUnitSelection()
     {
-    	
-    	JPanel cardHolder = new JPanel();
     	cardHolder.setLayout(new BoxLayout(cardHolder, BoxLayout.X_AXIS));
     	cardHolder.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     	
     	int index = 0; //to keep track of cardCollection index
     	for(PlantTypes p: lvl.getAllowedPlants())      //build plant cards
     	{
-    		JPanel card = new JPanel(new BorderLayout(5, 5));
+    		Card card = new Card(new BorderLayout(5,5), PlantTypes.toPlant(p)); 
     		card.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     		card.setMaximumSize(new Dimension(90, 140));
     		
@@ -292,6 +303,14 @@ public class GameUI
         return board;
     }
     /**
+     * @return the JPanel holding all the unit selection cards
+     * @author Michael Patsula
+     */
+    public JPanel getCardHolder()
+    {
+    	return cardHolder;
+    }
+    /**
      * @return the gui JPanel which consists of the all the gui components that
      * make up the GameUI
      * @author Michael Patsula
@@ -300,6 +319,35 @@ public class GameUI
     {
         return gui;
     }
+
+    public void addGridListeners(MouseListener listener) {
+    	
+    	for (int i = 0; i < boardTiles.length; i++) {
+    		for (int j = 0; j < boardTiles[i].length; j++) {
+    			boardTiles[i][j].addMouseListener(listener);
+    		}
+    	}
+    }
+    
+    /**
+     * Sets mouse listeners to gameui's interactable components
+     * @param e
+     * @author Michael Patsula
+     */
+    public void addUnitSelectionListeners(MouseListener listener)
+    {
+    	for(Component c : cardHolder.getComponents())
+    	{
+        	c.addMouseListener(listener);
+    	}
+    }
+    
+    public void addMenuButtonListeners(ActionListener listener) {
+    	for (JButton button : toolBarButtons) {
+    		button.addActionListener(listener);
+    	}
+    }
+    
     /**
      * @return the cardCollection data structure containing card JPanels (for unit selection) and 
      * the Plant sub-class that it corresponds to.
@@ -308,18 +356,5 @@ public class GameUI
     public HashMap<JPanel, Plant> getCardCollection()
     {
     	return cardCollection;
-    }
-    
-    /**
-     * Sets mouse listeners to gameui's interactable components
-     * @param e
-     * @author Michael Patsula
-     */
-    public void setMouseListeners()
-    {
-    	for(JPanel i : cardCollection.keySet())
-    	{
-    		i.addMouseListener(GameController.unitSelectMouseListener());
-    	}
     }
 }
