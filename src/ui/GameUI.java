@@ -6,7 +6,9 @@ import engine.Purse;
 import levels.LevelInfo;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -38,11 +40,7 @@ public class GameUI extends JFrame
     private JLabel pointsAvaliable;
     
     //Menu Buttons
-    private JButton menuButton;
-    private JButton saveButton;
-    private JButton undoButton;
-    private JButton quitButton;
-    private JButton endTurnButton;
+    private ArrayList<JButton> toolBarButtons;
     
     private LevelInfo lvl;
     private Purse userResources;
@@ -89,11 +87,12 @@ public class GameUI extends JFrame
     	lawnMowers = new JPanel();
     	unitSelect  = new JPanel();
     	
-    	menuButton = new JButton("Menu");
-    	saveButton = new JButton("Save");
-    	undoButton = new JButton("Undo");
-        quitButton = new JButton("Quit");
-        endTurnButton = new JButton("End Turn");
+    	toolBarButtons = new ArrayList<JButton>();
+    	toolBarButtons.add(new JButton("Menu"));
+    	toolBarButtons.add(new JButton("Save"));
+    	toolBarButtons.add(new JButton("Undo"));
+    	toolBarButtons.add(new JButton("Quit"));
+    	toolBarButtons.add(new JButton("End Turn"));
     }
     
     private final void initializeMenu()
@@ -103,11 +102,11 @@ public class GameUI extends JFrame
         JToolBar tools = new JToolBar();
         tools.setFloatable(false);
         gui.add(tools, BorderLayout.PAGE_START); 
-        tools.add(menuButton); 
-        tools.add(saveButton); 
-        tools.add(undoButton);
-        tools.add(quitButton);
-        tools.add(endTurnButton);
+        
+        for (JButton button : toolBarButtons) {
+        	tools.add(button);
+        }
+        
         tools.addSeparator();
         tools.add(levelMessage);
         tools.addSeparator();
@@ -229,7 +228,13 @@ public class GameUI extends JFrame
     	}
     }
     
-    public void addUnitSelectoinListeners(MouseListener listener) {
+    public void addUnitSelectionListeners(MouseListener listener) {
     	
+    }
+    
+    public void addMenuButtonListeners(ActionListener listener) {
+    	for (JButton button : toolBarButtons) {
+    		button.addActionListener(listener);
+    	}
     }
 }

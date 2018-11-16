@@ -36,6 +36,7 @@ public class GameController {
 		this.userResources = this.game.getPurse();
 		
 		this.ui.addGridListeners(new GridListener());
+		this.ui.addMenuButtonListeners(new MenuBarListener());
 	}
 	
 	private class MenuBarListener implements ActionListener {
