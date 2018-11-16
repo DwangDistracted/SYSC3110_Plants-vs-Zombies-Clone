@@ -32,8 +32,6 @@ public class Main {
 		//Load Level Data
 		LevelLoader.init();
 		LOG.debug("Data Loading Complete");
-
-		LevelLoader.getLevelFactory().addAllowedPlant(PlantTypes.PEASHOOTER).addZombies(ZombieTypes.REG_ZOMBIE, 20).setName("Test").toLevelInfo();
 		
 		new MainMenu();
 	}
