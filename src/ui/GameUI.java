@@ -16,9 +16,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-
-import com.sun.glass.events.MouseEvent;
-
 import assets.Flower;
 import assets.Plant;
 import assets.PlantTypes;
