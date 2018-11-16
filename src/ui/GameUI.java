@@ -104,6 +104,7 @@ public class GameUI extends JFrame
     	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
     	gui = new JImagePanel(Images.getDefaultImage(), new BorderLayout(200, 5));
+    	gui = new JImagePanel(Images.getGrassTileImage(), new BorderLayout(200, 5));
     	lawnMowers = new JPanel();
     	
     	menuButtons = new ArrayList<JMenuItem>();
