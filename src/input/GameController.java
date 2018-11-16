@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import engine.Board;
 import engine.Game;
+import engine.Grid;
 import engine.Purse;
 import levels.LevelLoader;
 import ui.Card;
@@ -64,6 +65,20 @@ public class GameController {
 				case "End Turn":
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
+					
+					GridUI [][] gridTiles = ui.getBoardTiles();
+//					for (Grid grid : game.getGridsChanged()) {
+//						System.out.println("Row: " + grid.getRow());
+//						System.out.println("Col: " + grid.getCol());
+//						gridTiles[grid.getRow()][grid.getCol()].renderZombies();
+//					}
+					game.resetGridsChanged();
+					
+					for (int i = 0; i < gridTiles.length; i++) {
+						for (int j = 0; j < gridTiles[i].length; j++) {
+							gridTiles[i][j].renderZombies();
+						}
+					}
 					
 					switch (game.getState()) { //check if there was a resolution to the game
 					

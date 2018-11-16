@@ -41,6 +41,8 @@ public class Game {
 
 	private GameState gamestate;
 	
+	private List<Grid> gridsChanged; 
+	
 	/**
 	 * Initializes a Game for a given Level
 	 * @param lvl the LevelInfo for the given Level
@@ -56,6 +58,7 @@ public class Game {
 		userResources = new Purse(levelInfo.getInitResources());
 		gamestate = GameState.PLAYING;
 		numTurns = 0;
+		gridsChanged = new ArrayList<Grid>();
 	}
 	
 	/**
@@ -77,6 +80,8 @@ public class Game {
 				if (targetIsDead) {
 					board.removePlant(nextZombie.getRow(), nextZombie.getCol());
 				}
+			} else {
+				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));
 			}
 
 			if (board.hasReachedEnd()) {
@@ -112,6 +117,8 @@ public class Game {
 				board.placeZombie(zombie, rowNumber, levelInfo.getColumns() - 1); //spawn the zombie
 				zombie.setRow(rowNumber);
 				zombie.setColumn(levelInfo.getColumns() - 1);
+				
+				gridsChanged.add(board.getGrid(rowNumber, levelInfo.getColumns() - 1));
 				
 				//removes the spawned zombie from the Queue
 				int x = zombieQueue.get(type) - 1;
@@ -194,5 +201,15 @@ public class Game {
 
 	public int getTurns() {
 		return numTurns;
+	}
+	
+	public List<Grid> getGridsChanged() {
+		
+		return gridsChanged;
+	}
+	
+	public void resetGridsChanged()  {
+		
+		gridsChanged = new ArrayList<Grid>();
 	}
 }

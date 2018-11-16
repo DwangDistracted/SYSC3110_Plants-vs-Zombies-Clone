@@ -1,6 +1,7 @@
 package ui;
 import engine.Board;
 import engine.Game;
+import engine.Grid;
 import engine.Purse;
 import input.MenuInteractions;
 import levels.LevelInfo;
@@ -413,5 +414,10 @@ public class GameUI extends JFrame
     public void showInsufficientFundsOptionPane(Plant plant) {
     	
     	JOptionPane.showMessageDialog(null, "You do not have enough funds for: " + plant.toString());
+    }
+    
+    public GridUI[][] getBoardTiles() {
+    	
+    	return boardTiles;
     }
 }

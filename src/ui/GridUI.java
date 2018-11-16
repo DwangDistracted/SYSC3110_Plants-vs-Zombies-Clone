@@ -20,6 +20,7 @@ public class GridUI extends JPanel {
 	
 	private JPanel plantPanel;
 	private JLabel plantLabel;
+	private ZombiePanel zombiePanel;
 	private Grid grid;
 	private int row;
 	private int col;
@@ -30,6 +31,7 @@ public class GridUI extends JPanel {
 		plantPanel = new JPanel();
 		plantLabel = new JLabel();
 		plantPanel.setOpaque(false);
+		zombiePanel = new ZombiePanel(null, 0);
 		
 		this.grid = grid;
 		this.row = grid.getRow();
@@ -113,6 +115,10 @@ public class GridUI extends JPanel {
 				
 				add(fullZombieListPanel, c);
 			}
+		}
+		
+		if (numberOfZombieTypes == 0) {
+			
 		}
 	}
 
