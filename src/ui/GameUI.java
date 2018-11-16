@@ -258,7 +258,9 @@ public class GameUI extends JFrame
      */
     public void setHighlight(JPanel p)
     {
-    	p.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+    	if (p != null) {
+        	p.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+    	}
     }
     /**
      * once called, the specified JPanel will have a black boarder
@@ -268,7 +270,9 @@ public class GameUI extends JFrame
      */
     public void revertHighlight(JPanel p)
     {
-    	p.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+    	if (p != null) {
+    		p.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+    	}
     }
     /**
      * Sets the displayed level number 

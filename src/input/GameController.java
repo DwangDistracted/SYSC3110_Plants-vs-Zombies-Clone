@@ -54,8 +54,8 @@ public class GameController {
 			{
 				case "Dig Up": 
 					removingPlant = true;
-					selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
 					ui.revertHighlight(selectedCard); 
+					selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
 					break;
 				case "End turn":
 					game.zombieTurn();
@@ -83,7 +83,7 @@ public class GameController {
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
 			} else if (removingPlant) {
-				gameBoard.getGrid(sourceRow, sourceCol).setPlant(null);
+				gameBoard.getGrid(sourceRow, sourceCol).removePlant();
 				source.renderPlant();
 				removingPlant = false;
 			}

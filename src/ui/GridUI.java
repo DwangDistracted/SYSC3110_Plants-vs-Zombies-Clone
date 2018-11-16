@@ -19,6 +19,7 @@ public class GridUI extends JPanel {
 	private static final int MAX_ZOMBIE_TYPES = 3;
 	
 	private JPanel plantPanel;
+	private JLabel plantLabel;
 	private Grid grid;
 	private int row;
 	private int col;
@@ -27,6 +28,7 @@ public class GridUI extends JPanel {
 		setLayout(new GridBagLayout());
 		
 		plantPanel = new JPanel();
+		plantLabel = new JLabel();
 		plantPanel.setOpaque(false);
 		
 		this.grid = grid;
@@ -51,8 +53,6 @@ public class GridUI extends JPanel {
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.NORTHWEST;
 		
-		JLabel plantLabel = new JLabel();
-		
 		Image plantImage;
 
 		if (grid.getPlant() != null) {
@@ -65,9 +65,10 @@ public class GridUI extends JPanel {
 			} else {
 				plantLabel.setText(grid.getPlant().toString());
 			}
-			
 			plantPanel.add(plantLabel);
-		} 
+		} else {
+			plantPanel.remove(plantLabel);
+		}
 
 		plantPanel.setOpaque(false);
 		add(plantPanel, c);
