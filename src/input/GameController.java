@@ -73,10 +73,9 @@ public class GameController {
 						int result = JOptionPane.showConfirmDialog(ui, "You won in " + game.getTurns() + " Turns! The Zombies have been slain! \n\n Do you want to play the next level?", "You WON!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
 						
 						if (result == JOptionPane.YES_OPTION) { //load next level
-							LevelInfo lvl = LevelLoader.getNextLevel();
-							Game game = new Game(lvl);
-							GameUI ui = new GameUI(game);
-							new GameController(ui, game);
+							Game g = new Game(LevelLoader.getNextLevel());
+							GameUI ui = new GameUI(g);
+							new GameController(ui, g);
 							ui.dispose();
 						} else { //return to main menu
 							new MainMenu();

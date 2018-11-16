@@ -149,7 +149,6 @@ public class Game {
 	 * @param playerWin True if the player won, false otherwise
 	 */
 	private void endGame(boolean playerWin) {
-		board.displayBoard();
 		if(playerWin) {
 			LOG.info("Player has Won");
 			gamestate = GameState.WON;

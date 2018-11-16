@@ -18,7 +18,7 @@ public class GridTest {
 
 	@Test
 	public void testPlantMethods() {
-		Grid g = new Grid();
+		Grid g = new Grid(10, 10);
 		Peashooter p = new Peashooter();
 		assertTrue("True", g.setPlant(p));
 		assertEquals("Peashooter", p, g.getPlant());
@@ -28,7 +28,7 @@ public class GridTest {
 	
 	@Test
 	public void testZombieMethods() {
-		Grid g = new Grid();
+		Grid g = new Grid(10, 10);
 		Regular_Zombie z = new Regular_Zombie();
 		g.addZombie(z);
 		assertEquals("Regular Zombie", z, g.getFirstZombie());
