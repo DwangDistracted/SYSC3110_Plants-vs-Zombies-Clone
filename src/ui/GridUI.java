@@ -37,7 +37,7 @@ public class GridUI extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Image backgroundImage = Images.getDefaultImage();
+		Image backgroundImage = Images.getGrassTileImage();
 		g.drawImage(backgroundImage, 0, 0, null);
 	}
 	

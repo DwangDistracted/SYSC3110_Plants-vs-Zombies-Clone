@@ -3,15 +3,12 @@ package ui;
 import engine.Board;
 import engine.Game;
 import engine.Purse;
-import input.GameController;
-import input.MenuInteractions;
 import levels.LevelInfo;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -19,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import assets.Flower;
+import assets.Plant;
 import assets.PlantTypes;
 import assets.Regular_Zombie;
 
@@ -70,7 +68,6 @@ public class GameUI extends JFrame
     	initializeBoard();
         initUnitSelection();
         initializeJFrame();
-        setMouseListeners();
     }
 
     /**
@@ -305,13 +302,24 @@ public class GameUI extends JFrame
     	}
     }
     
+    /**
+     * Sets mouse listeners to gameui's interactable components
+     * @param e
+     * @author Michael Patsula
+     */
     public void addUnitSelectionListeners(MouseListener listener) {
-    	
+    	for (JPanel i : cardCollection.keySet()) 
+    	{
+    		i.addMouseListener(listener);
+    	}
     }
     
     public void addMenuButtonListeners(ActionListener listener) {
     	for (JButton button : toolBarButtons) {
     		button.addActionListener(listener);
+    	}
+    }
+    
     /**
      * @return the cardCollection data structure containing card JPanels (for unit selection) and 
      * the Plant sub-class that it corresponds to.
@@ -320,18 +328,5 @@ public class GameUI extends JFrame
     public HashMap<JPanel, Plant> getCardCollection()
     {
     	return cardCollection;
-    }
-    
-    /**
-     * Sets mouse listeners to gameui's interactable components
-     * @param e
-     * @author Michael Patsula
-     */
-    public void setMouseListeners()
-    {
-    	for(JPanel i : cardCollection.keySet())
-    	{
-    		i.addMouseListener(GameController.unitSelectMouseListener());
-    	}
     }
 }
