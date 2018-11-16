@@ -341,14 +341,14 @@ public class GameUI extends JFrame
     {
         return gui;
     }
-    public  JButton getDigUp()
-    {
-    	return 
-    }
-    public JButton getEndTurn()
-    {
-    	return endTurn;
-    }
+//    public  JButton getDigUp()
+//    {
+//    	return 
+//    }
+//    public JButton getEndTurn()
+//    {
+//    	return endTurn;
+//    }
    
 
     public void addGridListeners(MouseListener listener) {
