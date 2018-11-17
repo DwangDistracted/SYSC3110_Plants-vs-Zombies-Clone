@@ -32,7 +32,6 @@ public class MainMenu extends JFrame {
 	public MainMenu() {
 		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setUndecorated(true);
 		
 		GraphicsDevice gd = //Multi-Screen Support
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
