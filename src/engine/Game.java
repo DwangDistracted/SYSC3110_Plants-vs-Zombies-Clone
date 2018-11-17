@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import assets.Flower;
+import assets.Plant;
 import assets.Zombie;
 import assets.ZombieTypes;
 import levels.LevelInfo;
@@ -59,6 +60,24 @@ public class Game {
 		gamestate = GameState.PLAYING;
 		numTurns = 0;
 		gridsChanged = new ArrayList<Grid>();
+	}
+	
+	/**
+	 * Processes a Player's Turn
+	 */
+	private void playerTurn() {
+		
+		//plants action
+		List<Plant> plantsInGame = board.getPlantsInGame();
+		
+		for (Plant plant : plantsInGame) {
+			if (!(plant instanceof Flower)) {
+				int [] zombieTargetCoordinates = combat.plantAttack(plant);
+				if (zombieTargetCoordinates != null) {
+					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
+				}
+			}
+		}
 	}
 	
 	/**
