@@ -62,7 +62,7 @@ public class GameController {
 						selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
 					}
 					break;
-				case "End Turn":
+				case "End Turn": //@author David Wang
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
 					
@@ -119,6 +119,7 @@ public class GameController {
 						
 						break;
 					default: //update user points if still playing
+						ui.setTurnLabel(game.getTurns());
 						ui.setPointsLabel(userResources.getPoints());
 						break;
 					}

@@ -13,7 +13,7 @@ import levels.LevelLoader;
 import ui.*;
 /**
  * This is a collection of statics that generate action listeners for Menu Buttons
- * @author david
+ * @author David Wang
  */
 public class MenuInteractions {
 	private MenuInteractions() {} //this is a collection of statics

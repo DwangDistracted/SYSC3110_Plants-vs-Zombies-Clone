@@ -44,9 +44,7 @@ public class GameUI extends JFrame
 
     private String currentLevel;
     private int currentLevelNum;
-    private int currentTurn;
-    private int points;
-
+    
     private JLabel levelMessage;
     private JLabel turnMessage;
     private JLabel pointsAvailable;
@@ -55,7 +53,6 @@ public class GameUI extends JFrame
     private ArrayList<JButton> gameButtons;
 
     private LevelInfo lvl;
-    private Purse userResources;
 	private Board gameBoard;
 
     public GameUI(Game game)
@@ -65,8 +62,6 @@ public class GameUI extends JFrame
     	this.currentLevelNum = LevelLoader.getCurrentLevel();
     	this.row = lvl.getRows();
     	this.column = lvl.getColumns();
-    	this.userResources = game.getPurse();
-    	this.points = userResources.getPoints();
         this.gameBoard = game.getBoard();
 
     	initializeComponents();
@@ -77,6 +72,10 @@ public class GameUI extends JFrame
         initializeImages();
     }
 
+    /**
+     * Initializes the Mower Images
+     * @author David Wang
+     */
     private void initializeImages() {
     	for (int i = 0; i < mowers.length; i++) {
 	        Image image = Images.getLawnMowerImage();
@@ -106,15 +105,15 @@ public class GameUI extends JFrame
 
     /**
      * Initializes the gui components
-     * @author Michael Patsula
+     * @author Michael Patsula and David Wang
      */
     private final void initializeComponents()
     {
     	levelMessage = new JLabel("<html><b>Level:</b> " + currentLevelNum + " - " + currentLevel + "</html>");
     	levelMessage.setFont(lblFont);
-    	turnMessage = new JLabel("<html><b>Turn:</b> " + currentTurn + "</html>");
+    	turnMessage = new JLabel("<html><b>Turn:</b> 0</html>");
     	turnMessage.setFont(lblFont);
-    	pointsAvailable = new JLabel("<html><b>Points:</b> " + points + "</html>");
+    	pointsAvailable = new JLabel("<html><b>Points:</b> " + this.lvl.getInitResources() + "</html>");
     	pointsAvailable.setFont(lblFont);
     	boardTiles = new GridUI[row][column];
     	mowers = new JButton[row];
@@ -148,7 +147,7 @@ public class GameUI extends JFrame
 
     /**
      * Initializes the menu components
-     * @author Michael Patsula
+     * @author Michael Patsula and David Wang
      */
     private final void initializeMenu()
     {
@@ -183,14 +182,12 @@ public class GameUI extends JFrame
     /**
      * Initializes the PVZ game board (a grid of tiles)
      * The game board consists of unit tiles and the lawn mower functionality/buttons.
-     * @author Michael Patsula
+     * @author Michael Patsula and David Wang
      */
     private final void initializeBoard() {
         board = new JImagePanel(Images.getGrassTileImage(), new GridLayout(row, column + 1, 5, 0));
         board.setBorder(new LineBorder(Color.BLACK));
         gui.add(board);
-        gameBoard.getGrid(0, 0).setPlant(PlantTypes.toPlant(PlantTypes.SUNFLOWER));
-        gameBoard.getGrid(0, 0).addZombie(new Regular_Zombie());
         
         for (int r = 0; r < boardTiles.length; r++)
         {
@@ -289,23 +286,12 @@ public class GameUI extends JFrame
     /**
      * Sets the displayed wave number
      * @param wave - ultimately should be the current wave number
-     * @author Michael Patsula
+     * @author Michael Patsula and David Wang
      */
-    public void setWaveMessage(int wave)
-    {
-    	currentTurn = wave;
-    	turnMessage.setText("Level: " + currentTurn);
-    }
-    /**
-     * Sets the displayed amount of points
-     * @param points - ultimately should be the current amount of points the user has.
-     * @author Michael Patsula
-     */
-    public void setPointsMessage(int points)
-    {
-    	this.points = points;
-    	turnMessage.setText("Points: " + points);
-    }
+    public void setTurnLabel(int turns) {
+		turnMessage.setText("<html><b>Turns: </b>" + Integer.toString(turns) + "</html>");
+	}
+ 
     /**
      * @return the JPanel holding all the unit selection cards
      * @author Michael Patsula
@@ -315,7 +301,7 @@ public class GameUI extends JFrame
     	return cardHolder;
     }
     /**
-     * @return a list of JMeuItem components
+     * @return a list of JMenuItem components
      * @author Michael Patsula
      */
     public ArrayList<JMenuItem> getMenuButtons()
@@ -347,6 +333,7 @@ public class GameUI extends JFrame
     {
         return gui;
     }
+    
     public JButton[] getMowers()
     {
     	return mowers;
@@ -398,10 +385,9 @@ public class GameUI extends JFrame
     
     /**
      * Set the text for indicating remaining points
-     * 
+     * @author Derek Shao
      */
     public void setPointsLabel(int points) {
-    	
         pointsAvailable.setText("<html><b>Points: </b>" + Integer.toString(points) + "</html>");
     }
     
@@ -412,7 +398,6 @@ public class GameUI extends JFrame
      * @param plant the plant they can not afford
      */
     public void showInsufficientFundsOptionPane(Plant plant) {
-    	
     	JOptionPane.showMessageDialog(null, "You do not have enough funds for: " + plant.toString());
     }
     
