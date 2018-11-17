@@ -24,10 +24,6 @@ public class ZombiePanel extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(false);
 		
-		for (ZombieTypes zombieType : map.keySet()) {
-			System.out.print(zombieType.toString() + ": " + map.get(zombieType));
-		}
-		
 		if (map.keySet().size() <= MAX_ZOMBIE_TYPES) {
 			for (ZombieTypes zombieType : map.keySet()) {
 				addZombieType(zombieType, parent, map.get(zombieType),map.keySet().size());
@@ -47,7 +43,15 @@ public class ZombiePanel extends JPanel {
 		
 	}
 
-	private void addZombieType(ZombieTypes zombieType,Component parent, int count, int mapSize) {
+	/**
+	 * Add a zombie image to the panel based on the specified type and their count
+	 * 
+	 * @param zombieType the type of zombie
+	 * @param parent the parent component
+	 * @param count the number of zombies
+	 * @param mapSize the different type of zombies
+	 */
+	private void addZombieType(ZombieTypes zombieType, Component parent, int count, int mapSize) {
 		Image zombieImage = Images.getZombieImage(zombieType);
 		zombieImage = zombieImage.getScaledInstance(parent.getHeight()/(mapSize + 1) == 0? 50: parent.getHeight()/(mapSize + 1), //try to set the dimensions to relative to the parent
 													parent.getHeight()/mapSize == 0? 50: parent.getHeight()/mapSize,

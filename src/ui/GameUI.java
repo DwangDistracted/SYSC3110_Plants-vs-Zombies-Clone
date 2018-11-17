@@ -1,8 +1,6 @@
 package ui;
 import engine.Board;
 import engine.Game;
-import engine.Grid;
-import engine.Purse;
 import input.MenuInteractions;
 import levels.LevelInfo;
 import levels.LevelLoader;
@@ -17,7 +15,6 @@ import javax.swing.border.LineBorder;
 
 import assets.Plant;
 import assets.PlantTypes;
-import assets.Regular_Zombie;
 
 /**
  * This class acts as the view (gui) when running the basic game loop.
@@ -340,6 +337,12 @@ public class GameUI extends JFrame
     }
 
 
+    /**
+     * Add listeners for the board tiles
+     * 
+     * @param listener
+     * @author Derek Shao
+     */
     public void addGridListeners(MouseListener listener) {
     	
     	for (int i = 0; i < boardTiles.length; i++) {
@@ -396,11 +399,16 @@ public class GameUI extends JFrame
      * the specified plant
      * 
      * @param plant the plant they can not afford
+     * @author Derek Shao
      */
     public void showInsufficientFundsOptionPane(Plant plant) {
     	JOptionPane.showMessageDialog(null, "You do not have enough funds for: " + plant.toString());
     }
     
+    /**
+     * Retrieve all board tiles from board.
+     * @return all boards tiless
+     */
     public GridUI[][] getBoardTiles() {
     	
     	return boardTiles;

@@ -65,7 +65,7 @@ public class Game {
 	/**
 	 * Processes a Player's Turn
 	 */
-	private void playerTurn() {
+	public void playerTurn() {
 		
 		//plants action
 		List<Plant> plantsInGame = board.getPlantsInGame();

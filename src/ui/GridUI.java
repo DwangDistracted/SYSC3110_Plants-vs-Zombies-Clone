@@ -5,18 +5,20 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import assets.ZombieTypes;
 import engine.Grid;
 
+/**
+ * Custom grids to render both plant and zombies on the grid.
+ * 
+ * @author Derek Shao
+ *
+ */
 public class GridUI extends JPanel {
 	private static final long serialVersionUID = -6720923029166827998L;
-
-	private static final int MAX_ZOMBIE_TYPES = 3;
 	
 	private JPanel plantPanel;
 	private JLabel plantLabel;
@@ -42,7 +44,7 @@ public class GridUI extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Render the plant panel
 	 */
 	public void renderPlant() {
 		
@@ -76,14 +78,13 @@ public class GridUI extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Render the zombie panel
 	 */
 	public void renderZombies() {
 		
 		if (zombiePanel != null) {
 			this.remove(zombiePanel);
 		}
-		System.out.println("Grid: " + row + ", " + col);
 		grid.updateZombieTypeCount();
 		
 		zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount());

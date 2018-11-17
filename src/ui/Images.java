@@ -8,6 +8,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Class to load images.
+ * 
+ * @author Derek Shao
+ *
+ */
+
 public class Images
 {
 	private static BufferedImage sunflowerImage = null;
@@ -21,6 +28,11 @@ public class Images
 
 	private Images() {}
 
+	/**
+	 * Pre-load and cache all images
+	 * 
+	 * @return true if images successfully loadaed, false otherwise
+	 */
 	public static boolean preloadImages() {
 		try {
 			sunflowerImage = ImageIO.read(new File("images\\Plant_Sunflower.png"));
@@ -37,6 +49,12 @@ public class Images
 		}
 	}
 
+	/**
+	 * Get the image for a specified plant type
+	 * 
+	 * @param plant type
+	 * @return plant image
+	 */
 	public static Image getPlantImage(PlantTypes plant)
 	{
 		switch(plant) {
@@ -51,6 +69,12 @@ public class Images
 		return null;
 	}
 
+	/**
+	 * Get the image for a specified zombie type
+	 * 
+	 * @param zombie
+	 * @return zombie image
+	 */
 	public static Image getZombieImage(ZombieTypes zombie) {
 		switch(zombie) {
 		case REG_ZOMBIE:
@@ -62,18 +86,38 @@ public class Images
 		return null;
 	}
 
+	/**
+	 * Get the lawn mower image
+	 * 
+	 * @return lawn mower image
+	 */
 	public static Image getLawnMowerImage() {
 		return mowerImage;
 	}
 
+	/**
+	 * Get the grass tile image
+	 * 
+	 * @return grass tile image
+	 */
 	public static Image getGrassTileImage() {
 		return grassImage;
 	}
 	
+	/**
+	 * Get the title banner image.
+	 * 
+	 * @return title banner image
+	 */
 	public static Image getTitleBannerImage() {
 		return titleBanner;
 	}
 	
+	/**
+	 * Get the title splash image.
+	 * 
+	 * @return title splash image
+	 */
 	public static Image getTitleSplashImage() {
 		return titleSplash;
 	}

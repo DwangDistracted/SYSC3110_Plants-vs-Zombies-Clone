@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 
 import engine.Board;
 import engine.Game;
-import engine.Grid;
 import engine.Purse;
 import levels.LevelLoader;
 import ui.Card;
@@ -22,6 +21,12 @@ import ui.GridUI;
 import ui.MainMenu;
 import util.Logger;
 
+/**
+ * Controller class handling all user interactions
+ * 
+ * @author Derek Shao
+ *
+ */
 public class GameController {
 	private static Logger LOG = new Logger("Game Controller");
 	
@@ -48,6 +53,12 @@ public class GameController {
 		this.ui.addLawnMowerListeners(new LawnMowerListener());
 	}
 	
+	/**
+	 * Class to handle button clicks.
+	 * 
+	 * @author Derek Shao
+	 *
+	 */
 	private class GameButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -65,10 +76,11 @@ public class GameController {
 				case "End Turn": //@author David Wang
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
-					ui.setPointsMessage(userResources.getPoints());
+					ui.setPointsLabel(userResources.getPoints());
 					
 					GridUI [][] gridTiles = ui.getBoardTiles();
 					
+					// re-render every grid tiles
 					for (int i = 0; i < gridTiles.length; i++) {
 						for (int j = 0; j < gridTiles[i].length; j++) {
 							gridTiles[i][j].renderZombies();
@@ -122,6 +134,12 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * Class to handle grid clicks.
+	 * 
+	 * @author Derek Shao
+	 *
+	 */
 	private class GridListener implements MouseListener {
 
 		@Override
@@ -179,6 +197,12 @@ public class GameController {
 		
 	}
 	
+	/**
+	 * Class to handle unit selection.
+	 * 
+	 * @author Derek Shao
+	 *
+	 */
 	private class UnitSelectListener implements MouseListener {
 
 		@Override
