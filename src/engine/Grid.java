@@ -165,8 +165,8 @@ public class Grid {
 	
 	
 	public void updateZombieTypeCount() {
+		zombieTypeCount = new HashMap<ZombieTypes, Integer>();
 		for (Zombie zombie : zombies) {
-			zombieTypeCount = new HashMap<ZombieTypes, Integer>();
 			zombieTypeCount.put(zombie.getZombieType(), zombieTypeCount.getOrDefault(zombie.getZombieType(), 0) + 1);
 		} 
 	}
