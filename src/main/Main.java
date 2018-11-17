@@ -1,8 +1,7 @@
 package main;
 
-import assets.PlantTypes;
-import assets.ZombieTypes;
 import levels.LevelLoader;
+import ui.Images;
 import ui.MainMenu;
 import util.Logger;
 
@@ -19,18 +18,11 @@ public class Main {
 	 */
 	public static void main (String[] args) {
 		//Log init
-		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
-		
-		//Title Card
-		LOG.info("==================================");
-		LOG.info("        Zombies are Vegan         ");
-		LOG.info("==================================");
-		LOG.info("      Derek Shao | David Wang     ");
-		LOG.info(" Michael Pastula | Tanisha Garg   ");
-		LOG.info("==================================");
-		
-		//Load Level Data
+		Logger.setDebug(); //change to clearDebug to get rid of debug messages
 		LevelLoader.init();
+		if(!Images.preloadImages()) {
+			LOG.error("Failed to Load Graphics Images");
+		}
 		LOG.debug("Data Loading Complete");
 		
 		new MainMenu();

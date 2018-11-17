@@ -5,18 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-
-import assets.Plant;
 import assets.Flower;
-import assets.PlantTypes;
+import assets.Plant;
 import assets.Zombie;
 import assets.ZombieTypes;
-import input.Command;
-import input.CommandWords;
-import input.Parser;
 import levels.LevelInfo;
 import util.Logger;
 
@@ -25,6 +18,12 @@ import util.Logger;
  * @author David Wang
  */
 public class Game {
+	public enum GameState {
+		PLAYING,
+		WON,
+		LOST
+	}
+	
 	private static Logger LOG = new Logger("Game");
 	//combat engine
 	private Combat combat; 
@@ -34,18 +33,22 @@ public class Game {
 	private Board board;
 	//The Player's Purse
 	private Purse userResources;
-	//Whether or not the Game has concluded
-	private boolean finished = false;
 	//The Zombies that have not yet spawned into the game
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	//The number of zombies (total) in the level
 	private int numZombies;
+	//the number of turns elapsed
+	private int numTurns;
 
+	private GameState gamestate;
+	
+	private List<Grid> gridsChanged; 
+	
 	/**
 	 * Initializes a Game for a given Level
 	 * @param lvl the LevelInfo for the given Level
 	 */
-	public Game (LevelInfo lvl) {
+	public Game(LevelInfo lvl) {
 		//set up config from level config
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
@@ -54,34 +57,15 @@ public class Game {
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		userResources = new Purse(levelInfo.getInitResources());
-	}
-	
-	/**
-	 * Starts the Game Loop
-	 */
-	public void start() {
-		board.displayBoard();
-		while (!finished) {
-			playerTurn();
-			if (finished) { break; }
-			board.displayBoard();
-			zombieTurn();		
-			if (finished) { break; }
-			board.displayBoard();
-			doEndOfTurn();
-		}
+		gamestate = GameState.PLAYING;
+		numTurns = 0;
+		gridsChanged = new ArrayList<Grid>();
 	}
 	
 	/**
 	 * Processes a Player's Turn
 	 */
-	private void playerTurn() {
-		LOG.info("It is your turn. You have " + userResources.getPoints() + " sunshine.");
-		LOG.prompt(CommandWords.getPrimaryGameCommands());
-		
-		while(!processCommand(Parser.getCommand())) {
-			LOG.prompt(CommandWords.getPrimaryGameCommands());
-		}
+	public void playerTurn() {
 		
 		//plants action
 		List<Plant> plantsInGame = board.getPlantsInGame();
@@ -115,6 +99,8 @@ public class Game {
 				if (targetIsDead) {
 					board.removePlant(nextZombie.getRow(), nextZombie.getCol());
 				}
+			} else {
+				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));
 			}
 
 			if (board.hasReachedEnd()) {
@@ -151,6 +137,8 @@ public class Game {
 				zombie.setRow(rowNumber);
 				zombie.setColumn(levelInfo.getColumns() - 1);
 				
+				gridsChanged.add(board.getGrid(rowNumber, levelInfo.getColumns() - 1));
+				
 				//removes the spawned zombie from the Queue
 				int x = zombieQueue.get(type) - 1;
 				if (x == 0) {
@@ -167,7 +155,10 @@ public class Game {
 	/**
 	 * Tells Combat Engine to handle attack and damage calculations. Adds Resources to Player Purse. Checks if the pLayer has won
 	 */
-	private void doEndOfTurn() {
+	public void doEndOfTurn() {
+		numTurns++;
+		//do the zombie Turn
+		zombieTurn();
 		
 		//economy calculations
 		userResources.addPoints(levelInfo.getResPerTurn()); //do default sunshine gain
@@ -184,136 +175,60 @@ public class Game {
 	 * @param playerWin True if the player won, false otherwise
 	 */
 	private void endGame(boolean playerWin) {
-		board.displayBoard();
-		this.finished = true;
 		if(playerWin) {
 			LOG.info("Player has Won");
+			gamestate = GameState.WON;
 		} else {
 			LOG.info("Player was eaten by Zombies");
+			gamestate = GameState.LOST;
 		}
 	}
-	
-	
-	//INPUT - MILESTONE 1 ONLY
-
+	 
 	 /**
-	  * Displays a help message informing user on the type of zombies they will face within the level,
-	  * the plants that are at that disposal and how to use the command line.
-	  * @author Michael Patsula
+	  * Get the LevelInfo 
+	  * 
+	  * @return the level info
 	  */
-	 public void printHelp()
-	 {
-		 Map<ZombieTypes,Integer> allowedZombies = levelInfo.getZombies();
-		 Set<PlantTypes> allowedPlants = levelInfo.getAllowedPlants();
-		 StringBuilder s = new StringBuilder();
+	 public LevelInfo getLevelInfo() {
 		 
-		 s.append("Help message: to place a unit Type 'Place <unitName> <row #> <column #>. \nNote: row & column numbers start at coordinate 0");
-		 
-		 s.append("\nThe plants commands at your disposal are: ");
-		 for(PlantTypes p : allowedPlants)
-		 {
-			 s.append(p.toString() + " | ");
-		 }
-		 s.append("\nThe zombies that you will face against are: ");
-		 for(ZombieTypes z : allowedZombies.keySet())
-		 {
-			 s.append(z.toString() + " | ");
-		 }
-		 LOG.info(s.toString());
+		 return this.levelInfo;
 	 }
 	 
-	/**
-	 * Determines if the user inputed commands is within the grid boundaries.
-	 * @param row - coordinate
-	 * @param column - coordinate
-	 * @return true if the parameters are within the grid boundaries, and false otherwise.
-	 * @author Michael Patsula
-	 */
-	 public boolean inRange(int row, int column)  
-	 {
-		if(row <= levelInfo.getRows() && row >= 0 && column < levelInfo.getColumns() && column >= 0)  // board.getRow and column was subtracted by one due to arrays
-			return true;
-			
-		return false;
-	 }
-
-	/**
-	 * Processes the user input
-	 * @param command - the user input
-	 * @return true if the input was valid, false otherwise
-	 * @author Michael Patsula and refactored by David Wang
-	 */
-	 public boolean processCommand(Command command)
-	 {
-		 if (command == null) { return false; } 
+	 /**
+	  * Get the Board 
+	  * 
+	  * @return the board
+	  */
+	 public Board getBoard() {
 		 
-		 String commandWord = command.getWord(1);
-
-		 if (commandWord.equalsIgnoreCase(CommandWords.HELP.toString())) {
-			 printHelp();
-			 return false;
-
-		 } else if (commandWord.equalsIgnoreCase(CommandWords.QUIT.toString())) {
-			 finished = true;
-			 LOG.info("User quit the game");
-			 return true;
-
-		 } else if (commandWord.equalsIgnoreCase(CommandWords.PASS.toString())) {
-			 return true;
-
-		 } else if (commandWord.equalsIgnoreCase(CommandWords.PLACE.toString())) {
-			 if (command.isUnknownWord(3) || command.isUnknownWord(4)) // restriction - check if word 3 and 4 is null
-			 {
-				 LOG.warn("Please input your command with coordinates");
-				 return false;
-			 } else { // restriction 2 see if the coordinates are in range of the board
-				 boolean inRange;
-				 try {
-					 inRange = inRange(Integer.valueOf(command.getWord(3)), Integer.valueOf(command.getWord(4))); // check
-					 // valid
-					 // coordinates
-				 } catch (Exception e) {
-					 LOG.error("Exception: " + e.getMessage());
-					 e.printStackTrace();
-					 return false;
-				 }
-
-				 if (!inRange) {
-					 LOG.warn("The inputted coordinates are out of range");
-					 return false;
-				 }
-			 }
-
-			 if (CommandWords.isValidUnit(command.getWord(2))) {
-				 if (levelInfo.getAllowedPlants().contains(PlantTypes.valueOf(command.getWord(2).toUpperCase()))) {
-					 Plant p = PlantTypes.toPlantFromString(command.getWord(2));
-					 if (userResources.canSpend(p.getCost())) {
-						 int plantRow = Integer.valueOf(command.getWord(3));
-						 int plantCol = Integer.valueOf(command.getWord(4));
-						 userResources.spendPoints(p.getCost());
-						 if (!board.placePlant(p, plantRow, plantCol)) {
-							 LOG.info(String.format("Cannot place plant: %s at tile: (%s, %s) because the tile is already occupied",
-									 command.getWord(2), command.getWord(3), command.getWord(4)));
-							 return false;
-						 }
-						 p.setCoordinates(plantRow, plantCol);
-						 LOG.info(command.getWord(2) + " was placed on tile " + command.getWord(3) + ", "
-								 + command.getWord(4));
-						 return true;
-					 } else {
-						 LOG.warn("Cannot Afford Unit");
-						 return false;
-					 }
-				 } else {
-					 LOG.warn("Unit not Available");
-					 return false;
-				 }
-			 } else {
-				 LOG.warn("Not a Valid Unit");
-				 return false;
-			 }
-		 }
-		 LOG.warn("Invalid Command");
-		 return false;
+		 return this.board;
 	 }
+	 
+	 /**
+	  * Get the Purse
+	  * 
+	  * @return the purse
+	  */
+	 public Purse getPurse() {
+		 
+		 return this.userResources;
+	 }
+	 
+	 public GameState getState() {
+		 return gamestate;
+	 }
+
+	public int getTurns() {
+		return numTurns;
+	}
+	
+	public List<Grid> getGridsChanged() {
+		
+		return gridsChanged;
+	}
+	
+	public void resetGridsChanged()  {
+		
+		gridsChanged = new ArrayList<Grid>();
+	}
 }
