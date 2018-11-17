@@ -13,12 +13,18 @@ import engine.*;
  */
 public class PurseTest {
 
+	/**
+	 * tests Purse constructor
+	 */
 	@Test
 	public void testPurseConstructor() {
 		Purse p = new Purse(25);
 		assertEquals("Points = 25", 25, p.getPoints());
 	}
 	
+	/**
+	 * creates a Purse object and tests addPoints() and getPoints() methods
+	 */
 	@Test
 	public void testAddPoints() {
 		Purse p = new Purse(25);
@@ -26,6 +32,9 @@ public class PurseTest {
 		assertEquals("Points = 50", 50, p.getPoints());
 	}
 	
+	/**
+	 * creates Purse object and tests canSpend and spendPonts() methods
+	 */
 	@Test
 	public void testSpendPointsMethods() {
 		Purse p = new Purse(50);

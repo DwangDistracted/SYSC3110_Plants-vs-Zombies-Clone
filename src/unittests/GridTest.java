@@ -10,12 +10,15 @@ import org.junit.jupiter.api.Test;
 import engine.Grid;
 
 /**
- * Test Grid Class
+ * Tests Grid Class
  * @author Tanisha Garg
  *
  */
 public class GridTest {
 
+	/**
+	 * creates a new Grid object and tests setPlant(), getPlant() and removePlant() methods
+	 */
 	@Test
 	public void testPlantMethods() {
 		Grid g = new Grid();
@@ -26,6 +29,9 @@ public class GridTest {
 		assertFalse("False", g.getPlant()==p);
 	}
 	
+	/**
+	 * creates a Grid object and tests getFirrstZombie(), getNumberOfZombies() and removeZombie() methods
+	 */
 	@Test
 	public void testZombieMethods() {
 		Grid g = new Grid();
