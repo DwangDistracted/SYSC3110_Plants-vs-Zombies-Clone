@@ -121,7 +121,7 @@ public class Grid {
 			
 			Zombie zombieToRemove = zombies.peek();
 			
-			if (zombieTypeCount.put(zombieToRemove.getZombieType(), zombieTypeCount.get(zombieToRemove.getZombieType()) - 1) - 1 == 0) {
+			if (zombieTypeCount.get(zombieToRemove.getZombieType()) - 1 == 0) {
 				zombieTypeCount.remove(zombieToRemove.getZombieType());
 			}
 			
@@ -163,6 +163,14 @@ public class Grid {
 		return zombieTypeCount;
 	}
 	
+	
+	public void updateZombieTypeCount() {
+		for (Zombie zombie : zombies) {
+			zombieTypeCount = new HashMap<ZombieTypes, Integer>();
+			zombieTypeCount.put(zombie.getZombieType(), zombieTypeCount.getOrDefault(zombie.getZombieType(), 0) + 1);
+		} 
+	}
+	
 	/**
 	 * Get the row this grid is located at
 	 * 
@@ -179,5 +187,10 @@ public class Grid {
 	 */
 	public int getCol() {
 		return col;
+	}
+	
+	private void printMap() {
+		
+		
 	}
 }

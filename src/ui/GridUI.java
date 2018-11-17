@@ -31,7 +31,6 @@ public class GridUI extends JPanel {
 		plantPanel = new JPanel();
 		plantLabel = new JLabel();
 		plantPanel.setOpaque(false);
-		zombiePanel = new ZombiePanel(null, 0);
 		
 		this.grid = grid;
 		this.row = grid.getRow();
@@ -81,45 +80,15 @@ public class GridUI extends JPanel {
 	 */
 	public void renderZombies() {
 		
-		GridBagConstraints c = new GridBagConstraints();
-	
-		int numberOfZombieTypes = 0;
-		
-		ZombiePanel zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount());
-		
-		for (ZombieTypes zombieType : grid.getZombieTypeCount().keySet()) {
-			
-			if (numberOfZombieTypes < MAX_ZOMBIE_TYPES) {
-				
-				zombiePanel.setOpaque(false);
-				zombiePanel.setBorder(BorderFactory.createEmptyBorder());
-				zombiePanel.setPreferredSize(new Dimension(100, 100));
-				
-				c.fill = GridBagConstraints.VERTICAL;
-				c.weighty = 0.5;
-				c.gridx = 1;
-				c.gridy = numberOfZombieTypes;
-				
-				add(zombiePanel, c);
-				
-				numberOfZombieTypes++;
-			
-			} else {
-				
-				JPanel fullZombieListPanel = new JPanel();
-				
-				c.fill = GridBagConstraints.VERTICAL;
-				c.weighty = 0.5;
-				c.gridx = 1;
-				c.gridy = numberOfZombieTypes;
-				
-				add(fullZombieListPanel, c);
-			}
+		if (zombiePanel != null) {
+			this.remove(zombiePanel);
 		}
+		System.out.println("Grid: " + row + ", " + col);
+		grid.updateZombieTypeCount();
 		
-		if (numberOfZombieTypes == 0) {
-			
-		}
+		zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount());
+		
+		add(zombiePanel);
 	}
 
 	/**

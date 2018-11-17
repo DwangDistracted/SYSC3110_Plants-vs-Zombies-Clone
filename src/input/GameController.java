@@ -65,14 +65,9 @@ public class GameController {
 				case "End Turn": //@author David Wang
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
+					ui.setPointsMessage(userResources.getPoints());
 					
 					GridUI [][] gridTiles = ui.getBoardTiles();
-//					for (Grid grid : game.getGridsChanged()) {
-//						System.out.println("Row: " + grid.getRow());
-//						System.out.println("Col: " + grid.getCol());
-//						gridTiles[grid.getRow()][grid.getCol()].renderZombies();
-//					}
-					game.resetGridsChanged();
 					
 					for (int i = 0; i < gridTiles.length; i++) {
 						for (int j = 0; j < gridTiles[i].length; j++) {

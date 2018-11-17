@@ -17,9 +17,16 @@ public class ZombiePanel extends JPanel {
 	private static final long serialVersionUID = 4727511739555951187L;
 	private static final int MAX_ZOMBIE_TYPES = 3;
 	
+	
 	public ZombiePanel(Component parent, Map<ZombieTypes,Integer> map) {
 		super();
+		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setOpaque(false);
+		
+		for (ZombieTypes zombieType : map.keySet()) {
+			System.out.print(zombieType.toString() + ": " + map.get(zombieType));
+		}
 		
 		if (map.keySet().size() <= MAX_ZOMBIE_TYPES) {
 			for (ZombieTypes zombieType : map.keySet()) {
@@ -42,7 +49,7 @@ public class ZombiePanel extends JPanel {
 
 	private void addZombieType(ZombieTypes zombieType,Component parent, int count, int mapSize) {
 		Image zombieImage = Images.getZombieImage(zombieType);
-		zombieImage = zombieImage.getScaledInstance(parent.getHeight()/mapSize == 0? 50: parent.getHeight()/mapSize, //try to set the dimensions to relative to the parent
+		zombieImage = zombieImage.getScaledInstance(parent.getHeight()/(mapSize + 1) == 0? 50: parent.getHeight()/(mapSize + 1), //try to set the dimensions to relative to the parent
 													parent.getHeight()/mapSize == 0? 50: parent.getHeight()/mapSize,
 													Image.SCALE_DEFAULT);
 		
