@@ -32,6 +32,8 @@ In the following iteration, the game will drop the text-based representation in 
 - INPUT LAG: Input takes some time to parse. Please be patient when clicking.
 - Loading can be slow
 - expect ~250 MBs of memory usage.
+- Sometimes it will spawn 0 zombies
+- Zombie positions do not update correctly on the UI. it will show its previous position as well as the new one.
 
 ## Milestone 2 Division of Labour
 Michael Patsula - GameUI, GameController, Card, Documentation
