@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import assets.Plant;
+import assets.PlantTypes;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -83,6 +85,7 @@ public class GameController {
 					// re-render every grid tiles
 					for (int i = 0; i < gridTiles.length; i++) {
 						for (int j = 0; j < gridTiles[i].length; j++) {
+							gridTiles[i][j].renderPlant();
 							gridTiles[i][j].renderZombies();
 						}
 					}
@@ -97,11 +100,9 @@ public class GameController {
 							LOG.debug("Load Next Level");
 							
 							Game g = new Game(LevelLoader.getNextLevel());
-							ui.dispose();
-							new GameController(ui, g);
+							LOG.debug(g.getBoard().displayBoard());
 							new GameController(new GameUI(g), g);
 							ui.dispose();
-							LOG.debug(g.getBoard().displayBoard());
 						} else { //return to main menu
 							new MainMenu();
 							ui.dispose();
@@ -118,7 +119,6 @@ public class GameController {
 							LOG.debug(g.getBoard().displayBoard());
 							new GameController(new GameUI(g), g);
 							ui.dispose();
-							LOG.debug(g.getBoard().displayBoard());
 						} else { //return to main menu
 							new MainMenu();
 							ui.dispose();
@@ -151,7 +151,8 @@ public class GameController {
 
 			if (selectedCard != null) {
 				LOG.debug("Planting in Grid");
-				Plant selectedPlant = selectedCard.getPlant();
+				PlantTypes selectedPlantType = selectedCard.getPlantType();
+				Plant selectedPlant = PlantTypes.toPlant(selectedPlantType);
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.placePlant(selectedPlant, sourceRow, sourceCol)) {
 						userResources.spendPoints(selectedPlant.getCost());

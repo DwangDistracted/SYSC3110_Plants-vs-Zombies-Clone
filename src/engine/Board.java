@@ -176,6 +176,8 @@ public class Board implements ZombieMoveListener {
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
+		plant.setCoordinates(x, y);
+		
 		if (plant instanceof Flower) {
 			sfCounter++;
 		}
