@@ -228,10 +228,9 @@ public class GameUI extends JFrame
 
     	for(PlantTypes p: lvl.getAllowedPlants())      //build plant cards
     	{
-    		Card card = new Card(new BorderLayout(5,5), PlantTypes.toPlant(p));
+    		Card card = new Card(new BorderLayout(5,5), p);
     		card.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     		card.setMaximumSize(new Dimension(90, 140));
-    		card.setUnit(PlantTypes.toPlant(p));
 
     		Image img = Images.getPlantImage(p);
 

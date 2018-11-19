@@ -34,7 +34,7 @@ public class Combat {
 		int damage = source.getPower();
 		
 		// iterate through the plant's row to find zombie to attack
-		for (int col = 0; col < gameBoard[plantRow].length; col++) {
+		for (int col = source.getCol(); col < gameBoard[plantRow].length; col++) {
 			if (gameBoard[plantRow][col].getFirstZombie() != null) {
 				
 				Zombie zombieTarget = gameBoard[plantRow][col].getFirstZombie();
