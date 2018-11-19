@@ -85,7 +85,6 @@ public class GridUI extends JPanel {
 		if (zombiePanel != null) {
 			this.remove(zombiePanel);
 			repaint();
-			revalidate();
 		}
 		grid.updateZombieTypeCount();
 		
