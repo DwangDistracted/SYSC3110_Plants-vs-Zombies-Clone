@@ -85,6 +85,7 @@ public class GameController {
 					// re-render every grid tiles
 					for (int i = 0; i < gridTiles.length; i++) {
 						for (int j = 0; j < gridTiles[i].length; j++) {
+							gridTiles[i][j].renderPlant();
 							gridTiles[i][j].renderZombies();
 						}
 					}
