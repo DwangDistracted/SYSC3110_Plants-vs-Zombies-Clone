@@ -194,7 +194,6 @@ public class GameUI extends JFrame
             }
         }
 
-        // fill the black non-pawn piece row
         for (int r = 0; r < row; r++)
         {
             for (int c = 0; c < column; c++)
@@ -228,6 +227,7 @@ public class GameUI extends JFrame
 
     	for(PlantTypes p: lvl.getAllowedPlants())      //build plant cards
     	{
+    		System.out.println("GAMEUI: TEST     " + PlantTypes.toPlant(p));
     		Card card = new Card(new BorderLayout(5,5), PlantTypes.toPlant(p));
     		card.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     		card.setMaximumSize(new Dimension(90, 140));

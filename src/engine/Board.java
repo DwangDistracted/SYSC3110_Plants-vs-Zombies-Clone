@@ -182,6 +182,7 @@ public class Board implements ZombieMoveListener {
 		
 		if (gameBoard[x][y].setPlant(plant)) {
 			this.plantsInGame.add(plant);
+			plant.setCoordinates(x, y);
 			LOG.info(String.format("Placed plant at location: (%d, %d)", x, y));
 			return true;
 		}
@@ -339,22 +340,25 @@ public class Board implements ZombieMoveListener {
 		
 		// move the zombie based on speed
 		for (int i = 1; i <= speed; i++) {
+			modifier = i;
 			
-			// can moving zombie until it reaches end of grid or reaches a plant
+			// can move zombie until it reaches end of grid or reaches a plant
 			if (!(currentZombieCol - i < 0)) {
-				modifier++;
 				if (gameBoard[currentZombieRow][currentZombieCol - i].isOccupied()) {
 					break;
 				}
 			}
 		}
-		
-		// update zombie coordinates
-		zombie.setColumn(currentZombieCol - modifier);
-		
 		// determines if this zombie has reached the end of the board
-		if (zombie.getCol() == 0) {
+		if(currentZombieCol - modifier < 0)
+		{
 			this.zombieReachedEnd = true;
+			zombie.setColumn(0);
+		}
+		else
+		{
+			// update zombie coordinates
+			zombie.setColumn(currentZombieCol - modifier);
 		}
 		
 		// update the board with new position
