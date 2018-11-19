@@ -66,15 +66,16 @@ public class Game {
 	 * Processes a Player's Turn
 	 */
 	public void playerTurn() {
-		
 		//plants action
 		List<Plant> plantsInGame = board.getPlantsInGame();
-		
+		LOG.debug("Doing Plant Attack Calculations");
 		for (Plant plant : plantsInGame) {
+			LOG.debug("Plant at (" + plant.getCol() + "," + plant.getRow() + ")");
 			if (!(plant instanceof Flower)) {
 				int [] zombieTargetCoordinates = combat.plantAttack(plant);
 				if (zombieTargetCoordinates != null) {
 					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
+					LOG.debug("Plant at (" + plant.getCol() + "," + plant.getRow() + ") has defeated zombie at (" + zombieTargetCoordinates[0] + "," + zombieTargetCoordinates[1] + ")");
 				}
 			}
 		}
@@ -156,6 +157,7 @@ public class Game {
 	 * Tells Combat Engine to handle attack and damage calculations. Adds Resources to Player Purse. Checks if the pLayer has won
 	 */
 	public void doEndOfTurn() {
+		playerTurn(); //player plants attack
 		numTurns++;
 		//do the zombie Turn
 		zombieTurn();

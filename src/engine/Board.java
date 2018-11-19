@@ -199,7 +199,7 @@ public class Board implements ZombieMoveListener {
 	 * 
 	 */
 	public void removePlant(int x, int y) {
-		
+		this.plantsInGame.remove(gameBoard[x][y].getPlant());
 		gameBoard[x][y].removePlant();
 	}
 	
@@ -233,7 +233,6 @@ public class Board implements ZombieMoveListener {
 	public void removeZombie(int x, int y) {
 		
 		Zombie zombieRemoved = gameBoard[x][y].removeZombie();
-		
 		this.zombiesInGame.remove(zombieRemoved);
 	}
 	

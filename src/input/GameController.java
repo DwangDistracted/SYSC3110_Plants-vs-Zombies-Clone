@@ -153,7 +153,7 @@ public class GameController {
 				LOG.debug("Planting in Grid");
 				Plant selectedPlant = selectedCard.getPlant();
 				if (userResources.canSpend(selectedPlant.getCost())) {
-					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
+					if (gameBoard.placePlant(selectedPlant, sourceRow, sourceCol)) {
 						userResources.spendPoints(selectedPlant.getCost());
 						ui.setPointsLabel(userResources.getPoints());
 						source.renderPlant();
@@ -164,7 +164,7 @@ public class GameController {
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
 			} else if (removingPlant) {
-				gameBoard.getGrid(sourceRow, sourceCol).removePlant();
+				gameBoard.removePlant(sourceRow, sourceCol);
 				source.renderPlant();
 				removingPlant = false;
 				LOG.debug("Removed Plant");
