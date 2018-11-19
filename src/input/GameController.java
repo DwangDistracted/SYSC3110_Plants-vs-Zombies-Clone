@@ -83,6 +83,7 @@ public class GameController {
 					// re-render every grid tiles
 					for (int i = 0; i < gridTiles.length; i++) {
 						for (int j = 0; j < gridTiles[i].length; j++) {
+							gridTiles[i][j].renderPlant();
 							gridTiles[i][j].renderZombies();
 						}
 					}
@@ -164,7 +165,7 @@ public class GameController {
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
 			} else if (removingPlant) {
-				gameBoard.getGrid(sourceRow, sourceCol).removePlant();
+				gameBoard.removePlant(sourceRow,  sourceCol);
 				source.renderPlant();
 				removingPlant = false;
 				LOG.debug("Removed Plant");
