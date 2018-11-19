@@ -2,7 +2,7 @@ package ui;
 
 import java.awt.LayoutManager;
 import javax.swing.JPanel;
-import assets.Plant;
+import assets.PlantTypes;
 
 /**
  * Each Card instance will represent a unit selection card initialized within the GameUI class.
@@ -13,19 +13,20 @@ import assets.Plant;
 public class Card extends JPanel
 {
 	private static final long serialVersionUID = 1L;
-	private Plant plant;
+	private PlantTypes plant;
 	
-	public Card(LayoutManager layout, Plant unit)
+	public Card(LayoutManager layout, PlantTypes unit)
 	{
 		super(layout);
+		plant = unit;
 	}
 	
-	public Plant getPlant()
+	public PlantTypes getPlantType()
 	{
 		return plant;
 	}
 	
-	public void setUnit(Plant unit)
+	public void setUnit(PlantTypes unit)
 	{
 		this.plant = unit;
 	}

@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import assets.Plant;
+import assets.PlantTypes;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -152,9 +154,10 @@ public class GameController {
 
 			if (selectedCard != null) {
 				LOG.debug("Planting in Grid");
-				Plant selectedPlant = selectedCard.getPlant();
+				PlantTypes selectedPlantType = selectedCard.getPlantType();
+				Plant selectedPlant = PlantTypes.toPlant(selectedPlantType);
 				if (userResources.canSpend(selectedPlant.getCost())) {
-					if (gameBoard.getGrid(sourceRow, sourceCol).setPlant(selectedPlant)) {
+					if (gameBoard.placePlant(selectedPlant, sourceRow, sourceCol)) {
 						userResources.spendPoints(selectedPlant.getCost());
 						ui.setPointsLabel(userResources.getPoints());
 						source.renderPlant();
@@ -165,7 +168,7 @@ public class GameController {
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
 			} else if (removingPlant) {
-				gameBoard.removePlant(sourceRow,  sourceCol);
+				gameBoard.removePlant(sourceRow, sourceCol);
 				source.renderPlant();
 				removingPlant = false;
 				LOG.debug("Removed Plant");

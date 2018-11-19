@@ -176,6 +176,8 @@ public class Board implements ZombieMoveListener {
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
+		plant.setCoordinates(x, y);
+		
 		if (plant instanceof Flower) {
 			sfCounter++;
 		}
@@ -199,7 +201,7 @@ public class Board implements ZombieMoveListener {
 	 * 
 	 */
 	public void removePlant(int x, int y) {
-		
+		this.plantsInGame.remove(gameBoard[x][y].getPlant());
 		gameBoard[x][y].removePlant();
 	}
 	
@@ -233,7 +235,6 @@ public class Board implements ZombieMoveListener {
 	public void removeZombie(int x, int y) {
 		
 		Zombie zombieRemoved = gameBoard[x][y].removeZombie();
-		
 		this.zombiesInGame.remove(zombieRemoved);
 	}
 	
