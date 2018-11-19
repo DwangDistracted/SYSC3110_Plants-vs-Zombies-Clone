@@ -1,5 +1,7 @@
 package levels;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -74,9 +76,9 @@ public class LevelInfo {
 		return initResources;
 	}
 	public Map<ZombieTypes, Integer> getZombies() {
-		return zombies;
+		return new HashMap<ZombieTypes, Integer>(zombies);
 	}
 	public Set<PlantTypes> getAllowedPlants() {
-		return allowedPlants;
+		return new HashSet<PlantTypes>(allowedPlants);
 	}
 }

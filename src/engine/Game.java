@@ -56,6 +56,7 @@ public class Game {
 		
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
+		LOG.debug("Level has " + numZombies + " zombies");
 		userResources = new Purse(levelInfo.getInitResources());
 		gamestate = GameState.PLAYING;
 		numTurns = 0;

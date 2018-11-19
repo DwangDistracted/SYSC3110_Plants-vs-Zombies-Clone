@@ -100,11 +100,9 @@ public class GameController {
 							LOG.debug("Load Next Level");
 							
 							Game g = new Game(LevelLoader.getNextLevel());
-							ui.dispose();
-							new GameController(ui, g);
+							LOG.debug(g.getBoard().displayBoard());
 							new GameController(new GameUI(g), g);
 							ui.dispose();
-							LOG.debug(g.getBoard().displayBoard());
 						} else { //return to main menu
 							new MainMenu();
 							ui.dispose();
@@ -121,7 +119,6 @@ public class GameController {
 							LOG.debug(g.getBoard().displayBoard());
 							new GameController(new GameUI(g), g);
 							ui.dispose();
-							LOG.debug(g.getBoard().displayBoard());
 						} else { //return to main menu
 							new MainMenu();
 							ui.dispose();
