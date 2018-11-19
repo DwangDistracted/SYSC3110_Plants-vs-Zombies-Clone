@@ -70,12 +70,12 @@ public class Game {
 		List<Plant> plantsInGame = board.getPlantsInGame();
 		LOG.debug("Doing Plant Attack Calculations");
 		for (Plant plant : plantsInGame) {
-			LOG.debug("Plant at (" + plant.getCol() + "," + plant.getRow() + ")");
+			LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ")");
 			if (!(plant instanceof Flower)) {
 				int [] zombieTargetCoordinates = combat.plantAttack(plant);
 				if (zombieTargetCoordinates != null) {
 					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
-					LOG.debug("Plant at (" + plant.getCol() + "," + plant.getRow() + ") has defeated zombie at (" + zombieTargetCoordinates[0] + "," + zombieTargetCoordinates[1] + ")");
+					LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ") has defeated zombie at (" + zombieTargetCoordinates[0] + "," + zombieTargetCoordinates[1] + ")");
 				}
 			}
 		}
