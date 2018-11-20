@@ -18,12 +18,20 @@ public class Main {
 	 */
 	public static void main (String[] args) {
 		//Log init
-		Logger.setDebug(); //change to clearDebug to get rid of debug messages
+		Logger.clearDebug(); //change to clearDebug to get rid of debug messages
 		LevelLoader.init();
 		if(!Images.preloadImages()) {
 			LOG.error("Failed to Load Graphics Images");
 		}
 		LOG.debug("Data Loading Complete");
+		
+		//Title Card
+		LOG.info("==================================");
+		LOG.info("        Zombies are Vegan         ");
+		LOG.info("==================================");
+		LOG.info("      Derek Shao | David Wang     ");
+		LOG.info(" Michael Pastula | Tanisha Garg   ");
+		LOG.info("==================================");
 		
 		new MainMenu();
 	}

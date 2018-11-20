@@ -87,7 +87,7 @@ public class Game {
 	 * @author David Wang; Modified by Derek Shao
 	 */
 	private void zombieTurn() {
-		LOG.info("It is the zombie's turn.");
+		LOG.debug("It is the zombie's turn.");
 		
 		//create a new collection to prevent concurrent modification of Board zombies attribute
 		List<Zombie> zombiesInGame = new LinkedList<Zombie>(board.getZombiesInGame());
@@ -115,7 +115,7 @@ public class Game {
 		//spawn new zombies
 		if (!zombieQueue.isEmpty()) { //there must be zombies to spawn
 			Random rand = new Random();
-			int zombiesToSpawn = rand.nextInt(numZombies/4);
+			int zombiesToSpawn = rand.nextInt(numZombies/4 == 0? 2: numZombies/4); //if there aren't enough zombies then spawn up to 1
 			
 			if (zombiesToSpawn > zombieQueue.values().stream().mapToInt(Integer::intValue).sum()) { 
 				//if the random number is larger than the reamining zombies then spawn all remaining zombies
@@ -179,10 +179,10 @@ public class Game {
 	 */
 	private void endGame(boolean playerWin) {
 		if(playerWin) {
-			LOG.info("Player has Won");
+			LOG.debug("Player has Won");
 			gamestate = GameState.WON;
 		} else {
-			LOG.info("Player was eaten by Zombies");
+			LOG.debug("Player was eaten by Zombies");
 			gamestate = GameState.LOST;
 		}
 	}

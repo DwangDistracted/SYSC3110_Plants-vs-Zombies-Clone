@@ -188,9 +188,4 @@ public class Grid {
 	public int getCol() {
 		return col;
 	}
-	
-	private void printMap() {
-		
-		
-	}
 }
