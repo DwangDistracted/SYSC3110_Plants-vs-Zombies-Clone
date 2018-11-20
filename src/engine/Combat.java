@@ -39,7 +39,7 @@ public class Combat {
 				
 				Zombie zombieTarget = gameBoard[plantRow][col].getFirstZombie();
 				
-				LOG.info(String.format("Plant at : (%d, %d) attacking Zombie at: (%d, %d)", 
+				LOG.debug(String.format("Plant at : (%d, %d) attacking Zombie at: (%d, %d)", 
 						source.getRow(), source.getCol(), zombieTarget.getRow(), zombieTarget.getCol()));
 				
 				zombieTarget.takeDamage(damage);
@@ -65,7 +65,7 @@ public class Combat {
 	 */
 	public boolean zombieAttack(Zombie source, Plant target) {
 		
-		LOG.info(String.format("Zombie at : (%d, %d) attacking Plant at: (%d, %d)", 
+		LOG.debug(String.format("Zombie at : (%d, %d) attacking Plant at: (%d, %d)", 
 				source.getRow(), source.getCol(), target.getRow(), target.getCol()));
 		
 		target.takeDamage(source.getPower());
@@ -83,7 +83,7 @@ public class Combat {
 	private boolean unitIsDead(Unit unit) {
 		
 		if (!unit.isAlive()) {
-			LOG.info(String.format("Unit at : (%d, %d) is dead", 
+			LOG.debug(String.format("Unit at : (%d, %d) is dead", 
 					unit.getRow(), unit.getCol()));
 			return true;
 		}

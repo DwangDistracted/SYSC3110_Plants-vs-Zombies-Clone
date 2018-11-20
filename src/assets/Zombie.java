@@ -128,7 +128,7 @@ public abstract class Zombie implements Unit{
 	@Override
 	public boolean isAlive() {
 		if(getHP() <= 0) {
-			LOG.info("Zombie is Dead");
+			LOG.debug("Zombie is Dead");
 			return false;
 		}
 		return true;

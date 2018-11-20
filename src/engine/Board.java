@@ -185,7 +185,7 @@ public class Board implements ZombieMoveListener {
 		if (gameBoard[x][y].setPlant(plant)) {
 			this.plantsInGame.add(plant);
 			plant.setCoordinates(x, y);
-			LOG.info(String.format("Placed plant at location: (%d, %d)", x, y));
+			LOG.debug(String.format("Placed plant at location: (%d, %d)", x, y));
 			return true;
 		}
 		
@@ -219,7 +219,7 @@ public class Board implements ZombieMoveListener {
 		
 		if (gameBoard[x][y].addZombie(zombie)) {
 			this.zombiesInGame.add(zombie);
-			LOG.info(String.format("Placed zombie at location: (%d, %d)", x, y));
+			LOG.debug(String.format("Placed zombie at location: (%d, %d)", x, y));
 			return true;
 		}
 		
