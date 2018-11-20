@@ -2,11 +2,9 @@ package levels;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -113,13 +111,11 @@ public class LevelLoader {
 
 			//Test Serialization
 			try {
-				File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".ser");
+				File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".xml");
 				fOut.getParentFile().mkdirs();
 				
 				FileOutputStream fileOut = new FileOutputStream(fOut);
-				ObjectOutputStream out = new ObjectOutputStream(fileOut);
-				out.writeObject(levels.get(0));
-				out.close();
+		        
 				fileOut.close();
 			} catch (IOException e) {
 				LOG.error("Failed to Serialize Level");
