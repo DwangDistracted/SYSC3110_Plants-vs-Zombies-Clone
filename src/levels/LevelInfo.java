@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import assets.PlantTypes;
 import assets.ZombieTypes;
 
@@ -14,27 +17,40 @@ import assets.ZombieTypes;
  * @author David Wang
  *
  */
+@XmlRootElement
 public class LevelInfo implements Serializable {
 	private static final long serialVersionUID = 1L; //change this if the class changes
 	
 	//The level's name
+	@XmlElement
 	private String name;
 	//The Rating of the Level's Difficulty
+	@XmlElement
 	private int levelRating;
 	
 	//The Size of the Game Grid for this level
+	@XmlElement
 	private int column;
+	@XmlElement
 	private int row;
 	
 	//The initial amount of resource points the user has
+	@XmlElement
 	private int initResources;
 	//The amount of resource points the user gains per turn
+	@XmlElement
 	private int resPerTurn;
 	
 	//The zombies that will attack the player
+	@XmlElement
 	private Map<ZombieTypes, Integer> zombies;
 	//The Plants that the player is allowed to use
+	@XmlElement
 	private Set<PlantTypes> allowedPlants;
+	
+	private LevelInfo() {
+		//needed for JaxB
+	}
 	
 	/**
 	 * Constructs a LevelInfo Object

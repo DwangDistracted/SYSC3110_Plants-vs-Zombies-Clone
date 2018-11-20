@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><levelInfo><name>Sample</name><levelRating>4</levelRating><column>8</column><row>8</row><initResources>200</initResources><resPerTurn>25</resPerTurn><zombies><entry><key>REG_ZOMBIE</key><value>20</value></entry></zombies><allowedPlants>SUNFLOWER</allowedPlants><allowedPlants>PEASHOOTER</allowedPlants></levelInfo>

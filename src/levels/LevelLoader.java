@@ -1,16 +1,19 @@
 package levels;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import assets.PlantTypes;
 import assets.ZombieTypes;
@@ -65,6 +68,9 @@ public class LevelLoader {
 	 */
 	private static void deserializeLevels () {
 		try {
+			JAXBContext jc = JAXBContext.newInstance(LevelInfo.class);
+			Unmarshaller unM = jc.createUnmarshaller();
+			
 			File folder = new File("levels/");
 			File[] listOfFiles = folder.listFiles();
 
@@ -77,12 +83,8 @@ public class LevelLoader {
 					if (listOfFiles[i].isFile()) {
 						LOG.debug("Attempting to Deserialize LevelInfo from " + listOfFiles[i].getName());
 
-						FileInputStream fileIn = new FileInputStream(listOfFiles[i]);
-						ObjectInputStream in = new ObjectInputStream(fileIn);
-						LevelInfo lvl = (LevelInfo) in.readObject();
+						LevelInfo lvl = (LevelInfo) unM.unmarshal(listOfFiles[i]);
 						levels.add(lvl);
-						in.close();
-						fileIn.close();
 					}
 				}
 				LOG.debug("Finished Deserialization");
@@ -90,8 +92,8 @@ public class LevelLoader {
 		} catch (IOException io) {
 			LOG.error("Failed to deserialize levels - IO Error");
 			io.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			LOG.error("Failed to deserialize levels - Class not found");
+		} catch (JAXBException e) {
+			LOG.error("Failed to deserialize levels - JaxB Error");
 			e.printStackTrace();
 		}
 	}
@@ -110,18 +112,24 @@ public class LevelLoader {
 			sampleLevels();
 
 			//Test Serialization
-			try {
-				File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".xml");
-				fOut.getParentFile().mkdirs();
-				
-				FileOutputStream fileOut = new FileOutputStream(fOut);
+			File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".xml");
+			fOut.getParentFile().mkdirs();
+			try (FileOutputStream fileOut = new FileOutputStream(fOut)) {
+
+		        JAXBContext jc = JAXBContext.newInstance(LevelInfo.class);
+		        Marshaller m = jc.createMarshaller();
+		        m.marshal(levels.get(0), fOut);
 		        
 				fileOut.close();
+				
+				LOG.debug("Level has been serialized");
 			} catch (IOException e) {
-				LOG.error("Failed to Serialize Level");
+				LOG.error("Failed to Serialize Level - IO Exception");
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				LOG.error("Failed to Serialize Level - JaxB Exception");
 				e.printStackTrace();
 			}
-			LOG.debug("Level has been serialized");
 		}
 	}
 	
