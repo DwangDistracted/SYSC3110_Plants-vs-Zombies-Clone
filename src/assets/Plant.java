@@ -107,6 +107,11 @@ public abstract class Plant implements Unit{
 	 */
 	public abstract PlantTypes getPlantType();
 
+	/**
+	 * Performs the plant's attack on a zombie target.
+	 */
+	public abstract void attack(Zombie zombie);
+	
 	@Override
 	public int getRow() {
 		return this.row;

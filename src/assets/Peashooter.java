@@ -27,4 +27,10 @@ public class Peashooter extends Plant{
 	public PlantTypes getPlantType() {
 		return PLANT_TYPE;
 	}
+	
+	@Override
+	public void attack(Zombie zombie) {
+		
+		zombie.takeDamage(this.getPower());
+	}
 }

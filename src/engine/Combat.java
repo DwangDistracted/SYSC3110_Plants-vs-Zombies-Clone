@@ -42,7 +42,7 @@ public class Combat {
 				LOG.debug(String.format("Plant at : (%d, %d) attacking Zombie at: (%d, %d)", 
 						source.getRow(), source.getCol(), zombieTarget.getRow(), zombieTarget.getCol()));
 				
-				zombieTarget.takeDamage(damage);
+				source.attack(zombieTarget);
 				
 				if (unitIsDead(zombieTarget)) {
 					int [] zombieToRemoveCoords = {zombieTarget.getRow(), zombieTarget.getCol()};
