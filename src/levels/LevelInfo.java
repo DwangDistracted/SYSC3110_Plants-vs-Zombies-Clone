@@ -1,5 +1,6 @@
 package levels;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -9,11 +10,13 @@ import assets.PlantTypes;
 import assets.ZombieTypes;
 
 /**
- * A Class that holds all information about a particular level. Made to be serializable in Future Milestone so that levels can be added via JSON/XML Files.
+ * A Class that holds all information about a particular level. Made to be serializable to SER
  * @author David Wang
  *
  */
-public class LevelInfo {
+public class LevelInfo implements Serializable {
+	private static final long serialVersionUID = 1L; //change this if the class changes
+	
 	//The level's name
 	private String name;
 	//The Rating of the Level's Difficulty

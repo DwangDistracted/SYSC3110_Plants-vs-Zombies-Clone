@@ -1,5 +1,12 @@
 package levels;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,11 +63,39 @@ public class LevelLoader {
 	}
 	
 	/**
-	 * Future Milestone: Deserializes LevelInfo from JSON/XML files
-	 * Current: Does Nothing
+	 * Deserializes all LevelInfo from SER files in the levels directory into the game
 	 */
 	private static void deserializeLevels () {
-		//nothing for milestone 1
+		try {
+			File folder = new File("levels/");
+			File[] listOfFiles = folder.listFiles();
+
+			if (listOfFiles == null) {
+				throw new IOException("Missing Level Directory");
+			} else if (listOfFiles.length == 0) {
+				throw new IOException("Missing Level Files");
+			} else {
+				for (int i = 0; i < listOfFiles.length; i++) {
+					if (listOfFiles[i].isFile()) {
+						LOG.debug("Attempting to Deserialize LevelInfo from " + listOfFiles[i].getName());
+
+						FileInputStream fileIn = new FileInputStream(listOfFiles[i]);
+						ObjectInputStream in = new ObjectInputStream(fileIn);
+						LevelInfo lvl = (LevelInfo) in.readObject();
+						levels.add(lvl);
+						in.close();
+						fileIn.close();
+					}
+				}
+				LOG.debug("Finished Deserialization");
+			}
+		} catch (IOException io) {
+			LOG.error("Failed to deserialize levels - IO Error");
+			io.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			LOG.error("Failed to deserialize levels - Class not found");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -70,12 +105,28 @@ public class LevelLoader {
 		levels = new ArrayList<>();
 		currentLevel = 0;
 
-		//Loads sample LevelInfo
-		for (int i = 0; i < 13; i ++) {
-			sampleLevels();
-		}
 		//DeSerialize all Level Info into Level Info
 		deserializeLevels();
+		//Generate a Sample level if no serialized level was found
+		if(levels.size()==0) {
+			sampleLevels();
+
+			//Test Serialization
+			try {
+				File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".ser");
+				fOut.getParentFile().mkdirs();
+				
+				FileOutputStream fileOut = new FileOutputStream(fOut);
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				out.writeObject(levels.get(0));
+				out.close();
+				fileOut.close();
+			} catch (IOException e) {
+				LOG.error("Failed to Serialize Level");
+				e.printStackTrace();
+			}
+			LOG.debug("Level has been serialized");
+		}
 	}
 	
 	/**
