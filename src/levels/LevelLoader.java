@@ -64,11 +64,11 @@ public class LevelLoader {
 	}
 	
 	/**
-	 * Deserializes all LevelInfo from SER files in the levels directory into the game
+	 * Deserializes all LevelInfo from SER files in the levels directory into the game.
 	 */
 	private static void deserializeLevels () {
 		try {
-			JAXBContext jc = JAXBContext.newInstance(LevelInfo.class);
+			JAXBContext jc = JAXBContext.newInstance(LevelInfo.class); //uses JaxB
 			Unmarshaller unM = jc.createUnmarshaller();
 			
 			File folder = new File("levels/");
@@ -111,7 +111,7 @@ public class LevelLoader {
 		if(levels.size()==0) {
 			sampleLevels();
 
-			//Test Serialization
+			//Serialization - this should move to the Level Designer
 			File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".xml");
 			fOut.getParentFile().mkdirs();
 			try (FileOutputStream fileOut = new FileOutputStream(fOut)) {
