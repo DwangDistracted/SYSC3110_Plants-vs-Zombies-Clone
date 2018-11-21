@@ -176,8 +176,6 @@ public class Board implements ZombieMoveListener {
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
-		plant.setCoordinates(x, y);
-		
 		if (plant instanceof Flower) {
 			sfCounter++;
 		}
@@ -218,6 +216,8 @@ public class Board implements ZombieMoveListener {
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
 		if (gameBoard[x][y].addZombie(zombie)) {
+			zombie.setRow(x);
+			zombie.setColumn(y);
 			this.zombiesInGame.add(zombie);
 			LOG.debug(String.format("Placed zombie at location: (%d, %d)", x, y));
 			return true;
