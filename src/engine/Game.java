@@ -69,9 +69,7 @@ public class Game {
 		LOG.debug("Doing Plant Attack Calculations");
 		for (Plant plant : plantsInGame) {
 			LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ")");
-			if (!(plant instanceof Flower)) {
-				plant.attack(board);
-			}
+			plant.attack(board);
 		}
 	}
 	
