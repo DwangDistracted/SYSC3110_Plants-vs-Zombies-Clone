@@ -25,8 +25,6 @@ public class Game {
 	}
 	
 	private static Logger LOG = new Logger("Game");
-	//combat engine
-	private Combat combat; 
 	//The Level this game is playing
 	private LevelInfo levelInfo;
 	//The Game Board
@@ -52,7 +50,6 @@ public class Game {
 		//set up config from level config
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
-		combat = new Combat(board.getBoard());
 		
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
@@ -73,11 +70,7 @@ public class Game {
 		for (Plant plant : plantsInGame) {
 			LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ")");
 			if (!(plant instanceof Flower)) {
-				int [] zombieTargetCoordinates = combat.plantAttack(plant);
-				if (zombieTargetCoordinates != null) {
-					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
-					LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ") has defeated zombie at (" + zombieTargetCoordinates[0] + "," + zombieTargetCoordinates[1] + ")");
-				}
+				plant.attack(board);
 			}
 		}
 	}
@@ -97,10 +90,7 @@ public class Game {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
 			if (!nextZombie.move()) {
-				boolean targetIsDead = combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol()));
-				if (targetIsDead) {
-					board.removePlant(nextZombie.getRow(), nextZombie.getCol());
-				}
+				nextZombie.attack(board);
 			} else {
 				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));
 			}

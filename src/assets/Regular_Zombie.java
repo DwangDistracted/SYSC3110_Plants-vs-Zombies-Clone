@@ -1,5 +1,7 @@
 package assets;
 
+import engine.Board;
+
 /**
  * The Regular_Zombie class is used to create a basic type of zombie
  * 
@@ -25,5 +27,17 @@ public class Regular_Zombie extends Zombie{
 
 	public ZombieTypes getZombieType() {
 		return ZOMBIE_TYPE;
+	}
+
+	@Override
+	public void attack(Board board) {
+		
+		Plant plantTarget = board.getPlant(getRow(), getCol());
+		
+		plantTarget.takeDamage(getPower());
+		
+		if (!plantTarget.isAlive()) {
+			board.removePlant(getRow(), getCol());
+		}
 	} 
 }

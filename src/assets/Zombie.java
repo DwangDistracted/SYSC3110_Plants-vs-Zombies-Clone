@@ -157,4 +157,9 @@ public abstract class Zombie implements Unit{
 	 * @return the zombie type
 	 */
 	public abstract ZombieTypes getZombieType();
+	
+	/**
+	 * Zombie attack method.
+	 */
+	public abstract void attack(Board board);
 }
