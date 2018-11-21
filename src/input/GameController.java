@@ -39,6 +39,9 @@ public class GameController {
 	private Board gameBoard;
 	private Purse userResources;
 	
+	/**
+	 * the user's command history for the current turn
+	 */
 	private CommandQueue cQ;
 	
 	// Selected to remove a plant
@@ -86,13 +89,14 @@ public class GameController {
 					break;
 				case "End Turn": //@author David Wang
 					cQ.clear(); //allow undo only until the end of a turn
+					
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
 					ui.setPointsLabel(userResources.getPoints());
 					
 					GridUI [][] gridTiles = ui.getBoardTiles();
 					
-					// re-render every grid tiles
+					// re-render all grid tiles
 					for (int i = 0; i < gridTiles.length; i++) {
 						for (int j = 0; j < gridTiles[i].length; j++) {
 							gridTiles[i][j].renderPlant();

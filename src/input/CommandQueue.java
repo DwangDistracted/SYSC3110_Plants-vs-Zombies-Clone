@@ -12,6 +12,10 @@ import engine.Purse;
 import ui.GameUI;
 import util.Logger;
 
+/**
+ * Contains the command history for the player in a turn
+ * @author David Wang
+ */
 public class CommandQueue extends LinkedList<Command> {
 	private static final long serialVersionUID = 1L;
 	
@@ -26,16 +30,32 @@ public class CommandQueue extends LinkedList<Command> {
 		this.userResources = userResources;
 	}
 	
+	/**
+	 * Adds a place command to the command history
+	 * @param type the planttype that was placed
+	 * @param x the location of the placement
+	 * @param y the location of the placement
+	 */
 	public void registerPlace(PlantTypes type, int x, int y) {
 		this.addFirst(new PlaceCommand(type, x, y));
 		LOG.debug("registered place command");
 	}
-	
+
+	/**
+	 * Adds a digup command to the command history
+	 * @param type the planttype that was dug up
+	 * @param x the location of the placement
+	 * @param y the location of the placement
+	 */
 	public void registerDig(PlantTypes type, int x, int y) {
 		this.addFirst(new DigCommand(type, x, y));
 		LOG.debug("registered dig command");
 	}
 
+	/**
+	 * Adds a mower command to the command history
+	 * @param grids the array of grids the mower affected
+	 */
 	public void registerMow(Grid[] grids) {
 		ArrayList<Plant> plants = new ArrayList<>();
 		ArrayList<Zombie> zombies = new ArrayList<>();
@@ -47,6 +67,10 @@ public class CommandQueue extends LinkedList<Command> {
 		LOG.debug("registered mow command");
 	}
 	
+	/**
+	 * Undos the most recent command
+	 * @return
+	 */
 	public boolean undo() {
 		if (this.isEmpty()) {
 			LOG.debug("No Commands to undo");
@@ -59,7 +83,7 @@ public class CommandQueue extends LinkedList<Command> {
 				gameBoard.placePlant(PlantTypes.toPlant(((DigCommand)c).getType()), ((DigCommand)c).getLocX(), ((DigCommand)c).getLocY()); //re-place the plant
 				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].renderPlant();
 				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].repaint();
-				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].revalidate();
+				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].revalidate(); //need both repaint and revalidate for the image to show up properly
 				LOG.debug("undo dig command");
 				break;
 			case MOWER:
