@@ -19,7 +19,7 @@ public class CombatTest {
 	@Test
 	public void testPlantAttack() {
 		Board b = new Board(1, 8);
-		Combat c = new Combat(b.getBoard());
+		Combat c = new Combat(b);
 		b.displayBoard();
 		Peashooter p = new Peashooter();
 		Regular_Zombie z = new Regular_Zombie();
@@ -41,8 +41,8 @@ public class CombatTest {
 	 */
 	@Test
 	public void testZombieAttack() {
-		Combat c = new Combat(new Grid[1][1]);
 		Board b = new Board(1,8);
+		Combat c = new Combat(b);
 		Peashooter p = new Peashooter();
 		Regular_Zombie z = new Regular_Zombie();
 		b.placePlant(p, 0, 0);
