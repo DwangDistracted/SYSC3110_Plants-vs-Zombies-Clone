@@ -327,9 +327,9 @@ public class Board implements ZombieMoveListener {
 		Queue<Zombie> zombiesOnGrid = gameBoard[currentZombieRow][currentZombieCol].getZombies();
 		
 		// remove the zombie from the grid
-		for (Zombie z : gameBoard[currentZombieRow][currentZombieCol].getZombies()) {
+		for (Zombie z : zombiesOnGrid) {
 			if (zombie == z) {
-				gameBoard[currentZombieRow][currentZombieCol].getZombies().remove(z);
+				zombiesOnGrid.remove(z);
 				gameBoard[currentZombieRow][currentZombieCol].updateZombieTypeCount();
 				break;
 			}
