@@ -39,6 +39,8 @@ public class GameController {
 	private Board gameBoard;
 	private Purse userResources;
 	
+	private CommandQueue cQ;
+	
 	// Selected to remove a plant
 	private boolean removingPlant; 
 	
@@ -50,6 +52,7 @@ public class GameController {
 		this.userResources = this.game.getPurse();
 		this.removingPlant = false;
 		
+		this.cQ = new CommandQueue(ui,gameBoard,userResources);
 		this.ui.addGridListeners(new GridListener());
 		this.ui.addUnitSelectionListeners(new UnitSelectListener());
 		this.ui.addGameButtonListeners(new GameButtonListener());
@@ -76,7 +79,13 @@ public class GameController {
 						selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
 					}
 					break;
+				case "Undo":
+					if (!cQ.undo()) {
+						JOptionPane.showMessageDialog(ui, "No more moves to undo", "Cannot Undo", JOptionPane.PLAIN_MESSAGE);
+					}
+					break;
 				case "End Turn": //@author David Wang
+					cQ.clear(); //allow undo only until the end of a turn
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
 					ui.setPointsLabel(userResources.getPoints());
@@ -159,6 +168,9 @@ public class GameController {
 			if (selectedCard != null) {
 				LOG.debug("Planting in Grid");
 				PlantTypes selectedPlantType = selectedCard.getPlantType();
+				
+				cQ.registerPlace(selectedPlantType,sourceRow,sourceCol);
+				
 				Plant selectedPlant = PlantTypes.toPlant(selectedPlantType);
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.placePlant(selectedPlant, sourceRow, sourceCol)) {
@@ -172,8 +184,11 @@ public class GameController {
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
 			} else if (removingPlant) {
+				cQ.registerDig(gameBoard.getPlant(sourceRow, sourceCol).getPlantType(),sourceRow,sourceCol);
+				
 				gameBoard.removePlant(sourceRow, sourceCol);
 				source.renderPlant();
+				source.repaint();
 				removingPlant = false;
 				LOG.debug("Removed Plant");
 			}
