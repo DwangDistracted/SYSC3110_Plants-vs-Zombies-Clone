@@ -52,7 +52,7 @@ public class Game {
 		//set up config from level config
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
-		combat = new Combat(board.getBoard());
+		combat = new Combat(board);
 		
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
@@ -73,11 +73,7 @@ public class Game {
 		for (Plant plant : plantsInGame) {
 			LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ")");
 			if (!(plant instanceof Flower)) {
-				int [] zombieTargetCoordinates = combat.plantAttack(plant);
-				if (zombieTargetCoordinates != null) {
-					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
-					LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ") has defeated zombie at (" + zombieTargetCoordinates[0] + "," + zombieTargetCoordinates[1] + ")");
-				}
+				combat.plantAttack(plant);
 			}
 		}
 	}

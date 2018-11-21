@@ -1,7 +1,6 @@
 package engine;
 
 import assets.*;
-import engine.Grid;
 import util.Logger;
 
 /**
@@ -14,46 +13,59 @@ public class Combat {
 	
 	private static Logger LOG = new Logger("Combat");
  	
-	private Grid[][] gameBoard;
+	private Board board;
 
-	public Combat(Grid[][] board) {
+	public Combat(Board board) {
 		
-		this.gameBoard = board; 
+		this.board = board; 
 	}
 	
 	/**
-	 * Combat calculations for a plant attacking a zombie. If a zombie was killed by this attack,
-	 * the coordinates of the zombie are retrieved to allow game to remove zombie from the game.
+	 * Performs a plant attack based on the type of plant.
 	 * 
 	 * @param source Plant that is attacking
-	 * @return coordinates of the zombie that was killed, null otherwise
 	 */
-	public int[] plantAttack(Plant source) {
+	public void plantAttack(Plant source) {
 		
-		int plantRow = source.getRow();
-		int damage = source.getPower();
+		switch (source.getPlantType()) {
+			case PEASHOOTER:
+				peashooterAttack((Peashooter) source);
+				break;
+			default:
+				break;
+		}
+	}
+	
+	/**
+	 * Perform a Peashooter attack. Find and damage the first zombie
+	 * target.
+	 * 
+	 * @param plant The peashooter Plant object
+	 */
+	public void peashooterAttack(Peashooter plant) {
+		
+		int plantRow = plant.getRow();
+		
+		Grid[][] gameBoard = board.getBoard();
 		
 		// iterate through the plant's row to find zombie to attack
-		for (int col = source.getCol(); col < gameBoard[plantRow].length; col++) {
+		for (int col = plant.getCol(); col < gameBoard[plantRow].length; col++) {
 			if (gameBoard[plantRow][col].getFirstZombie() != null) {
 				
 				Zombie zombieTarget = gameBoard[plantRow][col].getFirstZombie();
 				
-				LOG.debug(String.format("Plant at : (%d, %d) attacking Zombie at: (%d, %d)", 
-						source.getRow(), source.getCol(), zombieTarget.getRow(), zombieTarget.getCol()));
-				
-				zombieTarget.takeDamage(damage);
+				LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
+						plant.getRow(), plant.getCol(), zombieTarget.getRow(), zombieTarget.getCol()));
+
+				zombieTarget.takeDamage(plant.getPower());
 				
 				if (unitIsDead(zombieTarget)) {
-					int [] zombieToRemoveCoords = {zombieTarget.getRow(), zombieTarget.getCol()};
-					return zombieToRemoveCoords;
-				} else {
-					return null;
+					board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+					LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ") has defeated zombie at (" + zombieTarget.getRow() + "," + zombieTarget.getCol() + ")");
+
 				}
 			}
 		}
-		
-		return null;
 	}
 	
 	/**
