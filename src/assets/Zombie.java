@@ -1,6 +1,7 @@
 package assets;
 
 import engine.Board;
+import engine.Game;
 
 /**
  * The Zombie class initializes a set of variables and implements associated setters and getters
@@ -146,9 +147,9 @@ public abstract class Zombie implements Unit{
 	 * Notify listener that this zombie is moving
 	 * @return true if move was successful, false otherwise
 	 */
-	public boolean move() {
+	public boolean move(Game game) {
 
-		return listener.onZombieMove(this);
+		return listener.onZombieMove(this, game);
 	}
 
 	/**

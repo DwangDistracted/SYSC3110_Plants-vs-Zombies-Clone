@@ -17,5 +17,5 @@ public interface ZombieMoveListener {
 	 * @param zombie
 	 * @return true if move was successful, false otherwise
 	 */
-	public boolean onZombieMove(Zombie zombie);
+	public boolean onZombieMove(Zombie zombie, Game game);
 }

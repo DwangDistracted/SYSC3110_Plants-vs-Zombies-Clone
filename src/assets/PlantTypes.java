@@ -9,7 +9,9 @@ package assets;
  */
 public enum PlantTypes {
 	SUNFLOWER,
-	PEASHOOTER;
+	PEASHOOTER,
+	AIRMONKEY,
+	POTATOMINE;
 	
 	/**
 	 * Translates a PlantType Enumeration into a Plant Object
@@ -23,6 +25,10 @@ public enum PlantTypes {
 				return new Flower();
 			case PEASHOOTER:
 				return new Peashooter();
+			case AIRMONKEY:
+				return new Air_Monkey();
+			case POTATOMINE:
+				return new Potato_Mine();
 			default: 
 				return null;
 		}

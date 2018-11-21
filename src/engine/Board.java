@@ -7,6 +7,7 @@ import java.util.Queue;
 import assets.Flower;
 import assets.Plant;
 import assets.Zombie;
+import assets.Juking_Zombie;
 import util.Logger;
 import engine.Grid;
  
@@ -312,7 +313,7 @@ public class Board implements ZombieMoveListener {
 	}
 
 	@Override
-	public boolean onZombieMove(Zombie zombie) {
+	public boolean onZombieMove(Zombie zombie, Game game) {
 		
 		int currentZombieRow = zombie.getRow();
 		int currentZombieCol = zombie.getCol();
@@ -346,7 +347,7 @@ public class Board implements ZombieMoveListener {
 			
 			// can move zombie until it reaches end of grid or reaches a plant
 			if (!(currentZombieCol - i < 0)) {
-				if (gameBoard[currentZombieRow][currentZombieCol - i].isOccupied()) {
+				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game).isOccupied()){
 					break;
 				}
 			}
@@ -359,13 +360,32 @@ public class Board implements ZombieMoveListener {
 		}
 		else
 		{
-			// update zombie coordinates
-			zombie.setColumn(currentZombieCol - modifier);
+			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game).getCoordinates();
+			zombie.setRow(coord[0]);
+			zombie.setColumn(coord[1]);
 		}
 		
 		// update the board with new position
 		gameBoard[zombie.getRow()][zombie.getCol()].addZombie(zombie);
 		
 		return true;
+	}
+	
+	/**
+	 * Gets the potential new position of the zombie when it is moving
+	 * @param currentZombieRow - the current zombie row
+	 * @param currentZombieCol - the current zombie column
+	 * @param modifer - The amount of columns down the board the zombie will move
+	 * @param zombie - the zombie that is being movied
+	 * @param game
+	 * @return a potential new position on the board for the zombie
+	 */
+	public Grid getNewZomPosition(int currentZombieRow, int currentZombieCol, int modifer, Zombie zombie, Game game)
+	{
+		if(zombie instanceof Juking_Zombie){
+			Juking_Zombie jukZombie = (Juking_Zombie) zombie;
+			return gameBoard[jukZombie.getPath(game.getLevelInfo().getRows())][currentZombieCol - modifer];
+		}
+		return gameBoard[currentZombieRow][currentZombieCol - modifer];
 	}
 } 

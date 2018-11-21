@@ -188,4 +188,14 @@ public class Grid {
 	public int getCol() {
 		return col;
 	}
+	
+	/**
+	 * Get the coordinates that this grid is located at.
+	 * index 0 respresents the row, and index 1 respresents the column of the grid
+	 * @return the coordinates of this grid
+	 */
+	public int[] getCoordinates() {
+		int[] coord = {row,col};
+		return coord;
+	}
 }

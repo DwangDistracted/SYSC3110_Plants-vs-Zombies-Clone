@@ -6,8 +6,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import assets.Exploding_Zombie;
 import assets.Flower;
 import assets.Plant;
+import assets.Potato_Mine;
 import assets.Zombie;
 import assets.ZombieTypes;
 import levels.LevelInfo;
@@ -77,6 +80,10 @@ public class Game {
 				if (zombieTargetCoordinates != null) {
 					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
 					LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ") has defeated zombie at (" + zombieTargetCoordinates[0] + "," + zombieTargetCoordinates[1] + ")");
+					if(plant instanceof Potato_Mine) //if plant is an Potato_mine it dies once it attacks
+					{
+						board.removePlant(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
+					}
 				}
 			}
 		}
@@ -96,10 +103,13 @@ public class Game {
 		while (iterator.hasNext()) {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
-			if (!nextZombie.move()) {
+			if (!nextZombie.move(this)) {
 				boolean targetIsDead = combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol()));
 				if (targetIsDead) {
 					board.removePlant(nextZombie.getRow(), nextZombie.getCol());
+				}
+				if(nextZombie instanceof Exploding_Zombie){   				//if a exploding zombie attacks, it instantly dies
+					board.removeZombie(nextZombie.getRow(), nextZombie.getCol());
 				}
 			} else {
 				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));

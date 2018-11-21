@@ -8,7 +8,10 @@ package assets;
  *
  */
 public enum ZombieTypes {
-	REG_ZOMBIE;
+	REG_ZOMBIE,
+	EXP_ZOMBIE,
+	JUK_ZOMBIE,
+	AIR_ZOMBIE;
 
 	/**
 	 * Translates a ZombieTypes Enumeration into a Zombie Object
@@ -18,10 +21,15 @@ public enum ZombieTypes {
 	public static Zombie toZombie(ZombieTypes e) 
 	{
 		switch (e) {
-			case REG_ZOMBIE:
+			case REG_ZOMBIE: 
 				return new Regular_Zombie();
-			default: 
-				return null;
+			case EXP_ZOMBIE: 
+				return new Exploding_Zombie();
+			case JUK_ZOMBIE: 
+				return new Juking_Zombie();
+			case AIR_ZOMBIE:
+				return new Air_Zombie();
+			default: return null;
 		}
 	}
 }

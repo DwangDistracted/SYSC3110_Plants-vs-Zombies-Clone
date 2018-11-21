@@ -31,7 +31,6 @@ public class Combat {
 	public int[] plantAttack(Plant source) {
 		
 		int plantRow = source.getRow();
-		int damage = source.getPower();
 		
 		// iterate through the plant's row to find zombie to attack
 		for (int col = source.getCol(); col < gameBoard[plantRow].length; col++) {
@@ -42,7 +41,7 @@ public class Combat {
 				LOG.debug(String.format("Plant at : (%d, %d) attacking Zombie at: (%d, %d)", 
 						source.getRow(), source.getCol(), zombieTarget.getRow(), zombieTarget.getCol()));
 				
-				zombieTarget.takeDamage(damage);
+				plantDealDamage(source,zombieTarget);
 				
 				if (unitIsDead(zombieTarget)) {
 					int [] zombieToRemoveCoords = {zombieTarget.getRow(), zombieTarget.getCol()};
@@ -68,10 +67,15 @@ public class Combat {
 		LOG.debug(String.format("Zombie at : (%d, %d) attacking Plant at: (%d, %d)", 
 				source.getRow(), source.getCol(), target.getRow(), target.getCol()));
 		
-		target.takeDamage(source.getPower());
+		if(source instanceof Juking_Zombie)  //instantly kills itself and the plant
+		{
+			target.takeDamage(target.getHP());    
+			source.takeDamage(source.getHP());
+		}
+		else
+			target.takeDamage(source.getPower());
 
 		return unitIsDead(target);
-
 	}
 	
 	/**
@@ -89,5 +93,27 @@ public class Combat {
 		}
 		
 		return false;
+	}
+	
+	private void plantDealDamage(Plant source, Zombie zombieTarget)
+	{
+		int damage = source.getPower();
+		
+		if(source instanceof Air_Monkey)
+		{
+			if(zombieTarget instanceof Air_Zombie)
+			{
+				zombieTarget.takeDamage(damage);
+			}
+		}
+		else if(source instanceof Potato_Mine)
+		{
+			zombieTarget.takeDamage(zombieTarget.getHP());
+			source.takeDamage(source.getHP());
+		}
+		else
+		{
+			zombieTarget.takeDamage(damage);
+		}
 	}
 }
