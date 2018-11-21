@@ -40,4 +40,9 @@ public class Flower extends Plant{
 	public PlantTypes getPlantType() {
 		return PLANT_TYPE;
 	}
+	
+	@Override
+	public void attack(Zombie zombie) {
+		//unimplemented for sunflower
+	}
 }

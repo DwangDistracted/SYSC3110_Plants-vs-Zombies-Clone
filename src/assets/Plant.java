@@ -1,5 +1,7 @@
 package assets;
 
+import engine.Board;
+
 /**
  * The Plant class initializes a set of variables and implements associated setters and getters
  * 
@@ -16,8 +18,8 @@ public abstract class Plant implements Unit{
 	private int power;		//power of a plant to damage a zombie	
 	private int row;
 	private int column;
-	private int cost;
-	
+	private int cost;	
+
 	public Plant(int hp, int pwr, int cost){
 		this.hitPoints = hp;
 		this.power = pwr;
@@ -107,6 +109,11 @@ public abstract class Plant implements Unit{
 	 */
 	public abstract PlantTypes getPlantType();
 
+	/**
+	 * Performs the plant attack.
+	 */
+	public abstract void attack(Board board);
+	
 	@Override
 	public int getRow() {
 		return this.row;
