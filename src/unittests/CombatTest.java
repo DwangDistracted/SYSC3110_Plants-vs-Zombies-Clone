@@ -47,7 +47,6 @@ public class CombatTest {
 		b.placeZombie(z, 0, 0);
 		
 		int turnsRequiredToKillZombies = p.getHP()/z.getPower();
-		//if (p.getHP()%z.getHP() != 0) turnsRequiredToKillZombies++;
 		
 		if(b.onZombieMove(z)==false){ //if zombie reached the plant unit
 			for(int i = 0; i<turnsRequiredToKillZombies; i++) {
