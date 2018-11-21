@@ -40,7 +40,9 @@ public class LevelLoader {
 		sampleZombies.put(ZombieTypes.REG_ZOMBIE, 20);		
 		HashSet<PlantTypes> samplePlants = new HashSet<>();
 		samplePlants.add(PlantTypes.PEASHOOTER);		
-		samplePlants.add(PlantTypes.SUNFLOWER);
+		samplePlants.add(PlantTypes.SUNFLOWER);	
+		samplePlants.add(PlantTypes.TALLNUT);	
+		samplePlants.add(PlantTypes.WALLNUT);
 		levels.add(new LevelInfo(
 					"Sample",							//level name
 					4,									//level rating
