@@ -173,11 +173,10 @@ public class GameController {
 				LOG.debug("Planting in Grid");
 				PlantTypes selectedPlantType = selectedCard.getPlantType();
 				
-				cQ.registerPlace(selectedPlantType,sourceRow,sourceCol);
-				
 				Plant selectedPlant = PlantTypes.toPlant(selectedPlantType);
 				if (userResources.canSpend(selectedPlant.getCost())) {
 					if (gameBoard.placePlant(selectedPlant, sourceRow, sourceCol)) {
+						cQ.registerPlace(selectedPlantType,sourceRow,sourceCol);
 						userResources.spendPoints(selectedPlant.getCost());
 						ui.setPointsLabel(userResources.getPoints());
 						source.renderPlant();

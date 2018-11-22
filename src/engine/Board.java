@@ -1,6 +1,7 @@
 package engine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -207,8 +208,7 @@ public class Board implements ZombieMoveListener, Serializable {
 		
 		return false;
 	}
-	
-	
+		
 	/**
 	 * Remove a plant from the grid.
 	 * Used for player removal or zombie fully killing a Plant.
@@ -368,6 +368,52 @@ public class Board implements ZombieMoveListener, Serializable {
     			}
     		}
     	}
+	}
+	
+	/**
+	 * Returns the first zombie that the plant can attack. Null if no zombies can be attacked
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public Zombie getSingleZombieTarget(int x, int y) {
+		for (int col = y; col < gameBoard[row].length; col++) {
+			if (gameBoard[x][col].getFirstZombie() != null) {
+				return gameBoard[x][col].getFirstZombie();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list of all zombies that the plant can attack IF the plant can attack all zombies in a grid. Null if no zombies can be attacked
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public List<Zombie> getGridTargets(int x, int y) {
+		for (int col = y; col < gameBoard[row].length; col++) {
+			if (!gameBoard[x][col].getZombies().isEmpty()) {
+				return new ArrayList<Zombie>(gameBoard[x][col].getZombies());
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list of all zombies that the plant can attack IF the plant can attack all zombies in a row. Null if no zombies can be attacked
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public List<Zombie> getRowTargets(int x, int y) {
+		ArrayList<Zombie> targets = new ArrayList<>();
+		for (int col = y; col < gameBoard[row].length; col++) {
+			if (!gameBoard[x][col].getZombies().isEmpty()) {
+				targets.addAll(gameBoard[x][col].getZombies());
+			}
+		}
+		return targets.isEmpty()? null : targets;
 	}
 	
 	@Override
