@@ -1,8 +1,10 @@
 package assets;
 
+import engine.Board;
+
 public class Tallnut extends Plant {
-	private static final int DEFAULT_HP = 20;
-	private static final int DEFAULT_POWER = 0;
+	private static final int DEFAULT_HP = HEALTH_SUPER_TANK;
+	private static final int DEFAULT_POWER = ATTACK_NONE;
 	private static final int COST = 150;
 	
 	public Tallnut() {
@@ -17,5 +19,10 @@ public class Tallnut extends Plant {
 	@Override
 	public String toString() {
 		return "Tallnut";
+	}
+
+	@Override
+	public void attack(Board board) {
+		return; //cannot attack
 	}
 }
