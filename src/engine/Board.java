@@ -81,8 +81,9 @@ public class Board implements ZombieMoveListener, Serializable {
 	}
 	
 	/**
-	 * Creates a new instance of Board as a clone of another instance
+	 * Creates a new instance of Board as a deep copy of another instance
 	 * @param other
+	 * @author David Wang
 	 */
 	public Board(Board other) {
 		this.row = other.row;

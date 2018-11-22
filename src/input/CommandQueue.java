@@ -1,5 +1,6 @@
 package input;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -14,10 +15,10 @@ import ui.GameUI;
 import util.Logger;
 
 /**
- * Contains the Command History for the Player throughout a Game
+ * This is the Command History Queue for the Player throughout a Game
  * @author David Wang
  */
-public class CommandQueue extends LinkedList<Command> {
+public class CommandQueue extends LinkedList<Command> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private static Logger LOG = new Logger("Command Queue");
@@ -59,14 +60,14 @@ public class CommandQueue extends LinkedList<Command> {
 	 * Adds a Mower Command to the Command History
 	 * @param grids the array of grids the mower affected
 	 */
-	public void registerMow(Grid[] grids) {
+	public void registerMow(Grid[] grids, int row) {
 		ArrayList<Plant> plants = new ArrayList<>();
 		ArrayList<Zombie> zombies = new ArrayList<>();
 		for (Grid g : grids) {
 			plants.add(g.getPlant()); //get all the plants the mower killed
 			zombies.addAll(g.getZombies()); //get all the zombies the mower killed
 		}
-		this.addFirst(new MowCommand(plants.toArray(new Plant[plants.size()]), zombies.toArray(new Zombie[zombies.size()])));
+		this.addFirst(new MowCommand(plants.toArray(new Plant[plants.size()]), zombies.toArray(new Zombie[zombies.size()]), row));
 		LOG.debug("registered mow command");
 	}
 	
@@ -99,6 +100,7 @@ public class CommandQueue extends LinkedList<Command> {
 				LOG.debug("undo dig command");
 				break;
 			case MOWER:
+				//Mower not implementated for Milestone 3
 				LOG.debug("undo mow command");
 				break;
 			case PLACE:

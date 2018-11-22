@@ -35,6 +35,11 @@ public class Grid implements Serializable {
 		zombieTypeCount = new HashMap<ZombieTypes, Integer>();
 	}
 	
+	/**
+	 * Creates a Grid Object as a deep copy of another grid
+	 * @param grid
+	 * @author David Wang
+	 */
 	public Grid(Grid grid) {
 		this.row = grid.row;
 		this.col = grid.col;
@@ -142,7 +147,6 @@ public class Grid implements Serializable {
 	
 	
 	/**
-	 * --Likely only for Milestone 1--
 	 * Get the number of zombies in the current grid.
 	 * 
 	 * @return number of zombies

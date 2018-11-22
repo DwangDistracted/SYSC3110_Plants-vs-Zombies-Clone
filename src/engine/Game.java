@@ -198,10 +198,6 @@ public class Game implements Serializable {
 		 return this.board;
 	 }
 	 
-	 public void setBoard(Board newBoard) {
-		 this.board = newBoard;
-	 }
-	 
 	 /**
 	  * Get the Purse
 	  * 
@@ -212,22 +208,25 @@ public class Game implements Serializable {
 		 return this.userResources;
 	 }
 	 
+	 /**
+	  * Returns the current state of the game; Wom, lost, playing
+	  * @return
+	  */
 	 public GameState getState() {
 		 return gamestate;
 	 }
 
+	 /**
+	  * Returns the number of turns elapsed since the start of the turns
+	  * @return
+	  */
 	public int getTurns() {
 		return numTurns;
 	}
 	
-	public List<Grid> getGridsChanged() {
-		return gridsChanged;
-	}
-	
-	public void resetGridsChanged()  {
-		gridsChanged = new ArrayList<Grid>();
-	}
-
+	/**
+	 * Decrements the number of turns by 1. Used by the undo end turn function
+	 */
 	public void decrementTurns() {
 		this.numTurns--;
 	}

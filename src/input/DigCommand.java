@@ -2,7 +2,13 @@ package input;
 
 import assets.PlantTypes;
 
+/**
+ * The Structure for a Dig Command in the Command History Queue
+ * @author David Wang
+ */
 public class DigCommand extends Command {
+	private static final long serialVersionUID = 1L;
+
 	public PlantTypes getType() {
 		return type;
 	}
