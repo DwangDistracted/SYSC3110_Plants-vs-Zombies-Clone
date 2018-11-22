@@ -42,6 +42,7 @@ public class CombatTest {
 	 */
 	@Test
 	public void testZombieAttack() {
+		LevelInfo lvl = LevelLoader.getLevel(1);
 		Board b = new Board(1,8);
 		Peashooter p = new Peashooter();
 		Regular_Zombie z = new Regular_Zombie();

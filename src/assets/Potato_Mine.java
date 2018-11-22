@@ -1,6 +1,11 @@
 package assets;
 
+import engine.Board;
+import engine.Grid;
+import util.Logger;
+
 public class Potato_Mine extends Plant {
+	private static Logger LOG = new Logger("Potato_Mine");
 	private static final int DEFAULT_HP = 2;
 	private static final int DEFAULT_POWER = 2;
 	private static final int COST = 50;
@@ -21,4 +26,8 @@ public class Potato_Mine extends Plant {
 		return PLANT_TYPE;
 	}
 
+	@Override
+	public void attack(Board board) {
+		return;
+	}
 }

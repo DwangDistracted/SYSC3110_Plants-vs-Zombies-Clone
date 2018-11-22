@@ -1,6 +1,11 @@
 package assets;
 
+import engine.Board;
+import engine.Grid;
+import util.Logger;
+
 public class Air_Monkey extends Plant {
+	private static Logger LOG = new Logger("Air_Monkey");
 	private static final int DEFAULT_HP = 2;
 	private static final int DEFAULT_POWER = 2;
 	private static final int COST = 50;
@@ -19,6 +24,34 @@ public class Air_Monkey extends Plant {
 
 	public PlantTypes getPlantType() {
 		return PLANT_TYPE;
+	}
+
+	@Override
+	public void attack(Board board) {
+		Grid[][] gameBoard = board.getBoard();
+		int row = getRow();
+		int column = getCol();
+		
+		for (int col = column; col < gameBoard[row].length; col++) {
+			if (gameBoard[row][col].getFirstZombie() != null) {
+				
+				Zombie zombieTarget = gameBoard[row][col].getFirstZombie();
+				
+				LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
+						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+				
+				if(zombieTarget instanceof Air_Zombie)
+				{
+					zombieTarget.takeDamage(getPower());
+				}
+				
+				if (!zombieTarget.isAlive()) {
+					board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+					LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
+							row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+				}
+			}
+		}
 	}
 
 }

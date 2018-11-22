@@ -21,5 +21,7 @@ public class Exploding_Zombie extends Zombie {
 	public ZombieTypes getZombieType() {
 		return ZOMBIE_TYPE;
 	} 
+	
+	
 
 }

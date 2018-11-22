@@ -179,6 +179,15 @@ public abstract class Zombie implements Unit{
 	public void attack(Board board) {
 		Plant plantTarget = board.getPlant(getRow(), getCol());
 		
+		if(plantTarget instanceof Potato_Mine || this instanceof Exploding_Zombie)
+		{
+			plantTarget.takeDamage(plantTarget.getHP());
+			this.takeDamage(getHP());
+			board.removePlant(plantTarget.getRow(), plantTarget.getCol());
+			board.removeZombie(getRow(), getCol());
+			return;
+		}
+		
 		plantTarget.takeDamage(getPower());
 		
 		if (!plantTarget.isAlive()) {

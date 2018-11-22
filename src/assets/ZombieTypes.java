@@ -31,7 +31,6 @@ public enum ZombieTypes {
 				return new Juking_Zombie();
 			case AIR_ZOMBIE:
 				return new Air_Zombie();
-			default: return null;
 			case RUSH_ZOMBIE:
 				return new RushZombie();
 			case SPRINT_ZOMBIE:
