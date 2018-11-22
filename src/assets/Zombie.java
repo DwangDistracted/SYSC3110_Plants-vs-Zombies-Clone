@@ -212,7 +212,7 @@ public abstract class Zombie implements Unit{
 	/**
 	 * Get the default speed of this zombie
 	 * 
-	 * @return 
+	 * @return the default speed of this zombie
 	 */
 	public abstract int getDefaultSpeed();
 	
