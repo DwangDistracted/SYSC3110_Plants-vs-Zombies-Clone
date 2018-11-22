@@ -22,6 +22,9 @@ public class Kernelpult extends Plant {
 	private static final int COST = 100;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.KERNELPULT;
 	
+	private static final int IMMOBILIZE_ROLL_RANGE = 100;
+	private static final int THRESHHOLD_FOR_IMMOBILIZATION = 75;
+	
 	public Kernelpult() {
 		super(DEFAULT_HP, DEFAULT_POWER, COST);
 	}
@@ -34,15 +37,7 @@ public class Kernelpult extends Plant {
 
 	@Override
 	public void attack(Board board) {
-		
-		// use a random number generator to check if the next attack
-		// can immobilize the zombie target
-		Random random = new Random();
-		
-		int immobilizeThreshold = 4;
-		
-		int rollForImmobilizeAttack = random.nextInt(4) + 1;
-		
+
 		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
@@ -52,10 +47,25 @@ public class Kernelpult extends Plant {
 				
 				Zombie zombieTarget = gameBoard[row][col].getFirstZombie();
 			
-				zombieTarget.takeDamage(getPower());
+				LOG.debug(String.format("Kernelpult at : (%d, %d) attacking Zombie at: (%d, %d)", 
+						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 				
+				zombieTarget.takeDamage(getPower());
+					
 				if (!zombieTarget.isAlive()) {
 					board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+					LOG.debug(String.format("Kernelpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
+							row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+				}
+				else {
+					// if the zombie didn't die, there is a chance for immobilization
+					// use a random number generator to check if the next attack
+					// can immobilize the zombie target
+					Random random = new Random();
+					
+					if (random.nextInt(IMMOBILIZE_ROLL_RANGE) + 1 > THRESHHOLD_FOR_IMMOBILIZATION) {
+						zombieTarget.immobilize();
+					}
 				}
 			}
 		}
