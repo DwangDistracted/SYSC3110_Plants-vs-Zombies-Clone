@@ -45,6 +45,9 @@ public class LevelLoader {
 		samplePlants.add(PlantTypes.SUNFLOWER);	
 		samplePlants.add(PlantTypes.TALLNUT);	
 		samplePlants.add(PlantTypes.WALLNUT);
+		samplePlants.add(PlantTypes.KERNELPULT);
+		samplePlants.add(PlantTypes.MELONPULT);
+		samplePlants.add(PlantTypes.SNOWSHOOTER);
 		levels.add(new LevelInfo(
 					"Sample",							//level name
 					4,									//level rating

@@ -21,6 +21,9 @@ public class Images
 	private static BufferedImage peashooterImage = null;
 	private static BufferedImage wallnutImage = null;
 	private static BufferedImage tallnutImage = null;
+	private static BufferedImage kernelpultImage = null;
+	private static BufferedImage melonpultImage = null;
+	private static BufferedImage snowshooterImage = null;
 	
 	private static BufferedImage regZombieImage = null;
 	private static BufferedImage rushZombieImage = null;
@@ -37,7 +40,7 @@ public class Images
 	/**
 	 * Pre-load and cache all images
 	 * 
-	 * @return true if images successfully loadaed, false otherwise
+	 * @return true if images successfully loaded, false otherwise
 	 */
 	public static boolean preloadImages() {
 		try {
@@ -45,6 +48,9 @@ public class Images
 			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
 			wallnutImage = ImageIO.read(new File("images\\Plant_Wallnut.png"));
 			tallnutImage = ImageIO.read(new File("images\\Plant_Tallnut.png"));
+			kernelpultImage = ImageIO.read(new File("images\\Plant_Kernelpult.png"));
+			melonpultImage = ImageIO.read(new File("images\\Plant_Melonpult.png"));
+			snowshooterImage = ImageIO.read(new File("images\\Plant_Snowshooter.png"));
 			
 			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
 			rushZombieImage =  ImageIO.read(new File("images\\Zombie_Rush.png"));
@@ -79,6 +85,12 @@ public class Images
 			return wallnutImage;
 		case TALLNUT:
 			return tallnutImage;
+		case KERNELPULT:
+			return kernelpultImage;
+		case MELONPULT:
+			return melonpultImage;
+		case SNOWSHOOTER:
+			return snowshooterImage;
 		default:
 			System.out.println("Invalid Plant type");
 		}
