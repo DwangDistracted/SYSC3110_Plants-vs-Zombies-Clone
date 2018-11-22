@@ -13,6 +13,7 @@ import engine.Board;
 import util.Logger;
 
 public abstract class Plant implements Unit{
+	public static final int ATTACK_NONE = 0;
 	public static final int ATTACK_LOW = 1;
 	public static final int ATTACK_MEDIUM = 2;
 	public static final int ATTACK_HIGH = 3;
@@ -24,6 +25,7 @@ public abstract class Plant implements Unit{
 	public static final int HEALTH_HIGH = 6;
 	public static final int HEALTH_VERY_HIGH = 8;
 	public static final int HEALTH_TANK = 12;
+	public static final int HEALTH_SUPER_TANK = 16;
 	
 	private static Logger LOG = new Logger("Plant");
 	private int hitPoints;	//life left of a plant

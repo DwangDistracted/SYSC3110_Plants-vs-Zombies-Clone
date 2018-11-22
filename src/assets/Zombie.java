@@ -176,5 +176,13 @@ public abstract class Zombie implements Unit{
 	/**
 	 * Zombie attack method.
 	 */
-	public abstract void attack(Board board);
+	public void attack(Board board) {
+		Plant plantTarget = board.getPlant(getRow(), getCol());
+		
+		plantTarget.takeDamage(getPower());
+		
+		if (!plantTarget.isAlive()) {
+			board.removePlant(getRow(), getCol());
+		}
+	}
 }

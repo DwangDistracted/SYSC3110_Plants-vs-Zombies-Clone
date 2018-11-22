@@ -14,8 +14,8 @@ import util.Logger;
 public class Peashooter extends Plant {
 	private static Logger LOG = new Logger("Peashooter");
 	
-	private static final int DEFAULT_HP = 2;
-	private static final int DEFAULT_POWER = 2;
+	private static final int DEFAULT_HP = HEALTH_MEDIUM;
+	private static final int DEFAULT_POWER = ATTACK_MEDIUM;
 	private static final int COST = 50;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.PEASHOOTER;
 	
@@ -36,7 +36,6 @@ public class Peashooter extends Plant {
 	
 	@Override
 	public void attack(Board board) {
-		
 		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
