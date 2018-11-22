@@ -25,8 +25,6 @@ public class Game {
 	}
 	
 	private static Logger LOG = new Logger("Game");
-	//combat engine
-	private Combat combat; 
 	//The Level this game is playing
 	private LevelInfo levelInfo;
 	//The Game Board
@@ -52,7 +50,6 @@ public class Game {
 		//set up config from level config
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
-		combat = new Combat(board.getBoard());
 		
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
@@ -72,13 +69,7 @@ public class Game {
 		LOG.debug("Doing Plant Attack Calculations");
 		for (Plant plant : plantsInGame) {
 			LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ")");
-			if (!(plant instanceof Flower)) {
-				int [] zombieTargetCoordinates = combat.plantAttack(plant);
-				if (zombieTargetCoordinates != null) {
-					board.removeZombie(zombieTargetCoordinates[0], zombieTargetCoordinates[1]);
-					LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ") has defeated zombie at (" + zombieTargetCoordinates[0] + "," + zombieTargetCoordinates[1] + ")");
-				}
-			}
+			plant.attack(board);
 		}
 	}
 	
@@ -87,7 +78,7 @@ public class Game {
 	 * @author David Wang; Modified by Derek Shao
 	 */
 	private void zombieTurn() {
-		LOG.info("It is the zombie's turn.");
+		LOG.debug("It is the zombie's turn.");
 		
 		//create a new collection to prevent concurrent modification of Board zombies attribute
 		List<Zombie> zombiesInGame = new LinkedList<Zombie>(board.getZombiesInGame());
@@ -97,10 +88,7 @@ public class Game {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
 			if (!nextZombie.move()) {
-				boolean targetIsDead = combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol()));
-				if (targetIsDead) {
-					board.removePlant(nextZombie.getRow(), nextZombie.getCol());
-				}
+				nextZombie.attack(board);
 			} else {
 				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));
 			}
@@ -115,7 +103,7 @@ public class Game {
 		//spawn new zombies
 		if (!zombieQueue.isEmpty()) { //there must be zombies to spawn
 			Random rand = new Random();
-			int zombiesToSpawn = rand.nextInt(numZombies/4);
+			int zombiesToSpawn = rand.nextInt(numZombies/4 == 0? 2: numZombies/4); //if there aren't enough zombies then spawn up to 1
 			
 			if (zombiesToSpawn > zombieQueue.values().stream().mapToInt(Integer::intValue).sum()) { 
 				//if the random number is larger than the reamining zombies then spawn all remaining zombies
@@ -179,10 +167,10 @@ public class Game {
 	 */
 	private void endGame(boolean playerWin) {
 		if(playerWin) {
-			LOG.info("Player has Won");
+			LOG.debug("Player has Won");
 			gamestate = GameState.WON;
 		} else {
-			LOG.info("Player was eaten by Zombies");
+			LOG.debug("Player was eaten by Zombies");
 			gamestate = GameState.LOST;
 		}
 	}

@@ -8,7 +8,9 @@ package assets;
  *
  */
 public enum ZombieTypes {
-	REG_ZOMBIE;
+	REG_ZOMBIE,
+	RUSH_ZOMBIE,
+	SPRINT_ZOMBIE;
 
 	/**
 	 * Translates a ZombieTypes Enumeration into a Zombie Object
@@ -20,6 +22,10 @@ public enum ZombieTypes {
 		switch (e) {
 			case REG_ZOMBIE:
 				return new Regular_Zombie();
+			case RUSH_ZOMBIE:
+				return new RushZombie();
+			case SPRINT_ZOMBIE:
+				return new SprintZombie();
 			default: 
 				return null;
 		}

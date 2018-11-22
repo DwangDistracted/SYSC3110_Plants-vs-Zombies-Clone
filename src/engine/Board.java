@@ -176,15 +176,14 @@ public class Board implements ZombieMoveListener {
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
-		plant.setCoordinates(x, y);
-		
 		if (plant instanceof Flower) {
 			sfCounter++;
 		}
 		
 		if (gameBoard[x][y].setPlant(plant)) {
 			this.plantsInGame.add(plant);
-			LOG.info(String.format("Placed plant at location: (%d, %d)", x, y));
+			plant.setCoordinates(x, y);
+			LOG.debug(String.format("Placed plant at location: (%d, %d)", x, y));
 			return true;
 		}
 		
@@ -217,8 +216,10 @@ public class Board implements ZombieMoveListener {
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
 		if (gameBoard[x][y].addZombie(zombie)) {
+			zombie.setRow(x);
+			zombie.setColumn(y);
 			this.zombiesInGame.add(zombie);
-			LOG.info(String.format("Placed zombie at location: (%d, %d)", x, y));
+			LOG.debug(String.format("Placed zombie at location: (%d, %d)", x, y));
 			return true;
 		}
 		
@@ -326,9 +327,9 @@ public class Board implements ZombieMoveListener {
 		Queue<Zombie> zombiesOnGrid = gameBoard[currentZombieRow][currentZombieCol].getZombies();
 		
 		// remove the zombie from the grid
-		for (Zombie z : gameBoard[currentZombieRow][currentZombieCol].getZombies()) {
+		for (Zombie z : zombiesOnGrid) {
 			if (zombie == z) {
-				gameBoard[currentZombieRow][currentZombieCol].getZombies().remove(z);
+				zombiesOnGrid.remove(z);
 				gameBoard[currentZombieRow][currentZombieCol].updateZombieTypeCount();
 				break;
 			}
@@ -341,22 +342,25 @@ public class Board implements ZombieMoveListener {
 		
 		// move the zombie based on speed
 		for (int i = 1; i <= speed; i++) {
+			modifier = i;
 			
-			// can moving zombie until it reaches end of grid or reaches a plant
+			// can move zombie until it reaches end of grid or reaches a plant
 			if (!(currentZombieCol - i < 0)) {
-				modifier++;
 				if (gameBoard[currentZombieRow][currentZombieCol - i].isOccupied()) {
 					break;
 				}
 			}
 		}
-		
-		// update zombie coordinates
-		zombie.setColumn(currentZombieCol - modifier);
-		
 		// determines if this zombie has reached the end of the board
-		if (zombie.getCol() == 0) {
+		if(currentZombieCol - modifier < 0)
+		{
 			this.zombieReachedEnd = true;
+			zombie.setColumn(0);
+		}
+		else
+		{
+			// update zombie coordinates
+			zombie.setColumn(currentZombieCol - modifier);
 		}
 		
 		// update the board with new position

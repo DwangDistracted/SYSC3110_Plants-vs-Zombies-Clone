@@ -1,5 +1,7 @@
 package assets;
 
+import engine.Board;
+
 /**
  * The Plant class initializes a set of variables and implements associated setters and getters
  * 
@@ -11,13 +13,25 @@ package assets;
 import util.Logger;
 
 public abstract class Plant implements Unit{
+	public static final int ATTACK_LOW = 1;
+	public static final int ATTACK_MEDIUM = 2;
+	public static final int ATTACK_HIGH = 3;
+	public static final int ATTACK_VERY_HIGH = 4;
+	public static final int ATTACK_INSTANT = 1000;
+	
+	public static final int HEALTH_LOW = 2;
+	public static final int HEALTH_MEDIUM = 4;
+	public static final int HEALTH_HIGH = 6;
+	public static final int HEALTH_VERY_HIGH = 8;
+	public static final int HEALTH_TANK = 12;
+	
 	private static Logger LOG = new Logger("Plant");
 	private int hitPoints;	//life left of a plant
 	private int power;		//power of a plant to damage a zombie	
 	private int row;
 	private int column;
-	private int cost;
-	
+	private int cost;	
+
 	public Plant(int hp, int pwr, int cost){
 		this.hitPoints = hp;
 		this.power = pwr;
@@ -107,6 +121,11 @@ public abstract class Plant implements Unit{
 	 */
 	public abstract PlantTypes getPlantType();
 
+	/**
+	 * Performs the plant attack.
+	 */
+	public abstract void attack(Board board);
+	
 	@Override
 	public int getRow() {
 		return this.row;

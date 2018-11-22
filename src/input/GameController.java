@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import engine.Board;
 import engine.Game;
 import engine.Purse;
+import levels.LevelInfo;
 import levels.LevelLoader;
 import ui.Card;
 import ui.GameUI;
@@ -98,11 +99,17 @@ public class GameController {
 						
 						if (result == JOptionPane.YES_OPTION) { //load next level
 							LOG.debug("Load Next Level");
-							
-							Game g = new Game(LevelLoader.getNextLevel());
-							LOG.debug(g.getBoard().displayBoard());
-							new GameController(new GameUI(g), g);
-							ui.dispose();
+							LevelInfo next = LevelLoader.getNextLevel();
+							if (next == null) {
+								JOptionPane.showMessageDialog(ui, "No More Levels Available. Returning to Main Menu");//return to main menu
+								new MainMenu();
+								ui.dispose();
+							} else {
+								Game g = new Game(next);
+								LOG.debug(g.getBoard().displayBoard());
+								new GameController(new GameUI(g), g);
+								ui.dispose();
+							}
 						} else { //return to main menu
 							new MainMenu();
 							ui.dispose();
