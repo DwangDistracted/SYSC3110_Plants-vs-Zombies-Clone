@@ -204,7 +204,18 @@ public abstract class Zombie implements Unit{
 	/**
 	 * Restore the zombie's original speed. 
 	 */
-	public abstract void restoreSpeed();
+	public void restoreSpeed() {
+		
+		this.speed = getDefaultSpeed();
+	}
+	
+	/**
+	 * Get the default speed of this zombie
+	 * 
+	 * @return the default speed of this zombie
+	 */
+	public abstract int getDefaultSpeed();
+	
 	
 	/**
 	 * Reduce the speed of a zombie for a specified amount and duration.

@@ -22,8 +22,8 @@ public class SprintZombie extends Zombie {
 	}
 
 	@Override
-	public void restoreSpeed() {
+	public int getDefaultSpeed() {
 		
-		setSpeed(DEFAULT_SPEED);
+		return DEFAULT_SPEED;
 	}
 }
