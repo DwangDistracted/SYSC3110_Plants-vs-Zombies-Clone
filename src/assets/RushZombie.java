@@ -22,12 +22,6 @@ public class RushZombie extends Zombie {
 	}
 
 	@Override
-	public void restoreSpeed() {
-		
-		setSpeed(DEFAULT_SPEED);
-	}
-
-	@Override
 	public int getDefaultSpeed() {
 
 		return DEFAULT_SPEED;
