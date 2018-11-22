@@ -11,7 +11,9 @@ public enum ZombieTypes {
 	REG_ZOMBIE,
 	EXP_ZOMBIE,
 	JUK_ZOMBIE,
-	AIR_ZOMBIE;
+	AIR_ZOMBIE,
+	RUSH_ZOMBIE,
+	SPRINT_ZOMBIE;
 
 	/**
 	 * Translates a ZombieTypes Enumeration into a Zombie Object
@@ -30,6 +32,12 @@ public enum ZombieTypes {
 			case AIR_ZOMBIE:
 				return new Air_Zombie();
 			default: return null;
+			case RUSH_ZOMBIE:
+				return new RushZombie();
+			case SPRINT_ZOMBIE:
+				return new SprintZombie();
+			default: 
+				return null;
 		}
 	}
 }

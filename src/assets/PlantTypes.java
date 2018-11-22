@@ -11,7 +11,9 @@ public enum PlantTypes {
 	SUNFLOWER,
 	PEASHOOTER,
 	AIRMONKEY,
-	POTATOMINE;
+	POTATOMINE,
+	WALLNUT,
+	TALLNUT;
 	
 	/**
 	 * Translates a PlantType Enumeration into a Plant Object
@@ -29,6 +31,10 @@ public enum PlantTypes {
 				return new Air_Monkey();
 			case POTATOMINE:
 				return new Potato_Mine();
+			case WALLNUT:
+				return new Wallnut();
+			case TALLNUT:
+				return new Tallnut();
 			default: 
 				return null;
 		}

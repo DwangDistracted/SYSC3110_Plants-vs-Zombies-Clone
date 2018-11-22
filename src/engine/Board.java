@@ -177,8 +177,6 @@ public class Board implements ZombieMoveListener {
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		
-		plant.setCoordinates(x, y);
-		
 		if (plant instanceof Flower) {
 			sfCounter++;
 		}
@@ -219,6 +217,8 @@ public class Board implements ZombieMoveListener {
 	public boolean placeZombie(Zombie zombie, int x, int y) {
 		
 		if (gameBoard[x][y].addZombie(zombie)) {
+			zombie.setRow(x);
+			zombie.setColumn(y);
 			this.zombiesInGame.add(zombie);
 			LOG.debug(String.format("Placed zombie at location: (%d, %d)", x, y));
 			return true;
@@ -328,9 +328,9 @@ public class Board implements ZombieMoveListener {
 		Queue<Zombie> zombiesOnGrid = gameBoard[currentZombieRow][currentZombieCol].getZombies();
 		
 		// remove the zombie from the grid
-		for (Zombie z : gameBoard[currentZombieRow][currentZombieCol].getZombies()) {
+		for (Zombie z : zombiesOnGrid) {
 			if (zombie == z) {
-				gameBoard[currentZombieRow][currentZombieCol].getZombies().remove(z);
+				zombiesOnGrid.remove(z);
 				gameBoard[currentZombieRow][currentZombieCol].updateZombieTypeCount();
 				break;
 			}

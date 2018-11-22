@@ -7,9 +7,9 @@ package assets;
  */
 
 public class Regular_Zombie extends Zombie{
-	private static final int DEFAULT_SPEED = 1;
-	private static final int DEFAULT_POWER = 1;
-	private static final int DEFAULT_HP = 4;
+	private static final int DEFAULT_SPEED = SPEED_LOW;
+	private static final int DEFAULT_POWER = ATTACK_LOW;
+	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.REG_ZOMBIE;
 	
 	public Regular_Zombie()	{
@@ -20,10 +20,10 @@ public class Regular_Zombie extends Zombie{
 	 * returns the name of regular type zombie
 	 */
 	public String toString() {
-		return "RZ";	
+		return "Meatbag Zombie";
 	}
 
 	public ZombieTypes getZombieType() {
 		return ZOMBIE_TYPE;
-	} 
+	}
 }
