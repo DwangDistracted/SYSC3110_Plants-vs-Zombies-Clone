@@ -14,7 +14,7 @@ public class SprintZombie extends Zombie {
 	 * returns the name of regular type zombie
 	 */
 	public String toString() {
-		return "Cheetah Zombie";
+		return "Sprint Zombie";
 	}
 
 	public ZombieTypes getZombieType() {
