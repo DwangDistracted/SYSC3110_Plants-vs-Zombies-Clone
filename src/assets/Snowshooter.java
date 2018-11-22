@@ -50,6 +50,8 @@ public class Snowshooter extends Plant {
 					LOG.debug(String.format("Snowshooter at : (%d, %d) defeated Zombies at: (%d, %d)", 
 							row, column, row, col));
 				}
+				
+				break;
 			}
 		}
 	}
