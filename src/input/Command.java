@@ -4,7 +4,8 @@ public abstract class Command {
 	enum CommandType {
 		PLACE,
 		DIGUP,
-		MOWER
+		MOWER,
+		ENDTURN
 	}
 	
 	public abstract CommandType getCommand();

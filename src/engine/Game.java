@@ -1,5 +1,6 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,7 +18,9 @@ import util.Logger;
  * The Primary Game Loop. Instance per level
  * @author David Wang
  */
-public class Game {
+public class Game implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public enum GameState {
 		PLAYING,
 		WON,
@@ -195,6 +198,10 @@ public class Game {
 		 return this.board;
 	 }
 	 
+	 public void setBoard(Board newBoard) {
+		 this.board = newBoard;
+	 }
+	 
 	 /**
 	  * Get the Purse
 	  * 
@@ -214,12 +221,14 @@ public class Game {
 	}
 	
 	public List<Grid> getGridsChanged() {
-		
 		return gridsChanged;
 	}
 	
 	public void resetGridsChanged()  {
-		
 		gridsChanged = new ArrayList<Grid>();
+	}
+
+	public void decrementTurns() {
+		this.numTurns--;
 	}
 }

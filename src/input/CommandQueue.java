@@ -7,31 +7,34 @@ import assets.Plant;
 import assets.PlantTypes;
 import assets.Zombie;
 import engine.Board;
+import engine.Game;
 import engine.Grid;
 import engine.Purse;
 import ui.GameUI;
 import util.Logger;
 
 /**
- * Contains the command history for the player in a turn
+ * Contains the Command History for the Player throughout a Game
  * @author David Wang
  */
 public class CommandQueue extends LinkedList<Command> {
 	private static final long serialVersionUID = 1L;
 	
 	private static Logger LOG = new Logger("Command Queue");
+	private Game game;
 	private GameUI ui;
 	private Board gameBoard;
 	private Purse userResources;
 	
-	public CommandQueue(GameUI ui, Board gB, Purse userResources) {
+	public CommandQueue(Game game, GameUI ui, Board gB, Purse userResources) {
+		this.game = game;
 		this.ui = ui;
 		this.gameBoard = gB;
 		this.userResources = userResources;
 	}
 	
 	/**
-	 * Adds a place command to the command history
+	 * Adds a Place Command to the Command History
 	 * @param type the planttype that was placed
 	 * @param x the location of the placement
 	 * @param y the location of the placement
@@ -42,7 +45,7 @@ public class CommandQueue extends LinkedList<Command> {
 	}
 
 	/**
-	 * Adds a digup command to the command history
+	 * Adds a Digup Command to the Command History
 	 * @param type the planttype that was dug up
 	 * @param x the location of the placement
 	 * @param y the location of the placement
@@ -53,7 +56,7 @@ public class CommandQueue extends LinkedList<Command> {
 	}
 
 	/**
-	 * Adds a mower command to the command history
+	 * Adds a Mower Command to the Command History
 	 * @param grids the array of grids the mower affected
 	 */
 	public void registerMow(Grid[] grids) {
@@ -65,6 +68,15 @@ public class CommandQueue extends LinkedList<Command> {
 		}
 		this.addFirst(new MowCommand(plants.toArray(new Plant[plants.size()]), zombies.toArray(new Zombie[zombies.size()])));
 		LOG.debug("registered mow command");
+	}
+	
+	/**
+	 * Adds an End Turn to the Command History
+	 * @param board
+	 */
+	public void registerEndTurn(Board board) {
+		this.addFirst(new EndTurnCommand(board));
+		LOG.debug("registered end turn command");
 	}
 	
 	/**
@@ -96,6 +108,17 @@ public class CommandQueue extends LinkedList<Command> {
 				userResources.addPoints(PlantTypes.toPlant(((PlaceCommand)c).getType()).getCost()); //refund the plant
 				ui.setPointsLabel(userResources.getPoints());
 				LOG.debug("undo place command");
+				break;
+			case ENDTURN:
+				gameBoard.setBoard(((EndTurnCommand)c).getBoard());
+				
+				game.decrementTurns();
+				userResources.spendPoints(game.getLevelInfo().getResPerTurn()); //undo the end turn income
+				
+				ui.setTurnLabel(game.getTurns());
+				ui.setPointsLabel(userResources.getPoints());
+				ui.refreshAllGrids();
+				LOG.debug("undo end turn command");
 				break;
 			default:
 				break;

@@ -1,5 +1,6 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,8 +14,8 @@ import assets.ZombieTypes;
  * @author Derek Shao
  *
  */
-public class Grid {
-	
+public class Grid implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int row;
 	private int col;
 	
@@ -27,7 +28,6 @@ public class Grid {
 	private HashMap<ZombieTypes, Integer> zombieTypeCount;
 	
 	public Grid(int row, int col) {
-		
 		this.row = row;
 		this.col = col;
 		
@@ -35,6 +35,16 @@ public class Grid {
 		zombieTypeCount = new HashMap<ZombieTypes, Integer>();
 	}
 	
+	public Grid(Grid grid) {
+		this.row = grid.row;
+		this.col = grid.col;
+		this.plant = grid.plant;
+		this.zombies = new LinkedList<Zombie>();
+		this.zombies.addAll(grid.zombies);
+		this.zombieTypeCount = new HashMap<ZombieTypes, Integer>();
+		this.zombieTypeCount.putAll(grid.zombieTypeCount);
+	}
+
 	/**
 	 * Determines if the current grid is occupied by a plant.
 	 * 

@@ -342,7 +342,6 @@ public class GameUI extends JFrame
      * @author Derek Shao
      */
     public void addGridListeners(MouseListener listener) {
-    	
     	for (int i = 0; i < boardTiles.length; i++) {
     		for (int j = 0; j < boardTiles[i].length; j++) {
     			boardTiles[i][j].addMouseListener(listener);
@@ -405,10 +404,20 @@ public class GameUI extends JFrame
     
     /**
      * Retrieve all board tiles from board.
-     * @return all boards tiless
+     * @return all boards tiles
      */
     public GridUI[][] getBoardTiles() {
-    	
     	return boardTiles;
+    }
+    
+    public void refreshAllGrids() {
+    	for (int i = 0; i < boardTiles.length; i++) {
+    		for (int j = 0; j < boardTiles[i].length; j++) {
+    			boardTiles[i][j].renderPlant();
+    			boardTiles[i][j].renderZombies();
+    			boardTiles[i][j].repaint();
+    			boardTiles[i][j].revalidate();
+    		}
+    	}
     }
 }
