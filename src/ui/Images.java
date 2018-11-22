@@ -19,7 +19,13 @@ public class Images
 {
 	private static BufferedImage sunflowerImage = null;
 	private static BufferedImage peashooterImage = null;
+	private static BufferedImage wallnutImage = null;
+	private static BufferedImage tallnutImage = null;
+	
 	private static BufferedImage regZombieImage = null;
+	private static BufferedImage rushZombieImage = null;
+	private static BufferedImage sprintZombieImage = null;
+	
 	private static BufferedImage mowerImage = null;
 	private static BufferedImage grassImage = null;
 	
@@ -37,9 +43,16 @@ public class Images
 		try {
 			sunflowerImage = ImageIO.read(new File("images\\Plant_Sunflower.png"));
 			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
+			wallnutImage = ImageIO.read(new File("images\\Plant_Wallnut.png"));
+			tallnutImage = ImageIO.read(new File("images\\Plant_Tallnut.png"));
+			
 			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
+			rushZombieImage =  ImageIO.read(new File("images\\Zombie_Rush.png"));
+			sprintZombieImage =  ImageIO.read(new File("images\\Zombie_Sprinter.png"));
+			
 			mowerImage =  ImageIO.read(new File("images\\Lawnmower.png"));
 			grassImage = ImageIO.read(new File("images\\GrassTile.jpg"));
+			
 			titleBanner =  ImageIO.read(new File("images\\title-top-background.jpg"));
 			titleSplash = ImageIO.read(new File("images\\title-background.jpg"));
 			return true;
@@ -62,6 +75,10 @@ public class Images
 			return sunflowerImage;
 		case PEASHOOTER:
 			return peashooterImage;
+		case WALLNUT:
+			return wallnutImage;
+		case TALLNUT:
+			return tallnutImage;
 		default:
 			System.out.println("Invalid Plant type");
 		}
@@ -79,6 +96,10 @@ public class Images
 		switch(zombie) {
 		case REG_ZOMBIE:
 			return regZombieImage;
+		case RUSH_ZOMBIE:
+			return rushZombieImage;
+		case SPRINT_ZOMBIE:
+			return sprintZombieImage;
 		default:
 			System.out.println("Invalid zombie type");
 		}

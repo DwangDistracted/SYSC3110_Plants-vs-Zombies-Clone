@@ -14,12 +14,11 @@ import org.junit.jupiter.api.Test;
 public class CombatTest {
 	
 	/**
-	 * tests if pantAttack() kills zombies
+	 * tests if plant attack kills zombies
 	 */
 	@Test
 	public void testPlantAttack() {
 		Board b = new Board(1, 8);
-		Combat c = new Combat(b.getBoard());
 		b.displayBoard();
 		Peashooter p = new Peashooter();
 		Regular_Zombie z = new Regular_Zombie();
@@ -30,8 +29,8 @@ public class CombatTest {
 		if (z.getHP()%p.getHP() != 0) turnsRequiredToKillZombies++; //Rounding off turnsRequiredToKillZombies if remainder is not zero
 		
 		//attack zombie until dead
-		for(int i = 0; i<turnsRequiredToKillZombies; i++) {
-			c.plantAttack(p); 
+		for(int i = 0; i < turnsRequiredToKillZombies; i++) {
+			 p.attack(b);
 		}
 		assertFalse("Zombie is dead", z.isAlive());
 	}
@@ -41,19 +40,17 @@ public class CombatTest {
 	 */
 	@Test
 	public void testZombieAttack() {
-		Combat c = new Combat(new Grid[1][1]);
 		Board b = new Board(1,8);
 		Peashooter p = new Peashooter();
 		Regular_Zombie z = new Regular_Zombie();
 		b.placePlant(p, 0, 0);
-		b.placeZombie(z, 0, 7);
+		b.placeZombie(z, 0, 0);
 		
 		int turnsRequiredToKillZombies = p.getHP()/z.getPower();
-		if (p.getHP()%z.getHP() != 0) turnsRequiredToKillZombies++;
 		
 		if(b.onZombieMove(z)==false){ //if zombie reached the plant unit
 			for(int i = 0; i<turnsRequiredToKillZombies; i++) {
-				c.zombieAttack(z, p); //kill plant until dead
+				z.attack(b); //kill plant until dead
 			}
 		}
 		assertFalse("Plant is dead", p.isAlive());
