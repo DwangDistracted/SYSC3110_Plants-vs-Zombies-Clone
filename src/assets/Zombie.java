@@ -13,6 +13,21 @@ import engine.Board;
 import util.Logger;
 
 public abstract class Zombie implements Unit{
+	public static final int ATTACK_LOW = 1;
+	public static final int ATTACK_MEDIUM = 2;
+	public static final int ATTACK_HIGH = 3;
+	public static final int ATTACK_VERY_HIGH = 4;
+	public static final int ATTACK_INSTANT = 1000;
+	
+	public static final int HEALTH_LOW = 2;
+	public static final int HEALTH_MEDIUM = 4;
+	public static final int HEALTH_HIGH = 6;
+	public static final int HEALTH_VERY_HIGH = 8;
+	
+	public static final int SPEED_LOW = 1;
+	public static final int SPEED_MEDIUM = 2;
+	public static final int SPEED_HIGH = 3;
+	
 	private static Logger LOG = new Logger("Zombie");
 	private int speed; 		 //speed of a zombie
 	private int power; 		// power of a zombie 
