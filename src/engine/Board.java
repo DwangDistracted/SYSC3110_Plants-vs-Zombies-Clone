@@ -313,7 +313,7 @@ public class Board implements ZombieMoveListener {
 	}
 
 	@Override
-	public boolean onZombieMove(Zombie zombie, Game game) {
+	public boolean onZombieMove(Zombie zombie, int maxRow) {
 		
 		int currentZombieRow = zombie.getRow();
 		int currentZombieCol = zombie.getCol();
@@ -347,7 +347,7 @@ public class Board implements ZombieMoveListener {
 			
 			// can move zombie until it reaches end of grid or reaches a plant
 			if (!(currentZombieCol - i < 0)) {
-				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game).isOccupied()){
+				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, maxRow).isOccupied()){
 					break;
 				}
 			}
@@ -360,7 +360,7 @@ public class Board implements ZombieMoveListener {
 		}
 		else
 		{
-			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game).getCoordinates();
+			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, maxRow).getCoordinates();
 			zombie.setRow(coord[0]);
 			zombie.setColumn(coord[1]);
 		}
@@ -377,14 +377,14 @@ public class Board implements ZombieMoveListener {
 	 * @param currentZombieCol - the current zombie column
 	 * @param modifer - The amount of columns down the board the zombie will move
 	 * @param zombie - the zombie that is being movied
-	 * @param game
+	 * @param maxRow - the maximum row allowed within the gameboard
 	 * @return a potential new position on the board for the zombie
 	 */
-	public Grid getNewZomPosition(int currentZombieRow, int currentZombieCol, int modifer, Zombie zombie, Game game)
+	public Grid getNewZomPosition(int currentZombieRow, int currentZombieCol, int modifer, Zombie zombie, int maxRow)
 	{
 		if(zombie instanceof Juking_Zombie){
 			Juking_Zombie jukZombie = (Juking_Zombie) zombie;
-			return gameBoard[jukZombie.getPath(game.getLevelInfo().getRows())][currentZombieCol - modifer];
+			return gameBoard[jukZombie.getPath(maxRow)][currentZombieCol - modifer];
 		}
 		return gameBoard[currentZombieRow][currentZombieCol - modifer];
 	}

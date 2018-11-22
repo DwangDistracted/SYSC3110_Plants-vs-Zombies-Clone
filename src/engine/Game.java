@@ -103,7 +103,7 @@ public class Game {
 		while (iterator.hasNext()) {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
-			if (!nextZombie.move(this)) {
+			if (!nextZombie.move(levelInfo.getRows())) {
 				boolean targetIsDead = combat.zombieAttack(nextZombie, board.getPlant(nextZombie.getRow(), nextZombie.getCol()));
 				if (targetIsDead) {
 					board.removePlant(nextZombie.getRow(), nextZombie.getCol());

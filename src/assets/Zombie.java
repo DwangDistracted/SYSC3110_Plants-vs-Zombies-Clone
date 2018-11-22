@@ -147,9 +147,8 @@ public abstract class Zombie implements Unit{
 	 * Notify listener that this zombie is moving
 	 * @return true if move was successful, false otherwise
 	 */
-	public boolean move(Game game) {
-
-		return listener.onZombieMove(this, game);
+	public boolean move(int maxRow) {
+		return listener.onZombieMove(this, maxRow);
 	}
 
 	/**
