@@ -49,6 +49,8 @@ public class Melonpult extends Plant {
 								row, column, zombie.getRow(), zombie.getCol()));
 					}
 				}
+				
+				break;
 			}
 		}
 	}

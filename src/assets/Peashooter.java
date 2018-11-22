@@ -55,6 +55,8 @@ public class Peashooter extends Plant {
 					LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
 							row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 				}
+				
+				break;
 			}
 		}
 	}

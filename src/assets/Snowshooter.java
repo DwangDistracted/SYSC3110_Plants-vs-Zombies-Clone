@@ -15,6 +15,9 @@ public class Snowshooter extends Plant {
 	private static final int COST = 100;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.SNOWSHOOTER;
 	
+	private static final int ATTACK_SPEED_REDUCTION = 1;
+	private static final int SPEED_REDUCTION_DURATION = 3;
+	
 	public Snowshooter() {
 		super(DEFAULT_HP, DEFAULT_POWER, COST);
 	}
@@ -35,7 +38,18 @@ public class Snowshooter extends Plant {
 			if (gameBoard[row][col].getFirstZombie() != null) {
 				
 				LOG.debug(String.format("Snowshooter at : (%d, %d) attacking Zombies at: (%d, %d)", 
-						row, column, row, col));			
+						row, column, row, col));	
+				
+				Zombie zombieTarget = gameBoard[row][col].getFirstZombie();
+				
+				zombieTarget.takeDamage(getPower());
+				zombieTarget.speedDebuff(ATTACK_SPEED_REDUCTION, SPEED_REDUCTION_DURATION);
+				
+				if (!zombieTarget.isAlive()) {
+					board.removeZombie(row, col);
+					LOG.debug(String.format("Snowshooter at : (%d, %d) defeated Zombies at: (%d, %d)", 
+							row, column, row, col));
+				}
 			}
 		}
 	}

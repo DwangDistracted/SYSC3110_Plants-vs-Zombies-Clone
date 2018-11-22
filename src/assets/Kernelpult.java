@@ -67,6 +67,8 @@ public class Kernelpult extends Plant {
 						zombieTarget.immobilize();
 					}
 				}
+				
+				break;
 			}
 		}
 	}	
