@@ -87,6 +87,11 @@ public class GameController {
 						JOptionPane.showMessageDialog(ui, "No more moves to undo", "Cannot Undo", JOptionPane.PLAIN_MESSAGE);
 					}
 					break;
+				case "Redo":
+					if (!cQ.redo()) {
+						JOptionPane.showMessageDialog(ui, "No more moves to Redo", "Cannot Redo", JOptionPane.PLAIN_MESSAGE);
+					}
+					break;
 				case "End Turn": //@author David Wang
 					cQ.registerEndTurn(gameBoard);
 					

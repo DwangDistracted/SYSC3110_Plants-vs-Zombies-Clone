@@ -21,6 +21,14 @@ public class Purse implements Serializable {
 	}
 	
 	/**
+	 * Creates a Purse based off the value of another purse
+	 * @param other
+	 */
+	public Purse(Purse other) {
+		this.points = other.points;
+	}
+	
+	/**
 	 * gets the amount of points the user has
 	 * @return The Amount of Resources a Player has
 	 */
@@ -59,5 +67,13 @@ public class Purse implements Serializable {
 	 */
 	public boolean canSpend(int points) {
 		return points <= this.points;
+	}
+
+	/**
+	 * Sets the points of this purse to the value of another purse
+	 * @param other 
+	 */
+	public void setPoints(Purse other) {
+		this.points = other.points;
 	}
 }
