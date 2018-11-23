@@ -38,17 +38,22 @@ public class Peashooter extends Plant {
 		int row = getRow();
 		int column = getCol();
 		
-		Zombie zombieTarget = board.getSingleZombieTarget(row, column);
+		Zombie zombieTarget = board.getBoard()[row][column].getFirstZombie();
 		
 		LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
 				row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-			
-		zombieTarget.takeDamage(getPower());
 		
+		if(!(zombieTarget instanceof Air_Zombie))
+		{
+			zombieTarget.takeDamage(getPower());
+		}
+
 		if (!zombieTarget.isAlive()) {
 			board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
 			LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
 					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 		}
 	}
+		
+				
 }

@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import assets.Exploding_Zombie;
 import assets.Flower;
 import assets.Plant;
 import assets.Zombie;
@@ -90,8 +92,11 @@ public class Game implements Serializable {
 		while (iterator.hasNext()) {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
-			if (!nextZombie.move()) {
+			if (!nextZombie.move(levelInfo.getRows())) {
 				nextZombie.attack(board);
+				if(nextZombie instanceof Exploding_Zombie){   				//if a exploding zombie attacks, it instantly dies
+					board.removeZombie(nextZombie.getRow(), nextZombie.getCol());
+				}
 			} else {
 				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));
 			}

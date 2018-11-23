@@ -37,19 +37,26 @@ public class LevelLoader {
 	 */
 	private static void sampleLevels() {
 		HashMap<ZombieTypes, Integer> sampleZombies = new HashMap<>();
-		sampleZombies.put(ZombieTypes.REG_ZOMBIE, 40);		
-		sampleZombies.put(ZombieTypes.RUSH_ZOMBIE, 10);		
-		sampleZombies.put(ZombieTypes.SPRINT_ZOMBIE, 10);	
+		sampleZombies.put(ZombieTypes.JUK_ZOMBIE, 5);
+		sampleZombies.put(ZombieTypes.AIR_ZOMBIE, 5);
+		sampleZombies.put(ZombieTypes.REG_ZOMBIE, 5);		
+		sampleZombies.put(ZombieTypes.RUSH_ZOMBIE, 5);		
+		sampleZombies.put(ZombieTypes.SPRINT_ZOMBIE, 5);
+		sampleZombies.put(ZombieTypes.EXP_ZOMBIE, 20);
 		sampleZombies.put(ZombieTypes.YETI_ZOMBIE, 1);
 		sampleZombies.put(ZombieTypes.TANK_ZOMBIE, 1);
+    
 		HashSet<PlantTypes> samplePlants = new HashSet<>();
 		samplePlants.add(PlantTypes.PEASHOOTER);		
 		samplePlants.add(PlantTypes.SUNFLOWER);	
 		samplePlants.add(PlantTypes.TALLNUT);	
 		samplePlants.add(PlantTypes.WALLNUT);
+		samplePlants.add(PlantTypes.POTATOMINE);
+		samplePlants.add(PlantTypes.AIRMONKEY);
 		samplePlants.add(PlantTypes.KERNELPULT);
 		samplePlants.add(PlantTypes.MELONPULT);
 		samplePlants.add(PlantTypes.SNOWSHOOTER);
+    
 		levels.add(new LevelInfo(
 					"Sample",							//level name
 					4,									//level rating

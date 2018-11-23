@@ -2,6 +2,8 @@ package unittests;
 
 import static org.junit.Assert.assertFalse;
 import engine.*;
+import levels.LevelInfo;
+import levels.LevelLoader;
 import assets.*;
 
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,7 @@ public class CombatTest {
 	 */
 	@Test
 	public void testZombieAttack() {
+		LevelInfo lvl = LevelLoader.getLevel(1);
 		Board b = new Board(1,8);
 		Peashooter p = new Peashooter();
 		Regular_Zombie z = new Regular_Zombie();
@@ -48,7 +51,7 @@ public class CombatTest {
 		
 		int turnsRequiredToKillZombies = p.getHP()/z.getPower();
 		
-		if(b.onZombieMove(z)==false){ //if zombie reached the plant unit
+		if(b.onZombieMove(z,lvl.getRows())==false){ //if zombie reached the plant unit
 			for(int i = 0; i<turnsRequiredToKillZombies; i++) {
 				z.attack(b); //kill plant until dead
 			}
