@@ -38,7 +38,7 @@ public class Peashooter extends Plant {
 		int row = getRow();
 		int column = getCol();
 		
-		Zombie zombieTarget = board.getBoard()[row][column].getFirstZombie();
+		Zombie zombieTarget = board.getSingleZombieTarget(row, column);
 		
 		LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
 				row, column, zombieTarget.getRow(), zombieTarget.getCol()));
