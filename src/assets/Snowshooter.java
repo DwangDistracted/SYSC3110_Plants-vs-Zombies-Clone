@@ -1,9 +1,6 @@
 package assets;
 
-import java.util.Queue;
-
 import engine.Board;
-import engine.Grid;
 import util.Logger;
 
 public class Snowshooter extends Plant {
@@ -30,29 +27,21 @@ public class Snowshooter extends Plant {
 
 	@Override
 	public void attack(Board board) {
-		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
 		
-		for (int col = column; col < gameBoard[row].length; col++) {
-			if (gameBoard[row][col].getFirstZombie() != null) {
-				
-				LOG.debug(String.format("Snowshooter at : (%d, %d) attacking Zombies at: (%d, %d)", 
-						row, column, row, col));	
-				
-				Zombie zombieTarget = gameBoard[row][col].getFirstZombie();
-				
-				zombieTarget.takeDamage(getPower());
-				zombieTarget.speedDebuff(ATTACK_SPEED_REDUCTION, SPEED_REDUCTION_DURATION);
-				
-				if (!zombieTarget.isAlive()) {
-					board.removeZombie(row, col);
-					LOG.debug(String.format("Snowshooter at : (%d, %d) defeated Zombies at: (%d, %d)", 
-							row, column, row, col));
-				}
-				
-				break;
-			}
+		Zombie zombieTarget = board.getSingleZombieTarget(row, column);
+		
+		LOG.debug(String.format("Snowshooter at : (%d, %d) attacking Zombies at: (%d, %d)", 
+				row, column, row, zombieTarget.getCol()));	
+		
+		zombieTarget.takeDamage(getPower());
+		zombieTarget.speedDebuff(ATTACK_SPEED_REDUCTION, SPEED_REDUCTION_DURATION);
+		
+		if (!zombieTarget.isAlive()) {
+			board.removeZombie(row, zombieTarget.getCol());
+			LOG.debug(String.format("Snowshooter at : (%d, %d) defeated Zombies at: (%d, %d)", 
+					row, column, row, zombieTarget.getCol()));
 		}
 	}
 }

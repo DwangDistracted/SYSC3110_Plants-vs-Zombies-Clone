@@ -1,9 +1,7 @@
 package assets;
 
-import java.util.Queue;
-
+import java.util.List;
 import engine.Board;
-import engine.Grid;
 import util.Logger;
 
 public class Melonpult extends Plant {
@@ -28,29 +26,22 @@ public class Melonpult extends Plant {
 	@Override
 	public void attack(Board board) {
 		
-		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
 		
-		for (int col = column; col < gameBoard[row].length; col++) {
-			if (gameBoard[row][col].getFirstZombie() != null) {
+		List<Zombie> zombieTargets = board.getGridTargets(row, column);
+		
 				
-				LOG.debug(String.format("Melonpult at : (%d, %d) attacking Zombies at: (%d, %d)", 
-						row, column, row, col));
-				
-				Queue<Zombie> zombiesOnGrid = gameBoard[row][col].getZombies();
-				
-				for (Zombie zombie : zombiesOnGrid) {
-					zombie.takeDamage(getPower());
-					
-					if (!zombie.isAlive()) {
-						board.removeZombie(zombie.getRow(), zombie.getCol());
-						LOG.debug(String.format("Melonpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
-								row, column, zombie.getRow(), zombie.getCol()));
-					}
-				}
-				
-				break;
+		LOG.debug(String.format("Melonpult at : (%d, %d) attacking Zombies at: (%d, %d)", 
+				row, column, row, zombieTargets.get(0).getCol()));
+		
+		for (Zombie zombie : zombieTargets) {
+			zombie.takeDamage(getPower());
+			
+			if (!zombie.isAlive()) {
+				board.removeZombie(zombie.getRow(), zombie.getCol());
+				LOG.debug(String.format("Melonpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
+						row, column, zombie.getRow(), zombie.getCol()));
 			}
 		}
 	}

@@ -38,37 +38,29 @@ public class Kernelpult extends Plant {
 	@Override
 	public void attack(Board board) {
 
-		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
 		
-		for (int col = column; col < gameBoard[row].length; col++) {
-			if (gameBoard[row][col].getFirstZombie() != null) {
-				
-				Zombie zombieTarget = gameBoard[row][col].getFirstZombie();
+		Zombie zombieTarget = board.getSingleZombieTarget(row, column);
+		
+		LOG.debug(String.format("Kernelpult at : (%d, %d) attacking Zombie at: (%d, %d)", 
+				row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+		
+		zombieTarget.takeDamage(getPower());
+		
+		if (!zombieTarget.isAlive()) {
+			board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+			LOG.debug(String.format("Kernelpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
+					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+		}
+		else {
+			// if the zombie didn't die, there is a chance for immobilization
+			// use a random number generator to check if the next attack
+			// can immobilize the zombie target
+			Random random = new Random();
 			
-				LOG.debug(String.format("Kernelpult at : (%d, %d) attacking Zombie at: (%d, %d)", 
-						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-				
-				zombieTarget.takeDamage(getPower());
-					
-				if (!zombieTarget.isAlive()) {
-					board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-					LOG.debug(String.format("Kernelpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
-							row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-				}
-				else {
-					// if the zombie didn't die, there is a chance for immobilization
-					// use a random number generator to check if the next attack
-					// can immobilize the zombie target
-					Random random = new Random();
-					
-					if (random.nextInt(IMMOBILIZE_ROLL_RANGE) + 1 > THRESHHOLD_FOR_IMMOBILIZATION) {
-						zombieTarget.immobilize();
-					}
-				}
-				
-				break;
+			if (random.nextInt(IMMOBILIZE_ROLL_RANGE) + 1 > THRESHHOLD_FOR_IMMOBILIZATION) {
+				zombieTarget.immobilize();
 			}
 		}
 	}	
