@@ -34,7 +34,7 @@ public class Air_Monkey extends Plant {
 		
 		Zombie zombieTarget = gameBoard[row][column].getFirstZombie();
 		
-		LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
+		LOG.debug(String.format("Air monkey at : (%d, %d) attacking Zombie at: (%d, %d)", 
 				row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 		
 		if(zombieTarget instanceof Air_Zombie)
@@ -44,7 +44,7 @@ public class Air_Monkey extends Plant {
 		
 		if (!zombieTarget.isAlive()) {
 			board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-			LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
+			LOG.debug(String.format("Air monkey at : (%d, %d) defeated Zombie at: (%d, %d)", 
 					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 		}
 	}			
