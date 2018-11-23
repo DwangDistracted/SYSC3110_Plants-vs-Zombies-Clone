@@ -10,11 +10,10 @@ public class Air_Zombie extends Zombie {
 		super(DEFAULT_SPEED, DEFAULT_POWER, DEFAULT_HP);
 	}
 	
-	/**
-	 * returns the name of regular type zombie
-	 */
+	
+	@Override
 	public String toString() {
-		return "AZ";	
+		return "Air Zombie";	
 	}
 
 	public ZombieTypes getZombieType() {

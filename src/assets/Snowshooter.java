@@ -20,6 +20,12 @@ public class Snowshooter extends Plant {
 	}
 
 	@Override
+	public String toString() {
+		
+		return "Snowshooter";
+	}
+	
+	@Override
 	public PlantTypes getPlantType() {
 		
 		return PLANT_TYPE;
@@ -32,16 +38,18 @@ public class Snowshooter extends Plant {
 		
 		Zombie zombieTarget = board.getSingleZombieTarget(row, column);
 		
-		LOG.debug(String.format("Snowshooter at : (%d, %d) attacking Zombies at: (%d, %d)", 
-				row, column, row, zombieTarget.getCol()));	
-		
-		zombieTarget.takeDamage(getPower());
-		zombieTarget.speedDebuff(ATTACK_SPEED_REDUCTION, SPEED_REDUCTION_DURATION);
-		
-		if (!zombieTarget.isAlive()) {
-			board.removeZombie(row, zombieTarget.getCol());
-			LOG.debug(String.format("Snowshooter at : (%d, %d) defeated Zombies at: (%d, %d)", 
-					row, column, row, zombieTarget.getCol()));
+		if (zombieTarget != null) {
+			LOG.debug(String.format("Snowshooter at : (%d, %d) attacking Zombies at: (%d, %d)", 
+					row, column, row, zombieTarget.getCol()));	
+			
+			zombieTarget.takeDamage(getPower());
+			zombieTarget.speedDebuff(ATTACK_SPEED_REDUCTION, SPEED_REDUCTION_DURATION);
+			
+			if (!zombieTarget.isAlive()) {
+				board.removeZombie(row, zombieTarget.getCol());
+				LOG.debug(String.format("Snowshooter at : (%d, %d) defeated Zombies at: (%d, %d)", 
+						row, column, row, zombieTarget.getCol()));
+			}
 		}
 	}
 }
