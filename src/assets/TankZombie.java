@@ -18,6 +18,12 @@ public class TankZombie extends Zombie {
 	}
 
 	@Override
+	public String toString() {
+		
+		return "Tank Zombie";
+	}
+	
+	@Override
 	public int getDefaultSpeed() {
 
 		return DEFAULT_SPEED;

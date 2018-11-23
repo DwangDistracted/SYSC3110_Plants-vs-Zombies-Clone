@@ -16,6 +16,12 @@ public class YetiZombie extends Zombie {
 
 		return ZOMBIE_TYPE;
 	}
+	
+	@Override 
+	public String toString() {
+		
+		return "Yeti Zombie";
+	}
 
 	@Override
 	public int getDefaultSpeed() {
