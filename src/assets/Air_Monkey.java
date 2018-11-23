@@ -47,8 +47,5 @@ public class Air_Monkey extends Plant {
 			LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
 					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 		}
-	}
-		
-		
-				
+	}			
 }
