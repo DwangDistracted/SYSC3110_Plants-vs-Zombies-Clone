@@ -10,7 +10,9 @@ package assets;
 public enum ZombieTypes {
 	REG_ZOMBIE,
 	RUSH_ZOMBIE,
-	SPRINT_ZOMBIE;
+	SPRINT_ZOMBIE,
+	TANK_ZOMBIE,
+	YETI_ZOMBIE;
 
 	/**
 	 * Translates a ZombieTypes Enumeration into a Zombie Object
