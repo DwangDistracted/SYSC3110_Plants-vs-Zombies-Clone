@@ -433,7 +433,13 @@ public class Board implements ZombieMoveListener, Serializable {
 	public List<Zombie> getGridTargets(int x, int y) {
 		for (int col = y; col < gameBoard[x].length; col++) {
 			if (!gameBoard[x][col].getZombies().isEmpty()) {
-				return new ArrayList<Zombie>(gameBoard[x][col].getZombies());
+				ArrayList<Zombie> gridTargets = new ArrayList<Zombie>();
+				for (Zombie zombie : gameBoard[x][col].getZombies()) {
+					if (!(zombie instanceof Air_Zombie)) {
+						gridTargets.add(zombie);
+					}
+				}
+				return gridTargets;
 			}
 		}
 		return null;
