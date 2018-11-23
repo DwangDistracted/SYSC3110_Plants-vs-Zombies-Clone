@@ -28,6 +28,8 @@ public class Images
 	private static BufferedImage regZombieImage = null;
 	private static BufferedImage rushZombieImage = null;
 	private static BufferedImage sprintZombieImage = null;
+	private static BufferedImage tankZombieImage = null;
+	private static BufferedImage yetiZombieImage = null;
 	
 	private static BufferedImage mowerImage = null;
 	private static BufferedImage grassImage = null;
@@ -55,6 +57,8 @@ public class Images
 			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
 			rushZombieImage =  ImageIO.read(new File("images\\Zombie_Rush.png"));
 			sprintZombieImage =  ImageIO.read(new File("images\\Zombie_Sprinter.png"));
+			tankZombieImage = ImageIO.read(new File("images\\Zombie_Tank.png"));
+			yetiZombieImage = ImageIO.read(new File("images\\Zombie_Yeti.png"));
 			
 			mowerImage =  ImageIO.read(new File("images\\Lawnmower.png"));
 			grassImage = ImageIO.read(new File("images\\GrassTile.jpg"));
@@ -112,6 +116,10 @@ public class Images
 			return rushZombieImage;
 		case SPRINT_ZOMBIE:
 			return sprintZombieImage;
+		case TANK_ZOMBIE:
+			return tankZombieImage;
+		case YETI_ZOMBIE:
+			return yetiZombieImage;
 		default:
 			System.out.println("Invalid zombie type");
 		}
