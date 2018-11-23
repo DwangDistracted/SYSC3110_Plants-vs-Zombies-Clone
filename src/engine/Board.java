@@ -388,7 +388,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * @return
 	 */
 	public Zombie getSingleZombieTarget(int x, int y) {
-		for (int col = y; col < gameBoard[row].length; col++) {
+		for (int col = y; col < gameBoard[x].length; col++) {
 			if (gameBoard[x][col].getFirstZombie() != null) {
 				return gameBoard[x][col].getFirstZombie();
 			}
@@ -403,7 +403,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * @return
 	 */
 	public List<Zombie> getGridTargets(int x, int y) {
-		for (int col = y; col < gameBoard[row].length; col++) {
+		for (int col = y; col < gameBoard[x].length; col++) {
 			if (!gameBoard[x][col].getZombies().isEmpty()) {
 				return new ArrayList<Zombie>(gameBoard[x][col].getZombies());
 			}
@@ -419,7 +419,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	 */
 	public List<Zombie> getRowTargets(int x, int y) {
 		ArrayList<Zombie> targets = new ArrayList<>();
-		for (int col = y; col < gameBoard[row].length; col++) {
+		for (int col = y; col < gameBoard[x].length; col++) {
 			if (!gameBoard[x][col].getZombies().isEmpty()) {
 				targets.addAll(gameBoard[x][col].getZombies());
 			}
