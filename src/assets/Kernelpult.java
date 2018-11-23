@@ -36,6 +36,12 @@ public class Kernelpult extends Plant {
 	}
 
 	@Override
+	public String toString() {
+		
+		return "Kernel-Pult";
+	}
+	
+	@Override
 	public void attack(Board board) {
 
 		int row = getRow();

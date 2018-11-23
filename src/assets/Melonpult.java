@@ -16,6 +16,12 @@ public class Melonpult extends Plant {
 	public Melonpult() {
 		super(DEFAULT_HP, DEFAULT_POWER, COST);
 	}
+	
+	@Override
+	public String toString() {
+		
+		return "Melon-Pult";
+	}
 
 	@Override
 	public PlantTypes getPlantType() {

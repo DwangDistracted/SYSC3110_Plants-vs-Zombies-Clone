@@ -15,11 +15,9 @@ public class Potato_Mine extends Plant {
 		super(DEFAULT_HP, DEFAULT_POWER, COST);
 	}
 	
-	/**
-	 * returns name of Peashooter
-	 */
+	@Override
 	public String toString() {
-		return "Potato_Mine";
+		return "Potato Mine";
 	}
 
 	public PlantTypes getPlantType() {

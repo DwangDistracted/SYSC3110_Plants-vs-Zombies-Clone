@@ -20,6 +20,12 @@ public class Snowshooter extends Plant {
 	}
 
 	@Override
+	public String toString() {
+		
+		return "Snowshooter";
+	}
+	
+	@Override
 	public PlantTypes getPlantType() {
 		
 		return PLANT_TYPE;
