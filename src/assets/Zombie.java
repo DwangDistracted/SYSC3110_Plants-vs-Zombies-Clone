@@ -166,7 +166,7 @@ public abstract class Zombie implements Unit{
 	 * 
 	 * @return true if move was not stopped by plant, false otherwise
 	 */
-	public boolean move() {
+	public boolean move(int maxRow) {
 
 		if (immobilized) {
 			immobilized = false;
@@ -177,7 +177,7 @@ public abstract class Zombie implements Unit{
 			}
 		}
 		
-		return listener.onZombieMove(this);
+		return listener.onZombieMove(this, maxRow);
 	}
 
 	/**

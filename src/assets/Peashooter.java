@@ -38,25 +38,22 @@ public class Peashooter extends Plant {
 		int row = getRow();
 		int column = getCol();
 		
-		for (int col = column; col < gameBoard[row].length; col++) {
-			if (gameBoard[row][col].getFirstZombie() != null) {
-				
-				Zombie zombieTarget = gameBoard[row][col].getFirstZombie();
-				
-				LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
-						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-				
-				if(!(zombieTarget instanceof Air_Zombie))
-				{
-					zombieTarget.takeDamage(getPower());
-				}
+		Zombie zombieTarget = board.getBoard()[row][column].getFirstZombie();
 		
-				if (!zombieTarget.isAlive()) {
-					board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-					LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
-							row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-				}
-			}
+		LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
+				row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+		
+		if(!(zombieTarget instanceof Air_Zombie))
+		{
+			zombieTarget.takeDamage(getPower());
+		}
+
+		if (!zombieTarget.isAlive()) {
+			board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+			LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
+					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 		}
 	}
+		
+				
 }
