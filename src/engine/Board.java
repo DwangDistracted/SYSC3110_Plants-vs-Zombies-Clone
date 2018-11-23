@@ -435,7 +435,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	public List<Unit> getRowUnits(int x)
 	{
 		ArrayList<Unit> targets = new ArrayList<>();
-		for (int col = 1; col < gameBoard[row].length; col++) {
+		for (int col = 0; col < gameBoard[x].length; col++) {
 			if (!gameBoard[x][col].getZombies().isEmpty()) {
 				targets.addAll(gameBoard[x][col].getZombies());
 			}
