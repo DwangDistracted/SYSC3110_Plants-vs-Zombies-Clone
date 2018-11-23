@@ -21,14 +21,22 @@ public class Images
 	private static BufferedImage peashooterImage = null;
 	private static BufferedImage potatoMineImage = null;
 	private static BufferedImage airMonkeyImage = null;
-	private static BufferedImage regZombieImage = null;
-	private static BufferedImage expZombieImage = null;
-	private static BufferedImage jukZombieImage = null;
-	private static BufferedImage airZombieImage = null;
 	private static BufferedImage wallnutImage = null;
 	private static BufferedImage tallnutImage = null;
+  
+	private static BufferedImage kernelpultImage = null;
+	private static BufferedImage melonpultImage = null;
+	private static BufferedImage snowshooterImage = null;
+	
+	private static BufferedImage regZombieImage = null;
 	private static BufferedImage rushZombieImage = null;
 	private static BufferedImage sprintZombieImage = null;
+	private static BufferedImage tankZombieImage = null;
+	private static BufferedImage yetiZombieImage = null;
+  private static BufferedImage expZombieImage = null;
+	private static BufferedImage jukZombieImage = null;
+	private static BufferedImage airZombieImage = null;
+	
 	private static BufferedImage mowerImage = null;
 	private static BufferedImage grassImage = null;
 	private static BufferedImage titleBanner = null;
@@ -39,7 +47,7 @@ public class Images
 	/**
 	 * Pre-load and cache all images
 	 * 
-	 * @return true if images successfully loadaed, false otherwise
+	 * @return true if images successfully loaded, false otherwise
 	 */
 	public static boolean preloadImages() {
 		try {
@@ -53,9 +61,14 @@ public class Images
 			airZombieImage = ImageIO.read(new File ("images\\Air_Zombie.png"));
 			wallnutImage = ImageIO.read(new File("images\\Plant_Wallnut.png"));
 			tallnutImage = ImageIO.read(new File("images\\Plant_Tallnut.png"));
+			kernelpultImage = ImageIO.read(new File("images\\Plant_Kernelpult.png"));
+			melonpultImage = ImageIO.read(new File("images\\Plant_Melonpult.png"));
+			snowshooterImage = ImageIO.read(new File("images\\Plant_Snowshooter.png"));
 			
 			rushZombieImage =  ImageIO.read(new File("images\\Zombie_Rush.png"));
 			sprintZombieImage =  ImageIO.read(new File("images\\Zombie_Sprinter.png"));
+			tankZombieImage = ImageIO.read(new File("images\\Zombie_Tank.png"));
+			yetiZombieImage = ImageIO.read(new File("images\\Zombie_Yeti.png"));
 			
 			mowerImage =  ImageIO.read(new File("images\\Lawnmower.png"));
 			grassImage = ImageIO.read(new File("images\\GrassTile.jpg"));
@@ -90,6 +103,12 @@ public class Images
 			return wallnutImage;
 		case TALLNUT:
 			return tallnutImage;
+		case KERNELPULT:
+			return kernelpultImage;
+		case MELONPULT:
+			return melonpultImage;
+		case SNOWSHOOTER:
+			return snowshooterImage;
 		default:
 			System.out.println("Invalid Plant type");
 		}
@@ -117,6 +136,10 @@ public class Images
 			return rushZombieImage;
 		case SPRINT_ZOMBIE:
 			return sprintZombieImage;
+		case TANK_ZOMBIE:
+			return tankZombieImage;
+		case YETI_ZOMBIE:
+			return yetiZombieImage;
 		default:
 			System.out.println("Invalid zombie type");
 		}

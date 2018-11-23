@@ -236,4 +236,8 @@ public class Game implements Serializable {
 	public void decrementTurns() {
 		this.numTurns--;
 	}
+
+	public void incrementTurns() {
+		this.numTurns++;
+	}
 }

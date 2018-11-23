@@ -24,7 +24,7 @@ public class Flower extends Plant{
 	}
 	
 	/**
-	 * returns points of a sunflower
+	 * Returns the number of Points a sunflower gives the player per turn
 	 * @return the points of a sunflower  
 	 */
 	public static int getPoints() {

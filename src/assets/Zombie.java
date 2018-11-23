@@ -1,7 +1,6 @@
 package assets;
 
 import engine.Board;
-import engine.Game;
 
 /**
  * The Zombie class initializes a set of variables and implements associated setters and getters
@@ -167,7 +166,7 @@ public abstract class Zombie implements Unit{
 	 * 
 	 * @return true if move was not stopped by plant, false otherwise
 	 */
-	public boolean move(int maxRow) {
+	public boolean move() {
 
 		if (immobilized) {
 			immobilized = false;
@@ -176,10 +175,9 @@ public abstract class Zombie implements Unit{
 			if (slowedTurnsLeft-- == 0) {
 				restoreSpeed();
 			}
-			return true; 
 		}
 		
-		return listener.onZombieMove(this, maxRow);
+		return listener.onZombieMove(this);
 	}
 
 	/**
@@ -255,3 +253,4 @@ public abstract class Zombie implements Unit{
 		immobilized = true;
 	}
 }
+

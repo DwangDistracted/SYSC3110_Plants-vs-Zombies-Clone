@@ -134,11 +134,15 @@ public class GameUI extends JFrame
     	JButton undoButton = new JButton("Undo");
     	undoButton.setFont(btnFont);
     	undoButton.setActionCommand("Undo");
+    	JButton redoButton = new JButton("Redo");
+    	redoButton.setFont(btnFont);
+    	redoButton.setActionCommand("Redo");
     	JButton endTurnButton = new JButton("End Turn");
     	endTurnButton.setFont(endTurnFont);
     	endTurnButton.setActionCommand("End Turn");
     	gameButtons.add(digUpButton);
     	gameButtons.add(undoButton);
+    	gameButtons.add(redoButton);
     	gameButtons.add(endTurnButton);
     }
 

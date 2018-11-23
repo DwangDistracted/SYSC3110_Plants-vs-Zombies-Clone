@@ -1,7 +1,6 @@
 package assets;
 
 import engine.Board;
-import engine.Grid;
 import util.Logger;
 
 /**
@@ -36,7 +35,6 @@ public class Peashooter extends Plant {
 	
 	@Override
 	public void attack(Board board) {
-		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
 		
