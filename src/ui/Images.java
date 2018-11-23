@@ -19,8 +19,11 @@ public class Images
 {
 	private static BufferedImage sunflowerImage = null;
 	private static BufferedImage peashooterImage = null;
+	private static BufferedImage potatoMineImage = null;
+	private static BufferedImage airMonkeyImage = null;
 	private static BufferedImage wallnutImage = null;
 	private static BufferedImage tallnutImage = null;
+  
 	private static BufferedImage kernelpultImage = null;
 	private static BufferedImage melonpultImage = null;
 	private static BufferedImage snowshooterImage = null;
@@ -30,10 +33,12 @@ public class Images
 	private static BufferedImage sprintZombieImage = null;
 	private static BufferedImage tankZombieImage = null;
 	private static BufferedImage yetiZombieImage = null;
+  private static BufferedImage expZombieImage = null;
+	private static BufferedImage jukZombieImage = null;
+	private static BufferedImage airZombieImage = null;
 	
 	private static BufferedImage mowerImage = null;
 	private static BufferedImage grassImage = null;
-	
 	private static BufferedImage titleBanner = null;
 	private static BufferedImage titleSplash = null;
 
@@ -48,13 +53,18 @@ public class Images
 		try {
 			sunflowerImage = ImageIO.read(new File("images\\Plant_Sunflower.png"));
 			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
+			potatoMineImage = ImageIO.read(new File("images\\Potato_Mine.png"));
+			airMonkeyImage = ImageIO.read(new File("images\\Air_Monkey.png"));
+			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
+			expZombieImage = ImageIO.read(new File("images\\Exploding_Zombie.png"));
+			jukZombieImage = ImageIO.read(new File ("images\\Juking_Zombie.png"));
+			airZombieImage = ImageIO.read(new File ("images\\Air_Zombie.png"));
 			wallnutImage = ImageIO.read(new File("images\\Plant_Wallnut.png"));
 			tallnutImage = ImageIO.read(new File("images\\Plant_Tallnut.png"));
 			kernelpultImage = ImageIO.read(new File("images\\Plant_Kernelpult.png"));
 			melonpultImage = ImageIO.read(new File("images\\Plant_Melonpult.png"));
 			snowshooterImage = ImageIO.read(new File("images\\Plant_Snowshooter.png"));
 			
-			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
 			rushZombieImage =  ImageIO.read(new File("images\\Zombie_Rush.png"));
 			sprintZombieImage =  ImageIO.read(new File("images\\Zombie_Sprinter.png"));
 			tankZombieImage = ImageIO.read(new File("images\\Zombie_Tank.png"));
@@ -85,6 +95,10 @@ public class Images
 			return sunflowerImage;
 		case PEASHOOTER:
 			return peashooterImage;
+		case AIRMONKEY:
+			return airMonkeyImage;
+		case POTATOMINE:
+			return potatoMineImage;
 		case WALLNUT:
 			return wallnutImage;
 		case TALLNUT:
@@ -112,6 +126,12 @@ public class Images
 		switch(zombie) {
 		case REG_ZOMBIE:
 			return regZombieImage;
+		case EXP_ZOMBIE:
+			return expZombieImage;
+		case JUK_ZOMBIE:
+			return jukZombieImage;
+		case AIR_ZOMBIE:
+			return airZombieImage;
 		case RUSH_ZOMBIE:
 			return rushZombieImage;
 		case SPRINT_ZOMBIE:
@@ -162,6 +182,8 @@ public class Images
 	public static Image getTitleSplashImage() {
 		return titleSplash;
 	}
+	
+	
 }
 
 

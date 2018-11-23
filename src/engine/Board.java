@@ -8,7 +8,9 @@ import java.util.Queue;
 
 import assets.Flower;
 import assets.Plant;
+import assets.Unit;
 import assets.Zombie;
+import assets.Juking_Zombie;
 import util.Logger;
 import engine.Grid;
  
@@ -50,6 +52,12 @@ public class Board implements ZombieMoveListener, Serializable {
 	private List<Zombie> zombiesInGame;
 	
 	/**
+	 * Track all the avaliable mowers in the game
+	 * Track the avaliable mowers by row number
+	 */
+	private List<Integer> mowersAvaliable;
+	
+	/**
 	 * Number of Sunflowers in game
 	 */
 	private int sfCounter;
@@ -71,14 +79,17 @@ public class Board implements ZombieMoveListener, Serializable {
 		
 		this.zombiesInGame = new LinkedList<Zombie>();
 		this.plantsInGame = new LinkedList<Plant>();
+		this.mowersAvaliable = new ArrayList<Integer>();
 		
-		//initialize board
+		//initialize board and add all the avaliable lawn mowers to a list
 		gameBoard = new Grid[row][col];
 		for (int r = 0; r < row; r++) {
+			mowersAvaliable.add(r);
 			for (int c = 0; c < col; c++) {
 				gameBoard[r][c] = new Grid(r, c);
 			}
 		}
+		
 	}
 	
 	/**
@@ -416,8 +427,46 @@ public class Board implements ZombieMoveListener, Serializable {
 		return targets.isEmpty()? null : targets;
 	}
 	
+	/**
+	 * Returns a list of all the units in the row. Null if no units are in the row
+	 * @param x - the row that is to be checked for units
+	 * @return
+	 */
+	public List<Unit> getRowUnits(int x)
+	{
+		ArrayList<Unit> targets = new ArrayList<>();
+		for (int col = 1; col < gameBoard[row].length; col++) {
+			if (!gameBoard[x][col].getZombies().isEmpty()) {
+				targets.addAll(gameBoard[x][col].getZombies());
+			}
+			if (gameBoard[x][col].getPlant() != null) {
+				targets.add(gameBoard[x][col].getPlant());
+			}
+		}
+		return targets.isEmpty()? null : targets;
+	}
+	
+	/**
+	 * Deletes all the units within the specified row
+	 * @param row - the row that all the units will be deleted in
+	 */
+	public void useLawnMower(int row)
+	{
+		for(Unit u : getRowUnits(row))
+		{
+			if(u instanceof Zombie)
+			{
+				removeZombie(u.getRow(),u.getCol());
+			}
+			else if(u instanceof Plant)
+			{
+				removePlant(u.getRow(),u.getCol());
+			}
+		}
+	}
+	
 	@Override
-	public boolean onZombieMove(Zombie zombie) {
+	public boolean onZombieMove(Zombie zombie, int maxRow) {
 		
 		int currentZombieRow = zombie.getRow();
 		int currentZombieCol = zombie.getCol();
@@ -450,7 +499,7 @@ public class Board implements ZombieMoveListener, Serializable {
 			
 			// can move zombie until it reaches end of grid or reaches a plant
 			if (!(currentZombieCol - i < 0)) {
-				if (gameBoard[currentZombieRow][currentZombieCol - i].isOccupied()) {
+				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, maxRow).isOccupied()){
 					break;
 				}
 			}
@@ -458,18 +507,56 @@ public class Board implements ZombieMoveListener, Serializable {
 		// determines if this zombie has reached the end of the board
 		if(currentZombieCol - modifier < 0)
 		{
-			this.zombieReachedEnd = true;
 			zombie.setColumn(0);
+			
+			if(isMowerAvaliable(currentZombieRow) != true)
+				this.zombieReachedEnd = true;
+			else
+				useLawnMower(currentZombieRow);
 		}
 		else
 		{
-			// update zombie coordinates
-			zombie.setColumn(currentZombieCol - modifier);
+			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, maxRow).getCoordinates();
+			zombie.setRow(coord[0]);
+			zombie.setColumn(coord[1]);
 		}
 		
 		// update the board with new position
 		gameBoard[zombie.getRow()][zombie.getCol()].addZombie(zombie);
 		
 		return true;
+	}
+	
+	/**
+	 * Checks if the mower is avaliable for the given row
+	 * @param row - the row to check if the lawn mower is avaliable
+	 * @return true if the lawn mower is avaliable for use, otherwise return false
+	 */
+	public boolean isMowerAvaliable(int row)
+	{
+		return mowersAvaliable.contains(row);
+	}
+	
+	public void useLawnMower()
+	{
+		
+	}
+	
+	/**
+	 * Gets the potential new position of the zombie when it is moving
+	 * @param currentZombieRow - the current zombie row
+	 * @param currentZombieCol - the current zombie column
+	 * @param modifer - The amount of columns down the board the zombie will move
+	 * @param zombie - the zombie that is being movied
+	 * @param maxRow - the maximum row allowed within the gameboard
+	 * @return a potential new position on the board for the zombie
+	 */
+	public Grid getNewZomPosition(int currentZombieRow, int currentZombieCol, int modifer, Zombie zombie, int maxRow)
+	{
+		if(zombie instanceof Juking_Zombie){
+			Juking_Zombie jukZombie = (Juking_Zombie) zombie;
+			return gameBoard[jukZombie.getPath(maxRow)][currentZombieCol - modifer];
+		}
+		return gameBoard[currentZombieRow][currentZombieCol - modifer];
 	}
 } 

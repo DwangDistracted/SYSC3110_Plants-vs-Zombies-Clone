@@ -10,6 +10,8 @@ package assets;
 public enum PlantTypes {
 	SUNFLOWER,
 	PEASHOOTER,
+	AIRMONKEY,
+	POTATOMINE,
 	WALLNUT,
 	TALLNUT,
 	MELONPULT,
@@ -28,6 +30,10 @@ public enum PlantTypes {
 				return new Flower();
 			case PEASHOOTER:
 				return new Peashooter();
+			case AIRMONKEY:
+				return new Air_Monkey();
+			case POTATOMINE:
+				return new Potato_Mine();
 			case WALLNUT:
 				return new Wallnut();
 			case TALLNUT:
