@@ -19,6 +19,9 @@ public class Purse implements Serializable {
 	public Purse(int lvlInit) {
 		this.points = lvlInit;
 	}
+	public Purse(Purse other) {
+		this.points = other.points;
+	}
 	
 	/**
 	 * gets the amount of points the user has
@@ -59,5 +62,9 @@ public class Purse implements Serializable {
 	 */
 	public boolean canSpend(int points) {
 		return points <= this.points;
+	}
+
+	public void setPoints(Purse resources) {
+		this.points = resources.points;
 	}
 }

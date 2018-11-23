@@ -27,11 +27,15 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	private Board gameBoard;
 	private Purse userResources;
 	
+	private LinkedList<Command> redoQueue;
+	
 	public CommandQueue(Game game, GameUI ui, Board gB, Purse userResources) {
 		this.game = game;
 		this.ui = ui;
 		this.gameBoard = gB;
 		this.userResources = userResources;
+		
+		redoQueue = new LinkedList<Command>();
 	}
 	
 	/**
@@ -41,6 +45,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 * @param y the location of the placement
 	 */
 	public void registerPlace(PlantTypes type, int x, int y) {
+		redoQueue.clear(); //a new command prevents redo-ing old commands
 		this.addFirst(new PlaceCommand(type, x, y));
 		LOG.debug("registered place command");
 	}
@@ -52,6 +57,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 * @param y the location of the placement
 	 */
 	public void registerDig(PlantTypes type, int x, int y) {
+		redoQueue.clear(); //a new command prevents redo-ing old commands
 		this.addFirst(new DigCommand(type, x, y));
 		LOG.debug("registered dig command");
 	}
@@ -61,6 +67,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 * @param grids the array of grids the mower affected
 	 */
 	public void registerMow(Grid[] grids, int row) {
+		redoQueue.clear(); //a new command prevents redo-ing old commands
 		ArrayList<Plant> plants = new ArrayList<>();
 		ArrayList<Zombie> zombies = new ArrayList<>();
 		for (Grid g : grids) {
@@ -76,7 +83,8 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 * @param board
 	 */
 	public void registerEndTurn(Board board) {
-		this.addFirst(new EndTurnCommand(board));
+		redoQueue.clear(); //a new command prevents redo-ing old commands //a new command prevents redo-ing old commands
+		this.addFirst(new EndTurnCommand(board, userResources));
 		LOG.debug("registered end turn command");
 	}
 	
@@ -93,6 +101,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 		Command c = this.removeFirst();
 		switch (c.getCommand()){
 			case DIGUP:
+				redoQueue.addFirst(c);
 				gameBoard.placePlant(PlantTypes.toPlant(((DigCommand)c).getType()), ((DigCommand)c).getLocX(), ((DigCommand)c).getLocY()); //re-place the plant
 				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].renderPlant();
 				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].repaint();
@@ -104,6 +113,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 				LOG.debug("undo mow command");
 				break;
 			case PLACE:
+				redoQueue.addFirst(c);
 				gameBoard.removePlant(((PlaceCommand)c).getLocX(), ((PlaceCommand)c).getLocY()); //remove the plant
 				ui.getBoardTiles()[((PlaceCommand)c).getLocX()][((PlaceCommand)c).getLocY()].renderPlant();
 				
@@ -112,15 +122,65 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 				LOG.debug("undo place command");
 				break;
 			case ENDTURN:
+				redoQueue.addFirst(new EndTurnCommand(gameBoard, userResources));
 				gameBoard.setBoard(((EndTurnCommand)c).getBoard());
-				
+				userResources.setPoints(((EndTurnCommand)c).getResources());
 				game.decrementTurns();
-				userResources.spendPoints(game.getLevelInfo().getResPerTurn()); //undo the end turn income
 				
 				ui.setTurnLabel(game.getTurns());
 				ui.setPointsLabel(userResources.getPoints());
 				ui.refreshAllGrids();
 				LOG.debug("undo end turn command");
+				break;
+			default:
+				break;
+		}
+		return true;
+	}
+	
+	/**
+	 * Redos the most recent undo. Allows redo until the no more undone commands OR user issues a new command
+	 * @return
+	 */
+	public boolean redo() {
+		if (redoQueue.isEmpty()) {
+			LOG.debug("No Commands to undo");
+			return false;
+		}
+		
+		Command c = redoQueue.removeFirst();
+		switch (c.getCommand()){
+			case DIGUP: //redo a digup command
+				this.addFirst(c); //allow us to undo redo
+				gameBoard.removePlant(((DigCommand)c).getLocX(), ((DigCommand)c).getLocY()); //re-place the plant
+				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].renderPlant();
+				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].repaint();
+				ui.getBoardTiles()[((DigCommand)c).getLocX()][((DigCommand)c).getLocY()].revalidate(); //need both repaint and revalidate for the image to show up properly
+				LOG.debug("redo dig command");
+				break;
+			case ENDTURN: //redo an end turn command
+				this.addFirst(new EndTurnCommand(gameBoard, userResources));
+				gameBoard.setBoard(((EndTurnCommand)c).getBoard());
+				userResources.setPoints(((EndTurnCommand)c).getResources());
+				game.incrementTurns();
+				
+				ui.setTurnLabel(game.getTurns());
+				ui.setPointsLabel(userResources.getPoints());
+				ui.refreshAllGrids();
+				LOG.debug("redo end turn command");
+				break;
+			case MOWER:
+				//Mower not implementated for Milestone 3
+				LOG.debug("redo mow command");
+				break;
+			case PLACE: //redo a place command
+				this.addFirst(c);
+				gameBoard.placePlant(PlantTypes.toPlant(((PlaceCommand)c).getType()), ((PlaceCommand)c).getLocX(), ((PlaceCommand)c).getLocY()); //place the plant
+				ui.getBoardTiles()[((PlaceCommand)c).getLocX()][((PlaceCommand)c).getLocY()].renderPlant();
+				
+				userResources.spendPoints(PlantTypes.toPlant(((PlaceCommand)c).getType()).getCost()); //re-spend the plant cost
+				ui.setPointsLabel(userResources.getPoints());
+				LOG.debug("redo place command");
 				break;
 			default:
 				break;
