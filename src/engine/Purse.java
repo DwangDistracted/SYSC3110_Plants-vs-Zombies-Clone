@@ -19,6 +19,11 @@ public class Purse implements Serializable {
 	public Purse(int lvlInit) {
 		this.points = lvlInit;
 	}
+	
+	/**
+	 * Creates a Purse based off the value of another purse
+	 * @param other
+	 */
 	public Purse(Purse other) {
 		this.points = other.points;
 	}
@@ -64,7 +69,11 @@ public class Purse implements Serializable {
 		return points <= this.points;
 	}
 
-	public void setPoints(Purse resources) {
-		this.points = resources.points;
+	/**
+	 * Sets the points of this purse to the value of another purse
+	 * @param other 
+	 */
+	public void setPoints(Purse other) {
+		this.points = other.points;
 	}
 }
