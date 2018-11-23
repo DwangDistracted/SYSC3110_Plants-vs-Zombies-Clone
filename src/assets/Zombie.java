@@ -175,7 +175,6 @@ public abstract class Zombie implements Unit{
 			if (slowedTurnsLeft-- == 0) {
 				restoreSpeed();
 			}
-			return true; 
 		}
 		
 		return listener.onZombieMove(this);
