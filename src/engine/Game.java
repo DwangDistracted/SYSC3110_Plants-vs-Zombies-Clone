@@ -11,7 +11,6 @@ import java.util.Random;
 import assets.Exploding_Zombie;
 import assets.Flower;
 import assets.Plant;
-import assets.Potato_Mine;
 import assets.Zombie;
 import assets.ZombieTypes;
 import levels.LevelInfo;
