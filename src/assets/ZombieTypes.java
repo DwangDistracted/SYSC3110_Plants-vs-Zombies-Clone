@@ -28,6 +28,10 @@ public enum ZombieTypes {
 				return new RushZombie();
 			case SPRINT_ZOMBIE:
 				return new SprintZombie();
+			case TANK_ZOMBIE:
+				return new TankZombie();
+			case YETI_ZOMBIE:
+				return new YetiZombie();
 			default: 
 				return null;
 		}
