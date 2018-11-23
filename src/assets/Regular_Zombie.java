@@ -26,4 +26,10 @@ public class Regular_Zombie extends Zombie{
 	public ZombieTypes getZombieType() {
 		return ZOMBIE_TYPE;
 	}
+
+	@Override
+	public int getDefaultSpeed() {
+
+		return DEFAULT_SPEED;
+	}
 }

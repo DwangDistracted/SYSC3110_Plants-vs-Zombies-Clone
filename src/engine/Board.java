@@ -1,5 +1,7 @@
 package engine;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -17,8 +19,9 @@ import engine.Grid;
  * @author Derek Shao
  * 
  */
-public class Board implements ZombieMoveListener {
-	
+public class Board implements ZombieMoveListener, Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static Logger LOG = new Logger("Board");
 	
 	/* Holds location of each Plant and Zombie  
@@ -60,7 +63,6 @@ public class Board implements ZombieMoveListener {
 	 * 
 	 */
 	public Board(int row, int col) {
-		
 		this.row = row;
 		this.col = col;
 		
@@ -69,7 +71,6 @@ public class Board implements ZombieMoveListener {
 		this.sfCounter = 0;
 		
 		this.zombiesInGame = new LinkedList<Zombie>();
-		
 		this.plantsInGame = new LinkedList<Plant>();
 		
 		//initialize board
@@ -82,12 +83,37 @@ public class Board implements ZombieMoveListener {
 	}
 	
 	/**
+	 * Creates a new instance of Board as a deep copy of another instance
+	 * @param other
+	 * @author David Wang
+	 */
+	public Board(Board other) {
+		this.row = other.row;
+		this.col = other.col;
+		this.zombieReachedEnd = other.zombieReachedEnd;
+		this.sfCounter = other.sfCounter;
+		
+		this.zombiesInGame = new LinkedList<Zombie>();
+		LOG.debug("Made a Clone of Board");
+		this.plantsInGame = new LinkedList<Plant>();
+		this.zombiesInGame.addAll(other.zombiesInGame);
+		this.plantsInGame.addAll(other.plantsInGame);
+		
+		//initialize board
+		gameBoard = new Grid[row][col];
+		for (int r = 0; r < row; r++) {
+			for (int c = 0; c < col; c++) {
+				gameBoard[r][c] = new Grid(other.gameBoard[r][c]);
+			}
+		}
+	}
+	
+	/**
 	 * Get the game board.
 	 * 
 	 * @return gameBoard
 	 */
 	public Grid[][] getBoard() {
-		
 		return gameBoard;
 	}
 	
@@ -108,7 +134,6 @@ public class Board implements ZombieMoveListener {
 	 * 
 	 */
 	public int getColumn() {
-		
 		return this.col;
 	}
 	
@@ -120,7 +145,6 @@ public class Board implements ZombieMoveListener {
 	 * @return the grid at the location
 	 */
 	public Grid getGrid(int row, int col) {
-		
 		return gameBoard[row][col];
 	}
 	
@@ -130,7 +154,6 @@ public class Board implements ZombieMoveListener {
 	 * @return true if a zombie has reached the end of a board, false otherwise
 	 */
 	public boolean hasReachedEnd() {
-		
 		return this.zombieReachedEnd;
 	}
 	
@@ -140,7 +163,6 @@ public class Board implements ZombieMoveListener {
 	 * @return number of zombies in game
 	 */
 	public int getNumberOfZombies() {
-		
 		return this.zombiesInGame.size();
 	}
 	
@@ -150,7 +172,6 @@ public class Board implements ZombieMoveListener {
 	 * @return zombies in game
 	 */
 	public List<Zombie> getZombiesInGame() {
-		
 		return this.zombiesInGame;
 	}
 	
@@ -160,7 +181,6 @@ public class Board implements ZombieMoveListener {
 	 * @return plants in game
 	 */
 	public List<Plant> getPlantsInGame() {
-		
 		return this.plantsInGame;
 	}
 	
@@ -176,7 +196,6 @@ public class Board implements ZombieMoveListener {
 	 *  
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
-		
 		if (plant instanceof Flower) {
 			sfCounter++;
 		}
@@ -190,8 +209,7 @@ public class Board implements ZombieMoveListener {
 		
 		return false;
 	}
-	
-	
+		
 	/**
 	 * Remove a plant from the grid.
 	 * Used for player removal or zombie fully killing a Plant.
@@ -215,7 +233,6 @@ public class Board implements ZombieMoveListener {
 	 * 
 	 */
 	public boolean placeZombie(Zombie zombie, int x, int y) {
-		
 		if (gameBoard[x][y].addZombie(zombie)) {
 			zombie.setRow(x);
 			zombie.setColumn(y);
@@ -235,7 +252,6 @@ public class Board implements ZombieMoveListener {
 	 * @param y coordinate of Zombie
 	 */
 	public void removeZombie(int x, int y) {
-		
 		Zombie zombieRemoved = gameBoard[x][y].removeZombie();
 		this.zombiesInGame.remove(zombieRemoved);
 	}
@@ -249,12 +265,11 @@ public class Board implements ZombieMoveListener {
 	 * 
 	 */
 	public Plant getPlant(int x, int y) {
-		
 		return gameBoard[x][y].getPlant();
 	}
 	
 	/**
-	 * Get the Zombie at the specified location (x,y)
+	 * Get the First Zombie at the specified location (x,y)
 	 * This is likely used when Plant needs to decide which zombie to attack.
 	 * 
 	 * @param x coordinate
@@ -263,8 +278,20 @@ public class Board implements ZombieMoveListener {
 	 * 
 	 */
 	public Zombie getZombie(int x, int y) {
-		
 		return gameBoard[x][y].getFirstZombie();
+	}
+
+	/**
+	 * Gets ALL Zombie at the specified location (x,y)
+	 * This is likely used when Plant needs to decide which zombie to attack.
+	 * 
+	 * @param x coordinate
+	 * @param y coordinate 
+	 * @return the zombie at location (x, y) - null if no zombie present
+	 * 
+	 */
+	public Queue<Zombie> getAllZombies(int x, int y) {
+		return gameBoard[x][y].getZombies();
 	}
 	
 	/**
@@ -276,8 +303,9 @@ public class Board implements ZombieMoveListener {
 		
 		return this.sfCounter;
 	}
- 	/**
-	 * Method for Milestone 1 only.
+ 	
+	/**
+	 * Method for Debug Purposes only.
 	 * Prints the current game state to console.
 	 * 
 	 */
@@ -312,6 +340,83 @@ public class Board implements ZombieMoveListener {
 		return str.toString();
 	}
 
+	/**
+	 * Sets the state of this board to another's state
+	 * @param other
+	 */
+	public void setBoard(Board other) {
+		this.zombiesInGame = other.zombiesInGame;
+		this.plantsInGame = other.plantsInGame;
+
+    	for (int i = 0; i < gameBoard.length; i++) {
+    		for (int j = 0; j < gameBoard[i].length; j++) {
+    			this.removePlant(i, j);
+    			while(!this.getAllZombies(i, j).isEmpty()) {
+        			this.removeZombie(i,j);	
+    			}
+    			LOG.debug("Reset Grid ("+i+","+j+")");
+    			
+    			if (other.getPlant(i,j) != null) {
+    				this.placePlant(other.getPlant(i, j), i, j);
+        			LOG.debug("Planting from other board");
+    			} else {
+        			LOG.debug("No Plants on Grid");
+    			}
+    			
+    			for(Zombie z : other.getAllZombies(i, j)) {
+        			this.placeZombie(z, i, j);
+        			LOG.debug("Placing Zombie from other board");
+    			}
+    		}
+    	}
+	}
+	
+	/**
+	 * Returns the first zombie that the plant can attack. Null if no zombies can be attacked
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public Zombie getSingleZombieTarget(int x, int y) {
+		for (int col = y; col < gameBoard[row].length; col++) {
+			if (gameBoard[x][col].getFirstZombie() != null) {
+				return gameBoard[x][col].getFirstZombie();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list of all zombies that the plant can attack IF the plant can attack all zombies in a grid. Null if no zombies can be attacked
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public List<Zombie> getGridTargets(int x, int y) {
+		for (int col = y; col < gameBoard[row].length; col++) {
+			if (!gameBoard[x][col].getZombies().isEmpty()) {
+				return new ArrayList<Zombie>(gameBoard[x][col].getZombies());
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns a list of all zombies that the plant can attack IF the plant can attack all zombies in a row. Null if no zombies can be attacked
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public List<Zombie> getRowTargets(int x, int y) {
+		ArrayList<Zombie> targets = new ArrayList<>();
+		for (int col = y; col < gameBoard[row].length; col++) {
+			if (!gameBoard[x][col].getZombies().isEmpty()) {
+				targets.addAll(gameBoard[x][col].getZombies());
+			}
+		}
+		return targets.isEmpty()? null : targets;
+	}
+	
 	@Override
 	public boolean onZombieMove(Zombie zombie, int maxRow) {
 		
@@ -321,7 +426,6 @@ public class Board implements ZombieMoveListener {
 		// if the zombie is in a grid that is currently occupied by a plant, the zombie should attack plant
 		// therefore moving zombie was unsuccessful 
 		if (gameBoard[currentZombieRow][currentZombieCol].isOccupied()) {
-			
 			return false;
 		} 
 		
