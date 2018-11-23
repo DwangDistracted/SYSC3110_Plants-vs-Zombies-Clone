@@ -11,7 +11,10 @@ public enum PlantTypes {
 	SUNFLOWER,
 	PEASHOOTER,
 	WALLNUT,
-	TALLNUT;
+	TALLNUT,
+	MELONPULT,
+	KERNELPULT,
+	SNOWSHOOTER;
 	
 	/**
 	 * Translates a PlantType Enumeration into a Plant Object
@@ -29,6 +32,12 @@ public enum PlantTypes {
 				return new Wallnut();
 			case TALLNUT:
 				return new Tallnut();
+			case MELONPULT:
+				return new Melonpult();
+			case KERNELPULT:
+				return new Kernelpult();
+			case SNOWSHOOTER:
+				return new Snowshooter();
 			default: 
 				return null;
 		}
