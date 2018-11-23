@@ -1,7 +1,6 @@
 package assets;
 
 import engine.Board;
-import engine.Grid;
 import util.Logger;
 
 public class Air_Monkey extends Plant {
@@ -28,24 +27,23 @@ public class Air_Monkey extends Plant {
 
 	@Override
 	public void attack(Board board) {
-		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
 		
-		Zombie zombieTarget = gameBoard[row][column].getFirstZombie();
+		Zombie zombieTarget = board.getSingleAirTarget(row, column);
 		
-		LOG.debug(String.format("Air monkey at : (%d, %d) attacking Zombie at: (%d, %d)", 
-				row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-		
-		if(zombieTarget instanceof Air_Zombie)
+		if(zombieTarget != null)
 		{
-			zombieTarget.takeDamage(getPower());
-		}
-		
-		if (!zombieTarget.isAlive()) {
-			board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-			LOG.debug(String.format("Air monkey at : (%d, %d) defeated Zombie at: (%d, %d)", 
+			LOG.debug(String.format("Air monkey at : (%d, %d) attacking Zombie at: (%d, %d)", 
 					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+			
+			zombieTarget.takeDamage(getPower());
+			
+			if (!zombieTarget.isAlive()) {
+				board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+				LOG.debug(String.format("Air monkey at : (%d, %d) defeated Zombie at: (%d, %d)", 
+						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+			}
 		}
 	}			
 }

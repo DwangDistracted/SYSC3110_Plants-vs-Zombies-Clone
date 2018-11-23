@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import assets.Air_Zombie;
 import assets.Flower;
 import assets.Plant;
 import assets.Unit;
@@ -391,6 +392,17 @@ public class Board implements ZombieMoveListener, Serializable {
 		for (int col = y; col < gameBoard[x].length; col++) {
 			if (gameBoard[x][col].getFirstZombie() != null) {
 				return gameBoard[x][col].getFirstZombie();
+			}
+		}
+		return null;
+	}
+	
+	public Zombie getSingleAirTarget(int x, int y) {
+		for (int col = y; col < gameBoard[x].length; col++) {
+			if (gameBoard[x][col].getFirstZombie() != null) {
+				if(gameBoard[x][col].getFirstZombie() instanceof Air_Zombie) {
+					return gameBoard[x][col].getFirstZombie();
+				}
 			}
 		}
 		return null;
