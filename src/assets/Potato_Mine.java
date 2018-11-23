@@ -6,8 +6,8 @@ import util.Logger;
 
 public class Potato_Mine extends Plant {
 	private static Logger LOG = new Logger("Potato_Mine");
-	private static final int DEFAULT_HP = 2;
-	private static final int DEFAULT_POWER = 2;
+	private static final int DEFAULT_HP = HEALTH_LOW;
+	private static final int DEFAULT_POWER = ATTACK_HIGH;  //This is irrelevant, it kills the target instaintly
 	private static final int COST = 50;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.POTATOMINE;
 	

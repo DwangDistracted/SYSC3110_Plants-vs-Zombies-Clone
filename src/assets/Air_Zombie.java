@@ -1,9 +1,9 @@
 package assets;
 
 public class Air_Zombie extends Zombie {
-	private static final int DEFAULT_SPEED = 1;
-	private static final int DEFAULT_POWER = 1;
-	private static final int DEFAULT_HP = 4;
+	private static final int DEFAULT_SPEED = SPEED_LOW;
+	private static final int DEFAULT_POWER = ATTACK_LOW;
+	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.AIR_ZOMBIE;
 	
 	public Air_Zombie()	{

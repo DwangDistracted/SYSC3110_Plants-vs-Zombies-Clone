@@ -4,9 +4,9 @@ import levels.LevelInfo;
 
 public class Juking_Zombie extends Zombie {
 	
-	private static final int DEFAULT_SPEED = 1;
-	private static final int DEFAULT_POWER = 1;
-	private static final int DEFAULT_HP = 4;
+	private static final int DEFAULT_SPEED = SPEED_LOW;
+	private static final int DEFAULT_POWER = ATTACK_LOW;
+	private static final int DEFAULT_HP = HEALTH_HIGH;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.JUK_ZOMBIE;
 	private boolean toggleDirection; //true indicates incrementing row, false indicates decreaseing row
 	

@@ -2,9 +2,9 @@ package assets;
 
 public class Exploding_Zombie extends Zombie {
 
-	private static final int DEFAULT_SPEED = 1;
-	private static final int DEFAULT_POWER = 10;
-	private static final int DEFAULT_HP = 4;
+	private static final int DEFAULT_SPEED = SPEED_LOW;
+	private static final int DEFAULT_POWER = ATTACK_LOW; //this value is irrelevant. The zombie will instantly kill plant
+	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.EXP_ZOMBIE;
 	
 	public Exploding_Zombie()	{
@@ -26,7 +26,5 @@ public class Exploding_Zombie extends Zombie {
 	public int getDefaultSpeed() {
 		return DEFAULT_SPEED;
 	} 
-	
-	
 
 }
