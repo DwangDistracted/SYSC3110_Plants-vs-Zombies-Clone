@@ -10,4 +10,6 @@ public interface GameListener {
 	public void updateAllGrids();
 	public void updatePurse();
 	public void updateTurnNumber();
+	public void updateEndTurn();
+	public void updateMessage(String title, String message);
 }

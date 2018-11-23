@@ -1,4 +1,4 @@
-package input;
+package commands;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
 public abstract class Command implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	enum CommandType {
+	public enum CommandType {
 		PLACE,
 		DIGUP,
 		MOWER,
