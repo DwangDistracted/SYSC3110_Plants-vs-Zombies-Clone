@@ -1,5 +1,7 @@
 package assets;
 
+import engine.Board;
+
 public class Exploding_Zombie extends Zombie {
 
 	private static final int DEFAULT_SPEED = SPEED_LOW;
@@ -24,5 +26,18 @@ public class Exploding_Zombie extends Zombie {
 	public int getDefaultSpeed() {
 		return DEFAULT_SPEED;
 	} 
+	
+	/**
+	 * Zombie attack method.
+	 */
+	@Override
+	public void attack(Board board) {
+		Plant plantTarget = board.getPlant(getRow(), getCol());
+		
+		plantTarget.takeDamage(plantTarget.getHP());
+		this.takeDamage(getHP());
+		board.removePlant(plantTarget.getRow(), plantTarget.getCol());
+		board.removeZombie(getRow(), getCol());
+	}
 
 }

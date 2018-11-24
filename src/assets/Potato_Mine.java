@@ -1,5 +1,7 @@
 package assets;
 
+import java.util.ArrayList;
+
 import engine.Board;
 import engine.Grid;
 import util.Logger;
@@ -26,6 +28,22 @@ public class Potato_Mine extends Plant {
 
 	@Override
 	public void attack(Board board) {
-		return;
+		ArrayList<Zombie> removeBin = new ArrayList<Zombie>(); //To track zombies that die (needed due to ConcurrentModificationException)
+		Grid grid = board.getGrid(this.getRow(), this.getCol());
+		
+		if(grid.getNumberOfZombies() > 0) //if a zombie is within melee range
+		{
+			for(Zombie zom : grid.getZombies())  
+			{
+				zom.takeDamage(zom.getHP());    //instantly kill all the zombies within the grid
+				removeBin.add(zom);
+			}
+			for(Zombie zom : removeBin) 
+			{
+				board.removeZombie(zom.getRow(), zom.getCol());
+			}
+			this.takeDamage(getHP()); //The plant also instantly dies
+			board.removePlant(getRow(), getCol());
+		}
 	}
 }
