@@ -11,6 +11,7 @@ import java.util.Random;
 import assets.Exploding_Zombie;
 import assets.Flower;
 import assets.Plant;
+import assets.PlantTypes;
 import assets.Zombie;
 import assets.ZombieTypes;
 import levels.LevelInfo;
@@ -22,7 +23,7 @@ import util.Logger;
  */
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	public enum GameState {
 		PLAYING,
 		WON,
@@ -44,8 +45,9 @@ public class Game implements Serializable {
 	private int numTurns;
 
 	private GameState gamestate;
-	
-	private List<Grid> gridsChanged; 
+
+	private CommandQueue cQ;
+	private List<GameListener> listeners;
 	
 	/**
 	 * Initializes a Game for a given Level
@@ -62,7 +64,12 @@ public class Game implements Serializable {
 		userResources = new Purse(levelInfo.getInitResources());
 		gamestate = GameState.PLAYING;
 		numTurns = 0;
-		gridsChanged = new ArrayList<Grid>();
+		listeners = new ArrayList<>();
+		cQ = new CommandQueue(this, listeners);
+	}
+	
+	public void addListener(GameListener gl) {
+		listeners.add(gl);
 	}
 	
 	/**
@@ -94,6 +101,9 @@ public class Game implements Serializable {
 			//if a zombie has failed to move, it means it is being blocked by a Plant
 			if (!nextZombie.move(levelInfo.getRows())) {
 				nextZombie.attack(board);
+				if(nextZombie instanceof Exploding_Zombie){   				//if a exploding zombie attacks, it instantly dies
+					board.removeZombie(nextZombie.getRow(), nextZombie.getCol());
+				}
 			} else {
 				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));
 			}
@@ -132,8 +142,6 @@ public class Game implements Serializable {
 				zombie.setRow(rowNumber);
 				zombie.setColumn(levelInfo.getColumns() - 1);
 				
-				gridsChanged.add(board.getGrid(rowNumber, levelInfo.getColumns() - 1));
-				
 				//removes the spawned zombie from the Queue
 				int x = zombieQueue.get(type) - 1;
 				if (x == 0) {
@@ -151,6 +159,7 @@ public class Game implements Serializable {
 	 * Tells Combat Engine to handle attack and damage calculations. Adds Resources to Player Purse. Checks if the pLayer has won
 	 */
 	public void doEndOfTurn() {
+		cQ.registerEndTurn(board);
 		playerTurn(); //player plants attack
 		numTurns++;
 		//do the zombie Turn
@@ -163,6 +172,11 @@ public class Game implements Serializable {
 		//did player win?
 		if (zombieQueue.values().stream().mapToInt(Integer::intValue).sum() == 0 && board.getNumberOfZombies() == 0) {
 			endGame(true);
+		}
+		
+		for (GameListener gl : listeners) {
+			gl.updateAllGrids();
+			gl.updateEndTurn();
 		}
 	}
 	
@@ -196,7 +210,6 @@ public class Game implements Serializable {
 	  * @return the board
 	  */
 	 public Board getBoard() {
-		 
 		 return this.board;
 	 }
 	 
@@ -233,7 +246,70 @@ public class Game implements Serializable {
 		this.numTurns--;
 	}
 
+	/**
+	 * Increments the number of turns by 1. Used by the redo end turn function
+	 */
 	public void incrementTurns() {
 		this.numTurns++;
+	}
+	
+	/**
+	 * Plants a plant in a given position.
+	 * @param type
+	 * @param x
+	 * @param y
+	 */
+	public void placePlant(PlantTypes type, int x, int y) {
+		Plant selectedPlant = PlantTypes.toPlant(type);
+		if (userResources.canSpend(selectedPlant.getCost())) {
+			if (board.placePlant(selectedPlant, x, y)) {
+				cQ.registerPlace(type,x,y);
+				userResources.spendPoints(selectedPlant.getCost());
+				
+				for (GameListener gl : listeners) {
+					gl.updateGrid(x, y);
+					gl.updatePurse();
+				}
+			}
+		} else {
+			for (GameListener gl : listeners) {
+				gl.updateMessage("Not Enough Points", "You do not have enough funds for: " + selectedPlant.toString());
+			}
+		}
+	}
+	
+	/**
+	 * Removes a Plant from a given position
+	 * @param x
+	 * @param y
+	 */
+	public void removePlant(int x, int y) {
+		cQ.registerDig(board.getPlant(x, y).getPlantType(),x,y);
+		board.removePlant(x, y);
+		for (GameListener gl : listeners) {
+			gl.updateGrid(x, y);
+		}
+	}
+
+	/**
+	 * Undos the last move
+	 */
+	public void undo() {
+		if (!cQ.undo()) {
+			for (GameListener gl : listeners) {
+				gl.updateMessage("Cannot Undo", "No more moves to Undo");
+			}
+		}
+	}
+	
+	/**
+	 * Redos the previously undone move
+	 */
+	public void redo() {
+		if (!cQ.redo()) {
+			for (GameListener gl : listeners) {
+				gl.updateMessage("Cannot Redo", "No more moves to Redo");
+			}
+		}
 	}
 }

@@ -383,25 +383,41 @@ public class Board implements ZombieMoveListener, Serializable {
 	}
 	
 	/**
-	 * Returns the first zombie that the plant can attack. Null if no zombies can be attacked
-	 * @param x
-	 * @param y
-	 * @return
+	 * Returns the first zombie that the plant can attack. Null if no zombies can be attacked.
+	 * Only return non-air zombies.
+	 * 
+	 * @param x The row to search for zombies
+	 * @param y The column to search for zombies
+	 * @return the found non-air zombie target
 	 */
 	public Zombie getSingleZombieTarget(int x, int y) {
 		for (int col = y; col < gameBoard[x].length; col++) {
 			if (gameBoard[x][col].getFirstZombie() != null) {
-				return gameBoard[x][col].getFirstZombie();
+				for (Zombie zombie : gameBoard[x][col].getZombies()) {
+					if (!(zombie instanceof Air_Zombie)) {
+						return zombie;
+					}
+				}
+				break;
 			}
 		}
 		return null;
 	}
 	
+	/**
+	 * Search for an Air Zombie target in a specified row.
+	 * 
+	 * @param x The row to search for zombie
+	 * @param y The column to search for zombie
+	 * @return the found air zombie target
+	 */
 	public Zombie getSingleAirTarget(int x, int y) {
 		for (int col = y; col < gameBoard[x].length; col++) {
 			if (gameBoard[x][col].getFirstZombie() != null) {
-				if(gameBoard[x][col].getFirstZombie() instanceof Air_Zombie) {
-					return gameBoard[x][col].getFirstZombie();
+				for (Zombie zombie : gameBoard[x][col].getZombies()) {
+					if (zombie instanceof Air_Zombie) {
+						return zombie;
+					}
 				}
 			}
 		}
@@ -417,7 +433,13 @@ public class Board implements ZombieMoveListener, Serializable {
 	public List<Zombie> getGridTargets(int x, int y) {
 		for (int col = y; col < gameBoard[x].length; col++) {
 			if (!gameBoard[x][col].getZombies().isEmpty()) {
-				return new ArrayList<Zombie>(gameBoard[x][col].getZombies());
+				ArrayList<Zombie> gridTargets = new ArrayList<Zombie>();
+				for (Zombie zombie : gameBoard[x][col].getZombies()) {
+					if (!(zombie instanceof Air_Zombie)) {
+						gridTargets.add(zombie);
+					}
+				}
+				return gridTargets;
 			}
 		}
 		return null;

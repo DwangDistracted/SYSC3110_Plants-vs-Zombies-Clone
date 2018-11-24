@@ -1,4 +1,4 @@
-package input;
+package commands;
 
 import engine.Board;
 import engine.Purse;

@@ -1,4 +1,4 @@
-package input;
+package commands;
 
 import assets.Plant;
 import assets.Zombie;

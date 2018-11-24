@@ -47,7 +47,6 @@ public class GridUI extends JPanel {
 	 * Render the plant panel
 	 */
 	public void renderPlant() {
-		
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.VERTICAL;
