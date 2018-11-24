@@ -250,7 +250,13 @@ public class Game implements Serializable {
 	public void incrementTurns() {
 		this.numTurns++;
 	}
-
+	
+	/**
+	 * Plants a plant in a given position.
+	 * @param type
+	 * @param x
+	 * @param y
+	 */
 	public void placePlant(PlantTypes type, int x, int y) {
 		Plant selectedPlant = PlantTypes.toPlant(type);
 		if (userResources.canSpend(selectedPlant.getCost())) {
@@ -270,6 +276,11 @@ public class Game implements Serializable {
 		}
 	}
 	
+	/**
+	 * Removes a Plant from a given position
+	 * @param x
+	 * @param y
+	 */
 	public void removePlant(int x, int y) {
 		cQ.registerDig(board.getPlant(x, y).getPlantType(),x,y);
 		board.removePlant(x, y);
@@ -278,6 +289,9 @@ public class Game implements Serializable {
 		}
 	}
 
+	/**
+	 * Undos the last move
+	 */
 	public void undo() {
 		if (!cQ.undo()) {
 			for (GameListener gl : listeners) {
@@ -285,6 +299,10 @@ public class Game implements Serializable {
 			}
 		}
 	}
+	
+	/**
+	 * Redos the previously undone move
+	 */
 	public void redo() {
 		if (!cQ.redo()) {
 			for (GameListener gl : listeners) {
