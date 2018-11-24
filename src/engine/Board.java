@@ -464,7 +464,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	/**
 	 * Returns a list of all the units in the row. Null if no units are in the row
 	 * @param x - the row that is to be checked for units
-	 * @return
+	 * @return - A list of Unit instances that are within the specified row
 	 */
 	public List<Unit> getRowUnits(int x)
 	{
@@ -485,6 +485,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	/**
 	 * Deletes all the units within the specified row
 	 * @param row - the row that all the units will be deleted in
+	 * @return - a list of zombie instances that are to be removed from the board in Game
 	 */
 	public List<Zombie> useLawnMower(int row)
 	{
