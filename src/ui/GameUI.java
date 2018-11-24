@@ -257,6 +257,8 @@ public class GameUI extends JFrame implements GameListener
 
     	gui.add(cardHolder, BorderLayout.SOUTH);
     }
+    
+   
 
     /**
      * Once called, the specified unit card will be "highlighted".
@@ -480,5 +482,14 @@ public class GameUI extends JFrame implements GameListener
     @Override
     public void updateMessage(String title, String message) {
     	JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
+    }
+    /**
+     * Removes the lawn mower icon in place of a grass tile 
+     * @param row - the row in which the lawn mower icon will be removed
+     */
+    @Override
+    public void updateMower(int row)
+    {
+    	mowers[row].setIcon(null);
     }
 }

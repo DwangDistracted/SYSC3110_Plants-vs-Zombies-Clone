@@ -517,7 +517,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	}
 	
 	@Override
-	public boolean onZombieMove(Zombie zombie, int maxRow) {
+	public boolean onZombieMove(Zombie zombie, Game game) {
 		
 		int currentZombieRow = zombie.getRow();
 		int currentZombieCol = zombie.getCol();
@@ -550,7 +550,7 @@ public class Board implements ZombieMoveListener, Serializable {
 			
 			// can move zombie until it reaches end of grid or reaches a plant
 			if (!(currentZombieCol - i < 0)) {
-				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, maxRow).isOccupied()){
+				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game.getLevelInfo().getRows()).isOccupied()){
 					break;
 				}
 			}
@@ -565,13 +565,19 @@ public class Board implements ZombieMoveListener, Serializable {
 			if(isMowerAvaliable(currentZombieRow) != true)
 				this.zombieReachedEnd = true;
 			else
+			{
 				useLawnMower(currentZombieRow);
+				for(GameListener g : game.getListeners())
+				{
+					g.updateMower(currentZombieRow);
+				}
+			}
 			
 			return true;
 		}
 		else
 		{
-			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, maxRow).getCoordinates();
+			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game.getLevelInfo().getRows()).getCoordinates();
 			zombie.setRow(coord[0]);
 			zombie.setColumn(coord[1]);
 		}

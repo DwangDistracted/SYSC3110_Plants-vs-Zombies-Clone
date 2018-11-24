@@ -99,7 +99,7 @@ public class Game implements Serializable {
 		while (iterator.hasNext()) {
 			Zombie nextZombie = iterator.next();
 			//if a zombie has failed to move, it means it is being blocked by a Plant
-			if (!nextZombie.move(levelInfo.getRows())) {
+			if (!nextZombie.move(this)) {
 				nextZombie.attack(board);
 			}
 
@@ -187,6 +187,16 @@ public class Game implements Serializable {
 			LOG.debug("Player was eaten by Zombies");
 			gamestate = GameState.LOST;
 		}
+	}
+	
+	/**
+	 * Get the game listeners (directs the view) 
+	 * 
+	 * @return
+	 */
+	public List<GameListener> getListeners()
+	{
+		return listeners;
 	}
 	 
 	 /**

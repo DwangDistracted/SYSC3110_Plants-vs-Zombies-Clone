@@ -1,5 +1,7 @@
 package engine;
 
+import java.awt.List;
+
 import assets.Zombie;
 
 /**
@@ -17,5 +19,5 @@ public interface ZombieMoveListener {
 	 * @param zombie
 	 * @return true if move was successful, false otherwise
 	 */
-	public boolean onZombieMove(Zombie zombie, int maxRow);
+	public boolean onZombieMove(Zombie zombie, Game game);
 }

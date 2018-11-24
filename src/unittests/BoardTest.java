@@ -121,6 +121,7 @@ public class BoardTest {
 	@Test
 	public void testOnZombieMove() {
 		LevelInfo lvl = LevelLoader.getLevel(1);
+		Game game = new Game(lvl);
 		Board b = new Board(2,4);
 		Regular_Zombie z1 = new Regular_Zombie();
 		Regular_Zombie z2 = new Regular_Zombie();
@@ -135,11 +136,11 @@ public class BoardTest {
 		Peashooter p = new Peashooter();
 		b.placePlant(p, 0, 2);
 		b.placeZombie(z1, z1.getRow(), z1.getCol());
-		assertFalse("False",z1.move(lvl.getRows()));
+		assertFalse("False",z1.move(game));
 		b.displayBoard();
 		
 		b.placeZombie(z2, z2.getRow(), z2.getCol());
 		b.displayBoard();
-		assertTrue("True", z2.move(lvl.getRows()));//error
+		assertTrue("True", z2.move(game));//error
 	}
 }

@@ -34,4 +34,11 @@ public interface GameListener {
 	 * @param message - the contents of the message
 	 */
 	public void updateMessage(String title, String message);
+	/**
+	 * Invoked whenever a the lawn mower is used. Returns true if the move was successful, false otherwise.
+	 * 
+	 * @param zombie
+	 * @return true if move was successful, false otherwise
+	 */
+	public void updateMower(int Row);
 }
