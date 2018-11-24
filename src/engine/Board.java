@@ -486,15 +486,19 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * Deletes all the units within the specified row
 	 * @param row - the row that all the units will be deleted in
 	 */
-	public void useLawnMower(int row)
+	public List<Zombie> useLawnMower(int row)
 	{
-		if(!getRowUnits(row).isEmpty())
+		List<Unit> unitRemoveBin = getRowUnits(row);
+		List<Zombie> zomRemoveBin = new LinkedList<Zombie>();
+		
+		if(!unitRemoveBin.isEmpty())
 		{
-			for(Unit u : getRowUnits(row))
+			for(Unit u : unitRemoveBin)
 			{
 				if(u instanceof Zombie)
 				{
 					removeZombie(u.getRow(),u.getCol());
+					zomRemoveBin.add((Zombie) u);
 					LOG.debug("Lawnmower kills Zombie " + u.getRow() + " " + u.getCol());
 				}
 				else if(u instanceof Plant)
@@ -504,6 +508,7 @@ public class Board implements ZombieMoveListener, Serializable {
 				}
 			}
 		}
+		return zomRemoveBin;
 	}
 	
 	/**
@@ -566,7 +571,7 @@ public class Board implements ZombieMoveListener, Serializable {
 				this.zombieReachedEnd = true;
 			else
 			{
-				useLawnMower(currentZombieRow);
+				game.setZomRemoveBin(useLawnMower(currentZombieRow));
 				for(GameListener g : game.getListeners())
 				{
 					g.updateMower(currentZombieRow);

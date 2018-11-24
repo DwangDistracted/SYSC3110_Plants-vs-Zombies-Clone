@@ -7,6 +7,7 @@ import java.util.Queue;
 import assets.Plant;
 import assets.Zombie;
 import assets.ZombieTypes;
+import util.Logger;
  
 /**
  * Building block for a grid. Contains 1 Plant and N zombies.
@@ -16,6 +17,7 @@ import assets.ZombieTypes;
  */
 public class Grid implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static Logger LOG = new Logger("Grid");
 	private int row;
 	private int col;
 	
@@ -102,7 +104,6 @@ public class Grid implements Serializable {
 	 * @return true if zombie was added successfully, false otherwise
 	 */
 	public boolean addZombie(Zombie zombie) {
-		
 		if (zombies.add(zombie)) {
 		
 			zombieTypeCount.put(zombie.getZombieType(), zombieTypeCount.getOrDefault(zombie.getZombieType(), 0) + 1);
@@ -131,7 +132,6 @@ public class Grid implements Serializable {
 	 * @return the zombie that was killed, null if no zombies are present
 	 */
 	public Zombie removeZombie() {
-		
 		if (!zombies.isEmpty()) {
 			
 			Zombie zombieToRemove = zombies.peek();

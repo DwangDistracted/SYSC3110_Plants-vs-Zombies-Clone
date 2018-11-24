@@ -41,8 +41,10 @@ public class Game implements Serializable {
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	//The number of zombies (total) in the level
 	private int numZombies;
-	//the number of turns elapsed
+	//The number of turns elapsed
 	private int numTurns;
+	//The zombies that are to be removed
+	private List<Zombie> zomRemoveBin;
 
 	private GameState gamestate;
 
@@ -58,6 +60,7 @@ public class Game implements Serializable {
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
 		
+		zomRemoveBin = new LinkedList<Zombie>();
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		LOG.debug("Level has " + numZombies + " zombies");
@@ -98,15 +101,18 @@ public class Game implements Serializable {
 		
 		while (iterator.hasNext()) {
 			Zombie nextZombie = iterator.next();
-			//if a zombie has failed to move, it means it is being blocked by a Plant
-			if (!nextZombie.move(this)) {
-				nextZombie.attack(board);
-			}
+			if(!getZomRemoveBin().contains(nextZombie))
+			{
+				//if a zombie has failed to move, it means it is being blocked by a Plant
+				if (!nextZombie.move(this)) {
+					nextZombie.attack(board);
+				}
 
-			if (board.hasReachedEnd()) {
-				// a zombie has reached the end of the board and player loses
-				endGame(false);
-				break;
+				if (board.hasReachedEnd()) {
+					// a zombie has reached the end of the board and player loses
+					endGame(false);
+					break;
+				}
 			}
 		}
 		
@@ -189,6 +195,15 @@ public class Game implements Serializable {
 		}
 	}
 	
+	
+	public void setZomRemoveBin(List zom)
+	{
+		zomRemoveBin.addAll(zom);
+	}
+	public List<Zombie> getZomRemoveBin()
+	{
+		return zomRemoveBin;
+	}
 	/**
 	 * Get the game listeners (directs the view) 
 	 * 
