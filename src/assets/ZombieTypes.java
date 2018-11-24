@@ -45,4 +45,27 @@ public enum ZombieTypes {
 				return null;
 		}
 	}
+	
+	public String toString() {
+		switch (this) {
+			case REG_ZOMBIE: 
+				return "Meatbag Zombie";
+			case EXP_ZOMBIE: 
+				return "Exploding Zombie";
+			case JUK_ZOMBIE: 
+				return "Juking Zombie";
+			case AIR_ZOMBIE:
+				return "Air Zombie";
+			case RUSH_ZOMBIE:
+				return "Rush Zombie";
+			case SPRINT_ZOMBIE:
+				return "Sprint Zombie";
+			case TANK_ZOMBIE:
+				return "Tank Zombie";
+			case YETI_ZOMBIE:
+				return "Yeti Zombie";
+			default: 
+				return null;
+		}
+	}
 }

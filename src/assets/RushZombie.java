@@ -13,8 +13,10 @@ public class RushZombie extends Zombie {
 	/**
 	 * returns the name of regular type zombie
 	 */
+	@Override 
 	public String toString() {
-		return "Rush Zombie";
+		
+		return ZOMBIE_TYPE.toString();
 	}
 
 	public ZombieTypes getZombieType() {

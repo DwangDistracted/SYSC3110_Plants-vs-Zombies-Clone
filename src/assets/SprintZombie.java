@@ -13,8 +13,10 @@ public class SprintZombie extends Zombie {
 	/**
 	 * returns the name of regular type zombie
 	 */
+	@Override 
 	public String toString() {
-		return "Sprint Zombie";
+		
+		return ZOMBIE_TYPE.toString();
 	}
 
 	public ZombieTypes getZombieType() {

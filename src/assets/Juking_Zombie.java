@@ -17,8 +17,10 @@ public class Juking_Zombie extends Zombie {
 	/**
 	 * returns the name of regular type zombie
 	 */
+	@Override 
 	public String toString() {
-		return "Juking Zombie";	
+		
+		return ZOMBIE_TYPE.toString();
 	}
 	
 	/**
