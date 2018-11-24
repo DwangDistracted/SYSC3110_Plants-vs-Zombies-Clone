@@ -518,6 +518,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	 */
 	public boolean isMowerAvaliable(int row)
 	{
+		LOG.debug("Checking if lawn mower " + row + " is available and it returns " + mowersAvaliable.contains(row));
 		return mowersAvaliable.contains(row);
 	}
 	
@@ -576,6 +577,7 @@ public class Board implements ZombieMoveListener, Serializable {
 				{
 					g.updateMower(currentZombieRow);
 				}
+				mowersAvaliable.remove((Object) currentZombieRow);
 			}
 			
 			return true;
