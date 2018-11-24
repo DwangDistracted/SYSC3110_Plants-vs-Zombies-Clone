@@ -40,6 +40,9 @@ In the following iteration, the game will drop the text-based representation in 
 
 ## Milestone 3 Division of Labour
 Michael Patsula - Unit Types, Mower Implementation
+
 Derek Shao - Unit Types, Unit Tests, UI Changes, Diagrams
+
 David Wang - Unit Types, Engine Refactor, Undo/Redo Function, Documentation
+
 Tanisha Garg - Unit Types
