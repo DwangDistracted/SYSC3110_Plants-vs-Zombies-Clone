@@ -24,7 +24,7 @@ public class BoardTest {
 	/**
 	 * tests Board constructor
 	 */
-	//@Test
+	@Test
 	public void testBoardConstructor() {
 		Board b = new Board(4, 1);
 		assertEquals("Row should be 4 ", 4, b.getRow());
@@ -36,7 +36,7 @@ public class BoardTest {
 	/**
 	 * tests getBoard() method
 	 */
-	//@Test
+	@Test
 	public void testGetBoard() {
 		Board b = new Board(4, 1);
 		int expected = new Grid[4][1].length;
@@ -47,7 +47,7 @@ public class BoardTest {
 	/**
 	 * tests placePlant() method
 	 */
-	//@Test
+	@Test
 	public void testPlacePlant() {
 		Board b = new Board(4,1);
 		assertTrue("Plant Placed.", b.placePlant(new Flower(), 0, 0));
@@ -56,7 +56,7 @@ public class BoardTest {
 	/**
 	 * tests placeZombie() method
 	 */
-	//@Test
+	@Test
 	public void testPlaceZombie() {
 		Board b = new Board(1,4);
 		assertTrue("Zombie Placed.", b.placeZombie(new Regular_Zombie(), 0, 3));
@@ -82,7 +82,7 @@ public class BoardTest {
 	/**
 	 * tests all getZombie() methods
 	 */
-	//@Test
+	@Test
 	public void testGetZombieMethods() {
 		Board b = new Board(1,4);
 		Zombie z = new Regular_Zombie();
@@ -95,7 +95,7 @@ public class BoardTest {
 	/**
 	 * tests removePlant() method
 	 */
-	//@Test
+	@Test
 	public void testRemovePlant() {
 		Board b = new Board(1,4);
 		Peashooter p = new Peashooter();
@@ -110,7 +110,7 @@ public class BoardTest {
 	/**
 	 * tests removeZombie() method
 	 */
-	//@Test
+	@Test
 	public void testRemoveZombie() {
 		Board b = new Board(4,1);
 		Zombie z = new Regular_Zombie();
@@ -122,7 +122,7 @@ public class BoardTest {
 	/**
 	 * tests testOnZombieMove() method
 	 */
-	//@Test
+	@Test
 	public void testOnZombieMove() {
 		LevelInfo lvl = LevelLoader.getLevel(1);
 		Game game = new Game(lvl);
