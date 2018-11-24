@@ -555,7 +555,7 @@ public class Board implements ZombieMoveListener, Serializable {
 			
 			// can move zombie until it reaches end of grid or reaches a plant
 			if (!(currentZombieCol - i < 0)) {
-				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game.getLevelInfo().getRows()).isOccupied()){
+				if(getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, getRow()).isOccupied()){
 					break;
 				}
 			}
@@ -583,7 +583,7 @@ public class Board implements ZombieMoveListener, Serializable {
 		}
 		else
 		{
-			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, game.getLevelInfo().getRows()).getCoordinates();
+			int[] coord = getNewZomPosition(currentZombieRow, currentZombieCol, modifier, zombie, getRow()).getCoordinates();
 			zombie.setRow(coord[0]);
 			zombie.setColumn(coord[1]);
 		}
