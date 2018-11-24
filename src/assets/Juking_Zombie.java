@@ -1,7 +1,5 @@
 package assets;
 
-import levels.LevelInfo;
-
 public class Juking_Zombie extends Zombie {
 	
 	private static final int DEFAULT_SPEED = SPEED_LOW;
