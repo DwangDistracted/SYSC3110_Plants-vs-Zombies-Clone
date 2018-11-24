@@ -1,7 +1,6 @@
 package assets;
 
 import engine.Board;
-import engine.Grid;
 import util.Logger;
 
 import java.util.Random;

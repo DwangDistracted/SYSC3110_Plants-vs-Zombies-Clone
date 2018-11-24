@@ -4,7 +4,7 @@ public class TankZombie extends Zombie {
 	
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_LOW;
-	private static final int DEFAULT_HP = HEALTH_HIGH;
+	private static final int DEFAULT_HP = HEALTH_VERY_HIGH;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.TANK_ZOMBIE;
 
 	public TankZombie() {
