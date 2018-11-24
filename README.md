@@ -25,19 +25,21 @@ In the following iteration, the game will drop the text-based representation in 
 - Fully Functional GUI Based Game
 - Many Plants and Zombies
 - Undo/Redo Function
+- The UI allows the display of more detailed information about the plants and zombies when they are clicked on
 - (Background) The Engine, Input, and UI classes have been refactored in regards to how they interact to better adhere to the MVC model
 
 ## Future Tasks
-- The UI should be better at displaying information about the zombies and plants. A description that appears on hover or click would be useful
+- POLISH POLISH POLISH
 - Allow serialization of levels into xml/json so that levels can be designed without touching code
 - Introduce save/load game functionality
 
 ## Known Issues
+- Occasional Input Lag
 - Loading can be slow
 - expect ~250 MBs of memory usage.
 
 ## Milestone 3 Division of Labour
 Michael Patsula - Unit Types, Mower Implementation
-Derek Shao - Unit Types, Unit Tests, Diagrams
+Derek Shao - Unit Types, Unit Tests, UI Changes, Diagrams
 David Wang - Unit Types, Engine Refactor, Undo/Redo Function, Documentation
 Tanisha Garg - Unit Types
