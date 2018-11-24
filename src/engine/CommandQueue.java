@@ -19,17 +19,19 @@ import util.Logger;
  * This is the Command History Queue for the Player throughout a Game
  * @author David Wang
  */
-public class CommandQueue extends LinkedList<Command> implements Serializable {
+public class CommandQueue implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private List<GameListener> listeners; 
 	private static Logger LOG = new Logger("Command Queue");
 	private Game game;
+	private LinkedList<Command> undoQueue;
 	private LinkedList<Command> redoQueue;
 	
 	public CommandQueue(Game game, List<GameListener> listeners) {
 		this.game = game;
 		this.listeners = listeners;
+		undoQueue = new LinkedList<Command>();
 		redoQueue = new LinkedList<Command>();
 	}
 	
@@ -41,7 +43,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 */
 	public void registerPlace(PlantTypes type, int x, int y) {
 		redoQueue.clear(); //a new command prevents redo-ing old commands
-		this.addFirst(new PlaceCommand(type, x, y));
+		undoQueue.addFirst(new PlaceCommand(type, x, y));
 		LOG.debug("registered place command");
 	}
 
@@ -53,7 +55,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 */
 	public void registerDig(PlantTypes type, int x, int y) {
 		redoQueue.clear(); //a new command prevents redo-ing old commands
-		this.addFirst(new DigCommand(type, x, y));
+		undoQueue.addFirst(new DigCommand(type, x, y));
 		LOG.debug("registered dig command");
 	}
 
@@ -69,7 +71,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 			plants.add(g.getPlant()); //get all the plants the mower killed
 			zombies.addAll(g.getZombies()); //get all the zombies the mower killed
 		}
-		this.addFirst(new MowCommand(plants.toArray(new Plant[plants.size()]), zombies.toArray(new Zombie[zombies.size()]), row));
+		undoQueue.addFirst(new MowCommand(plants.toArray(new Plant[plants.size()]), zombies.toArray(new Zombie[zombies.size()]), row));
 		LOG.debug("registered mow command");
 	}
 	
@@ -79,7 +81,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 */
 	public void registerEndTurn(Board board) {
 		redoQueue.clear(); //a new command prevents redo-ing old commands //a new command prevents redo-ing old commands
-		this.addFirst(new EndTurnCommand(board, game.getPurse()));
+		undoQueue.addFirst(new EndTurnCommand(board, game.getPurse()));
 		LOG.debug("registered end turn command");
 	}
 	
@@ -88,12 +90,12 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 	 * @return
 	 */
 	public boolean undo() {
-		if (this.isEmpty()) {
+		if (undoQueue.isEmpty()) {
 			LOG.debug("No Commands to undo");
 			return false;
 		}
 		
-		Command c = this.removeFirst();
+		Command c = undoQueue.removeFirst();
 		switch (c.getCommand()){
 			case DIGUP:
 				redoQueue.addFirst(c);
@@ -150,7 +152,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 		Command c = redoQueue.removeFirst();
 		switch (c.getCommand()){
 			case DIGUP: //redo a digup command
-				this.addFirst(c); //allow us to undo redo
+				undoQueue.addFirst(c); //allow us to undo redo
 				game.getBoard().removePlant(((DigCommand)c).getLocX(), ((DigCommand)c).getLocY()); //re-place the plant
 				for (GameListener gl : listeners) {
 					gl.updateGrid(((DigCommand)c).getLocX(),((DigCommand)c).getLocY());
@@ -158,7 +160,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 				LOG.debug("redo dig command");
 				break;
 			case ENDTURN: //redo an end turn command
-				this.addFirst(new EndTurnCommand(game.getBoard(), game.getPurse()));
+				undoQueue.addFirst(new EndTurnCommand(game.getBoard(), game.getPurse()));
 				game.getBoard().setBoard(((EndTurnCommand)c).getBoard());
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
 				game.incrementTurns();
@@ -175,7 +177,7 @@ public class CommandQueue extends LinkedList<Command> implements Serializable {
 				LOG.debug("redo mow command");
 				break;
 			case PLACE: //redo a place command
-				this.addFirst(c);
+				undoQueue.addFirst(c);
 				game.getBoard().placePlant(PlantTypes.toPlant(((PlaceCommand)c).getType()), ((PlaceCommand)c).getLocX(), ((PlaceCommand)c).getLocY()); //place the plant
 				game.getPurse().spendPoints(PlantTypes.toPlant(((PlaceCommand)c).getType()).getCost()); //re-spend the plant cost
 				
