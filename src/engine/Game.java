@@ -222,6 +222,16 @@ public class Game implements Serializable {
 	 }
 	 
 	 /**
+	  * Get the command queue
+	  * 
+	  * @return the command queue
+	  */
+	 public CommandQueue getCommandQueue() {
+		 
+		 return this.cQ;
+	 }
+	 
+	 /**
 	  * Returns the current state of the game; Wom, lost, playing
 	  * @return
 	  */
