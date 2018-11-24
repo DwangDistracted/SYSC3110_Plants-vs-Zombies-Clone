@@ -10,6 +10,7 @@ public class Potato_Mine extends Plant {
 	private static final int DEFAULT_POWER = ATTACK_INSTANT;  //This is irrelevant, it kills the target instantly
 	private static final int COST = 50;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.POTATOMINE;
+	private boolean discharged = false;
 	
 	public Potato_Mine()	{
 		super(DEFAULT_HP, DEFAULT_POWER, COST);
@@ -40,8 +41,15 @@ public class Potato_Mine extends Plant {
 			{
 				board.removeZombie(zom.getRow(), zom.getCol());
 			}
-			this.takeDamage(getHP()); //The plant also instantly dies
-			board.removePlant(getRow(), getCol());
+			discharged = true; // Game must check if this needs to be removed (due to ConcurrentModificationException)
 		}
+	}
+	
+	/**
+	 * Returns if the mine has already discharged
+	 * @return
+	 */
+	public boolean getDischarged() {
+		return discharged;
 	}
 }

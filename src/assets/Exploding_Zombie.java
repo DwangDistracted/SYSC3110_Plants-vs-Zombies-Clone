@@ -33,11 +33,10 @@ public class Exploding_Zombie extends Zombie {
 	@Override
 	public void attack(Board board) {
 		Plant plantTarget = board.getPlant(getRow(), getCol());
-		
 		plantTarget.takeDamage(plantTarget.getHP());
-		this.takeDamage(getHP());
 		board.removePlant(plantTarget.getRow(), plantTarget.getCol());
-		board.removeZombie(getRow(), getCol());
+		
+		//Game must remove this zombie after attack
 	}
 
 }
