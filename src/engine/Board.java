@@ -472,9 +472,11 @@ public class Board implements ZombieMoveListener, Serializable {
 		for (int col = 0; col < gameBoard[x].length; col++) {
 			if (!gameBoard[x][col].getZombies().isEmpty()) {
 				targets.addAll(gameBoard[x][col].getZombies());
+				LOG.debug("Adding Zombie to mower list: " + x + " " + col);
 			}
 			if (gameBoard[x][col].getPlant() != null) {
 				targets.add(gameBoard[x][col].getPlant());
+				LOG.debug("Adding Plant to mower list: " + x + " " + col);
 			}
 		}
 		return targets.isEmpty()? null : targets;
@@ -486,17 +488,32 @@ public class Board implements ZombieMoveListener, Serializable {
 	 */
 	public void useLawnMower(int row)
 	{
-		for(Unit u : getRowUnits(row))
+		if(!getRowUnits(row).isEmpty())
 		{
-			if(u instanceof Zombie)
+			for(Unit u : getRowUnits(row))
 			{
-				removeZombie(u.getRow(),u.getCol());
-			}
-			else if(u instanceof Plant)
-			{
-				removePlant(u.getRow(),u.getCol());
+				if(u instanceof Zombie)
+				{
+					removeZombie(u.getRow(),u.getCol());
+					LOG.debug("Lawnmower kills Zombie " + u.getRow() + " " + u.getCol());
+				}
+				else if(u instanceof Plant)
+				{
+					removePlant(u.getRow(),u.getCol());
+					LOG.debug("Lawnmower kills Plant " + u.getRow() + " " + u.getCol());
+				}
 			}
 		}
+	}
+	
+	/**
+	 * Checks if the mower is avaliable for the given row
+	 * @param row - the row to check if the lawn mower is avaliable
+	 * @return true if the lawn mower is avaliable for use, otherwise return false
+	 */
+	public boolean isMowerAvaliable(int row)
+	{
+		return mowersAvaliable.contains(row);
 	}
 	
 	@Override
@@ -542,11 +559,15 @@ public class Board implements ZombieMoveListener, Serializable {
 		if(currentZombieCol - modifier < 0)
 		{
 			zombie.setColumn(0);
+			// update the board with new position
+			gameBoard[zombie.getRow()][zombie.getCol()].addZombie(zombie);
 			
 			if(isMowerAvaliable(currentZombieRow) != true)
 				this.zombieReachedEnd = true;
 			else
 				useLawnMower(currentZombieRow);
+			
+			return true;
 		}
 		else
 		{
@@ -561,20 +582,6 @@ public class Board implements ZombieMoveListener, Serializable {
 		return true;
 	}
 	
-	/**
-	 * Checks if the mower is avaliable for the given row
-	 * @param row - the row to check if the lawn mower is avaliable
-	 * @return true if the lawn mower is avaliable for use, otherwise return false
-	 */
-	public boolean isMowerAvaliable(int row)
-	{
-		return mowersAvaliable.contains(row);
-	}
-	
-	public void useLawnMower()
-	{
-		
-	}
 	
 	/**
 	 * Gets the potential new position of the zombie when it is moving
