@@ -2,25 +2,33 @@ package ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import assets.ZombieTypes;
 
 public class ZombiePanel extends JPanel {
 	private static final long serialVersionUID = 4727511739555951187L;
-	private static final int MAX_ZOMBIE_TYPES = 3;
+	private static final int MAX_ZOMBIE_TYPES = 1;
 	
+	private Map<ZombieTypes, Integer> zombieTypeCount;
 	
 	public ZombiePanel(Component parent, Map<ZombieTypes,Integer> map) {
 		super();
 		
+		this.zombieTypeCount = map;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(false);
 		
@@ -37,7 +45,45 @@ public class ZombiePanel extends JPanel {
 				addZombieType(zombieType, parent, map.get(zombieType),3);
 			}
 			
-			JButton fullList = new JButton("...");
+			JPanel fullList = new JPanel();
+			JLabel fullListLabel = new JLabel();
+			fullList.setOpaque(false);
+			fullListLabel.setText("Show More");
+			fullListLabel.setForeground(Color.WHITE);
+			fullList.add(fullListLabel);
+			fullList.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					System.out.println("full list clickeds");
+					showFullZombieList();
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
 			this.add(fullList);
 		}
 		
@@ -65,5 +111,35 @@ public class ZombiePanel extends JPanel {
 		zombieLbl.setForeground(Color.WHITE);
 		zombieDisplay.add(zombieLbl);
 		this.add(zombieDisplay);
+	}
+	
+	private void showFullZombieList() {
+		
+		JPanel fullZombieList = new JPanel();
+		fullZombieList.setLayout(new GridLayout(zombieTypeCount.size(), 3));
+		
+		for (ZombieTypes zombieType : zombieTypeCount.keySet()) {
+			JLabel zombieName = new JLabel(zombieType.toString());
+			zombieName.setHorizontalAlignment(SwingConstants.CENTER);
+			zombieName.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+			
+			Image zombieImage = Images.getZombieImage(zombieType);
+			zombieImage = zombieImage.getScaledInstance(200, 200,
+					Image.SCALE_DEFAULT);
+			
+			JLabel zombieImageLabel = new JLabel(new ImageIcon(zombieImage));
+			JPanel zombieDisplay = new JPanel();
+			zombieDisplay.add(zombieImageLabel);
+			
+			JLabel zombieCount = new JLabel("x" + zombieTypeCount.size() );
+			zombieCount.setHorizontalAlignment(SwingConstants.CENTER);
+			zombieCount.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
+					
+			fullZombieList.add(zombieName);
+			fullZombieList.add(zombieDisplay);
+			fullZombieList.add(zombieCount);
+		}
+		
+		JOptionPane.showMessageDialog(null, fullZombieList, "Zombie List", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
