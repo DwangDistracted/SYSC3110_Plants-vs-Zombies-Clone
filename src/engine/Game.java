@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import assets.Exploding_Zombie;
+import assets.Potato_Mine;
 import assets.Flower;
 import assets.Plant;
 import assets.PlantTypes;
@@ -78,10 +78,22 @@ public class Game implements Serializable {
 	public void playerTurn() {
 		//plants action
 		List<Plant> plantsInGame = board.getPlantsInGame();
+		List<Plant> plantsToRemove = new ArrayList<>(); //holds the plants to that should be removed (mines and jalapenos)
 		LOG.debug("Doing Plant Attack Calculations");
+		
 		for (Plant plant : plantsInGame) {
 			LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ")");
 			plant.attack(board);
+			
+			if (plant.getPlantType() == PlantTypes.POTATOMINE) {
+				if (((Potato_Mine)plant).getDischarged()) {
+					plantsToRemove.add(plant);
+				}
+			} //else if plant is jalapeno
+		}
+		
+		for (Plant plant : plantsToRemove) {
+			board.removePlant(plant.getRow(), plant.getCol());
 		}
 	}
 	
@@ -94,6 +106,8 @@ public class Game implements Serializable {
 		
 		//create a new collection to prevent concurrent modification of Board zombies attribute
 		List<Zombie> zombiesInGame = new LinkedList<Zombie>(board.getZombiesInGame());
+		List<Zombie> zombiesToRemove = new ArrayList<>();
+		
 		Iterator<Zombie> iterator = zombiesInGame.iterator();
 		
 		while (iterator.hasNext()) {
@@ -101,8 +115,9 @@ public class Game implements Serializable {
 			//if a zombie has failed to move, it means it is being blocked by a Plant
 			if (!nextZombie.move(levelInfo.getRows())) {
 				nextZombie.attack(board);
-				if(nextZombie instanceof Exploding_Zombie){   				//if a exploding zombie attacks, it instantly dies
-					board.removeZombie(nextZombie.getRow(), nextZombie.getCol());
+				
+				if(nextZombie.getZombieType() == ZombieTypes.EXP_ZOMBIE){ //if a exploding zombie attacks, it instantly dies
+					zombiesToRemove.add(nextZombie);
 				}
 			}
 
@@ -111,6 +126,10 @@ public class Game implements Serializable {
 				endGame(false);
 				break;
 			}
+		}
+
+		for (Zombie z : zombiesToRemove) { //remove all exploding zombies that attacked
+			board.removeZombie(z.getRow(), z.getCol());
 		}
 		
 		//spawn new zombies
