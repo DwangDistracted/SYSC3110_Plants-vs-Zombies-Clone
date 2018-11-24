@@ -490,24 +490,22 @@ public class Board implements ZombieMoveListener, Serializable {
 	{
 		List<Unit> unitRemoveBin = getRowUnits(row);
 		List<Zombie> zomRemoveBin = new LinkedList<Zombie>();
-		
-		if(!unitRemoveBin.isEmpty())
+			
+		for(Unit u : unitRemoveBin)
 		{
-			for(Unit u : unitRemoveBin)
+			if(u instanceof Zombie)
 			{
-				if(u instanceof Zombie)
-				{
-					removeZombie(u.getRow(),u.getCol());
-					zomRemoveBin.add((Zombie) u);
-					LOG.debug("Lawnmower kills Zombie " + u.getRow() + " " + u.getCol());
-				}
-				else if(u instanceof Plant)
-				{
-					removePlant(u.getRow(),u.getCol());
-					LOG.debug("Lawnmower kills Plant " + u.getRow() + " " + u.getCol());
-				}
+				removeZombie(u.getRow(),u.getCol());
+				zomRemoveBin.add((Zombie) u);
+				LOG.debug("Lawnmower kills Zombie " + u.getRow() + " " + u.getCol());
+			}
+			else if(u instanceof Plant)
+			{
+				removePlant(u.getRow(),u.getCol());
+				LOG.debug("Lawnmower kills Plant " + u.getRow() + " " + u.getCol());
 			}
 		}
+		
 		return zomRemoveBin;
 	}
 	

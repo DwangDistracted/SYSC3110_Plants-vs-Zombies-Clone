@@ -1,6 +1,5 @@
 package assets;
 
-import java.awt.List;
 
 import engine.Board;
 import engine.Game;
