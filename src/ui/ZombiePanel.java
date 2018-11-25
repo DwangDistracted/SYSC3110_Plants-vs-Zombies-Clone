@@ -65,13 +65,25 @@ public class ZombiePanel extends JPanel {
 	 */
 	private void addZombieType(ZombieTypes zombieType, Component parent, int count, int mapSize) {
 		Image zombieImage = Images.getZombieImage(zombieType);
-		zombieImage = zombieImage.getScaledInstance(parent.getHeight()/(mapSize + 1) == 0? 50: parent.getHeight()/(mapSize + 1), //try to set the dimensions to relative to the parent
+		try {
+			zombieImage = zombieImage.getScaledInstance(parent.getHeight()/(mapSize + 1) == 0? 50: parent.getHeight()/(mapSize + 1), //try to set the dimensions to relative to the parent
 													parent.getHeight()/mapSize == 0? 50: parent.getHeight()/mapSize,
 													Image.SCALE_DEFAULT);
+		}
+		catch (Exception e) {
+			e.addSuppressed(new NullPointerException());
+		}
 		
 		JPanel zombieDisplay = new JPanel();
 		zombieDisplay.setOpaque(false);
-		JLabel zombieLbl = new JLabel(new ImageIcon(zombieImage));
+		
+		JLabel zombieLbl;
+		if (zombieImage != null) {
+			zombieLbl = new JLabel(new ImageIcon(zombieImage));
+		}
+		else {
+			zombieLbl = new JLabel(zombieType.toString());
+		}
 		
 		zombieLbl.setText(" x " + count);
 		zombieLbl.setForeground(Color.WHITE);
