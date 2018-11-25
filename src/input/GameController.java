@@ -32,6 +32,12 @@ public class GameController {
 	private GameUI ui;
 	private Card selectedCard; //The selected card on click #1
 		
+	private GridListener gridListener;
+	private UnitSelectListener unitSelectListener;
+	private GameButtonListener gameButtonListener;
+	private LawnMowerListener lawnMowerListener;
+	private ShowFullZombieListListener showFullZombieListListener;
+	
 	// Selected to remove a plant
 	private boolean removingPlant; 
 	
@@ -41,11 +47,18 @@ public class GameController {
 		this.selectedCard = null;
 		this.removingPlant = false;
 		
-		this.ui.addGridListeners(new GridListener());
-		this.ui.addUnitSelectionListeners(new UnitSelectListener());
-		this.ui.addGameButtonListeners(new GameButtonListener());
-		this.ui.addLawnMowerListeners(new LawnMowerListener());
-		this.ui.addShowFullListPanelListeners(new ShowFullZombieList());
+		gridListener = new GridListener();
+		unitSelectListener = new UnitSelectListener();
+		gameButtonListener = new GameButtonListener();
+		lawnMowerListener = new LawnMowerListener();
+		showFullZombieListListener = new ShowFullZombieListListener();
+		
+		
+		this.ui.addGridListeners(gridListener);
+		this.ui.addUnitSelectionListeners(unitSelectListener);
+		this.ui.addGameButtonListeners(gameButtonListener);
+		this.ui.addLawnMowerListeners(lawnMowerListener);
+		this.ui.addShowFullListPanelListeners(showFullZombieListListener);
 	}
 	
 	/**
@@ -54,12 +67,18 @@ public class GameController {
 	 * @author Derek Shao
 	 *
 	 */
-	private class GameButtonListener implements ActionListener {
+	public class GameButtonListener implements ActionListener {
+		
+		public static final String DIG = "Dig Up";
+		public static final String UNDO = "Undo";
+		public static final String REDO = "Redo";
+		public static final String END_TURN = "End Turn";
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch(e.getActionCommand())
 			{
-				case "Dig Up": 
+				case DIG: 
 					LOG.debug("Digging up plant");
 					removingPlant = true;
 					if(selectedCard != null)
@@ -68,13 +87,13 @@ public class GameController {
 						selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
 					}
 					break;
-				case "Undo":
+				case UNDO:
 					game.undo();
 					break;
-				case "Redo":
+				case REDO:
 					game.redo();
 					break;
-				case "End Turn": //@author David Wang
+				case END_TURN: //@author David Wang
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
 			}
@@ -87,7 +106,7 @@ public class GameController {
 	 * @author Derek Shao
 	 *
 	 */
-	private class GridListener implements MouseListener {
+	public class GridListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -114,7 +133,7 @@ public class GameController {
 		public void mouseEntered(MouseEvent arg0) {
 			GridUI source = (GridUI) arg0.getSource();
 			
-			source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			source.setBorder(BorderFactory.createLineBorder(Color.BLACK));	
 		}
 
 		@Override
@@ -142,7 +161,7 @@ public class GameController {
 	 * @author Derek Shao
 	 *
 	 */
-	private class UnitSelectListener implements MouseListener {
+	public class UnitSelectListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -186,7 +205,7 @@ public class GameController {
 	 * @author Derek Shao
 	 *
 	 */
-	private class ShowFullZombieList implements MouseListener {
+	public class ShowFullZombieListListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -224,7 +243,7 @@ public class GameController {
 	 * The row is dependent on which button the user presses.
 	 * @author michael
 	 */
-	private class LawnMowerListener implements ActionListener {
+	public class LawnMowerListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton) e.getSource();
@@ -239,5 +258,80 @@ public class GameController {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Get the grid listener
+	 * 
+	 * @return the grid listener
+	 */
+	public GridListener getGridListener() {
+		
+		return gridListener;
+	}
+	
+	/**
+	 * Get the game button listener
+	 * 
+	 * @return the game button listener
+	 */
+	public GameButtonListener getGameButtonListener() {
+		
+		return gameButtonListener;
+	}
+	
+	/**
+	 * Get the unit select listener
+	 * 
+	 * @return the unit select listener
+	 */
+	public UnitSelectListener getUnitSelectListener() {
+		
+		return unitSelectListener;
+	}
+	
+	/**
+	 * Get the show full zombie list listener
+	 * 
+	 * @return the full zombie list listener
+	 */
+	public ShowFullZombieListListener getShowFullZombieListListener() {
+		
+		return showFullZombieListListener;
+	}
+	
+	/**
+	 * Get the lawn mower listener
+	 * 
+	 * @return the lawn mower listener
+	 */
+	public LawnMowerListener getLawnMowerListener() {
+		
+		return lawnMowerListener;
+	}
+	
+	/**
+	 * Indicate whether a plant is prepared to be removed
+	 * 
+	 * @return flag indicating whether a plant is being removed
+	 */
+	public boolean isRemovingPlant() {
+		
+		return removingPlant;
+	}
+	
+	/**
+	 * Create a copy of the selected card and return the card
+	 * 
+	 * @return copy of the selected card
+	 */
+	public Card getCardSelected() {
+		
+		if (selectedCard != null) {
+			Card card = new Card(selectedCard.getLayout(), selectedCard.getPlantType());
+			return card;
+		}
+		
+		return null;
 	}
 }
