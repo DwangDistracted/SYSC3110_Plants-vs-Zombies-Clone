@@ -39,13 +39,13 @@ public class ViewTest {
 	
 	@BeforeAll
 	public static void loadLevel() {
+		GameUI.setTestMode();
 		LevelLoader.init();
 		lvl = LevelLoader.getLevel(1);
 	}
 	
 	@BeforeEach
 	public void setUp() {
-		GameUI.setTestMode();
 		game = new Game(lvl);
 		purse = game.getPurse();
 		gameUI = new GameUI(game);
