@@ -234,9 +234,10 @@ public class GameController {
 			{
 				if(source == mowers[i]) //see what row the button was pressed in
 				{
-					game.getBoard().useLawnMower(i);
-					ui.updateMower(i);
-					game.getBoard().removeMower(i);
+					//game.getBoard().useLawnMower(i);
+					//ui.updateMower(i);  //would have to be in Game
+					//game.getBoard().removeMower(i);
+					//ui.updateAllGrid(); // would have to be in Game
 	
 					LOG.info("Mower's Not Implemented for Milestone 2");
 					//not implemented yet - need to remove all zombies and plants in the specified row 

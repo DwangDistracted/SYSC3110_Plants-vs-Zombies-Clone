@@ -120,7 +120,6 @@ public class Game implements Serializable {
 				//if a zombie has failed to move, it means it is being blocked by a Plant
 				if (!nextZombie.move()) {
 					nextZombie.attack(board);
-					
 					if(nextZombie.getZombieType() == ZombieTypes.EXP_ZOMBIE){ //if a exploding zombie attacks, it instantly dies
 						zombiesToRemove.add(nextZombie);
 					}
