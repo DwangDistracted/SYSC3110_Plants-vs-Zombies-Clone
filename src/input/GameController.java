@@ -10,10 +10,13 @@ import assets.PlantTypes;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import engine.Game;
 import ui.Card;
 import ui.GameUI;
 import ui.GridUI;
+import ui.ZombiePanel;
 import util.Logger;
 
 /**
@@ -42,6 +45,7 @@ public class GameController {
 		this.ui.addUnitSelectionListeners(new UnitSelectListener());
 		this.ui.addGameButtonListeners(new GameButtonListener());
 		this.ui.addLawnMowerListeners(new LawnMowerListener());
+		this.ui.addShowFullListPanelListeners(new ShowFullZombieList());
 	}
 	
 	/**
@@ -172,6 +176,44 @@ public class GameController {
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 			//Not Implemented
+		}
+		
+	}
+	
+	/**
+	 * Listener to allow player see full list of zombies in a grid.
+	 * 
+	 * @author Derek Shao
+	 *
+	 */
+	private class ShowFullZombieList implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			JPanel showFullListPanel = (JPanel) arg0.getSource();
+			ZombiePanel parentZombiePanel = (ZombiePanel) showFullListPanel.getParent();
+
+			parentZombiePanel.showFullZombieList();
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			
 		}
 		
 	}

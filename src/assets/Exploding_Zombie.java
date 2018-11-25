@@ -13,9 +13,10 @@ public class Exploding_Zombie extends Zombie {
 		super(DEFAULT_SPEED, DEFAULT_POWER, DEFAULT_HP);
 	}
 	
-	@Override
+	@Override 
 	public String toString() {
-		return "Exploding Zombie";	
+		
+		return ZOMBIE_TYPE.toString();
 	}
 
 	public ZombieTypes getZombieType() {
