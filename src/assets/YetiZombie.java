@@ -1,5 +1,12 @@
 package assets;
 
+/**
+ * The YetiZombie class creates instances of Yeti Zombies 
+ * that contains high hitpoints and power. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public class YetiZombie extends Zombie {
 
 	private static final int DEFAULT_SPEED = SPEED_LOW;

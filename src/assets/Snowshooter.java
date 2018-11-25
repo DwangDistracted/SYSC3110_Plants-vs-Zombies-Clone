@@ -3,6 +3,13 @@ package assets;
 import engine.Board;
 import util.Logger;
 
+/**
+ * Class for plant type "Snowshooter" which slows does its 
+ * zombie targets. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public class Snowshooter extends Plant {
 	
 	private static final Logger LOG = new Logger("Snowshooter");
