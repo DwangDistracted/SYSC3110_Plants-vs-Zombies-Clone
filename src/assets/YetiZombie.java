@@ -20,7 +20,7 @@ public class YetiZombie extends Zombie {
 	@Override 
 	public String toString() {
 		
-		return "Yeti Zombie";
+		return ZOMBIE_TYPE.toString();
 	}
 
 	@Override
