@@ -11,9 +11,10 @@ public class Air_Zombie extends Zombie {
 	}
 	
 	
-	@Override
+	@Override 
 	public String toString() {
-		return "Air Zombie";	
+		
+		return ZOMBIE_TYPE.toString();
 	}
 
 	public ZombieTypes getZombieType() {

@@ -17,10 +17,10 @@ public class TankZombie extends Zombie {
 		return ZOMBIE_TYPE;
 	}
 
-	@Override
+	@Override 
 	public String toString() {
 		
-		return "Tank Zombie";
+		return ZOMBIE_TYPE.toString();
 	}
 	
 	@Override

@@ -19,8 +19,10 @@ public class Regular_Zombie extends Zombie{
 	/**
 	 * returns the name of regular type zombie
 	 */
+	@Override 
 	public String toString() {
-		return "Meatbag Zombie";
+		
+		return ZOMBIE_TYPE.toString();
 	}
 
 	public ZombieTypes getZombieType() {
