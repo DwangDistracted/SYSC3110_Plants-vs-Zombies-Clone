@@ -124,6 +124,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void testOnZombieMove() {
+		LevelLoader.init();
 		LevelInfo lvl = LevelLoader.getLevel(1);
 		Game game = new Game(lvl);
 		Board b = new Board(2,4);
