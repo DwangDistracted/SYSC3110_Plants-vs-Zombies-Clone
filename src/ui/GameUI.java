@@ -51,6 +51,8 @@ public class GameUI extends JFrame implements GameListener
 
     private Game game;
     private LevelInfo lvl;
+    
+    private static boolean testMode = false;
 
     public GameUI(Game game)
     {
@@ -61,7 +63,7 @@ public class GameUI extends JFrame implements GameListener
     	this.currentLevelNum = LevelLoader.getCurrentLevel();
     	this.row = lvl.getRows();
     	this.column = lvl.getColumns();
-
+    	
     	initializeComponents();
     	initializeMenu();
     	initializeBoard();
@@ -77,8 +79,13 @@ public class GameUI extends JFrame implements GameListener
     private void initializeImages() {
     	for (int i = 0; i < mowers.length; i++) {
 	        Image image = Images.getLawnMowerImage();
-	    	image = image.getScaledInstance(mowers[i].getHeight(), mowers[i].getHeight(), Image.SCALE_DEFAULT);
-	    	mowers[i].setIcon(new ImageIcon(image));
+	        try {
+		    	image = image.getScaledInstance(mowers[i].getHeight(), mowers[i].getHeight(), Image.SCALE_DEFAULT);
+		    	mowers[i].setIcon(new ImageIcon(image));
+	        }
+	        catch (Exception e) {
+	        	e.addSuppressed(new NullPointerException());
+	        }
 	    	mowers[i].setText("");
     	}
 	}
@@ -98,7 +105,7 @@ public class GameUI extends JFrame implements GameListener
 	    setExtendedState(JFrame.MAXIMIZED_BOTH);
 	    setSize(width, height);
 	    add(gui);
-	    setVisible(true);
+	    setVisible(!testMode);
     }
 
     /**
@@ -240,8 +247,14 @@ public class GameUI extends JFrame implements GameListener
 
 			JLabel labelPic = new JLabel();
 			labelPic.setSize(80, 80);
-			Image plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
-			labelPic.setIcon(new ImageIcon(plantImage));
+			Image plantImage = null; 
+			try {
+				plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
+				labelPic.setIcon(new ImageIcon(plantImage));
+			}
+			catch (Exception e) {
+				e.addSuppressed(new NullPointerException());
+			}
     		card.add(labelPic, BorderLayout.CENTER);
 
     		JLabel nameLabel = new JLabel(PlantTypes.toPlant(p).toString());
@@ -405,7 +418,7 @@ public class GameUI extends JFrame implements GameListener
      * @author Derek Shao
      */
     private void setPointsLabel(int points) {
-        pointsAvailable.setText("<html><b>Points: </b>" + Integer.toString(points) + "</html>");
+    	pointsAvailable.setText("<html><b>Points: </b>" + Integer.toString(points) + "</html>");
     }
     
     /**
@@ -493,5 +506,14 @@ public class GameUI extends JFrame implements GameListener
     @Override
     public void updateMessage(String title, String message) {
     	JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    /**
+     * For unit testing. Do not show UI when testing.
+     * 
+     */
+    public static void setTestMode() {
+    	
+    	testMode = true;
     }
 }
