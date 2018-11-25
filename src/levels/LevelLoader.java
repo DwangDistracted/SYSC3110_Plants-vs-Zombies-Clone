@@ -40,9 +40,9 @@ public class LevelLoader {
 		sampleZombies.put(ZombieTypes.JUK_ZOMBIE, 1);
 		sampleZombies.put(ZombieTypes.AIR_ZOMBIE, 1);
 		sampleZombies.put(ZombieTypes.REG_ZOMBIE, 1);		
-		sampleZombies.put(ZombieTypes.RUSH_ZOMBIE, 1);		
-		sampleZombies.put(ZombieTypes.SPRINT_ZOMBIE, 1);
-		sampleZombies.put(ZombieTypes.EXP_ZOMBIE, 20);
+		sampleZombies.put(ZombieTypes.RUSH_ZOMBIE, 20);		
+		sampleZombies.put(ZombieTypes.SPRINT_ZOMBIE, 20);
+		sampleZombies.put(ZombieTypes.EXP_ZOMBIE, 1);
 		sampleZombies.put(ZombieTypes.YETI_ZOMBIE, 1);
 		sampleZombies.put(ZombieTypes.TANK_ZOMBIE, 1);
     

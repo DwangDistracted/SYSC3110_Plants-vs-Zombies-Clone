@@ -104,12 +104,22 @@ public class Game implements Serializable {
 			if(!getZomRemoveBin().contains(nextZombie))
 			{
 				//if a zombie has failed to move, it means it is being blocked by a Plant
-				if (!nextZombie.move(this)) {
+				if (!nextZombie.move()) {
 					nextZombie.attack(board);
 				}
-
-				if (board.hasReachedEnd()) {
-					// a zombie has reached the end of the board and player loses
+				int row = nextZombie.getRow();
+				if(board.hasReachedEnd(row) && board.isMowerAvaliable(row))
+				{
+					setZomRemoveBin(board.useLawnMower(row));
+					for(GameListener g : listeners)
+					{
+						g.updateMower(row);
+					}
+					board.removeMower(row);
+					board.resetZombieReachedEnd(row);
+				}
+				else if(board.hasReachedEnd(row) && !board.isMowerAvaliable(row)) {
+					// a zombie has reached the end of the board and a lawnmower is not available. player loses
 					endGame(false);
 					break;
 				}
@@ -211,15 +221,6 @@ public class Game implements Serializable {
 	public List<Zombie> getZomRemoveBin()
 	{
 		return zomRemoveBin;
-	}
-	/**
-	 * Get the game listeners (directs the view) 
-	 * 
-	 * @return
-	 */
-	public List<GameListener> getListeners()
-	{
-		return listeners;
 	}
 	 
 	 /**

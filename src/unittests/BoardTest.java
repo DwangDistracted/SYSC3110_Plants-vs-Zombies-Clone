@@ -29,7 +29,7 @@ public class BoardTest {
 		Board b = new Board(4, 1);
 		assertEquals("Row should be 4 ", 4, b.getRow());
 		assertEquals("Column should be 1", 1, b.getColumn());	
-		assertFalse("Zombies have not reached end", b.hasReachedEnd());
+		assertFalse("Zombies have not reached end", b.hasReachedEnd(0));
 		assertEquals("Number of sunflower", 0, b.getNumberOfSF());
 	}
 	
@@ -140,12 +140,12 @@ public class BoardTest {
 		Peashooter p = new Peashooter();
 		b.placePlant(p, 0, 2);
 		b.placeZombie(z1, z1.getRow(), z1.getCol());
-		assertFalse("False",z1.move(game));
+		assertFalse("False",z1.move());
 		b.displayBoard();
 		
 		b.placeZombie(z2, z2.getRow(), z2.getCol());
 		b.displayBoard();
-		assertTrue("True", z2.move(game));//error
+		assertTrue("True", z2.move());//error
 	}
 	
 	

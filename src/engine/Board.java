@@ -40,7 +40,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	/* Checks if a Zombie has reached the end of the board
 	 * If a zombie has, then the game is over and the player loses
 	 * */
-	private boolean zombieReachedEnd;
+	//private boolean zombieReachedEnd;
 
 	/**
 	 * Track all plants currently in the game
@@ -59,6 +59,13 @@ public class Board implements ZombieMoveListener, Serializable {
 	private List<Integer> mowersAvaliable;
 	
 	/**
+	 * Tracks if a zombie has reached the end of the board.
+	 * Each index in the arraylist represents a row.
+	 * If the mower has been used, the index will contain a 1
+	 */
+	private int[] zombieReachedEnd;
+	
+	/**
 	 * Number of Sunflowers in game
 	 */
 	private int sfCounter;
@@ -74,13 +81,14 @@ public class Board implements ZombieMoveListener, Serializable {
 		this.row = row;
 		this.col = col;
 		
-		this.zombieReachedEnd = false;
+		//this.zombieReachedEnd = false;
 		
 		this.sfCounter = 0;
 		
 		this.zombiesInGame = new LinkedList<Zombie>();
 		this.plantsInGame = new LinkedList<Plant>();
 		this.mowersAvaliable = new ArrayList<Integer>();
+		this.zombieReachedEnd = new int[row];
 		
 		//initialize board and add all the avaliable lawn mowers to a list
 		gameBoard = new Grid[row][col];
@@ -164,9 +172,9 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * 
 	 * @return true if a zombie has reached the end of a board, false otherwise
 	 */
-	public boolean hasReachedEnd() {
-		return this.zombieReachedEnd;
-	}
+	//public boolean hasReachedEnd() {
+	//	return this.zombieReachedEnd;
+	//}
 	
 	/**
 	 * Get the number of zombies currently in game.
@@ -472,11 +480,9 @@ public class Board implements ZombieMoveListener, Serializable {
 		for (int col = 0; col < gameBoard[x].length; col++) {
 			if (!gameBoard[x][col].getZombies().isEmpty()) {
 				targets.addAll(gameBoard[x][col].getZombies());
-				LOG.debug("Adding Zombie to mower list: " + x + " " + col);
 			}
 			if (gameBoard[x][col].getPlant() != null) {
 				targets.add(gameBoard[x][col].getPlant());
-				LOG.debug("Adding Plant to mower list: " + x + " " + col);
 			}
 		}
 		return targets.isEmpty()? null : targets;
@@ -511,6 +517,46 @@ public class Board implements ZombieMoveListener, Serializable {
 	}
 	
 	/**
+	 * Sets the mower used array for the specified index (1 = set).
+	 * The index represents the row that the lawn mower was used
+	 * @param row - the row that the lawn mower was used
+	 */
+	public void setZombieReachedEnd(int row)
+	{
+		zombieReachedEnd[row] = 1;
+	}
+	/**
+	 * Sets the mower used array for the specified index (0 = not set).
+	 * The index represents the row that the lawn mower was used
+	 * @param row - the row that the lawn mower was used
+	 */
+	public void resetZombieReachedEnd(int row)
+	{
+		zombieReachedEnd[row] = 0;
+	}
+	/**
+	 * Checks if the lawn mower for the specified row has been used
+	 * @param row - the row of the lawn mower
+	 * @return true if the lawn mower has been used, otherwise false
+	 */
+	public boolean hasReachedEnd(int row)
+	{
+		if(zombieReachedEnd[row] == 1)
+		{
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Removes a lawn mower from the mowersAvaliable list
+	 * @param row - the row in which the lawn mower is to be removed
+	 */
+	public void removeMower(int row)
+	{
+		mowersAvaliable.remove((Object) row);
+	}
+	
+	/**
 	 * Checks if the mower is avaliable for the given row
 	 * @param row - the row to check if the lawn mower is avaliable
 	 * @return true if the lawn mower is avaliable for use, otherwise return false
@@ -521,8 +567,9 @@ public class Board implements ZombieMoveListener, Serializable {
 		return mowersAvaliable.contains(row);
 	}
 	
+	
 	@Override
-	public boolean onZombieMove(Zombie zombie, Game game) {
+	public boolean onZombieMove(Zombie zombie) {
 		
 		int currentZombieRow = zombie.getRow();
 		int currentZombieCol = zombie.getCol();
@@ -566,18 +613,7 @@ public class Board implements ZombieMoveListener, Serializable {
 			zombie.setColumn(0);
 			// update the board with new position
 			gameBoard[zombie.getRow()][zombie.getCol()].addZombie(zombie);
-			
-			if(isMowerAvaliable(currentZombieRow) != true)
-				this.zombieReachedEnd = true;
-			else
-			{
-				game.setZomRemoveBin(useLawnMower(currentZombieRow));
-				for(GameListener g : game.getListeners())
-				{
-					g.updateMower(currentZombieRow);
-				}
-				mowersAvaliable.remove((Object) currentZombieRow);
-			}
+			setZombieReachedEnd(currentZombieRow);
 			
 			return true;
 		}

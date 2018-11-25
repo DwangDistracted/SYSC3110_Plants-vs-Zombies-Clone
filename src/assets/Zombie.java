@@ -168,7 +168,7 @@ public abstract class Zombie implements Unit{
 	 * 
 	 * @return true if move was not stopped by plant, false otherwise
 	 */
-	public boolean move(Game game) {
+	public boolean move() {
 
 		if (immobilized) {
 			immobilized = false;
@@ -179,7 +179,7 @@ public abstract class Zombie implements Unit{
 			}
 		}
 		
-		return listener.onZombieMove(this, game);
+		return listener.onZombieMove(this);
 	}
 
 	/**
