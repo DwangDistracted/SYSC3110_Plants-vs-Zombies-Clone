@@ -5,13 +5,11 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,16 +22,13 @@ public class ZombiePanel extends JPanel {
 	private static final int MAX_ZOMBIE_TYPES = 1;
 	
 	private Map<ZombieTypes, Integer> zombieTypeCount;
-	private JPanel showFullList;
 	
-	public ZombiePanel(Component parent, Map<ZombieTypes,Integer> map) {
+	public ZombiePanel(Component parent, Map<ZombieTypes,Integer> map, MouseListener listener) {
 		super();
 		
 		this.zombieTypeCount = map;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(false);
-		showFullList = new JPanel();
-		
 		if (map.keySet().size() <= MAX_ZOMBIE_TYPES) {
 			for (ZombieTypes zombieType : map.keySet()) {
 				addZombieType(zombieType, parent, map.get(zombieType),map.keySet().size());
@@ -47,11 +42,14 @@ public class ZombiePanel extends JPanel {
 				addZombieType(zombieType, parent, map.get(zombieType),3);
 			}
 			
+			JPanel showFullList = new JPanel();
 			JLabel fullListLabel = new JLabel();
 			showFullList.setOpaque(false);
 			fullListLabel.setText("Show More");
 			fullListLabel.setForeground(Color.WHITE);
 			showFullList.add(fullListLabel);
+			showFullList.addMouseListener(listener);
+			
 			this.add(showFullList);
 		}
 		
@@ -99,7 +97,7 @@ public class ZombiePanel extends JPanel {
 			JPanel zombieDisplay = new JPanel();
 			zombieDisplay.add(zombieImageLabel);
 			
-			JLabel zombieCount = new JLabel("x" + zombieTypeCount.size() );
+			JLabel zombieCount = new JLabel("x" + zombieTypeCount.get(zombieType));
 			zombieCount.setHorizontalAlignment(SwingConstants.CENTER);
 			zombieCount.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
 					
@@ -109,15 +107,5 @@ public class ZombiePanel extends JPanel {
 		}
 		
 		JOptionPane.showMessageDialog(null, fullZombieList, "Zombie List", JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	/**
-	 * Get the show full list panel
-	 * 
-	 * @return show full list panel
-	 */
-	public JPanel getShowFullListPanel() {
-		
-		return showFullList;
 	}
 }

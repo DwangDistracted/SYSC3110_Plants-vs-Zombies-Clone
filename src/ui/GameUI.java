@@ -395,9 +395,7 @@ public class GameUI extends JFrame implements GameListener
     public void addShowFullListPanelListeners(MouseListener listener) {
     	for (int i = 0; i < boardTiles.length; i++) {
     		for (int j = 0; j < boardTiles[i].length; j++) {
-    			boardTiles[i][j].getZombiePanel()
-    								.getShowFullListPanel()
-    									.addMouseListener(listener);
+    			boardTiles[i][j].addShowFullListListener(listener);
     		}
     	}
     }
