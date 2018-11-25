@@ -42,6 +42,7 @@ public class CombatTest {
 	 */
 	@Test
 	public void testZombieAttack() {
+		LevelLoader.init();
 		LevelInfo lvl = LevelLoader.getLevel(1);
 		Game game = new Game(lvl);
 		Board b = new Board(1,8);
