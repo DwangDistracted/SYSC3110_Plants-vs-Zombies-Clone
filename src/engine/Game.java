@@ -231,7 +231,7 @@ public class Game implements Serializable {
 	 * will be removed from the board
 	 * @param zom - a list of zombies to be removed from the board
 	 */
-	public void setZomRemoveBin(List zom)
+	public void setZomRemoveBin(List<Zombie> zom)
 	{
 		zomRemoveBin.addAll(zom);
 	}
