@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import engine.Board;
 import engine.Grid;
 
+/**
+ * Class for Potato Mine type. Kills all zombies
+ * on the same grid when triggered.
+ * 
+ * @author Michael Patsula
+ *
+ */
 public class Potato_Mine extends Plant {
 	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final int DEFAULT_POWER = ATTACK_INSTANT;  //This is irrelevant, it kills the target instantly

@@ -1,5 +1,12 @@
 package assets;
 
+/**
+ * Class for Rush Zombie type. Has extremely high
+ * attack power.
+ * 
+ * @author David Wang
+ *
+ */
 public class RushZombie extends Zombie {
 	private static final int DEFAULT_SPEED = SPEED_MEDIUM;
 	private static final int DEFAULT_POWER = ATTACK_VERY_HIGH;

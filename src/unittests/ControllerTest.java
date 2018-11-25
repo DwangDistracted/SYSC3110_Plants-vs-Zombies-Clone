@@ -27,6 +27,12 @@ import levels.LevelLoader;
 import ui.Card;
 import ui.GameUI;
 
+/**
+ * Unit test for the game controller. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public class ControllerTest {
 
 	private static Game game;

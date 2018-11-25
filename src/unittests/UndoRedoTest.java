@@ -17,6 +17,12 @@ import engine.Game;
 import levels.LevelInfo;
 import levels.LevelLoader;
 
+/**
+ * Unit test for the undo and redo feature.
+ * 
+ * @author Derek Shao
+ *
+ */
 public class UndoRedoTest {
 
 	private static Game game;

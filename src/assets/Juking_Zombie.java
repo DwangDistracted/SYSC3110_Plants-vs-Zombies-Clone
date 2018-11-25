@@ -1,5 +1,12 @@
 package assets;
 
+/**
+ * Class for Juking Zombie type that can change rows 
+ * when moving towards plants.
+ * 
+ * @author Michael Patsula
+ *
+ */
 public class Juking_Zombie extends Zombie {
 	
 	private static final int DEFAULT_SPEED = SPEED_LOW;

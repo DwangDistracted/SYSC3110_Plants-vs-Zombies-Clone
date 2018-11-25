@@ -4,6 +4,13 @@ import java.util.List;
 import engine.Board;
 import util.Logger;
 
+/**
+ * Class for plant type "Melonpult" which does high damage to
+ * all zombies in a grid. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public class Melonpult extends Plant {
 	private static Logger LOG = new Logger("Melonpult");
 
