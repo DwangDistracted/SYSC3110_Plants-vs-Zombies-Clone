@@ -1,6 +1,8 @@
 package ui;
-import engine.Board;
 import engine.Game;
+import engine.GameListener;
+import input.GameController;
+import input.GameController.GameButtonListener;
 import input.MenuInteractions;
 import levels.LevelInfo;
 import levels.LevelLoader;
@@ -13,14 +15,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import assets.Plant;
 import assets.PlantTypes;
 
 /**
  * This class acts as the view (gui) when running the basic game loop.
  */
 
-public class GameUI extends JFrame
+public class GameUI extends JFrame implements GameListener
 {	
 	private static Font lblFont = new Font(Font.MONOSPACED, Font.PLAIN, 15);
 	private static Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
@@ -49,18 +50,21 @@ public class GameUI extends JFrame
     private ArrayList<JMenuItem> menuButtons;
     private ArrayList<JButton> gameButtons;
 
+    private Game game;
     private LevelInfo lvl;
-	private Board gameBoard;
+    
+    private static boolean testMode = false;
 
     public GameUI(Game game)
     {
+    	this.game = game;
+    	game.addListener(this);
     	this.lvl = game.getLevelInfo();
     	this.currentLevel = game.getLevelInfo().getName();
     	this.currentLevelNum = LevelLoader.getCurrentLevel();
     	this.row = lvl.getRows();
     	this.column = lvl.getColumns();
-        this.gameBoard = game.getBoard();
-
+    	
     	initializeComponents();
     	initializeMenu();
     	initializeBoard();
@@ -76,8 +80,13 @@ public class GameUI extends JFrame
     private void initializeImages() {
     	for (int i = 0; i < mowers.length; i++) {
 	        Image image = Images.getLawnMowerImage();
-	    	image = image.getScaledInstance(mowers[i].getHeight(), mowers[i].getHeight(), Image.SCALE_DEFAULT);
-	    	mowers[i].setIcon(new ImageIcon(image));
+	        try {
+		    	image = image.getScaledInstance(mowers[i].getHeight(), mowers[i].getHeight(), Image.SCALE_DEFAULT);
+		    	mowers[i].setIcon(new ImageIcon(image));
+	        }
+	        catch (Exception e) {
+	        	e.addSuppressed(new NullPointerException());
+	        }
 	    	mowers[i].setText("");
     	}
 	}
@@ -97,7 +106,7 @@ public class GameUI extends JFrame
 	    setExtendedState(JFrame.MAXIMIZED_BOTH);
 	    setSize(width, height);
 	    add(gui);
-	    setVisible(true);
+	    setVisible(!testMode);
     }
 
     /**
@@ -130,15 +139,19 @@ public class GameUI extends JFrame
     	gameButtons = new ArrayList<JButton>();
     	JButton digUpButton = new JButton("Dig Up");
     	digUpButton.setFont(btnFont);
-    	digUpButton.setActionCommand("Dig Up");
+    	digUpButton.setActionCommand(GameButtonListener.DIG);
     	JButton undoButton = new JButton("Undo");
     	undoButton.setFont(btnFont);
-    	undoButton.setActionCommand("Undo");
+    	undoButton.setActionCommand(GameButtonListener.UNDO);
+    	JButton redoButton = new JButton("Redo");
+    	redoButton.setFont(btnFont);
+    	redoButton.setActionCommand(GameButtonListener.REDO);
     	JButton endTurnButton = new JButton("End Turn");
     	endTurnButton.setFont(endTurnFont);
-    	endTurnButton.setActionCommand("End Turn");
+    	endTurnButton.setActionCommand(GameButtonListener.END_TURN);
     	gameButtons.add(digUpButton);
     	gameButtons.add(undoButton);
+    	gameButtons.add(redoButton);
     	gameButtons.add(endTurnButton);
     }
 
@@ -190,7 +203,7 @@ public class GameUI extends JFrame
         {
             for (int c = 0; c < boardTiles[r].length; c++)
             {
-                boardTiles[r][c] = new GridUI(gameBoard.getGrid(r, c));
+                boardTiles[r][c] = new GridUI(game.getBoard().getGrid(r, c));
             }
         }
 
@@ -235,8 +248,14 @@ public class GameUI extends JFrame
 
 			JLabel labelPic = new JLabel();
 			labelPic.setSize(80, 80);
-			Image plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
-			labelPic.setIcon(new ImageIcon(plantImage));
+			Image plantImage = null; 
+			try {
+				plantImage = img.getScaledInstance(labelPic.getWidth(), labelPic.getHeight(), Image.SCALE_SMOOTH);
+				labelPic.setIcon(new ImageIcon(plantImage));
+			}
+			catch (Exception e) {
+				e.addSuppressed(new NullPointerException());
+			}
     		card.add(labelPic, BorderLayout.CENTER);
 
     		JLabel nameLabel = new JLabel(PlantTypes.toPlant(p).toString());
@@ -252,6 +271,8 @@ public class GameUI extends JFrame
 
     	gui.add(cardHolder, BorderLayout.SOUTH);
     }
+    
+   
 
     /**
      * Once called, the specified unit card will be "highlighted".
@@ -283,10 +304,24 @@ public class GameUI extends JFrame
      * @param wave - ultimately should be the current wave number
      * @author Michael Patsula and David Wang
      */
-    public void setTurnLabel(int turns) {
+    private void setTurnLabel(int turns) {
 		turnMessage.setText("<html><b>Turns: </b>" + Integer.toString(turns) + "</html>");
 	}
- 
+    
+    /**
+     * Return a copy of the turn label message.
+     * 
+     * @return the turn message
+     */
+    public JLabel getTurnLabel() {
+    	
+    	// return a copy instead of a reference to prevent public modification
+    	JLabel turnMessageCopy = new JLabel();
+    	turnMessageCopy.setText(turnMessage.getText());
+    	
+    	return turnMessageCopy;
+    } 
+    
     /**
      * @return the JPanel holding all the unit selection cards
      * @author Michael Patsula
@@ -334,7 +369,6 @@ public class GameUI extends JFrame
     	return mowers;
     }
 
-
     /**
      * Add listeners for the board tiles
      * 
@@ -342,7 +376,6 @@ public class GameUI extends JFrame
      * @author Derek Shao
      */
     public void addGridListeners(MouseListener listener) {
-    	
     	for (int i = 0; i < boardTiles.length; i++) {
     		for (int j = 0; j < boardTiles[i].length; j++) {
     			boardTiles[i][j].addMouseListener(listener);
@@ -385,30 +418,147 @@ public class GameUI extends JFrame
     }
     
     /**
+     * Add listeners to each grid that will show all zombies in a grid.
+     * @param listener
+     * @author Derek Shao
+     */
+    public void addShowFullListPanelListeners(MouseListener listener) {
+    	for (int i = 0; i < boardTiles.length; i++) {
+    		for (int j = 0; j < boardTiles[i].length; j++) {
+    			boardTiles[i][j].addShowFullListListener(listener);
+    		}
+    	}
+    }
+    
+    /**
      * Set the text for indicating remaining points
      * @author Derek Shao
      */
-    public void setPointsLabel(int points) {
-        pointsAvailable.setText("<html><b>Points: </b>" + Integer.toString(points) + "</html>");
+    private void setPointsLabel(int points) {
+    	pointsAvailable.setText("<html><b>Points: </b>" + Integer.toString(points) + "</html>");
     }
     
     /**
-     * Indicate message notifying player they can not afford 
-     * the specified plant
+     * Return a copy of the points label message.
      * 
-     * @param plant the plant they can not afford
-     * @author Derek Shao
+     * @return the points message
      */
-    public void showInsufficientFundsOptionPane(Plant plant) {
-    	JOptionPane.showMessageDialog(null, "You do not have enough funds for: " + plant.toString());
-    }
+    public JLabel getPointsLabel() {
+    	
+    	// return a copy instead of a reference to prevent public modification
+    	JLabel pointsMessageCopy = new JLabel();
+    	pointsMessageCopy.setText(pointsAvailable.getText());
+    	
+    	return pointsMessageCopy;
+    } 
     
     /**
      * Retrieve all board tiles from board.
-     * @return all boards tiless
+     * @return all boards tiles
      */
     public GridUI[][] getBoardTiles() {
-    	
     	return boardTiles;
+    }
+    
+    private void refreshAllGrids() {
+    	for (int i = 0; i < boardTiles.length; i++) {
+    		for (int j = 0; j < boardTiles[i].length; j++) {
+    			boardTiles[i][j].renderPlant();
+    			boardTiles[i][j].renderZombies();
+    			boardTiles[i][j].repaint();
+    			boardTiles[i][j].revalidate();
+    		}
+    	}
+    }
+
+	
+    @Override
+	public void updateGrid(int x, int y) {
+		boardTiles[x][y].renderPlant();
+		boardTiles[x][y].renderZombies();
+		boardTiles[x][y].repaint();
+		boardTiles[x][y].revalidate();
+	}
+
+	@Override
+	public void updateAllGrids() {
+		refreshAllGrids();
+	}
+	@Override
+	public void updatePurse() {
+		setPointsLabel(game.getPurse().getPoints());
+	}
+	@Override
+	public void updateTurnNumber() {
+		setTurnLabel(game.getTurns());
+	}
+	@Override
+	public void updateEndTurn() {
+		switch (game.getState()) { //check if there was a resolution to the game
+			case WON:
+				int result = JOptionPane.showConfirmDialog(this, "You won in " + game.getTurns() + " Turns! The Zombies have been slain! \n\n Do you want to play the next level?", "You WON!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+				
+				if (result == JOptionPane.YES_OPTION) { //load next level
+					LevelInfo next = LevelLoader.getNextLevel();
+					if (next == null) {
+						JOptionPane.showMessageDialog(this, "No More Levels Available. Returning to Main Menu");//return to main menu
+						new MainMenu();
+						this.dispose();
+					} else {
+						Game g = new Game(next);
+						new GameController(new GameUI(g), g);
+						this.dispose();
+					}
+				} else { //return to main menu
+					new MainMenu();
+					this.dispose();
+				}
+				
+				break;
+			case LOST:
+				int result1 = JOptionPane.showConfirmDialog(this, "You lost in " + game.getTurns() + " Turns! You were eaten by Zombies! \n\n Do you want to retry?", "You Lost", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+	
+				if (result1 == JOptionPane.YES_OPTION && game != null) { //reload this level
+					Game g = new Game(game.getLevelInfo());
+					new GameController(new GameUI(g), g);
+					this.dispose();
+				} else { //return to main menu
+					new MainMenu();
+					this.dispose();
+				}
+				
+				break;
+			default: //update user points if still playing
+				this.updatePurse();
+				this.updateTurnNumber();
+				break;
+		}
+	}
+    @Override
+    public void updateMessage(String title, String message) {
+    	
+    	if (testMode) {
+    		return;
+    	}
+    	
+    	JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
+    }
+
+    /**
+     * Removes the lawn mower icon in place of a grass tile 
+     * @param row - the row in which the lawn mower icon will be removed
+     */
+    @Override
+    public void updateMower(int row){
+    	mowers[row].setIcon(null);
+    }
+
+    
+    /**
+     * For unit testing. Do not show UI when testing.
+     * 
+     */
+    public static void setTestMode() {
+    	testMode = true;
     }
 }

@@ -1,6 +1,8 @@
 package assets;
 
+
 import engine.Board;
+import engine.Game;
 
 /**
  * The Zombie class initializes a set of variables and implements associated setters and getters
@@ -35,6 +37,9 @@ public abstract class Zombie implements Unit{
 	private int row;
 	private int column;
 	private Board listener;
+	
+	private int slowedTurnsLeft;
+	private boolean immobilized;
 	
 	public Zombie(int speed, int pwr, int hp) {
 		this.speed = speed;
@@ -158,11 +163,22 @@ public abstract class Zombie implements Unit{
 	}
 	
 	/**
-	 * Notify listener that this zombie is moving
-	 * @return true if move was successful, false otherwise
+	 * Notify listener that this zombie is moving and check for movement
+	 * debuffs on zombie. 
+	 * 
+	 * @return true if move was not stopped by plant, false otherwise
 	 */
 	public boolean move() {
 
+		if (immobilized) {
+			immobilized = false;
+			return true;
+		} else if (slowedTurnsLeft > 0) {
+			if (slowedTurnsLeft-- == 0) {
+				restoreSpeed();
+			}
+		}
+		
 		return listener.onZombieMove(this);
 	}
 
@@ -176,5 +192,58 @@ public abstract class Zombie implements Unit{
 	/**
 	 * Zombie attack method.
 	 */
-	public abstract void attack(Board board);
+	public void attack(Board board) {
+		Plant plantTarget = board.getPlant(getRow(), getCol());
+		
+		plantTarget.takeDamage(getPower());
+		
+		if (!plantTarget.isAlive()) {
+			board.removePlant(getRow(), getCol());
+		}
+	}
+	
+	/**
+	 * Restore the zombie's original speed. 
+	 */
+	public void restoreSpeed() {
+		
+		this.speed = getDefaultSpeed();
+	}
+	
+	/**
+	 * Get the default speed of this zombie
+	 * 
+	 * @return the default speed of this zombie
+	 */
+	public abstract int getDefaultSpeed();
+	
+	
+	/**
+	 * Reduce the speed of a zombie for a specified amount and duration.
+	 * 
+	 * @param speedReduction the amount of speed to reduce
+	 * @param duration the amount of turns to reduce speed
+	 */
+	public void speedDebuff(int speedReduction, int duration) {
+		
+		// only slow down the zombie if the zombie is currently not slowed
+		if (slowedTurnsLeft <= 0) {
+			slowedTurnsLeft = duration;
+			
+			// only reduce the speed of zombie if the
+			// speed reduction does not immobilize the zombie
+			if (getSpeed() - speedReduction >= 1) {
+				setSpeed(getSpeed() - speedReduction);
+			}
+		}
+	}
+	
+	/**
+	 * Set flag indicating that this zombie cannot move. 
+	 */
+	public void immobilize() {
+		
+		immobilized = true;
+	}
 }
+

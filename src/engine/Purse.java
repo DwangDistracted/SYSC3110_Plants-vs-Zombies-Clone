@@ -1,11 +1,14 @@
 package engine;
 
+import java.io.Serializable;
+
 /**
  * Keeps track of player resources and handles expenditure. Created per Game Instance.
  * @author David Wang
  */
-public class Purse 
-{
+public class Purse implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	//The amount of resoures
 	private int points = 0;
 	
@@ -15,6 +18,14 @@ public class Purse
 	 */
 	public Purse(int lvlInit) {
 		this.points = lvlInit;
+	}
+	
+	/**
+	 * Creates a Purse based off the value of another purse
+	 * @param other
+	 */
+	public Purse(Purse other) {
+		this.points = other.points;
 	}
 	
 	/**
@@ -56,5 +67,13 @@ public class Purse
 	 */
 	public boolean canSpend(int points) {
 		return points <= this.points;
+	}
+
+	/**
+	 * Sets the points of this purse to the value of another purse
+	 * @param other 
+	 */
+	public void setPoints(Purse other) {
+		this.points = other.points;
 	}
 }

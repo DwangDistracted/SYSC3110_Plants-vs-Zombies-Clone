@@ -1,13 +1,17 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import assets.Potato_Mine;
 import assets.Flower;
 import assets.Plant;
+import assets.PlantTypes;
 import assets.Zombie;
 import assets.ZombieTypes;
 import levels.LevelInfo;
@@ -17,7 +21,9 @@ import util.Logger;
  * The Primary Game Loop. Instance per level
  * @author David Wang
  */
-public class Game {
+public class Game implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	public enum GameState {
 		PLAYING,
 		WON,
@@ -35,12 +41,15 @@ public class Game {
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	//The number of zombies (total) in the level
 	private int numZombies;
-	//the number of turns elapsed
+	//The number of turns elapsed
 	private int numTurns;
+	//The zombies that are to be removed
+	private List<Zombie> zomRemoveBin;
 
 	private GameState gamestate;
-	
-	private List<Grid> gridsChanged; 
+
+	private CommandQueue cQ;
+	private List<GameListener> listeners;
 	
 	/**
 	 * Initializes a Game for a given Level
@@ -51,13 +60,19 @@ public class Game {
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
 		
+		zomRemoveBin = new LinkedList<Zombie>();
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		LOG.debug("Level has " + numZombies + " zombies");
 		userResources = new Purse(levelInfo.getInitResources());
 		gamestate = GameState.PLAYING;
 		numTurns = 0;
-		gridsChanged = new ArrayList<Grid>();
+		listeners = new ArrayList<>();
+		cQ = new CommandQueue(this, listeners);
+	}
+	
+	public void addListener(GameListener gl) {
+		listeners.add(gl);
 	}
 	
 	/**
@@ -66,10 +81,22 @@ public class Game {
 	public void playerTurn() {
 		//plants action
 		List<Plant> plantsInGame = board.getPlantsInGame();
+		List<Plant> plantsToRemove = new ArrayList<>(); //holds the plants to that should be removed (mines and jalapenos)
 		LOG.debug("Doing Plant Attack Calculations");
+		
 		for (Plant plant : plantsInGame) {
 			LOG.debug("Plant at (" + plant.getRow() + "," + plant.getCol() + ")");
 			plant.attack(board);
+			
+			if (plant.getPlantType() == PlantTypes.POTATOMINE) {
+				if (((Potato_Mine)plant).getDischarged()) {
+					plantsToRemove.add(plant);
+				}
+			} //else if plant is jalapeno
+		}
+		
+		for (Plant plant : plantsToRemove) {
+			board.removePlant(plant.getRow(), plant.getCol());
 		}
 	}
 	
@@ -82,22 +109,39 @@ public class Game {
 		
 		//create a new collection to prevent concurrent modification of Board zombies attribute
 		List<Zombie> zombiesInGame = new LinkedList<Zombie>(board.getZombiesInGame());
+		List<Zombie> zombiesToRemove = new ArrayList<>();
+		
 		Iterator<Zombie> iterator = zombiesInGame.iterator();
 		
 		while (iterator.hasNext()) {
 			Zombie nextZombie = iterator.next();
-			//if a zombie has failed to move, it means it is being blocked by a Plant
-			if (!nextZombie.move()) {
-				nextZombie.attack(board);
-			} else {
-				gridsChanged.add(board.getGrid(nextZombie.getRow(), nextZombie.getCol()));
+			if(!getZomRemoveBin().contains(nextZombie))
+			{
+				//if a zombie has failed to move, it means it is being blocked by a Plant
+				if (!nextZombie.move()) {
+					nextZombie.attack(board);
+				}
+				int row = nextZombie.getRow();
+				if(board.hasReachedEnd(row) && board.isMowerAvaliable(row))
+				{
+					setZomRemoveBin(board.useLawnMower(row));
+					for(GameListener g : listeners)
+					{
+						g.updateMower(row);
+					}
+					board.removeMower(row);
+					board.resetZombieReachedEnd(row);
+				}
+				else if(board.hasReachedEnd(row) && !board.isMowerAvaliable(row)) {
+					// a zombie has reached the end of the board and a lawnmower is not available. player loses
+					endGame(false);
+					break;
+				}
 			}
+		}
 
-			if (board.hasReachedEnd()) {
-				// a zombie has reached the end of the board and player loses
-				endGame(false);
-				break;
-			}
+		for (Zombie z : zombiesToRemove) { //remove all exploding zombies that attacked
+			board.removeZombie(z.getRow(), z.getCol());
 		}
 		
 		//spawn new zombies
@@ -127,8 +171,6 @@ public class Game {
 				zombie.setRow(rowNumber);
 				zombie.setColumn(levelInfo.getColumns() - 1);
 				
-				gridsChanged.add(board.getGrid(rowNumber, levelInfo.getColumns() - 1));
-				
 				//removes the spawned zombie from the Queue
 				int x = zombieQueue.get(type) - 1;
 				if (x == 0) {
@@ -146,6 +188,7 @@ public class Game {
 	 * Tells Combat Engine to handle attack and damage calculations. Adds Resources to Player Purse. Checks if the pLayer has won
 	 */
 	public void doEndOfTurn() {
+		cQ.registerEndTurn(board);
 		playerTurn(); //player plants attack
 		numTurns++;
 		//do the zombie Turn
@@ -158,6 +201,11 @@ public class Game {
 		//did player win?
 		if (zombieQueue.values().stream().mapToInt(Integer::intValue).sum() == 0 && board.getNumberOfZombies() == 0) {
 			endGame(true);
+		}
+		
+		for (GameListener gl : listeners) {
+			gl.updateAllGrids();
+			gl.updateEndTurn();
 		}
 	}
 	
@@ -173,6 +221,24 @@ public class Game {
 			LOG.debug("Player was eaten by Zombies");
 			gamestate = GameState.LOST;
 		}
+	}
+	
+	/**
+	 * Sets the zombie remove bin.All the zombies within this list
+	 * will be removed from the board
+	 * @param zom - a list of zombies to be removed from the board
+	 */
+	public void setZomRemoveBin(List zom)
+	{
+		zomRemoveBin.addAll(zom);
+	}
+	/**
+	 * Retreives the zombie remove bin
+	 * @return - a list of zombies 
+	 */
+	public List<Zombie> getZomRemoveBin()
+	{
+		return zomRemoveBin;
 	}
 	 
 	 /**
@@ -191,7 +257,6 @@ public class Game {
 	  * @return the board
 	  */
 	 public Board getBoard() {
-		 
 		 return this.board;
 	 }
 	 
@@ -205,21 +270,103 @@ public class Game {
 		 return this.userResources;
 	 }
 	 
+	 /**
+	  * Get the command queue
+	  * 
+	  * @return the command queue
+	  */
+	 public CommandQueue getCommandQueue() {
+		 
+		 return this.cQ;
+	 }
+	 
+	 /**
+	  * Returns the current state of the game; Wom, lost, playing
+	  * @return
+	  */
 	 public GameState getState() {
 		 return gamestate;
 	 }
 
+	 /**
+	  * Returns the number of turns elapsed since the start of the turns
+	  * @return
+	  */
 	public int getTurns() {
 		return numTurns;
 	}
 	
-	public List<Grid> getGridsChanged() {
-		
-		return gridsChanged;
+	/**
+	 * Decrements the number of turns by 1. Used by the undo end turn function
+	 */
+	public void decrementTurns() {
+		this.numTurns--;
+	}
+
+	/**
+	 * Increments the number of turns by 1. Used by the redo end turn function
+	 */
+	public void incrementTurns() {
+		this.numTurns++;
 	}
 	
-	public void resetGridsChanged()  {
-		
-		gridsChanged = new ArrayList<Grid>();
+	/**
+	 * Plants a plant in a given position.
+	 * @param type
+	 * @param x
+	 * @param y
+	 */
+	public void placePlant(PlantTypes type, int x, int y) {
+		Plant selectedPlant = PlantTypes.toPlant(type);
+		if (userResources.canSpend(selectedPlant.getCost())) {
+			if (board.placePlant(selectedPlant, x, y)) {
+				cQ.registerPlace(type,x,y);
+				userResources.spendPoints(selectedPlant.getCost());
+				
+				for (GameListener gl : listeners) {
+					gl.updateGrid(x, y);
+					gl.updatePurse();
+				}
+			}
+		} else {
+			for (GameListener gl : listeners) {
+				gl.updateMessage("Not Enough Points", "You do not have enough funds for: " + selectedPlant.toString());
+			}
+		}
+	}
+	
+	/**
+	 * Removes a Plant from a given position
+	 * @param x
+	 * @param y
+	 */
+	public void removePlant(int x, int y) {
+		cQ.registerDig(board.getPlant(x, y).getPlantType(),x,y);
+		board.removePlant(x, y);
+		for (GameListener gl : listeners) {
+			gl.updateGrid(x, y);
+		}
+	}
+
+	/**
+	 * Undos the last move
+	 */
+	public void undo() {
+		if (!cQ.undo()) {
+			for (GameListener gl : listeners) {
+				gl.updateMessage("Cannot Undo", "No more moves to Undo");
+			}
+		}
+	}
+	
+	/**
+	 * Redos the previously undone move
+	 */
+	public void redo() {
+		if (!cQ.redo()) {
+			for (GameListener gl : listeners) {
+				gl.updateMessage("Cannot Redo", "No more moves to Redo");
+			}
+		}
 	}
 }

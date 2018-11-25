@@ -1,7 +1,6 @@
 package assets;
 
 import engine.Board;
-import engine.Grid;
 import util.Logger;
 
 /**
@@ -14,8 +13,8 @@ import util.Logger;
 public class Peashooter extends Plant {
 	private static Logger LOG = new Logger("Peashooter");
 	
-	private static final int DEFAULT_HP = 2;
-	private static final int DEFAULT_POWER = 2;
+	private static final int DEFAULT_HP = HEALTH_MEDIUM;
+	private static final int DEFAULT_POWER = ATTACK_MEDIUM;
 	private static final int COST = 50;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.PEASHOOTER;
 	
@@ -36,27 +35,22 @@ public class Peashooter extends Plant {
 	
 	@Override
 	public void attack(Board board) {
-		
-		Grid[][] gameBoard = board.getBoard();
 		int row = getRow();
 		int column = getCol();
 		
-		for (int col = column; col < gameBoard[row].length; col++) {
-			if (gameBoard[row][col].getFirstZombie() != null) {
-				
-				Zombie zombieTarget = gameBoard[row][col].getFirstZombie();
-				
-				LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
-						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+		Zombie zombieTarget = board.getSingleZombieTarget(row, column);
+		
+		if (zombieTarget != null) {
+			LOG.debug(String.format("Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
+					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 			
-				zombieTarget.takeDamage(getPower());
-				
-				if (!zombieTarget.isAlive()) {
-					board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-					LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
-							row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-				}
+			zombieTarget.takeDamage(getPower());
+			
+			if (!zombieTarget.isAlive()) {
+				board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+				LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
+						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 			}
 		}
-	}
+	}		
 }

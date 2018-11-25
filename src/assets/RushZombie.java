@@ -1,9 +1,9 @@
 package assets;
 
 public class RushZombie extends Zombie {
-	private static final int DEFAULT_SPEED = 2;
-	private static final int DEFAULT_POWER = 3;
-	private static final int DEFAULT_HP = 2;
+	private static final int DEFAULT_SPEED = SPEED_MEDIUM;
+	private static final int DEFAULT_POWER = ATTACK_VERY_HIGH;
+	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.RUSH_ZOMBIE;
 	
 	public RushZombie()	{
@@ -13,11 +13,19 @@ public class RushZombie extends Zombie {
 	/**
 	 * returns the name of regular type zombie
 	 */
+	@Override 
 	public String toString() {
-		return "Rush Zombie";	
+		
+		return ZOMBIE_TYPE.toString();
 	}
 
 	public ZombieTypes getZombieType() {
 		return ZOMBIE_TYPE;
-	} 
+	}
+
+	@Override
+	public int getDefaultSpeed() {
+
+		return DEFAULT_SPEED;
+	}
 }

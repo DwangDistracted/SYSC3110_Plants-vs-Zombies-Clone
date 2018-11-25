@@ -6,22 +6,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import assets.Plant;
 import assets.PlantTypes;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-import engine.Board;
 import engine.Game;
-import engine.Purse;
-import levels.LevelInfo;
-import levels.LevelLoader;
 import ui.Card;
 import ui.GameUI;
 import ui.GridUI;
-import ui.MainMenu;
+import ui.ZombiePanel;
 import util.Logger;
 
 /**
@@ -36,8 +31,12 @@ public class GameController {
 	private Game game;
 	private GameUI ui;
 	private Card selectedCard; //The selected card on click #1
-	private Board gameBoard;
-	private Purse userResources;
+		
+	private GridListener gridListener;
+	private UnitSelectListener unitSelectListener;
+	private GameButtonListener gameButtonListener;
+	private LawnMowerListener lawnMowerListener;
+	private ShowFullZombieListListener showFullZombieListListener;
 	
 	// Selected to remove a plant
 	private boolean removingPlant; 
@@ -46,14 +45,20 @@ public class GameController {
 		this.game = game;
 		this.ui = ui;
 		this.selectedCard = null;
-		this.gameBoard = this.game.getBoard();
-		this.userResources = this.game.getPurse();
 		this.removingPlant = false;
 		
-		this.ui.addGridListeners(new GridListener());
-		this.ui.addUnitSelectionListeners(new UnitSelectListener());
-		this.ui.addGameButtonListeners(new GameButtonListener());
-		this.ui.addLawnMowerListeners(new LawnMowerListener());
+		gridListener = new GridListener();
+		unitSelectListener = new UnitSelectListener();
+		gameButtonListener = new GameButtonListener();
+		lawnMowerListener = new LawnMowerListener();
+		showFullZombieListListener = new ShowFullZombieListListener();
+		
+		
+		this.ui.addGridListeners(gridListener);
+		this.ui.addUnitSelectionListeners(unitSelectListener);
+		this.ui.addGameButtonListeners(gameButtonListener);
+		this.ui.addLawnMowerListeners(lawnMowerListener);
+		this.ui.addShowFullListPanelListeners(showFullZombieListListener);
 	}
 	
 	/**
@@ -62,12 +67,18 @@ public class GameController {
 	 * @author Derek Shao
 	 *
 	 */
-	private class GameButtonListener implements ActionListener {
+	public class GameButtonListener implements ActionListener {
+		
+		public static final String DIG = "Dig Up";
+		public static final String UNDO = "Undo";
+		public static final String REDO = "Redo";
+		public static final String END_TURN = "End Turn";
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			switch(e.getActionCommand())
 			{
-				case "Dig Up": 
+				case DIG: 
 					LOG.debug("Digging up plant");
 					removingPlant = true;
 					if(selectedCard != null)
@@ -76,67 +87,15 @@ public class GameController {
 						selectedCard = null; // Scenario in which if person clicks card and then clicks digup, The card is deselected
 					}
 					break;
-				case "End Turn": //@author David Wang
+				case UNDO:
+					game.undo();
+					break;
+				case REDO:
+					game.redo();
+					break;
+				case END_TURN: //@author David Wang
 					LOG.debug("Ending Turn");
 					game.doEndOfTurn();
-					ui.setPointsLabel(userResources.getPoints());
-					
-					GridUI [][] gridTiles = ui.getBoardTiles();
-					
-					// re-render every grid tiles
-					for (int i = 0; i < gridTiles.length; i++) {
-						for (int j = 0; j < gridTiles[i].length; j++) {
-							gridTiles[i][j].renderPlant();
-							gridTiles[i][j].renderZombies();
-						}
-					}
-					
-					switch (game.getState()) { //check if there was a resolution to the game
-					
-					case WON:
-						LOG.debug("Player Won");
-						int result = JOptionPane.showConfirmDialog(ui, "You won in " + game.getTurns() + " Turns! The Zombies have been slain! \n\n Do you want to play the next level?", "You WON!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-						
-						if (result == JOptionPane.YES_OPTION) { //load next level
-							LOG.debug("Load Next Level");
-							LevelInfo next = LevelLoader.getNextLevel();
-							if (next == null) {
-								JOptionPane.showMessageDialog(ui, "No More Levels Available. Returning to Main Menu");//return to main menu
-								new MainMenu();
-								ui.dispose();
-							} else {
-								Game g = new Game(next);
-								LOG.debug(g.getBoard().displayBoard());
-								new GameController(new GameUI(g), g);
-								ui.dispose();
-							}
-						} else { //return to main menu
-							new MainMenu();
-							ui.dispose();
-						}
-						
-						break;
-					case LOST:
-						LOG.debug("Player Lost");
-						int result1 = JOptionPane.showConfirmDialog(ui, "You lost in " + game.getTurns() + " Turns! You were eaten by Zombies! \n\n Do you want to retry?", "You Lost", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-						if (result1 == JOptionPane.YES_OPTION && game != null) { //reload this level
-							LOG.debug("Reloading Level");
-							Game g = new Game(game.getLevelInfo());
-							LOG.debug(g.getBoard().displayBoard());
-							new GameController(new GameUI(g), g);
-							ui.dispose();
-						} else { //return to main menu
-							new MainMenu();
-							ui.dispose();
-						}
-						
-						break;
-					default: //update user points if still playing
-						ui.setTurnLabel(game.getTurns());
-						ui.setPointsLabel(userResources.getPoints());
-						break;
-					}
 			}
 		}
 	}
@@ -147,7 +106,7 @@ public class GameController {
 	 * @author Derek Shao
 	 *
 	 */
-	private class GridListener implements MouseListener {
+	public class GridListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
@@ -159,21 +118,12 @@ public class GameController {
 			if (selectedCard != null) {
 				LOG.debug("Planting in Grid");
 				PlantTypes selectedPlantType = selectedCard.getPlantType();
-				Plant selectedPlant = PlantTypes.toPlant(selectedPlantType);
-				if (userResources.canSpend(selectedPlant.getCost())) {
-					if (gameBoard.placePlant(selectedPlant, sourceRow, sourceCol)) {
-						userResources.spendPoints(selectedPlant.getCost());
-						ui.setPointsLabel(userResources.getPoints());
-						source.renderPlant();
-					}
-				} else {
-					ui.showInsufficientFundsOptionPane(selectedPlant);
-				}
+				game.placePlant(selectedPlantType, sourceRow, sourceCol);
+				
 				ui.revertHighlight(selectedCard);
 				selectedCard = null;
 			} else if (removingPlant) {
-				gameBoard.removePlant(sourceRow, sourceCol);
-				source.renderPlant();
+				game.removePlant(sourceRow, sourceCol);
 				removingPlant = false;
 				LOG.debug("Removed Plant");
 			}
@@ -183,7 +133,7 @@ public class GameController {
 		public void mouseEntered(MouseEvent arg0) {
 			GridUI source = (GridUI) arg0.getSource();
 			
-			source.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			source.setBorder(BorderFactory.createLineBorder(Color.BLACK));	
 		}
 
 		@Override
@@ -211,7 +161,7 @@ public class GameController {
 	 * @author Derek Shao
 	 *
 	 */
-	private class UnitSelectListener implements MouseListener {
+	public class UnitSelectListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -250,12 +200,50 @@ public class GameController {
 	}
 	
 	/**
+	 * Listener to allow player see full list of zombies in a grid.
+	 * 
+	 * @author Derek Shao
+	 *
+	 */
+	public class ShowFullZombieListListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			JPanel showFullListPanel = (JPanel) arg0.getSource();
+			ZombiePanel parentZombiePanel = (ZombiePanel) showFullListPanel.getParent();
+
+			parentZombiePanel.showFullZombieList();
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			
+		}
+		
+	}
+	
+	/**
 	 * Not Implemented For Milestone 2
 	 * calls the lawn mower functionalility for a specified row
 	 * The row is dependent on which button the user presses.
 	 * @author michael
 	 */
-	private class LawnMowerListener implements ActionListener {
+	public class LawnMowerListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton source = (JButton) e.getSource();
@@ -270,5 +258,80 @@ public class GameController {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Get the grid listener
+	 * 
+	 * @return the grid listener
+	 */
+	public GridListener getGridListener() {
+		
+		return gridListener;
+	}
+	
+	/**
+	 * Get the game button listener
+	 * 
+	 * @return the game button listener
+	 */
+	public GameButtonListener getGameButtonListener() {
+		
+		return gameButtonListener;
+	}
+	
+	/**
+	 * Get the unit select listener
+	 * 
+	 * @return the unit select listener
+	 */
+	public UnitSelectListener getUnitSelectListener() {
+		
+		return unitSelectListener;
+	}
+	
+	/**
+	 * Get the show full zombie list listener
+	 * 
+	 * @return the full zombie list listener
+	 */
+	public ShowFullZombieListListener getShowFullZombieListListener() {
+		
+		return showFullZombieListListener;
+	}
+	
+	/**
+	 * Get the lawn mower listener
+	 * 
+	 * @return the lawn mower listener
+	 */
+	public LawnMowerListener getLawnMowerListener() {
+		
+		return lawnMowerListener;
+	}
+	
+	/**
+	 * Indicate whether a plant is prepared to be removed
+	 * 
+	 * @return flag indicating whether a plant is being removed
+	 */
+	public boolean isRemovingPlant() {
+		
+		return removingPlant;
+	}
+	
+	/**
+	 * Create a copy of the selected card and return the card
+	 * 
+	 * @return copy of the selected card
+	 */
+	public Card getCardSelected() {
+		
+		if (selectedCard != null) {
+			Card card = new Card(selectedCard.getLayout(), selectedCard.getPlantType());
+			return card;
+		}
+		
+		return null;
 	}
 }

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -27,6 +28,8 @@ public class GridUI extends JPanel {
 	private int row;
 	private int col;
 	
+	private MouseListener showFullListListener;
+	
 	public GridUI(Grid grid) {
 		setLayout(new GridBagLayout());
 		
@@ -47,7 +50,6 @@ public class GridUI extends JPanel {
 	 * Render the plant panel
 	 */
 	public void renderPlant() {
-		
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.VERTICAL;
@@ -88,8 +90,8 @@ public class GridUI extends JPanel {
 		}
 		grid.updateZombieTypeCount();
 		
-		zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount());
-		
+		zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount(), showFullListListener);
+
 		add(zombiePanel);
 	}
 
@@ -131,5 +133,35 @@ public class GridUI extends JPanel {
 	public void setCol(int col) {
 
 		this.col = col;
+	}
+	
+	/**
+	 * Get the plant panel
+	 * 
+	 * @return plant panel
+	 */
+	public JPanel getPlantPanel() {
+		
+		return plantPanel;
+	}
+	
+	/**
+	 * Get the JPanel displaying zombies on this grid
+	 *
+	 * @return the panel displaying zombies
+	 */
+	public ZombiePanel getZombiePanel() {
+		
+		return zombiePanel;
+	}
+	
+	/**
+	 * Store the mouse listener that will be added to the show full list
+	 * panel every time the zombie panel is created
+	 * 
+	 * @param listener
+	 */
+	public void addShowFullListListener(MouseListener listener) {
+		showFullListListener = listener;
 	}
 }

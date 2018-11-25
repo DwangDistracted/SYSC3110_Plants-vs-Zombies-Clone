@@ -1,11 +1,13 @@
 package engine;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import assets.Plant;
 import assets.Zombie;
 import assets.ZombieTypes;
+import util.Logger;
  
 /**
  * Building block for a grid. Contains 1 Plant and N zombies.
@@ -13,8 +15,9 @@ import assets.ZombieTypes;
  * @author Derek Shao
  *
  */
-public class Grid {
-	
+public class Grid implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private static Logger LOG = new Logger("Grid");
 	private int row;
 	private int col;
 	
@@ -27,7 +30,6 @@ public class Grid {
 	private HashMap<ZombieTypes, Integer> zombieTypeCount;
 	
 	public Grid(int row, int col) {
-		
 		this.row = row;
 		this.col = col;
 		
@@ -35,6 +37,21 @@ public class Grid {
 		zombieTypeCount = new HashMap<ZombieTypes, Integer>();
 	}
 	
+	/**
+	 * Creates a Grid Object as a deep copy of another grid
+	 * @param grid
+	 * @author David Wang
+	 */
+	public Grid(Grid grid) {
+		this.row = grid.row;
+		this.col = grid.col;
+		this.plant = grid.plant;
+		this.zombies = new LinkedList<Zombie>();
+		this.zombies.addAll(grid.zombies);
+		this.zombieTypeCount = new HashMap<ZombieTypes, Integer>();
+		this.zombieTypeCount.putAll(grid.zombieTypeCount);
+	}
+
 	/**
 	 * Determines if the current grid is occupied by a plant.
 	 * 
@@ -87,7 +104,6 @@ public class Grid {
 	 * @return true if zombie was added successfully, false otherwise
 	 */
 	public boolean addZombie(Zombie zombie) {
-		
 		if (zombies.add(zombie)) {
 		
 			zombieTypeCount.put(zombie.getZombieType(), zombieTypeCount.getOrDefault(zombie.getZombieType(), 0) + 1);
@@ -116,7 +132,6 @@ public class Grid {
 	 * @return the zombie that was killed, null if no zombies are present
 	 */
 	public Zombie removeZombie() {
-		
 		if (!zombies.isEmpty()) {
 			
 			Zombie zombieToRemove = zombies.peek();
@@ -132,7 +147,6 @@ public class Grid {
 	
 	
 	/**
-	 * --Likely only for Milestone 1--
 	 * Get the number of zombies in the current grid.
 	 * 
 	 * @return number of zombies
@@ -187,5 +201,15 @@ public class Grid {
 	 */
 	public int getCol() {
 		return col;
+	}
+	
+	/**
+	 * Get the coordinates that this grid is located at.
+	 * index 0 respresents the row, and index 1 respresents the column of the grid
+	 * @return the coordinates of this grid
+	 */
+	public int[] getCoordinates() {
+		int[] coord = {row,col};
+		return coord;
 	}
 }
