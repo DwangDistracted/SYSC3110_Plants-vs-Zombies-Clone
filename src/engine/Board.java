@@ -36,11 +36,6 @@ public class Board implements ZombieMoveListener, Serializable {
 
 	/* Number of columns in game board */
 	private int col;
-	
-	/* Checks if a Zombie has reached the end of the board
-	 * If a zombie has, then the game is over and the player loses
-	 * */
-	//private boolean zombieReachedEnd;
 
 	/**
 	 * Track all plants currently in the game
@@ -61,9 +56,9 @@ public class Board implements ZombieMoveListener, Serializable {
 	/**
 	 * Tracks if a zombie has reached the end of the board.
 	 * Each index in the arraylist represents a row.
-	 * If the mower has been used, the index will contain a 1
+	 * If the mower has been used, the index will be true
 	 */
-	private int[] zombieReachedEnd;
+	private boolean[] zombieReachedEnd;
 	
 	/**
 	 * Number of Sunflowers in game
@@ -81,14 +76,12 @@ public class Board implements ZombieMoveListener, Serializable {
 		this.row = row;
 		this.col = col;
 		
-		//this.zombieReachedEnd = false;
-		
 		this.sfCounter = 0;
 		
 		this.zombiesInGame = new LinkedList<Zombie>();
 		this.plantsInGame = new LinkedList<Plant>();
 		this.mowersAvaliable = new ArrayList<Integer>();
-		this.zombieReachedEnd = new int[row];
+		this.zombieReachedEnd = new boolean[row];
 		
 		//initialize board and add all the avaliable lawn mowers to a list
 		gameBoard = new Grid[row][col];
@@ -166,15 +159,6 @@ public class Board implements ZombieMoveListener, Serializable {
 	public Grid getGrid(int row, int col) {
 		return gameBoard[row][col];
 	}
-	
-	/**
-	 * Return whether a zombie has the end of a board.
-	 * 
-	 * @return true if a zombie has reached the end of a board, false otherwise
-	 */
-	//public boolean hasReachedEnd() {
-	//	return this.zombieReachedEnd;
-	//}
 	
 	/**
 	 * Get the number of zombies currently in game.
@@ -517,22 +501,22 @@ public class Board implements ZombieMoveListener, Serializable {
 	}
 	
 	/**
-	 * Sets the mower used array for the specified index (1 = set).
+	 * Sets the mower used array for the specified index (true = set).
 	 * The index represents the row that the lawn mower was used
 	 * @param row - the row that the lawn mower was used
 	 */
 	public void setZombieReachedEnd(int row)
 	{
-		zombieReachedEnd[row] = 1;
+		zombieReachedEnd[row] = true;
 	}
 	/**
-	 * Sets the mower used array for the specified index (0 = not set).
+	 * Sets the mower used array for the specified index (false = not set).
 	 * The index represents the row that the lawn mower was used
 	 * @param row - the row that the lawn mower was used
 	 */
 	public void resetZombieReachedEnd(int row)
 	{
-		zombieReachedEnd[row] = 0;
+		zombieReachedEnd[row] = false;
 	}
 	/**
 	 * Checks if the lawn mower for the specified row has been used
@@ -541,11 +525,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	 */
 	public boolean hasReachedEnd(int row)
 	{
-		if(zombieReachedEnd[row] == 1)
-		{
-			return true;
-		}
-		return false;
+		return zombieReachedEnd[row];
 	}
 	/**
 	 * Removes a lawn mower from the mowersAvaliable list

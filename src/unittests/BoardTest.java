@@ -65,7 +65,7 @@ public class BoardTest {
 	/**
 	 * tests all getPlant() Methods
 	 */
-	//@Test
+	@Test
 	public void testGetPlantMethods() {
 		Board b = new Board(1,4);
 		Flower f = new Flower();
@@ -214,18 +214,10 @@ public class BoardTest {
 		Regular_Zombie z2 = new Regular_Zombie();
 		Regular_Zombie z3 = new Regular_Zombie();
 		Regular_Zombie z4 = new Regular_Zombie();
-		z1.setRow(0);
-		z1.setColumn(2);
-		b.placeZombie(z1, z1.getRow(), z1.getCol());
-		z2.setRow(0);
-		z2.setColumn(3);
-		b.placeZombie(z2, z2.getRow(), z2.getCol());
-		z3.setRow(0);
-		z3.setColumn(6);
-		b.placeZombie(z3, z3.getRow(), z3.getCol());
-		z4.setRow(0);
-		z4.setColumn(7);
-		b.placeZombie(z4, z4.getRow(), z4.getCol());
+		b.placeZombie(z1, 0, 2);
+		b.placeZombie(z2, 0, 3);
+		b.placeZombie(z3, 0, 6);
+		b.placeZombie(z4, 0, 7);
 		
 		Peashooter p = new Peashooter();
 		Peashooter p2 = new Peashooter();
@@ -249,44 +241,33 @@ public class BoardTest {
 	{
 		Board b = new Board(5,20);
 		Regular_Zombie z1 = new Regular_Zombie();
-		z1.setRow(0);
-		z1.setColumn(7);
-		b.placeZombie(z1, z1.getRow(), z1.getCol());
+		b.placeZombie(z1, 0, 7);
 		
-		assertEquals(0, b.getNewZomPosition(z1.getRow(),z1.getCol(),1,z1, 5).getRow()); //testing for regular zombie
-		assertEquals(6, b.getNewZomPosition(z1.getRow(),z1.getCol(),1,z1, 5).getCol()); 
+		assertEquals(0, b.getNewZomPosition(0, 7, 2, z1, 5).getRow()); //testing for regular zombie
+		assertEquals(5, b.getNewZomPosition(0, 7, 2, z1, 5).getCol()); 
 		
 		Juking_Zombie z2 = new Juking_Zombie();
-		z2.setRow(0);
-		z2.setColumn(7);
-		b.placeZombie(z2, z2.getRow(), z2.getCol());
+		b.placeZombie(z2, 0, 7);
 		assertEquals(1, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow()); //testing for when juking zombie starting at row 0 
 		assertEquals(6, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());
 		
-		z2.setRow(1);
-		z2.setColumn(6);
-		b.placeZombie(z2, z2.getRow(), z2.getCol());
+		b.placeZombie(z2, 1, 6);
 		assertEquals(2, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow()); //testing for when juking zombie starts off not at the edges of the board
 		assertEquals(5, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());
 		
-		z2.setRow(4);
-		z2.setColumn(19);
+		b.placeZombie(z2, 4, 19);
 		//Should be 3, 18
 		assertEquals(3, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow()); //testing for when juking zombie is at the bottom of the board
 		assertEquals(18, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());
-		z2.setRow(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow());   
-		z2.setColumn(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());  
+		b.placeZombie(z2, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow(), b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol()); 
 		//Should be 2, 17
 		assertEquals(2, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow()); //testing for when juking zombie is not at the edges of the board 
 		assertEquals(17, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());
-		z2.setRow(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow());
-		z2.setColumn(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());
+		b.placeZombie(z2, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow(), b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol()); 
 		//Should be 1, 16
-		z2.setRow(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow());  
-		z2.setColumn(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());
+		b.placeZombie(z2, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow(), b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol()); 
 		//Should be 0, 15
-		z2.setRow(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow());
-		z2.setColumn(b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());
+		b.placeZombie(z2, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow(), b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol()); 
 		//Should be 1,14
 		assertEquals(1, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getRow()); //testing for when juking zombie hits the other side of the board
 		assertEquals(14, b.getNewZomPosition(z2.getRow(),z2.getCol(),1,z2, 5).getCol());

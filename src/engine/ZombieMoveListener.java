@@ -1,7 +1,5 @@
 package engine;
 
-import java.awt.List;
-
 import assets.Zombie;
 
 /**
