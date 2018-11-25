@@ -23,12 +23,16 @@ import levels.LevelLoader;
 import ui.GameUI;
 import ui.GridUI;
 
+/**
+ * Unit tests for the UI.
+ * 
+ * @author Derek Shao
+ *
+ */
 public class ViewTest {
 	
 	private static Game game;
-	private static Board board;
 	private static Purse purse;
-	private static CommandQueue commandQueue;
 	private static LevelInfo lvl;
 	private static GameUI gameUI;
 	private static GridUI[][] boardTiles;
@@ -62,8 +66,8 @@ public class ViewTest {
 		assertNotNull(placedLocation.getPlantPanel());
 		JPanel plantPanel = placedLocation.getPlantPanel();
 		JLabel plantName = (JLabel) plantPanel.getComponent(0);
-		assertNotNull(plantName);
-		assertEquals(plantName.getText(), "Sunflower");
+		assertNotNull(plantName, "A plant has been placed");
+		assertEquals(plantName.getText(), "Sunflower", "Placed plant has correct name");
 	}
 	
 	@Test 
@@ -72,25 +76,25 @@ public class ViewTest {
 		game.removePlant(0, 0);
 		GridUI removedLocation = boardTiles[0][0];
 		JPanel plantPanel = removedLocation.getPlantPanel();
-		assertTrue(plantPanel.getComponents().length == 0);
+		assertTrue(plantPanel.getComponents().length == 0, "Plant removed from grid");
 	}
 	
 	@Test
 	public void testUpdateTurnLabel() {
 		game.doEndOfTurn();
 		JLabel turnMessage = gameUI.getTurnLabel();
-		assertEquals(turnMessage.getText(), "<html><b>Turns: </b>1</html>");
+		assertEquals(turnMessage.getText(), "<html><b>Turns: </b>1</html>", "Turn label updates");
 	}
 	
 	@Test
 	public void testUpdatePointsLabel() {
 		game.doEndOfTurn();
 		JLabel pointsMessage = gameUI.getPointsLabel();
-		assertEquals(pointsMessage.getText(), "<html><b>Points: </b>" + Integer.toString(purse.getPoints()) + "</html>");
+		assertEquals(pointsMessage.getText(), "<html><b>Points: </b>" + Integer.toString(purse.getPoints()) + "</html>", "Points get updated every turn");
 		
 		game.placePlant(PlantTypes.SUNFLOWER, 0, 0);
 		pointsMessage = gameUI.getPointsLabel();
-		assertEquals(pointsMessage.getText(), "<html><b>Points: </b>" + Integer.toString(purse.getPoints()) + "</html>");
+		assertEquals(pointsMessage.getText(), "<html><b>Points: </b>" + Integer.toString(purse.getPoints()) + "</html>", "Placing a plant updates the points");
 	}
 	
 	@Test
@@ -101,6 +105,6 @@ public class ViewTest {
 		
 		game.placePlant(PlantTypes.SUNFLOWER, 0, 0);
 		JLabel pointsMessage = gameUI.getPointsLabel();
-		assertEquals(pointsMessage.getText(), "<html><b>Points: </b>" + Integer.toString(purse.getPoints()) + "</html>");
+		assertEquals(pointsMessage.getText(), "<html><b>Points: </b>" + Integer.toString(purse.getPoints()) + "</html>", "Unsuccessful plant placement does not display wrong points");
 	}
 }
