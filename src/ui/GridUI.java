@@ -136,6 +136,16 @@ public class GridUI extends JPanel {
 	}
 	
 	/**
+	 * Get the plant panel
+	 * 
+	 * @return plant panel
+	 */
+	public JPanel getPlantPanel() {
+		
+		return plantPanel;
+	}
+	
+	/**
 	 * Get the JPanel displaying zombies on this grid
 	 *
 	 * @return the panel displaying zombies

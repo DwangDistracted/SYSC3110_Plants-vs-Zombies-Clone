@@ -41,8 +41,10 @@ public class Game implements Serializable {
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	//The number of zombies (total) in the level
 	private int numZombies;
-	//the number of turns elapsed
+	//The number of turns elapsed
 	private int numTurns;
+	//The zombies that are to be removed
+	private List<Zombie> zomRemoveBin;
 
 	private GameState gamestate;
 
@@ -58,6 +60,7 @@ public class Game implements Serializable {
 		board = new Board(lvl.getRows(), lvl.getColumns());
 		levelInfo = lvl;
 		
+		zomRemoveBin = new LinkedList<Zombie>();
 		zombieQueue = (HashMap<ZombieTypes, Integer>) lvl.getZombies();
 		numZombies = zombieQueue.values().stream().mapToInt(Integer::intValue).sum();
 		LOG.debug("Level has " + numZombies + " zombies");
@@ -112,19 +115,28 @@ public class Game implements Serializable {
 		
 		while (iterator.hasNext()) {
 			Zombie nextZombie = iterator.next();
-			//if a zombie has failed to move, it means it is being blocked by a Plant
-			if (!nextZombie.move(levelInfo.getRows())) {
-				nextZombie.attack(board);
-				
-				if(nextZombie.getZombieType() == ZombieTypes.EXP_ZOMBIE){ //if a exploding zombie attacks, it instantly dies
-					zombiesToRemove.add(nextZombie);
+			if(!getZomRemoveBin().contains(nextZombie))
+			{
+				//if a zombie has failed to move, it means it is being blocked by a Plant
+				if (!nextZombie.move()) {
+					nextZombie.attack(board);
 				}
-			}
-
-			if (board.hasReachedEnd()) {
-				// a zombie has reached the end of the board and player loses
-				endGame(false);
-				break;
+				int row = nextZombie.getRow();
+				if(board.hasReachedEnd(row) && board.isMowerAvaliable(row))
+				{
+					setZomRemoveBin(board.useLawnMower(row));
+					for(GameListener g : listeners)
+					{
+						g.updateMower(row);
+					}
+					board.removeMower(row);
+					board.resetZombieReachedEnd(row);
+				}
+				else if(board.hasReachedEnd(row) && !board.isMowerAvaliable(row)) {
+					// a zombie has reached the end of the board and a lawnmower is not available. player loses
+					endGame(false);
+					break;
+				}
 			}
 		}
 
@@ -209,6 +221,24 @@ public class Game implements Serializable {
 			LOG.debug("Player was eaten by Zombies");
 			gamestate = GameState.LOST;
 		}
+	}
+	
+	/**
+	 * Sets the zombie remove bin.All the zombies within this list
+	 * will be removed from the board
+	 * @param zom - a list of zombies to be removed from the board
+	 */
+	public void setZomRemoveBin(List zom)
+	{
+		zomRemoveBin.addAll(zom);
+	}
+	/**
+	 * Retreives the zombie remove bin
+	 * @return - a list of zombies 
+	 */
+	public List<Zombie> getZomRemoveBin()
+	{
+		return zomRemoveBin;
 	}
 	 
 	 /**
