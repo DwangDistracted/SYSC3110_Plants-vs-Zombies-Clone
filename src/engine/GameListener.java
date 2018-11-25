@@ -34,4 +34,9 @@ public interface GameListener {
 	 * @param message - the contents of the message
 	 */
 	public void updateMessage(String title, String message);
+	/**
+	 * Tells the game listener that the lawn mower was used
+	 * @param Row - the row that the lawn mower was used
+	 */
+	public void updateMower(int Row);
 }
