@@ -34,6 +34,7 @@ In the following iteration, the game will drop the text-based representation in 
 - Introduce save/load game functionality
 
 ## Known Issues
+- Major input lag when clicking for show more
 - Occasional Input Lag
 - Loading can be slow
 - expect ~250 MBs of memory usage.
