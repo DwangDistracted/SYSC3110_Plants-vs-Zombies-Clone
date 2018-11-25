@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 import assets.PlantTypes;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import engine.Game;
