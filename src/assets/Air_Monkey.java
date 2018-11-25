@@ -3,6 +3,13 @@ package assets;
 import engine.Board;
 import util.Logger;
 
+/**
+ * Class for Air Monkey unit that are the only units that can 
+ * attack Air Zombies.
+ * 
+ * @author Michael Patusla
+ *
+ */
 public class Air_Monkey extends Plant {
 	private static Logger LOG = new Logger("Air_Monkey");
 	private static final int DEFAULT_HP = HEALTH_LOW;

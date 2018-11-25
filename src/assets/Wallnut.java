@@ -2,6 +2,13 @@ package assets;
 
 import engine.Board;
 
+/**
+ * Class for Wallnut plant type. Cannot attack but
+ * has high amounts of hit points.
+ * 
+ * @author David Wang
+ *
+ */
 public class Wallnut extends Plant {
 	private static final int DEFAULT_HP = HEALTH_TANK;
 	private static final int DEFAULT_POWER = ATTACK_NONE;
