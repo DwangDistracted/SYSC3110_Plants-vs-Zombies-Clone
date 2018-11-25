@@ -80,7 +80,7 @@ public class CommandQueue implements Serializable {
 	 * @param board
 	 */
 	public void registerEndTurn(Board board) {
-		redoQueue.clear(); //a new command prevents redo-ing old commands //a new command prevents redo-ing old commands
+		redoQueue.clear(); //a new command prevents redo-ing old commands 
 		undoQueue.addFirst(new EndTurnCommand(board, game.getPurse()));
 		LOG.debug("registered end turn command");
 	}
