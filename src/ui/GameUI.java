@@ -545,12 +545,28 @@ public class GameUI extends JFrame implements GameListener
     }
 
     /**
-     * Removes the lawn mower icon in place of a grass tile 
+     * Removes the lawn mower icon if the row lawn mower is available
+     * Otherwise, the lawn mower icon is set
      * @param row - the row in which the lawn mower icon will be removed
+     * @param isMowerAvailable - true if the lawn mower for the row is avaliable, false otherwise
      */
     @Override
-    public void updateMower(int row){
-    	mowers[row].setIcon(null);
+    public void updateMower(int row, boolean isMowerAvailable){
+    	if(isMowerAvailable)
+    	{
+    		System.out.println("GAMEUI TEST: IT ENTERED IF");
+    		mowers[row].setIcon(null);
+    		return;
+    	}
+    	System.out.println("GAMEUI TEST: IT DID NOT");
+    	Image image = Images.getLawnMowerImage();
+        try {
+	    	image = image.getScaledInstance(mowers[row].getHeight(), mowers[row].getHeight(), Image.SCALE_DEFAULT);
+	    	mowers[row].setIcon(new ImageIcon(image));
+        }
+        catch (Exception e) {
+        	e.addSuppressed(new NullPointerException());
+        }
     }
 
     

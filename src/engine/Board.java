@@ -49,9 +49,10 @@ public class Board implements ZombieMoveListener, Serializable {
 	
 	/**
 	 * Track all the avaliable mowers in the game
-	 * Track the avaliable mowers by row number
+	 * Each index in the arraylist represents a row.
+	 * If the mower is available, the index will be true
 	 */
-	private List<Integer> mowersAvaliable;
+	private boolean[] mowersAvaliable;
 	
 	/**
 	 * Tracks if a zombie has reached the end of the board.
@@ -80,13 +81,13 @@ public class Board implements ZombieMoveListener, Serializable {
 		
 		this.zombiesInGame = new LinkedList<Zombie>();
 		this.plantsInGame = new LinkedList<Plant>();
-		this.mowersAvaliable = new ArrayList<Integer>();
+		this.mowersAvaliable = new boolean[row];
 		this.zombieReachedEnd = new boolean[row];
 		
-		//initialize board and add all the avaliable lawn mowers to a list
+		//initialize board and add set all the avaliable lawn mowers
 		gameBoard = new Grid[row][col];
 		for (int r = 0; r < row; r++) {
-			mowersAvaliable.add(r);
+			mowersAvaliable[r] = true;
 			for (int c = 0; c < col; c++) {
 				gameBoard[r][c] = new Grid(r, c);
 			}
@@ -528,14 +529,21 @@ public class Board implements ZombieMoveListener, Serializable {
 		return zombieReachedEnd[row];
 	}
 	/**
-	 * Removes a lawn mower from the mowersAvaliable list
+	 * Removes a lawn mower. sets the available lawn mower row to false
 	 * @param row - the row in which the lawn mower is to be removed
 	 */
 	public void removeMower(int row)
 	{
-		mowersAvaliable.remove((Object) row);
+		mowersAvaliable[row] = false;
 	}
-	
+	/**
+	 * Sets the available lawn mower row to true
+	 * @param row - the row of the lawn mower
+	 */
+	public void setMoverAvaliable(int row)
+	{
+		mowersAvaliable[row] = true;
+	}
 	/**
 	 * Checks if the mower is avaliable for the given row
 	 * @param row - the row to check if the lawn mower is avaliable
@@ -543,11 +551,11 @@ public class Board implements ZombieMoveListener, Serializable {
 	 */
 	public boolean isMowerAvaliable(int row)
 	{
-		LOG.debug("Checking if lawn mower " + row + " is available and it returns " + mowersAvaliable.contains(row));
-		return mowersAvaliable.contains(row);
+		LOG.debug("Checking if lawn mower " + row + " is available and it returns " + mowersAvaliable[row]);
+		return mowersAvaliable[row];
 	}
 	
-	
+
 	@Override
 	public boolean onZombieMove(Zombie zombie) {
 		
