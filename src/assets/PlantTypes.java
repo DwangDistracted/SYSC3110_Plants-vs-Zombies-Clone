@@ -9,14 +9,17 @@ package assets;
  */
 public enum PlantTypes {
 	SUNFLOWER,
+	TWIN_SUNFLOWER,
 	PEASHOOTER,
+	REPEATER_PEASHOOTER,
 	AIRMONKEY,
 	POTATOMINE,
 	WALLNUT,
 	TALLNUT,
 	MELONPULT,
 	KERNELPULT,
-	SNOWSHOOTER;
+	SNOWSHOOTER,
+	JALAPENO;
 	
 	/**
 	 * Translates a PlantType Enumeration into a Plant Object
