@@ -35,7 +35,6 @@ public class GameController {
 	private GridListener gridListener;
 	private UnitSelectListener unitSelectListener;
 	private GameButtonListener gameButtonListener;
-	private LawnMowerListener lawnMowerListener;
 	private ShowFullZombieListListener showFullZombieListListener;
 	
 	// Selected to remove a plant
@@ -51,7 +50,6 @@ public class GameController {
 		gridListener = new GridListener();
 		unitSelectListener = new UnitSelectListener();
 		gameButtonListener = new GameButtonListener();
-		lawnMowerListener = new LawnMowerListener();
 		showFullZombieListListener = new ShowFullZombieListListener();
 		
 		
@@ -275,16 +273,6 @@ public class GameController {
 	public ShowFullZombieListListener getShowFullZombieListListener() {
 		
 		return showFullZombieListListener;
-	}
-	
-	/**
-	 * Get the lawn mower listener
-	 * 
-	 * @return the lawn mower listener
-	 */
-	public LawnMowerListener getLawnMowerListener() {
-		
-		return lawnMowerListener;
 	}
 	
 	/**
