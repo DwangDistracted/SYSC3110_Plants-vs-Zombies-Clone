@@ -1,8 +1,7 @@
 package assets;
 
 /**
- * The YetiZombie class creates instances of Yeti Zombies 
- * that contains high hitpoints and power. 
+ * Class for Yeti Zombie type. Has high hitpoints and attack power. 
  * 
  * @author Derek Shao
  *
