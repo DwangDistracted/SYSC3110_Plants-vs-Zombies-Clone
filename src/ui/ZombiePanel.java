@@ -24,6 +24,7 @@ public class ZombiePanel extends JPanel {
 	private static final int MAX_ZOMBIE_TYPES = 1;
 	
 	private Map<ZombieTypes, Integer> zombieTypeCount;
+	private JPanel showFullList;
 	
 	public ZombiePanel(Component parent, Map<ZombieTypes,Integer> map) {
 		super();
@@ -31,6 +32,7 @@ public class ZombiePanel extends JPanel {
 		this.zombieTypeCount = map;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setOpaque(false);
+		showFullList = new JPanel();
 		
 		if (map.keySet().size() <= MAX_ZOMBIE_TYPES) {
 			for (ZombieTypes zombieType : map.keySet()) {
@@ -45,46 +47,12 @@ public class ZombiePanel extends JPanel {
 				addZombieType(zombieType, parent, map.get(zombieType),3);
 			}
 			
-			JPanel fullList = new JPanel();
 			JLabel fullListLabel = new JLabel();
-			fullList.setOpaque(false);
+			showFullList.setOpaque(false);
 			fullListLabel.setText("Show More");
 			fullListLabel.setForeground(Color.WHITE);
-			fullList.add(fullListLabel);
-			fullList.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					System.out.println("full list clickeds");
-					showFullZombieList();
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void mouseExited(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void mousePressed(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void mouseReleased(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-			this.add(fullList);
+			showFullList.add(fullListLabel);
+			this.add(showFullList);
 		}
 		
 	}
@@ -113,7 +81,7 @@ public class ZombiePanel extends JPanel {
 		this.add(zombieDisplay);
 	}
 	
-	private void showFullZombieList() {
+	public void showFullZombieList() {
 		
 		JPanel fullZombieList = new JPanel();
 		fullZombieList.setLayout(new GridLayout(zombieTypeCount.size(), 3));
@@ -141,5 +109,15 @@ public class ZombiePanel extends JPanel {
 		}
 		
 		JOptionPane.showMessageDialog(null, fullZombieList, "Zombie List", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	/**
+	 * Get the show full list panel
+	 * 
+	 * @return show full list panel
+	 */
+	public JPanel getShowFullListPanel() {
+		
+		return showFullList;
 	}
 }

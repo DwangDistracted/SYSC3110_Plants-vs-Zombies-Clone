@@ -33,6 +33,7 @@ public class GridUI extends JPanel {
 		plantPanel = new JPanel();
 		plantLabel = new JLabel();
 		plantPanel.setOpaque(false);
+		zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount());
 		
 		this.grid = grid;
 		this.row = grid.getRow();
@@ -88,7 +89,7 @@ public class GridUI extends JPanel {
 		grid.updateZombieTypeCount();
 		
 		zombiePanel = new ZombiePanel(this, grid.getZombieTypeCount());
-		
+
 		add(zombiePanel);
 	}
 
@@ -130,5 +131,15 @@ public class GridUI extends JPanel {
 	public void setCol(int col) {
 
 		this.col = col;
+	}
+	
+	/**
+	 * Get the JPanel displaying zombies on this grid
+	 *
+	 * @return the panel displaying zombies
+	 */
+	public ZombiePanel getZombiePanel() {
+		
+		return zombiePanel;
 	}
 }

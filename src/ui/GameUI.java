@@ -388,6 +388,21 @@ public class GameUI extends JFrame implements GameListener
     }
     
     /**
+     * Add listeners to each grid that will show all zombies in a grid.
+     * @param listener
+     * @author Derek Shao
+     */
+    public void addShowFullListPanelListeners(MouseListener listener) {
+    	for (int i = 0; i < boardTiles.length; i++) {
+    		for (int j = 0; j < boardTiles[i].length; j++) {
+    			boardTiles[i][j].getZombiePanel()
+    								.getShowFullListPanel()
+    									.addMouseListener(listener);
+    		}
+    	}
+    }
+    
+    /**
      * Set the text for indicating remaining points
      * @author Derek Shao
      */
