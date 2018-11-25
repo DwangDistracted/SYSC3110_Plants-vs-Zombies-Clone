@@ -47,9 +47,7 @@ public class ViewTest {
 	public void setUp() {
 		GameUI.setTestMode();
 		game = new Game(lvl);
-		board = game.getBoard();
 		purse = game.getPurse();
-		commandQueue = game.getCommandQueue();
 		gameUI = new GameUI(game);
 		boardTiles = gameUI.getBoardTiles();
 	}
