@@ -304,7 +304,21 @@ public class GameUI extends JFrame implements GameListener
     private void setTurnLabel(int turns) {
 		turnMessage.setText("<html><b>Turns: </b>" + Integer.toString(turns) + "</html>");
 	}
- 
+    
+    /**
+     * Return a copy of the turn label message.
+     * 
+     * @return the turn message
+     */
+    public JLabel getTurnLabel() {
+    	
+    	// return a copy instead of a reference to prevent public modification
+    	JLabel turnMessageCopy = new JLabel();
+    	turnMessageCopy.setText(turnMessage.getText());
+    	
+    	return turnMessageCopy;
+    } 
+    
     /**
      * @return the JPanel holding all the unit selection cards
      * @author Michael Patsula
@@ -422,6 +436,20 @@ public class GameUI extends JFrame implements GameListener
     }
     
     /**
+     * Return a copy of the points label message.
+     * 
+     * @return the points message
+     */
+    public JLabel getPointsLabel() {
+    	
+    	// return a copy instead of a reference to prevent public modification
+    	JLabel pointsMessageCopy = new JLabel();
+    	pointsMessageCopy.setText(pointsAvailable.getText());
+    	
+    	return pointsMessageCopy;
+    } 
+    
+    /**
      * Retrieve all board tiles from board.
      * @return all boards tiles
      */
@@ -505,6 +533,11 @@ public class GameUI extends JFrame implements GameListener
 	}
     @Override
     public void updateMessage(String title, String message) {
+    	
+    	if (testMode) {
+    		return;
+    	}
+    	
     	JOptionPane.showMessageDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
     }
     
