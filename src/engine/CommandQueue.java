@@ -1,13 +1,10 @@
 package engine;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import assets.Plant;
 import assets.PlantTypes;
-import assets.Zombie;
 import commands.Command;
 import commands.DigCommand;
 import commands.EndTurnCommand;
