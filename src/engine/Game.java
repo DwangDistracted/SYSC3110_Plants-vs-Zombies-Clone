@@ -127,10 +127,11 @@ public class Game implements Serializable {
 				int row = nextZombie.getRow();
 				if(board.hasReachedEnd(row) && board.isMowerAvaliable(row))
 				{
+					cQ.registerMow(row);
 					setZomRemoveBin(board.useLawnMower(row));
 					for(GameListener g : listeners)
 					{
-						g.updateMower(row);
+						g.updateMower(row, board.isMowerAvaliable(row));
 					}
 					board.removeMower(row);
 					board.resetZombieReachedEnd(row);
@@ -142,7 +143,9 @@ public class Game implements Serializable {
 				}
 			}
 		}
-
+		
+		zomRemoveBin.clear(); //clearing the zombie remove bin (not needed anymore)
+		
 		for (Zombie z : zombiesToRemove) { //remove all exploding zombies that attacked
 			board.removeZombie(z.getRow(), z.getCol());
 		}
