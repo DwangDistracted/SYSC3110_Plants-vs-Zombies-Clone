@@ -206,6 +206,7 @@ public class Board implements ZombieMoveListener, Serializable {
 		}
 		
 		if(plant instanceof Twin_Flower) {
+			sfCounter++; //increment twice to represent that the twin_flower gives twice as much
 			sfCounter++;
 		}
 		
