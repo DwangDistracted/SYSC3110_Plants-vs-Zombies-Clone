@@ -41,14 +41,9 @@ public class Vaulting_Zombie extends Zombie{
 	@Override
 	public void attack(Board board) {
 		Plant plantTarget = board.getPlant(getRow(), getCol());
-		if(this.getCol()==plantTarget.getCol()+2) {
-			this.setRow(plantTarget.getRow());
-			this.setColumn(plantTarget.getCol());
-			plantTarget.takeDamage(getPower());
-			
-			if (!plantTarget.isAlive()) {
-				board.removePlant(getRow(), getCol());
-			}
+		if(this.getRow() == plantTarget.getRow() && this.getCol() == plantTarget.getCol() + 1) {
+			this.setColumn(plantTarget.getCol() - 1);
+			board.onZombieMove(this);
 		}
 		
 	}
