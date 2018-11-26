@@ -21,22 +21,29 @@ In the following iteration, the game will drop the text-based representation in 
 - Two Plants and One Zombie Type still
 - A Dig Up function
 
+## Milestone 3 (11-23-2018):
+- Fully Functional GUI Based Game
+- Many Plants and Zombies
+- Undo/Redo Function
+- The UI allows the display of more detailed information about the plants and zombies when they are clicked on
+- (Background) The Engine, Input, and UI classes have been refactored in regards to how they interact to better adhere to the MVC model
+
 ## Future Tasks
-- Increase variety of plants and zombies
-- Implement a Lawn Mower Function
-- Reduce Input Lag (if Possible)
+- POLISH POLISH POLISH
 - Allow serialization of levels into xml/json so that levels can be designed without touching code
-- Introduce save/load game serialization
+- Introduce save/load game functionality
 
 ## Known Issues
-- INPUT LAG: Input takes some time to parse. Please be patient when clicking.
+- Major input lag when clicking for show more
+- Occasional Input Lag
 - Loading can be slow
 - expect ~250 MBs of memory usage.
-- Sometimes it will spawn 0 zombies
-- Zombie positions do not update correctly on the UI. it will show its previous position as well as the new one.
 
-## Milestone 2 Division of Labour
-Michael Patsula - GameUI, GameController, Card, Documentation
-Derek Shao - GameUI, GridUI, ZombiePanel, Images, GameController, bugfixes, Diagrams
-David Wang - MenuUI, MenuInteractions, JImagePanel, ZombiePanel, GameController, Game Engine Fixes
-Tanisha Garg - Unit Tests, QA
+## Milestone 3 Division of Labour
+Michael Patsula - Unit Types, Mower Implementation
+
+Derek Shao - Unit Types, Unit Tests, UI Changes, Diagrams
+
+David Wang - Unit Types, Engine Refactor, Undo/Redo Function, Documentation
+
+Tanisha Garg - Unit Types

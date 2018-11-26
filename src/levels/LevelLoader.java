@@ -46,7 +46,6 @@ public class LevelLoader {
 		sampleZombies.put(ZombieTypes.YETI_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.TANK_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.ENRAGED_ZOMBIE, 1);
-		sampleZombies.put(ZombieTypes.VAULTING_ZOMBIE, 1);
     
 		HashSet<PlantTypes> samplePlants = new HashSet<>();
 		samplePlants.add(PlantTypes.PEASHOOTER);
