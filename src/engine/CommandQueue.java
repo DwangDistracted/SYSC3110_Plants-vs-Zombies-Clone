@@ -169,7 +169,9 @@ public class CommandQueue implements Serializable {
 				LOG.debug("redo dig command");
 				break;
 			case ENDTURN: //redo an end turn command
-				undoQueue.addFirst(new EndTurnCommand(game.getBoard(), game.getPurse()));
+				currentEndTurn = new EndTurnCommand(game.getBoard(), game.getPurse());
+				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList());
+				undoQueue.addFirst(currentEndTurn);
 				game.getBoard().setBoard(((EndTurnCommand)c).getBoard());
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
 				game.incrementTurns();
