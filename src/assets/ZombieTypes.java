@@ -10,6 +10,7 @@ package assets;
 public enum ZombieTypes {
 	REG_ZOMBIE,
 	EXP_ZOMBIE,
+	ENRAGED_ZOMBIE,
 	JUK_ZOMBIE,
 	AIR_ZOMBIE,
 	RUSH_ZOMBIE,
@@ -41,6 +42,8 @@ public enum ZombieTypes {
 				return new TankZombie();
 			case YETI_ZOMBIE:
 				return new YetiZombie();
+			case ENRAGED_ZOMBIE:
+				return new Enraged_Zombie();
 			default: 
 				return null;
 		}
@@ -64,6 +67,8 @@ public enum ZombieTypes {
 				return "Tank Zombie";
 			case YETI_ZOMBIE:
 				return "Yeti Zombie";
+			case ENRAGED_ZOMBIE:
+				return "Enraged Zombie";
 			default: 
 				return null;
 		}
