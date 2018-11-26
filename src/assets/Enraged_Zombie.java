@@ -43,7 +43,11 @@ public class Enraged_Zombie extends Zombie{
 		int row = this.getRow();
 		int column = this.getCol();
 		if(this.getHP()==0) {
-			board.placeZombie(ZombieTypes.toZombie(ZombieTypes.REG_ZOMBIE), row, column);
+			Zombie zombie = ZombieTypes.toZombie(ZombieTypes.REG_ZOMBIE);
+			zombie.setListener(board);
+			zombie.setRow(row);
+			zombie.setColumn(column);
+			board.placeZombie(zombie, row, column);
 		}
 	}
 

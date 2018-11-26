@@ -128,6 +128,24 @@ public abstract class Plant implements Unit{
 	 */
 	public abstract void attack(Board board);
 	
+	/**
+	 * Used to remove a zombie from the board as a result of a plant attack
+	 * @param zombieTarget
+	 * @param board
+	 * @author David Wang
+	 */
+	protected void removeZombie(Zombie zombieTarget, Board board) {
+		if (!zombieTarget.isAlive()) {
+			board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
+			LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
+					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+			
+			if (zombieTarget instanceof Enraged_Zombie) {
+				((Enraged_Zombie)zombieTarget).spawnZombie(board);
+			}
+		}
+	}
+	
 	@Override
 	public int getRow() {
 		return this.row;

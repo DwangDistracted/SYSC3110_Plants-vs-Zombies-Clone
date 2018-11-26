@@ -55,9 +55,7 @@ public class Kernelpult extends Plant {
 			zombieTarget.takeDamage(getPower());
 			
 			if (!zombieTarget.isAlive()) {
-				board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-				LOG.debug(String.format("Kernelpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
-						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
+				removeZombie(zombieTarget, board);
 			}
 			else {
 				// if the zombie didn't die, there is a chance for immobilization

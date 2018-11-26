@@ -52,11 +52,7 @@ public class Melonpult extends Plant {
 			for (Zombie zombie : zombieTargets) {
 				zombie.takeDamage(getPower());
 				
-				if (!zombie.isAlive()) {
-					board.removeZombie(zombie.getRow(), zombie.getCol());
-					LOG.debug(String.format("Melonpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
-							row, column, zombie.getRow(), zombie.getCol()));
-				}	
+				removeZombie(zombie, board);
 			}
 		}
 	}

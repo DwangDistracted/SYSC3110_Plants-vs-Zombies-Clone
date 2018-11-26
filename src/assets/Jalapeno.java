@@ -56,7 +56,7 @@ public class Jalapeno extends Plant{
 		if(zombieInRow!=null) {
 			for(Zombie z : zombieInRow) {
 				z.takeDamage(this.getPower());
-				board.removeZombie(z.getRow(), z.getCol());
+				removeZombie(z, board);
 			}
 		}
 		discharged = true;

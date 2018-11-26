@@ -39,13 +39,13 @@ public class LevelLoader {
 		HashMap<ZombieTypes, Integer> sampleZombies = new HashMap<>();
 		sampleZombies.put(ZombieTypes.JUK_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.AIR_ZOMBIE, 5);
-		sampleZombies.put(ZombieTypes.REG_ZOMBIE, 20);		
-		sampleZombies.put(ZombieTypes.RUSH_ZOMBIE, 10);		
-		sampleZombies.put(ZombieTypes.SPRINT_ZOMBIE, 10);
+		sampleZombies.put(ZombieTypes.REG_ZOMBIE, 30);		
+		sampleZombies.put(ZombieTypes.RUSH_ZOMBIE, 5);		
+		sampleZombies.put(ZombieTypes.SPRINT_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.EXP_ZOMBIE, 20);
 		sampleZombies.put(ZombieTypes.YETI_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.TANK_ZOMBIE, 5);
-		sampleZombies.put(ZombieTypes.ENRAGED_ZOMBIE, 1);
+		sampleZombies.put(ZombieTypes.ENRAGED_ZOMBIE, 5);
     
 		HashSet<PlantTypes> samplePlants = new HashSet<>();
 		samplePlants.add(PlantTypes.PEASHOOTER);

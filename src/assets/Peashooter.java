@@ -45,12 +45,7 @@ public class Peashooter extends Plant {
 					row, column, zombieTarget.getRow(), zombieTarget.getCol()));
 			
 			zombieTarget.takeDamage(getPower());
-			
-			if (!zombieTarget.isAlive()) {
-				board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-				LOG.debug(String.format("Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
-						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-			}
+			removeZombie(zombieTarget, board);
 		}
 	}		
 }

@@ -44,11 +44,7 @@ private static Logger LOG = new Logger("Repeated Peashooter");
 				LOG.debug(String.format("Repeater Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
 						row, column, z.getRow(), z.getCol()));
 				z.takeDamage(getPower()); // attacking all zombies in a row
-				if (!z.isAlive()) {
-					board.removeZombie(z.getRow(), z.getCol());
-					LOG.debug(String.format("Repeater Peashooter at : (%d, %d) defeated Zombie at: (%d, %d)", 
-							row, column, z.getRow(), z.getCol()));
-				}
+				removeZombie(z, board);
 			}
 		}
 		
