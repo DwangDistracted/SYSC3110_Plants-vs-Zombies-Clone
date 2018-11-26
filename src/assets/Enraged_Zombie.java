@@ -32,10 +32,9 @@ public class Enraged_Zombie extends Zombie{
 	
 	@Override
 	public int getDefaultSpeed() {
-
 		return DEFAULT_SPEED;
 	}
-	
+		
 	/**
 	 * method to spawn zombie once enraged zombie is killed
 	 * @param board

@@ -13,7 +13,7 @@ public class Twin_Flower extends Plant{
 	private static final int COST = 50;
 	
 	//The Amount of Points that are added per turn per sunflower
-	private static final int POINTS = 20; //points that a sunflower provides a player to buy other plants
+	private static final int POINTS = 25; //points that a sunflower provides a player to buy other plants
 
 	private static final PlantTypes PLANT_TYPE = PlantTypes.TWIN_FLOWER;
 	

@@ -1,5 +1,6 @@
 package ui;
 import assets.*;
+import util.Logger;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -11,10 +12,9 @@ import javax.imageio.ImageIO;
 /**
  * Class to load images.
  * 
- * @author Derek Shao
+ * @author Derek Shao modified David Wang
  *
  */
-
 public class Images
 {
 	private static BufferedImage sunflowerImage = null;
@@ -46,6 +46,8 @@ public class Images
 	private static BufferedImage titleBanner = null;
 	private static BufferedImage titleSplash = null;
 
+	private static Logger LOG = new Logger("Images");
+	
 	private Images() {}
 
 	/**
@@ -86,6 +88,7 @@ public class Images
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			LOG.error("Failed to Load Images");
 			return false;
 		}
 	}
@@ -124,7 +127,7 @@ public class Images
 		case JALAPENO:
 			return jalapenoImage;
 		default:
-			System.out.println("Invalid Plant type");
+			LOG.error("Invalid Plant type");
 		}
 
 		return null;
@@ -157,7 +160,7 @@ public class Images
 		case ENRAGED_ZOMBIE:
 			return enragedZombieImage;
 		default:
-			System.out.println("Invalid zombie type");
+			LOG.error("Invalid zombie type");
 		}
 
 		return null;
