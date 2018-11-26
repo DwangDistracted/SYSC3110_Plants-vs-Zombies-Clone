@@ -9,7 +9,7 @@ package assets;
  */
 public enum PlantTypes {
 	SUNFLOWER,
-	TWIN_SUNFLOWER,
+	TWIN_FLOWER,
 	PEASHOOTER,
 	REPEATER_PEASHOOTER,
 	AIRMONKEY,
@@ -31,8 +31,12 @@ public enum PlantTypes {
 		switch (e) {
 			case SUNFLOWER:
 				return new Flower();
+			case TWIN_FLOWER:
+				return new Twin_Flower();
 			case PEASHOOTER:
 				return new Peashooter();
+			case REPEATER_PEASHOOTER:
+				return new Repeater_Peashooter();
 			case AIRMONKEY:
 				return new Air_Monkey();
 			case POTATOMINE:
@@ -47,6 +51,8 @@ public enum PlantTypes {
 				return new Kernelpult();
 			case SNOWSHOOTER:
 				return new Snowshooter();
+			case JALAPENO:
+				return new Jalapeno();
 			default: 
 				return null;
 		}

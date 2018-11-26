@@ -10,7 +10,7 @@ import engine.Board;
 public class Enraged_Zombie extends Zombie{
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_LOW;
-	private static final int DEFAULT_HP = HEALTH_LOW;
+	private static final int DEFAULT_HP = HEALTH_MEDIUM;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.ENRAGED_ZOMBIE;
 	
 	public Enraged_Zombie()	{

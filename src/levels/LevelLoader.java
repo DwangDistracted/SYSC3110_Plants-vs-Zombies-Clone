@@ -45,10 +45,14 @@ public class LevelLoader {
 		sampleZombies.put(ZombieTypes.EXP_ZOMBIE, 20);
 		sampleZombies.put(ZombieTypes.YETI_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.TANK_ZOMBIE, 5);
+		sampleZombies.put(ZombieTypes.ENRAGED_ZOMBIE, 1);
+		sampleZombies.put(ZombieTypes.VAULTING_ZOBIE, 1);
     
 		HashSet<PlantTypes> samplePlants = new HashSet<>();
-		samplePlants.add(PlantTypes.PEASHOOTER);		
+		samplePlants.add(PlantTypes.PEASHOOTER);
+		samplePlants.add(PlantTypes.REPEATER_PEASHOOTER);
 		samplePlants.add(PlantTypes.SUNFLOWER);	
+		samplePlants.add(PlantTypes.TWIN_FLOWER);
 		samplePlants.add(PlantTypes.TALLNUT);	
 		samplePlants.add(PlantTypes.WALLNUT);
 		samplePlants.add(PlantTypes.POTATOMINE);
@@ -56,6 +60,7 @@ public class LevelLoader {
 		samplePlants.add(PlantTypes.KERNELPULT);
 		samplePlants.add(PlantTypes.MELONPULT);
 		samplePlants.add(PlantTypes.SNOWSHOOTER);
+		samplePlants.add(PlantTypes.JALAPENO);
     
 		levels.add(new LevelInfo(
 					"Sample",							//level name

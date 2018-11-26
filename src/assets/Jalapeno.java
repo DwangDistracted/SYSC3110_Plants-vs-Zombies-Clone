@@ -13,8 +13,8 @@ import util.Logger;
 
 public class Jalapeno extends Plant{
 	private static final Logger LOG = new Logger("Jalapeno");
-	
-	private static final int DEFAULT_HP = HEALTH_MEDIUM;
+
+	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final int DEFAULT_POWER = ATTACK_INSTANT;
 	private static final int COST = 125;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.JALAPENO;
