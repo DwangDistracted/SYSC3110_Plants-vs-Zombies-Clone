@@ -11,7 +11,7 @@ public class Vaulting_Zombie extends Zombie{
 	private static final int DEAFAULT_SPEED = SPEED_HIGH;
 	private static final int DEFAULT_POWER = ATTACK_LOW;
 	private static final int DEFAULT_HP = HEALTH_MEDIUM;
-	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.VAULTING_ZOBIE;
+	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.VAULTING_ZOMBIE;
 	
 	public Vaulting_Zombie()	{
 		super(DEAFAULT_SPEED, DEFAULT_POWER, DEFAULT_HP);

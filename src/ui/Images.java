@@ -158,7 +158,7 @@ public class Images
 			return yetiZombieImage;
 		case ENRAGED_ZOMBIE:
 			return enragedZombieImage;
-		case VAULTING_ZOBIE:
+		case VAULTING_ZOMBIE:
 			return vaultingZombieImage;
 		default:
 			System.out.println("Invalid zombie type");
