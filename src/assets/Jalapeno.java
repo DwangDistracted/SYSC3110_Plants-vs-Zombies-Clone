@@ -59,8 +59,6 @@ public class Jalapeno extends Plant{
 				board.removeZombie(z.getRow(), z.getCol());
 			}
 		}
-		
-		//LOG.debug(String.format("Jalapeno at : (%d, %d) defeats all Zombies in row: (%d)", row));
 		discharged = true;
 	}
 	

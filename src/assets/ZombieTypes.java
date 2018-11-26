@@ -16,8 +16,7 @@ public enum ZombieTypes {
 	RUSH_ZOMBIE,
 	SPRINT_ZOMBIE,
 	TANK_ZOMBIE,
-	YETI_ZOMBIE,
-	VAULTING_ZOMBIE;
+	YETI_ZOMBIE;
 
 	/**
 	 * Translates a ZombieTypes Enumeration into a Zombie Object
@@ -45,8 +44,6 @@ public enum ZombieTypes {
 				return new YetiZombie();
 			case ENRAGED_ZOMBIE:
 				return new Enraged_Zombie();
-			case VAULTING_ZOMBIE:
-				return new Vaulting_Zombie();
 			default: 
 				return null;
 		}
@@ -72,8 +69,6 @@ public enum ZombieTypes {
 				return "Yeti Zombie";
 			case ENRAGED_ZOMBIE:
 				return "Enraged Zombie";
-			case VAULTING_ZOMBIE:
-				return "Vaulting Zombie";
 			default: 
 				return null;
 		}

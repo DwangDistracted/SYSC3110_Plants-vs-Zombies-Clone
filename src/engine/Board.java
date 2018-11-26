@@ -9,6 +9,7 @@ import java.util.Queue;
 import assets.Air_Zombie;
 import assets.Flower;
 import assets.Plant;
+import assets.Twin_Flower;
 import assets.Unit;
 import assets.Zombie;
 import assets.Juking_Zombie;
@@ -200,6 +201,10 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
 		if (plant instanceof Flower) {
+			sfCounter++;
+		}
+		
+		if(plant instanceof Twin_Flower) {
 			sfCounter++;
 		}
 		

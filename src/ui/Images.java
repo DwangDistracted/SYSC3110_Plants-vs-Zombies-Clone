@@ -39,7 +39,6 @@ public class Images
 	private static BufferedImage expZombieImage = null;
 	private static BufferedImage jukZombieImage = null;
 	private static BufferedImage airZombieImage = null;
-	private static BufferedImage vaultingZombieImage = null;
 	private static BufferedImage enragedZombieImage = null;
 	
 	private static BufferedImage mowerImage = null;
@@ -77,7 +76,6 @@ public class Images
 			sprintZombieImage =  ImageIO.read(new File("images\\Zombie_Sprinter.png"));
 			tankZombieImage = ImageIO.read(new File("images\\Zombie_Tank.png"));
 			yetiZombieImage = ImageIO.read(new File("images\\Zombie_Yeti.png"));
-			vaultingZombieImage = ImageIO.read(new File("images\\Vaulting_Zombie.png"));
 			enragedZombieImage = ImageIO.read(new File("images\\Enraged_Zombie.png"));
 			
 			mowerImage =  ImageIO.read(new File("images\\Lawnmower.png"));
@@ -158,8 +156,6 @@ public class Images
 			return yetiZombieImage;
 		case ENRAGED_ZOMBIE:
 			return enragedZombieImage;
-		case VAULTING_ZOMBIE:
-			return vaultingZombieImage;
 		default:
 			System.out.println("Invalid zombie type");
 		}
