@@ -58,7 +58,7 @@ public class Images
 		try {
 			sunflowerImage = ImageIO.read(new File("images\\Plant_Sunflower.png"));
 			twinSunflowerImage = ImageIO.read(new File("images\\Twin_Flower.png"));
-			repeaterPeashooterImage = ImageIO.read(new File("images\\Repeater_Peashooter.png"));
+			repeaterPeashooterImage = ImageIO.read(new File("images\\Repeater_Peashooter.jpg"));
 			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
 			potatoMineImage = ImageIO.read(new File("images\\Potato_Mine.png"));
 			airMonkeyImage = ImageIO.read(new File("images\\Air_Monkey.png"));

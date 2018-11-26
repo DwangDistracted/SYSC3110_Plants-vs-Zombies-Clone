@@ -8,13 +8,13 @@ import engine.Board;
  *
  */
 public class Vaulting_Zombie extends Zombie{
-	private static int default_speed = SPEED_HIGH;
+	private static final int DEAFAULT_SPEED = SPEED_HIGH;
 	private static final int DEFAULT_POWER = ATTACK_LOW;
 	private static final int DEFAULT_HP = HEALTH_MEDIUM;
 	private static final ZombieTypes ZOMBIE_TYPE = ZombieTypes.VAULTING_ZOBIE;
 	
 	public Vaulting_Zombie()	{
-		super(default_speed, DEFAULT_POWER, DEFAULT_HP);
+		super(DEAFAULT_SPEED, DEFAULT_POWER, DEFAULT_HP);
 	}
 	
 	/**
@@ -32,11 +32,7 @@ public class Vaulting_Zombie extends Zombie{
 
 	@Override
 	public int getDefaultSpeed() {
-		return default_speed;
-	}
-	
-	public void setDefaultSpeed() {
-		this.default_speed = SPEED_LOW;
+		return DEAFAULT_SPEED;
 	}
 	
 	/**
@@ -46,7 +42,6 @@ public class Vaulting_Zombie extends Zombie{
 	public void attack(Board board) {
 		Plant plantTarget = board.getPlant(getRow(), getCol());
 		if(this.getCol()==plantTarget.getCol()+2) {
-			this.setDefaultSpeed();
 			this.setRow(plantTarget.getRow());
 			this.setColumn(plantTarget.getCol());
 			plantTarget.takeDamage(getPower());
