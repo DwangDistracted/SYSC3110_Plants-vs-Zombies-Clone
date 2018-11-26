@@ -2,6 +2,13 @@ package assets;
 
 import engine.Board;
 
+/**
+ * Class for Exploding Zombies that damages on units on a grid
+ * when attacking plant. 
+ * 
+ * @author Michael Patsula
+ *
+ */
 public class Exploding_Zombie extends Zombie {
 
 	private static final int DEFAULT_SPEED = SPEED_LOW;

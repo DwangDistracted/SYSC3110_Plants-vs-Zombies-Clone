@@ -2,6 +2,13 @@ package assets;
 
 import engine.Board;
 
+/**
+ * Class for Tallnut type. Cannot attack and has
+ * extremely high amounts of hitpoints.
+ * 
+ * @author David Wang
+ *
+ */
 public class Tallnut extends Plant {
 	private static final int DEFAULT_HP = HEALTH_SUPER_TANK;
 	private static final int DEFAULT_POWER = ATTACK_NONE;

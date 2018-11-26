@@ -1,5 +1,12 @@
 package assets;
 
+/**
+ * Class for Sprint Zombie type. Has extremely high 
+ * speed and low amounts of hitpoints/attack.
+ * 
+ * @author David Wang
+ *
+ */
 public class SprintZombie extends Zombie {
 	private static final int DEFAULT_SPEED = SPEED_HIGH;
 	private static final int DEFAULT_POWER = ATTACK_LOW;

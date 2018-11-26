@@ -10,8 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -124,6 +122,7 @@ public class BoardTest {
 	 */
 	@Test
 	public void testOnZombieMove() {
+		LevelLoader.init();
 		LevelInfo lvl = LevelLoader.getLevel(1);
 		Game game = new Game(lvl);
 		Board b = new Board(2,4);

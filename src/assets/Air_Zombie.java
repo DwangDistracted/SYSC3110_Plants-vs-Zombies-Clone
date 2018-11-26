@@ -1,5 +1,12 @@
 package assets;
 
+/**
+ * Class for Air Zombie type that can only be attacked
+ * by Air Monkeys.
+ * 
+ * @author Michael Patsula
+ *
+ */
 public class Air_Zombie extends Zombie {
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_LOW;

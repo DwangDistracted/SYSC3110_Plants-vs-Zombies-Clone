@@ -1,5 +1,11 @@
 package assets;
 
+/**
+ * Class for Yeti Zombie type. Has high hitpoints and attack power. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public class YetiZombie extends Zombie {
 
 	private static final int DEFAULT_SPEED = SPEED_LOW;

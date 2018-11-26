@@ -101,7 +101,7 @@ public abstract class Plant implements Unit{
 	@Override
 	public boolean isAlive() {
 		if(getHP() <= 0) {
-			LOG.info("Flower is Dead");
+			LOG.debug("Flower is Dead");
 			return false;
 		}
 		return true;
