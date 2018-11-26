@@ -113,7 +113,10 @@ public class CommandQueue implements Serializable {
 				LOG.debug("undo place command");
 				break;
 			case ENDTURN:
-				redoQueue.addFirst(new EndTurnCommand(game.getBoard(), game.getPurse()));
+				currentEndTurn = new EndTurnCommand(game.getBoard(), game.getPurse());
+				redoQueue.addFirst(currentEndTurn);
+				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList());
+				
 				game.getBoard().setBoard(((EndTurnCommand)c).getBoard());
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
 				game.decrementTurns();
@@ -174,16 +177,28 @@ public class CommandQueue implements Serializable {
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
 				game.incrementTurns();
 				
+				if(!((EndTurnCommand)c).getMowerList().isEmpty()) //if a lawnmower was used
+				{
+					for (GameListener gl : listeners) {
+						gl.updateAllGrids();
+						gl.updatePurse();
+						gl.updateTurnNumber();
+						
+						for(Integer m : ((EndTurnCommand)c).getMowerList())
+						{
+							gl.updateMower(m, game.getBoard().isMowerAvaliable(m));
+							game.getBoard().removeMower(m);
+						}
+					}
+					break;
+				}
+				
 				for (GameListener gl : listeners) {
 					gl.updateAllGrids();
 					gl.updatePurse();
 					gl.updateTurnNumber();
 				}
 				LOG.debug("redo end turn command");
-				break;
-			case MOWER:
-				//Mower not implementated for Milestone 3
-				LOG.debug("redo mow command");
 				break;
 			case PLACE: //redo a place command
 				undoQueue.addFirst(c);

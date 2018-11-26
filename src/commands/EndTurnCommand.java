@@ -33,11 +33,12 @@ public class EndTurnCommand extends Command {
 	public void addMowerRow(int row){
 		mowers.add(row);
 	}
+	public void setMowerList(ArrayList<Integer> mower){
+		this.mowers = mower;
+	}
 	public ArrayList<Integer> getMowerList(){
 		return mowers;
-		
 	}
-	
 	@Override
 	public CommandType getCommand() {
 		return CommandType.ENDTURN;
