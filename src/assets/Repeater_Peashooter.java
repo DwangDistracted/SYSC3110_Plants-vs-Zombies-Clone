@@ -39,8 +39,8 @@ private static Logger LOG = new Logger("Repeated Peashooter");
 		ArrayList<Zombie> zombieInRow = new ArrayList<>();
 		zombieInRow = (ArrayList<Zombie>) board.getRowTargets(row, column);
 		
-		for(Zombie z : zombieInRow) {
-			if (z != null){
+		if(zombieInRow!=null) {
+			for(Zombie z : zombieInRow) {
 				LOG.debug(String.format("Repeater Peashooter at : (%d, %d) attacking Zombie at: (%d, %d)", 
 						row, column, z.getRow(), z.getCol()));
 				z.takeDamage(getPower()); // attacking all zombies in a row
@@ -50,7 +50,7 @@ private static Logger LOG = new Logger("Repeated Peashooter");
 							row, column, z.getRow(), z.getCol()));
 				}
 			}
-			
 		}
+		
 	}		
 }

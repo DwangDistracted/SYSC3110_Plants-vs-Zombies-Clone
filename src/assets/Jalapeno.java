@@ -18,6 +18,7 @@ public class Jalapeno extends Plant{
 	private static final int DEFAULT_POWER = ATTACK_INSTANT;
 	private static final int COST = 125;
 	private static final PlantTypes PLANT_TYPE = PlantTypes.JALAPENO;
+	private boolean discharged = false;
 	
 	public Jalapeno() {
 		super(DEFAULT_HP, DEFAULT_POWER, COST);
@@ -52,12 +53,18 @@ public class Jalapeno extends Plant{
 		ArrayList<Zombie> zombieInRow = new ArrayList<>();
 		zombieInRow = (ArrayList<Zombie>) board.getRowTargets(row, column);
 		
-		for(Zombie z : zombieInRow) {
-			z.setHp(0);
-			board.removeZombie(z.getRow(), z.getCol());
-			board.removePlant(row, column);
+		if(zombieInRow!=null) {
+			for(Zombie z : zombieInRow) {
+				z.takeDamage(this.getPower());
+				board.removeZombie(z.getRow(), z.getCol());
+			}
 		}
 		
-		LOG.debug(String.format("Jalapeno at : (%d, %d) defeats all Zombies in row: (%d)", row));
+		//LOG.debug(String.format("Jalapeno at : (%d, %d) defeats all Zombies in row: (%d)", row));
+		discharged = true;
+	}
+	
+	public boolean getDischarged() {
+		return discharged;
 	}
 }

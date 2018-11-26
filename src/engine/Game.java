@@ -1,6 +1,7 @@
 package engine;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import assets.Potato_Mine;
+import assets.Jalapeno;
 import assets.Flower;
 import assets.Plant;
 import assets.PlantTypes;
@@ -92,7 +94,12 @@ public class Game implements Serializable {
 				if (((Potato_Mine)plant).getDischarged()) {
 					plantsToRemove.add(plant);
 				}
-			} //else if plant is jalapeno
+			}
+			else if(plant.getPlantType() == PlantTypes.JALAPENO){ //else if plant is jalapeno
+				if(((Jalapeno)plant).getDischarged()){
+					plantsToRemove.add(plant);
+				}
+			}
 		}
 		
 		for (Plant plant : plantsToRemove) {
