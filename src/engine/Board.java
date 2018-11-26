@@ -349,7 +349,6 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * @param other
 	 */
 	public void setBoard(Board other) {
-		this.zombiesInGame = other.zombiesInGame;
 		this.plantsInGame = other.plantsInGame;
 
     	for (int i = 0; i < gameBoard.length; i++) {
