@@ -554,11 +554,9 @@ public class GameUI extends JFrame implements GameListener
     public void updateMower(int row, boolean isMowerAvailable){
     	if(isMowerAvailable)
     	{
-    		System.out.println("GAMEUI TEST: IT ENTERED IF");
     		mowers[row].setIcon(null);
     		return;
     	}
-    	System.out.println("GAMEUI TEST: IT DID NOT");
     	Image image = Images.getLawnMowerImage();
         try {
 	    	image = image.getScaledInstance(mowers[row].getHeight(), mowers[row].getHeight(), Image.SCALE_DEFAULT);
