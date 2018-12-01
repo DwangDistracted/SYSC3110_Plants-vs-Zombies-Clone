@@ -8,11 +8,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="D:/_School_/SYSC3110/L1G2_Milestone_3/3rdparty/jaxb/jaxb-api.jar"/>
-	<classpathentry kind="lib" path="D:/_School_/SYSC3110/L1G2_Milestone_3/3rdparty/jaxb/jaxb-core.jar"/>
-	<classpathentry kind="lib" path="D:/_School_/SYSC3110/L1G2_Milestone_3/3rdparty/jaxb/jaxb-impl.jar"/>
-	<classpathentry kind="lib" path="D:/_School_/SYSC3110/L1G2_Milestone_3/3rdparty/jaxb/jaxb-jxc.jar"/>
-	<classpathentry kind="lib" path="D:/_School_/SYSC3110/L1G2_Milestone_3/3rdparty/jaxb/jaxb-xjc.jar"/>
-	<classpathentry kind="lib" path="D:/_School_/SYSC3110/L1G2_Milestone_3/3rdparty/activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/_School_/SYSC3110/L1G2_Milestone_4/3rdparty/activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="3rdparty/jaxb/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="3rdparty/jaxb/jaxb-core.jar"/>
+	<classpathentry kind="lib" path="3rdparty/jaxb/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="3rdparty/jaxb/jaxb-jxc.jar"/>
+	<classpathentry kind="lib" path="3rdparty/jaxb/jaxb-xjc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
