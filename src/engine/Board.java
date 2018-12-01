@@ -62,6 +62,7 @@ public class Board implements ZombieMoveListener, Serializable {
 	 */
 	private boolean[] zombieReachedEnd;
 	
+	//TODO - This should be replaced by a list of plants or some other solution
 	/**
 	 * Number of Sunflowers in game
 	 */
