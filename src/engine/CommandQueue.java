@@ -1,17 +1,13 @@
 package engine;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import assets.Plant;
 import assets.PlantTypes;
-import assets.Zombie;
 import commands.Command;
 import commands.DigCommand;
 import commands.EndTurnCommand;
-import commands.MowCommand;
 import commands.PlaceCommand;
 import util.Logger;
 
@@ -27,10 +23,12 @@ public class CommandQueue implements Serializable {
 	private Game game;
 	private LinkedList<Command> undoQueue;
 	private LinkedList<Command> redoQueue;
+	private EndTurnCommand currentEndTurn;
 	
 	public CommandQueue(Game game, List<GameListener> listeners) {
 		this.game = game;
 		this.listeners = listeners;
+		this.currentEndTurn = null;
 		undoQueue = new LinkedList<Command>();
 		redoQueue = new LinkedList<Command>();
 	}
@@ -60,19 +58,12 @@ public class CommandQueue implements Serializable {
 	}
 
 	/**
-	 * Adds a Mower Command to the Command History
+	 * Adds a lawn mower to the end turn mower list
 	 * @param grids the array of grids the mower affected
 	 */
-	public void registerMow(Grid[] grids, int row) {
-		redoQueue.clear(); //a new command prevents redo-ing old commands
-		ArrayList<Plant> plants = new ArrayList<>();
-		ArrayList<Zombie> zombies = new ArrayList<>();
-		for (Grid g : grids) {
-			plants.add(g.getPlant()); //get all the plants the mower killed
-			zombies.addAll(g.getZombies()); //get all the zombies the mower killed
-		}
-		undoQueue.addFirst(new MowCommand(plants.toArray(new Plant[plants.size()]), zombies.toArray(new Zombie[zombies.size()]), row));
-		LOG.debug("registered mow command");
+	public void registerMow(int row) {
+		currentEndTurn.addMowerRow(row);
+		LOG.debug("registered lawn mower");
 	}
 	
 	/**
@@ -80,10 +71,13 @@ public class CommandQueue implements Serializable {
 	 * @param board
 	 */
 	public void registerEndTurn(Board board) {
-		redoQueue.clear(); //a new command prevents redo-ing old commands //a new command prevents redo-ing old commands
-		undoQueue.addFirst(new EndTurnCommand(board, game.getPurse()));
+		redoQueue.clear(); //a new command prevents redo-ing old commands 
+		currentEndTurn = new EndTurnCommand(board, game.getPurse());
+		undoQueue.addFirst(currentEndTurn);
+		 
 		LOG.debug("registered end turn command");
 	}
+	
 	
 	/**
 	 * Undos the most recent command
@@ -105,10 +99,6 @@ public class CommandQueue implements Serializable {
 				}
 				LOG.debug("undo dig command");
 				break;
-			case MOWER:
-				//Mower not implementated for Milestone 3
-				LOG.debug("undo mow command");
-				break;
 			case PLACE:
 				redoQueue.addFirst(c);
 				game.getBoard().removePlant(((PlaceCommand)c).getLocX(), ((PlaceCommand)c).getLocY()); //remove the plant
@@ -120,10 +110,29 @@ public class CommandQueue implements Serializable {
 				LOG.debug("undo place command");
 				break;
 			case ENDTURN:
-				redoQueue.addFirst(new EndTurnCommand(game.getBoard(), game.getPurse()));
+				currentEndTurn = new EndTurnCommand(game.getBoard(), game.getPurse());
+				redoQueue.addFirst(currentEndTurn);
+				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList());
+				
 				game.getBoard().setBoard(((EndTurnCommand)c).getBoard());
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
 				game.decrementTurns();
+				
+				if(!((EndTurnCommand)c).getMowerList().isEmpty()) //if a lawnmower was used
+				{
+					for (GameListener gl : listeners) {
+						gl.updateAllGrids();
+						gl.updatePurse();
+						gl.updateTurnNumber();
+						
+						for(Integer m : ((EndTurnCommand)c).getMowerList())
+						{
+							gl.updateMower(m, game.getBoard().isMowerAvaliable(m));
+							game.getBoard().setMoverAvaliable(m);
+						}
+					}
+					break;
+				}
 				
 				for (GameListener gl : listeners) {
 					gl.updateAllGrids();
@@ -160,10 +169,28 @@ public class CommandQueue implements Serializable {
 				LOG.debug("redo dig command");
 				break;
 			case ENDTURN: //redo an end turn command
-				undoQueue.addFirst(new EndTurnCommand(game.getBoard(), game.getPurse()));
+				currentEndTurn = new EndTurnCommand(game.getBoard(), game.getPurse());
+				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList());
+				undoQueue.addFirst(currentEndTurn);
 				game.getBoard().setBoard(((EndTurnCommand)c).getBoard());
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
 				game.incrementTurns();
+				
+				if(!((EndTurnCommand)c).getMowerList().isEmpty()) //if a lawnmower was used
+				{
+					for (GameListener gl : listeners) {
+						gl.updateAllGrids();
+						gl.updatePurse();
+						gl.updateTurnNumber();
+						
+						for(Integer m : ((EndTurnCommand)c).getMowerList())
+						{
+							gl.updateMower(m, game.getBoard().isMowerAvaliable(m));
+							game.getBoard().removeMower(m);
+						}
+					}
+					break;
+				}
 				
 				for (GameListener gl : listeners) {
 					gl.updateAllGrids();
@@ -171,10 +198,6 @@ public class CommandQueue implements Serializable {
 					gl.updateTurnNumber();
 				}
 				LOG.debug("redo end turn command");
-				break;
-			case MOWER:
-				//Mower not implementated for Milestone 3
-				LOG.debug("redo mow command");
 				break;
 			case PLACE: //redo a place command
 				undoQueue.addFirst(c);

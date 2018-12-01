@@ -1,6 +1,7 @@
 package engine;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import assets.Potato_Mine;
+import assets.Jalapeno;
 import assets.Flower;
 import assets.Plant;
 import assets.PlantTypes;
@@ -92,7 +94,12 @@ public class Game implements Serializable {
 				if (((Potato_Mine)plant).getDischarged()) {
 					plantsToRemove.add(plant);
 				}
-			} //else if plant is jalapeno
+			}
+			else if(plant.getPlantType() == PlantTypes.JALAPENO){ //else if plant is jalapeno
+				if(((Jalapeno)plant).getDischarged()){
+					plantsToRemove.add(plant);
+				}
+			}
 		}
 		
 		for (Plant plant : plantsToRemove) {
@@ -120,14 +127,18 @@ public class Game implements Serializable {
 				//if a zombie has failed to move, it means it is being blocked by a Plant
 				if (!nextZombie.move()) {
 					nextZombie.attack(board);
+					if(nextZombie.getZombieType() == ZombieTypes.EXP_ZOMBIE){ //if a exploding zombie attacks, it instantly dies
+						zombiesToRemove.add(nextZombie);
+					}
 				}
 				int row = nextZombie.getRow();
 				if(board.hasReachedEnd(row) && board.isMowerAvaliable(row))
 				{
+					cQ.registerMow(row);
 					setZomRemoveBin(board.useLawnMower(row));
 					for(GameListener g : listeners)
 					{
-						g.updateMower(row);
+						g.updateMower(row, board.isMowerAvaliable(row));
 					}
 					board.removeMower(row);
 					board.resetZombieReachedEnd(row);
@@ -139,7 +150,9 @@ public class Game implements Serializable {
 				}
 			}
 		}
-
+		
+		zomRemoveBin.clear(); //clearing the zombie remove bin (not needed anymore)
+		
 		for (Zombie z : zombiesToRemove) { //remove all exploding zombies that attacked
 			board.removeZombie(z.getRow(), z.getCol());
 		}
@@ -228,7 +241,7 @@ public class Game implements Serializable {
 	 * will be removed from the board
 	 * @param zom - a list of zombies to be removed from the board
 	 */
-	public void setZomRemoveBin(List zom)
+	public void setZomRemoveBin(List<Zombie> zom)
 	{
 		zomRemoveBin.addAll(zom);
 	}

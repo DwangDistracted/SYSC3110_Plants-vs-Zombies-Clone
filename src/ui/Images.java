@@ -1,5 +1,6 @@
 package ui;
 import assets.*;
+import util.Logger;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -11,18 +12,20 @@ import javax.imageio.ImageIO;
 /**
  * Class to load images.
  * 
- * @author Derek Shao
+ * @author Derek Shao modified David Wang
  *
  */
-
 public class Images
 {
 	private static BufferedImage sunflowerImage = null;
+	private static BufferedImage twinSunflowerImage = null;
 	private static BufferedImage peashooterImage = null;
+	private static BufferedImage repeaterPeashooterImage = null;
 	private static BufferedImage potatoMineImage = null;
 	private static BufferedImage airMonkeyImage = null;
 	private static BufferedImage wallnutImage = null;
 	private static BufferedImage tallnutImage = null;
+	private static BufferedImage jalapenoImage = null;
   
 	private static BufferedImage kernelpultImage = null;
 	private static BufferedImage melonpultImage = null;
@@ -33,15 +36,18 @@ public class Images
 	private static BufferedImage sprintZombieImage = null;
 	private static BufferedImage tankZombieImage = null;
 	private static BufferedImage yetiZombieImage = null;
-  private static BufferedImage expZombieImage = null;
+	private static BufferedImage expZombieImage = null;
 	private static BufferedImage jukZombieImage = null;
 	private static BufferedImage airZombieImage = null;
+	private static BufferedImage enragedZombieImage = null;
 	
 	private static BufferedImage mowerImage = null;
 	private static BufferedImage grassImage = null;
 	private static BufferedImage titleBanner = null;
 	private static BufferedImage titleSplash = null;
 
+	private static Logger LOG = new Logger("Images");
+	
 	private Images() {}
 
 	/**
@@ -52,6 +58,8 @@ public class Images
 	public static boolean preloadImages() {
 		try {
 			sunflowerImage = ImageIO.read(new File("images\\Plant_Sunflower.png"));
+			twinSunflowerImage = ImageIO.read(new File("images\\Twin_Flower.png"));
+			repeaterPeashooterImage = ImageIO.read(new File("images\\Repeater_Peashooter.png"));
 			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
 			potatoMineImage = ImageIO.read(new File("images\\Potato_Mine.png"));
 			airMonkeyImage = ImageIO.read(new File("images\\Air_Monkey.png"));
@@ -64,11 +72,13 @@ public class Images
 			kernelpultImage = ImageIO.read(new File("images\\Plant_Kernelpult.png"));
 			melonpultImage = ImageIO.read(new File("images\\Plant_Melonpult.png"));
 			snowshooterImage = ImageIO.read(new File("images\\Plant_Snowshooter.png"));
+			jalapenoImage = ImageIO.read(new File("images\\Jalapeno.png"));
 			
 			rushZombieImage =  ImageIO.read(new File("images\\Zombie_Rush.png"));
 			sprintZombieImage =  ImageIO.read(new File("images\\Zombie_Sprinter.png"));
 			tankZombieImage = ImageIO.read(new File("images\\Zombie_Tank.png"));
 			yetiZombieImage = ImageIO.read(new File("images\\Zombie_Yeti.png"));
+			enragedZombieImage = ImageIO.read(new File("images\\Enraged_Zombie.png"));
 			
 			mowerImage =  ImageIO.read(new File("images\\Lawnmower.png"));
 			grassImage = ImageIO.read(new File("images\\GrassTile.jpg"));
@@ -78,6 +88,7 @@ public class Images
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			LOG.error("Failed to Load Images");
 			return false;
 		}
 	}
@@ -93,8 +104,12 @@ public class Images
 		switch(plant) {
 		case SUNFLOWER:
 			return sunflowerImage;
+		case TWIN_FLOWER:
+			return twinSunflowerImage;
 		case PEASHOOTER:
 			return peashooterImage;
+		case REPEATER_PEASHOOTER:
+			return repeaterPeashooterImage;
 		case AIRMONKEY:
 			return airMonkeyImage;
 		case POTATOMINE:
@@ -109,8 +124,10 @@ public class Images
 			return melonpultImage;
 		case SNOWSHOOTER:
 			return snowshooterImage;
+		case JALAPENO:
+			return jalapenoImage;
 		default:
-			System.out.println("Invalid Plant type");
+			LOG.error("Invalid Plant type");
 		}
 
 		return null;
@@ -140,8 +157,10 @@ public class Images
 			return tankZombieImage;
 		case YETI_ZOMBIE:
 			return yetiZombieImage;
+		case ENRAGED_ZOMBIE:
+			return enragedZombieImage;
 		default:
-			System.out.println("Invalid zombie type");
+			LOG.error("Invalid zombie type");
 		}
 
 		return null;

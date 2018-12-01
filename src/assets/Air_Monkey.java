@@ -3,6 +3,13 @@ package assets;
 import engine.Board;
 import util.Logger;
 
+/**
+ * Class for Air Monkey unit that are the only units that can 
+ * attack Air Zombies.
+ * 
+ * @author Michael Patusla
+ *
+ */
 public class Air_Monkey extends Plant {
 	private static Logger LOG = new Logger("Air_Monkey");
 	private static final int DEFAULT_HP = HEALTH_LOW;
@@ -39,11 +46,7 @@ public class Air_Monkey extends Plant {
 			
 			zombieTarget.takeDamage(getPower());
 			
-			if (!zombieTarget.isAlive()) {
-				board.removeZombie(zombieTarget.getRow(), zombieTarget.getCol());
-				LOG.debug(String.format("Air monkey at : (%d, %d) defeated Zombie at: (%d, %d)", 
-						row, column, zombieTarget.getRow(), zombieTarget.getCol()));
-			}
+			removeZombie(zombieTarget, board);
 		}
 	}			
 }

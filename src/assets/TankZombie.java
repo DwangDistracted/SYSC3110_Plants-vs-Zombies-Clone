@@ -1,5 +1,12 @@
 package assets;
 
+/**
+ * The TankZombie class creates instances of Tank Zombies
+ * that contains high hitpoints. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public class TankZombie extends Zombie {
 	
 	private static final int DEFAULT_SPEED = SPEED_LOW;

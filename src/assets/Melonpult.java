@@ -4,6 +4,13 @@ import java.util.List;
 import engine.Board;
 import util.Logger;
 
+/**
+ * Class for plant type "Melonpult" which does high damage to
+ * all zombies in a grid. 
+ * 
+ * @author Derek Shao
+ *
+ */
 public class Melonpult extends Plant {
 	private static Logger LOG = new Logger("Melonpult");
 
@@ -45,11 +52,7 @@ public class Melonpult extends Plant {
 			for (Zombie zombie : zombieTargets) {
 				zombie.takeDamage(getPower());
 				
-				if (!zombie.isAlive()) {
-					board.removeZombie(zombie.getRow(), zombie.getCol());
-					LOG.debug(String.format("Melonpult at : (%d, %d) defeated Zombie at: (%d, %d)", 
-							row, column, zombie.getRow(), zombie.getCol()));
-				}	
+				removeZombie(zombie, board);
 			}
 		}
 	}

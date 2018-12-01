@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 import assets.PlantTypes;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import engine.Game;
@@ -35,7 +34,6 @@ public class GameController {
 	private GridListener gridListener;
 	private UnitSelectListener unitSelectListener;
 	private GameButtonListener gameButtonListener;
-	private LawnMowerListener lawnMowerListener;
 	private ShowFullZombieListListener showFullZombieListListener;
 	
 	// Selected to remove a plant
@@ -47,17 +45,16 @@ public class GameController {
 		this.selectedCard = null;
 		this.removingPlant = false;
 		
+
 		gridListener = new GridListener();
 		unitSelectListener = new UnitSelectListener();
 		gameButtonListener = new GameButtonListener();
-		lawnMowerListener = new LawnMowerListener();
 		showFullZombieListListener = new ShowFullZombieListListener();
 		
 		
 		this.ui.addGridListeners(gridListener);
 		this.ui.addUnitSelectionListeners(unitSelectListener);
 		this.ui.addGameButtonListeners(gameButtonListener);
-		this.ui.addLawnMowerListeners(lawnMowerListener);
 		this.ui.addShowFullListPanelListeners(showFullZombieListListener);
 	}
 	
@@ -238,29 +235,6 @@ public class GameController {
 	}
 	
 	/**
-	 * Not Implemented For Milestone 2
-	 * calls the lawn mower functionalility for a specified row
-	 * The row is dependent on which button the user presses.
-	 * @author michael
-	 */
-	public class LawnMowerListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton source = (JButton) e.getSource();
-			JButton[] mowers = ui.getMowers();
-			
-			for(int i = 0; i < ui.getMowers().length; i++)
-			{
-				if(source == mowers[i]) //see what row the button was pressed in
-				{
-					LOG.info("Mower's Not Implemented for Milestone 2");
-					//not implemented yet - need to remove all zombies and plants in the specified row 
-				}
-			}
-		}
-	}
-	
-	/**
 	 * Get the grid listener
 	 * 
 	 * @return the grid listener
@@ -298,16 +272,6 @@ public class GameController {
 	public ShowFullZombieListListener getShowFullZombieListListener() {
 		
 		return showFullZombieListListener;
-	}
-	
-	/**
-	 * Get the lawn mower listener
-	 * 
-	 * @return the lawn mower listener
-	 */
-	public LawnMowerListener getLawnMowerListener() {
-		
-		return lawnMowerListener;
 	}
 	
 	/**

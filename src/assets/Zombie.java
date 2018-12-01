@@ -1,8 +1,7 @@
 package assets;
 
-
 import engine.Board;
-import engine.Game;
+import util.Logger;
 
 /**
  * The Zombie class initializes a set of variables and implements associated setters and getters
@@ -11,9 +10,6 @@ import engine.Game;
  * 
  *@author Tanisha 
  */
-
-import util.Logger;
-
 public abstract class Zombie implements Unit{
 	public static final int ATTACK_LOW = 1;
 	public static final int ATTACK_MEDIUM = 2;
@@ -246,4 +242,3 @@ public abstract class Zombie implements Unit{
 		immobilized = true;
 	}
 }
-
