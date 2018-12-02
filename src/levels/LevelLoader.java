@@ -294,9 +294,19 @@ public class LevelLoader {
 			allowedPlants.add(type);
 			return this;
 		}
+
+		/**
+		 * adds a list of plants to the allowed list for the player
+		 * @param type
+		 * @return
+		 */
+		public LevelFactory addAllAllowedPlants(List<PlantTypes> types) {
+			allowedPlants.addAll(types);
+			return this;
+		}
 		
 		/** 
-		 * Adds zombies to the level
+		 * Adds a type of zombies to the level along with the number of that type that will appear
 		 * @param type
 		 * @param number
 		 * @return
@@ -305,7 +315,17 @@ public class LevelLoader {
 			zombies.put(type, number);
 			return this;
 		}
-		
+
+		/** 
+		 * Adds a map of zombies and their number to the level
+		 * @param type
+		 * @param number
+		 * @return
+		 */
+		public LevelFactory addAllZombies(Map<ZombieTypes,Integer> types) {
+			zombies.putAll(types);
+			return this;
+		}
 		/**
 		 * builds a levelinfo object
 		 * @return

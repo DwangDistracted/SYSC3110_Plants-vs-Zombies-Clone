@@ -120,14 +120,14 @@ public class MenuInteractions {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LevelFactory f = LevelLoader.getLevelFactory()
-					.setName(null)
-					.setGridSize(0, 0)
-					.setInitResources(0)
-					.setResPerTurn(0);
-				
-				
-				f.toXML();
+				LevelLoader.getLevelFactory()
+					.setName(frame.getNameFieldValue())
+					.setGridSize(frame.getGridXFieldValue(), frame.getGridYFieldValue())
+					.setInitResources(frame.getInitResourcesFieldValue())
+					.setResPerTurn(frame.getResPerTurnFieldValue())
+					.addAllAllowedPlants(frame.getSelectedPlants())
+					.addAllZombies(frame.getSelectedZombies())
+					.toXML();
 				LevelLoader.refreshLevelLists();
 				new LevelMenu();
 				frame.dispose();
