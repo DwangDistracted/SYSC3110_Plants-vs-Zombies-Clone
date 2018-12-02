@@ -97,7 +97,7 @@ public class LevelDesignerUI extends JFrame {
 
 		JPanel gridXPanel = new JPanel();
 		gridXPanel.add(new JLabel("Game Grid Horizontal Size"));
-		gridXField = new JSlider(JSlider.HORIZONTAL, 6, 20, 8);
+		gridXField = new JSlider(JSlider.HORIZONTAL, 6, 16, 8);
 		gridXField.setSnapToTicks(true);
 		gridXField.setMajorTickSpacing(2);
 		gridXField.setMinorTickSpacing(1);
@@ -107,7 +107,7 @@ public class LevelDesignerUI extends JFrame {
 
 		JPanel gridYPanel = new JPanel();
 		gridYPanel.add(new JLabel("Game Grid Vertical Size"));
-		gridYField = new JSlider(JSlider.HORIZONTAL, 6, 20, 8);
+		gridYField = new JSlider(JSlider.HORIZONTAL, 6, 16, 8);
 		gridYField.setSnapToTicks(true);
 		gridYField.setMajorTickSpacing(2);
 		gridYField.setMinorTickSpacing(1);
