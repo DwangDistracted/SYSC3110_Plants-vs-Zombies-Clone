@@ -28,8 +28,7 @@ import levels.LevelLoader;
 
 public class LevelMenu extends JFrame {
 	private static final long serialVersionUID = -4952911219010614232L;
-	Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
-
+	
 	public LevelMenu() {
 		this.setTitle("Zombies are Vegan - Levels");
 		
@@ -77,7 +76,7 @@ public class LevelMenu extends JFrame {
 
 		for (int i = 0; i < levels.size(); i++) {
 			JRadioButton option = new JRadioButton("<html>&nbsp;" + levels.get(i).getName() + "<br>" + levels.get(i).getLevelRating() + " Stars</html>");
-			option.setFont(btnFont);
+			option.setFont(MainMenu.btnFont);
 			option.setHorizontalAlignment(SwingConstants.CENTER);
 			option.setName(String.valueOf(i+1)); //the name of the button is what gets passed to LevelLoader
 			option.setOpaque(false);
@@ -90,21 +89,26 @@ public class LevelMenu extends JFrame {
 		JPanel btnPane = new JPanel();
 		btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));
 		
+		JButton designBtn = new JButton("Level Designer");
+		designBtn.setFont(MainMenu.btnFont);
+		designBtn.setAlignmentX(LEFT_ALIGNMENT);
 		JButton playBtn = new JButton("Play Level");
-		playBtn.setFont(btnFont);
+		playBtn.setFont(MainMenu.btnFont);
 		playBtn.setAlignmentX(RIGHT_ALIGNMENT);
 		JButton backBtn = new JButton("Back");
-		backBtn.setFont(btnFont);
+		backBtn.setFont(MainMenu.btnFont);
 		backBtn.setAlignmentX(RIGHT_ALIGNMENT);
 		
 		//Set Action Listeners
+		designBtn.addActionListener(MenuInteractions.getDesignHandler(this));
 		playBtn.addActionListener(MenuInteractions.getPlayHandler(this, levelOptions));
 		backBtn.addActionListener(MenuInteractions.getBackHandler(this));
-		
+
+		btnPane.add(designBtn);
 		btnPane.add(Box.createHorizontalGlue());
 		btnPane.add(playBtn);
 		btnPane.add(backBtn);
-		
+
 		contents.add(titlePane, BorderLayout.NORTH);
 		contents.add(levelsPane, BorderLayout.CENTER);
 		contents.add(btnPane, BorderLayout.SOUTH);

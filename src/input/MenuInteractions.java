@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import engine.Game;
 import levels.LevelInfo;
 import levels.LevelLoader;
+import levels.LevelLoader.LevelFactory;
 import ui.*;
 /**
  * This is a collection of statics that generate action listeners for Menu Buttons
@@ -39,7 +40,6 @@ public class MenuInteractions {
 
 	public static ActionListener getSaveHandler (JFrame frame) {
 		return new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				//not implemented
 			}
@@ -101,6 +101,35 @@ public class MenuInteractions {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new MainMenu();
+				frame.dispose();
+			}
+		};
+	}
+
+	public static ActionListener getDesignHandler(JFrame frame) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LevelDesignerUI();
+				frame.dispose();
+			}
+		};
+	}
+
+	public static ActionListener getSaveLevelHandler(LevelDesignerUI frame) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LevelFactory f = LevelLoader.getLevelFactory()
+					.setName(null)
+					.setGridSize(0, 0)
+					.setInitResources(0)
+					.setResPerTurn(0);
+				
+				
+				f.toXML();
+				LevelLoader.refreshLevelLists();
+				new LevelMenu();
 				frame.dispose();
 			}
 		};

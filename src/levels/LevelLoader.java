@@ -131,7 +131,7 @@ public class LevelLoader {
 		if(levels.size()==0) {
 			sampleLevels();
 
-			//Serialization - this should move to the Level Designer
+			//Serialization
 			File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".xml");
 			fOut.getParentFile().mkdirs();
 			try (FileOutputStream fileOut = new FileOutputStream(fOut)) {
@@ -151,6 +151,11 @@ public class LevelLoader {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static void refreshLevelLists() {
+		levels.clear();
+		init();
 	}
 	
 	/**
@@ -307,6 +312,30 @@ public class LevelLoader {
 		 */
 		public LevelInfo toLevelInfo() {
 			return new LevelInfo(name, levelRating, column, row, resPerTurn, initResources, zombies, allowedPlants);
+		}
+		
+		/**
+		 * Saves the constructed levelInfo object as an xml file
+		 */
+		public void toXML() {
+			File fOut = new File("levels/" + this.name + System.currentTimeMillis() + ".xml");
+			fOut.getParentFile().mkdirs();
+			try (FileOutputStream fileOut = new FileOutputStream(fOut)) {
+
+		        JAXBContext jc = JAXBContext.newInstance(LevelInfo.class);
+		        Marshaller m = jc.createMarshaller();
+		        m.marshal(toLevelInfo(), fOut);
+		        
+				fileOut.close();
+				
+				LOG.debug("Level has been serialized");
+			} catch (IOException e) {
+				LOG.error("Failed to Serialize Level - IO Exception");
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				LOG.error("Failed to Serialize Level - JaxB Exception");
+				e.printStackTrace();
+			}
 		}
 	}
 	
