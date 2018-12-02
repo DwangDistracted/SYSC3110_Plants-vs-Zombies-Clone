@@ -6,8 +6,6 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
@@ -58,7 +56,6 @@ public class LevelDesignerUI extends JFrame {
 		
 		this.setSize((int)(width/1.2), (int)(height/1.5)); //set size relative to screen
 		this.setLocationRelativeTo(null); //create at screen center
-		this.setResizable(false);
 		
 		Container contents;
 		try { //try to use a background image
@@ -80,7 +77,7 @@ public class LevelDesignerUI extends JFrame {
 		titlePane.add(titleFld, BorderLayout.NORTH);
 
 		JPanel designPane = new JPanel();
-		designPane.setLayout(new GridBagLayout());
+		designPane.setLayout(new BorderLayout());
 		
 		JPanel nameFieldPane = new JPanel();
 		nameFieldPane.add(new JLabel("Level Name: "));
@@ -174,40 +171,15 @@ public class LevelDesignerUI extends JFrame {
 		}
 		JScrollPane zombieScrollPane = new JScrollPane(zombieNumberPanel);
 		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.anchor = GridBagConstraints.NORTHWEST;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.weightx = 0.0;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		designPane.add(nameFieldPane, gbc);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 0.0;
-		gbc.gridy = 2;
-		designPane.add(gridXPanel, gbc);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 0.0;
-		gbc.gridy = 4;
-		designPane.add(gridYPanel, gbc);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 0.0;
-		gbc.gridy = 6;
-		designPane.add(resourcePanel, gbc);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.gridheight = GridBagConstraints.RELATIVE;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.weightx = 2.0;
-		gbc.gridy = 10;
-		designPane.add(plantScrollPane, gbc);
-		gbc.anchor = GridBagConstraints.SOUTHWEST;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.gridheight = GridBagConstraints.RELATIVE;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.weightx = 2.0;
-		gbc.gridy = 14;
-		designPane.add(zombieScrollPane, gbc);
+		JPanel temp = new JPanel();
+		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));
+		temp.add(nameFieldPane);
+		temp.add(gridXPanel);
+		temp.add(gridYPanel);
+		temp.add(resourcePanel);
+		designPane.add(temp, BorderLayout.NORTH);
+		designPane.add(zombieScrollPane, BorderLayout.CENTER);
+		designPane.add(plantScrollPane, BorderLayout.SOUTH);
 		
 		JPanel btnPane = new JPanel();
 		btnPane.setLayout(new BoxLayout(btnPane, BoxLayout.LINE_AXIS));

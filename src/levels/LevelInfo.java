@@ -24,9 +24,6 @@ public class LevelInfo implements Serializable {
 	//The level's name
 	@XmlElement
 	private String name;
-	//The Rating of the Level's Difficulty
-	@XmlElement
-	private int levelRating;
 	
 	//The Size of the Game Grid for this level
 	@XmlElement
@@ -48,6 +45,7 @@ public class LevelInfo implements Serializable {
 	@XmlElement
 	private Set<PlantTypes> allowedPlants;
 	
+	@SuppressWarnings("unused")
 	private LevelInfo() {
 		//needed for JaxB
 	}
@@ -63,13 +61,12 @@ public class LevelInfo implements Serializable {
 	 * @param zombies the types and number of zombies that will attack the player
 	 * @param plants the plants the player is allowed to use
 	 */
-	public LevelInfo (String name, int levelRating, int gridX, int gridY, int resPerTurn, int initResources,
+	public LevelInfo (String name, int gridX, int gridY, int resPerTurn, int initResources,
 		Map<ZombieTypes, Integer> zombies, Set<PlantTypes> plants) {
 		this.zombies = zombies;
 		this.allowedPlants = plants;
 		
 		this.name = name;
-		this.levelRating = levelRating;
 		
 		this.column = gridX;
 		this.row = gridY;
@@ -78,9 +75,6 @@ public class LevelInfo implements Serializable {
 	}
 	public String getName() {
 		return name;
-	}
-	public int getLevelRating() {
-		return levelRating;
 	}
 	public int getColumns() {
 		return column;

@@ -75,7 +75,7 @@ public class LevelMenu extends JFrame {
 		ButtonGroup levelOptions = new ButtonGroup();
 
 		for (int i = 0; i < levels.size(); i++) {
-			JRadioButton option = new JRadioButton("<html>&nbsp;" + levels.get(i).getName() + "<br>" + levels.get(i).getLevelRating() + " Stars</html>");
+			JRadioButton option = new JRadioButton("<html>" + levels.get(i).getName() + "</html>");
 			option.setFont(MainMenu.btnFont);
 			option.setHorizontalAlignment(SwingConstants.CENTER);
 			option.setName(String.valueOf(i+1)); //the name of the button is what gets passed to LevelLoader

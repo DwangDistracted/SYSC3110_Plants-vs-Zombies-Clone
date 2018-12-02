@@ -55,7 +55,7 @@ public class LevelLoader {
 		sampleZombies.put(ZombieTypes.TANK_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.ENRAGED_ZOMBIE, 5);
     
-		HashSet<PlantTypes> samplePlants = new HashSet<>();
+		ArrayList<PlantTypes> samplePlants = new ArrayList<>();
 		samplePlants.add(PlantTypes.PEASHOOTER);
 		samplePlants.add(PlantTypes.REPEATER_PEASHOOTER);
 		samplePlants.add(PlantTypes.SUNFLOWER);	
@@ -69,17 +69,15 @@ public class LevelLoader {
 		samplePlants.add(PlantTypes.SNOWSHOOTER);
 		samplePlants.add(PlantTypes.JALAPENO);
     
-		levels.add(new LevelInfo(
-					"Sample",							//level name
-					4,									//level rating
-					8,									//column
-					8,									//row
-					25,									//Resources per Turn
-					200,								//Initial Resources
-					sampleZombies,						//The Enemy Zombies
-					samplePlants						//The Allowed Plants
-		));
-		
+		LevelFactory f = getLevelFactory()
+										.setName("Sample")
+										.setGridSize(8,8)
+										.setInitResources(200)
+										.setResPerTurn(25)
+										.addAllAllowedPlants(samplePlants)
+										.addAllZombies(sampleZombies);
+		levels.add(f.toLevelInfo());
+		f.toXML();
 		LOG.debug("Added Sample Level");
 	}
 	
@@ -130,26 +128,6 @@ public class LevelLoader {
 		//Generate a Sample level if no serialized level was found
 		if(levels.size()==0) {
 			sampleLevels();
-
-			//Serialization
-			File fOut = new File("levels/" + levels.get(0).getName() + System.currentTimeMillis() + ".xml");
-			fOut.getParentFile().mkdirs();
-			try (FileOutputStream fileOut = new FileOutputStream(fOut)) {
-
-		        JAXBContext jc = JAXBContext.newInstance(LevelInfo.class);
-		        Marshaller m = jc.createMarshaller();
-		        m.marshal(levels.get(0), fOut);
-		        
-				fileOut.close();
-				
-				LOG.debug("Level has been serialized");
-			} catch (IOException e) {
-				LOG.error("Failed to Serialize Level - IO Exception");
-				e.printStackTrace();
-			} catch (JAXBException e) {
-				LOG.error("Failed to Serialize Level - JaxB Exception");
-				e.printStackTrace();
-			}
 		}
 	}
 	
@@ -215,8 +193,6 @@ public class LevelLoader {
 	public class LevelFactory {
 		//The level's name
 		private String name = "default";
-		//The Rating of the Level's Difficulty
-		private int levelRating = 1;
 		
 		//The Size of the Game Grid for this level
 		private int column = 5;
@@ -243,16 +219,6 @@ public class LevelLoader {
 		 */
 		public LevelFactory setName(String str) {
 			this.name = str;
-			return this;
-		}
-		
-		/**
-		 * Set the difficulty rating of the level
-		 * @param rating
-		 * @return
-		 */
-		public LevelFactory setRating(int rating) {
-			this.levelRating = rating;
 			return this;
 		}
 		
@@ -331,14 +297,14 @@ public class LevelLoader {
 		 * @return
 		 */
 		public LevelInfo toLevelInfo() {
-			return new LevelInfo(name, levelRating, column, row, resPerTurn, initResources, zombies, allowedPlants);
+			return new LevelInfo(name, column, row, resPerTurn, initResources, zombies, allowedPlants);
 		}
 		
 		/**
 		 * Saves the constructed levelInfo object as an xml file
 		 */
 		public void toXML() {
-			File fOut = new File("levels/" + this.name + System.currentTimeMillis() + ".xml");
+			File fOut = new File("levels/" + this.name +  "-" + System.currentTimeMillis() + ".xml");
 			fOut.getParentFile().mkdirs();
 			try (FileOutputStream fileOut = new FileOutputStream(fOut)) {
 
