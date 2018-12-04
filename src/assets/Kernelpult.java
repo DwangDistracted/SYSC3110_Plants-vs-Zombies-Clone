@@ -3,6 +3,7 @@ package assets;
 import engine.Board;
 import util.Logger;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Random;
  * @author Derek Shao
  *
  */
-public class Kernelpult extends Plant {
+public class Kernelpult extends Plant implements Serializable {
 
 	private static Logger LOG = new Logger("Kernelpult");
 	

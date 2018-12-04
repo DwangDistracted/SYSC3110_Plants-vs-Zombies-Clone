@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 import engine.Board;
 import util.Logger;
 
@@ -10,7 +12,7 @@ import util.Logger;
  *@author Tanisha 
  */
 
-public class Peashooter extends Plant {
+public class Peashooter extends Plant implements Serializable {
 	private static Logger LOG = new Logger("Peashooter");
 	
 	private static final int DEFAULT_HP = HEALTH_MEDIUM;

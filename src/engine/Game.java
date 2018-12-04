@@ -1,8 +1,8 @@
 package engine;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -11,12 +11,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import assets.Potato_Mine;
 import assets.Jalapeno;
@@ -32,7 +26,6 @@ import util.Logger;
  * The Primary Game Loop. Instance per level
  * @author David Wang
  */
-@XmlRootElement
 public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -45,37 +38,31 @@ public class Game implements Serializable {
 	private static Logger LOG = new Logger("Game");
 	
 	//The Level this game is playing
-	@XmlElement
 	private LevelInfo levelInfo;
 	
 	//The Game Board
 	private Board board;
 	
 	//The Player's Purse
-	@XmlElement
 	private Purse userResources;
 	
 	//The Zombies that have not yet spawned into the game
-	@XmlElement
 	private HashMap<ZombieTypes, Integer> zombieQueue;
 	
 	//The number of zombies (total) in the level
-	@XmlElement
 	private int numZombies;
 	
 	//The number of turns elapsed
-	@XmlElement
 	private int numTurns;
 	
 	//The zombies that are to be removed
 	private List<Zombie> zomRemoveBin;
 
-	@XmlElement
 	private GameState gamestate;
 
-	private CommandQueue cQ;
+	private transient CommandQueue cQ;
 	
-	private List<GameListener> listeners;
+	private transient List<GameListener> listeners;
 	
 	/**
 	 * Initializes a Game for a given Level
@@ -412,26 +399,9 @@ public class Game implements Serializable {
 		}
 	}
 	
-	/**
-	 * Serialize the current game state to XML.
-	 */
-	public void toXML() {
-		File saveFile = new File("saved/" + levelInfo.getName() + "-Turn-" + numTurns + ".xml");
-		saveFile.getParentFile().mkdirs();
-		try (FileOutputStream fileOut = new FileOutputStream(saveFile)) {
-		    JAXBContext jc = JAXBContext.newInstance(Game.class);
-	        Marshaller m = jc.createMarshaller();
-	        m.marshal(this, saveFile);
-	        
-			fileOut.close();
-			
-			LOG.debug("Game has been saved as XML: " + saveFile.getName());
-		} catch (IOException e) {
-			LOG.error("Failed to Serialize Game - IO Exception");
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			LOG.error("Failed to Serialize Game - JaxB Exception");
-			e.printStackTrace();
-		}
+	public void reImplementTransientFields() {
+		
+		this.listeners = new ArrayList<GameListener>();
+		this.cQ = new CommandQueue(this, listeners);
 	}
 }

@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 /**
  * Class for Rush Zombie type. Has extremely high
  * attack power.
@@ -7,7 +9,7 @@ package assets;
  * @author David Wang
  *
  */
-public class RushZombie extends Zombie {
+public class RushZombie extends Zombie implements Serializable {
 	private static final int DEFAULT_SPEED = SPEED_MEDIUM;
 	private static final int DEFAULT_POWER = ATTACK_VERY_HIGH;
 	private static final int DEFAULT_HP = HEALTH_LOW;

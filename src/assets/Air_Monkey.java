@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 import engine.Board;
 import util.Logger;
 
@@ -10,7 +12,7 @@ import util.Logger;
  * @author Michael Patusla
  *
  */
-public class Air_Monkey extends Plant {
+public class Air_Monkey extends Plant implements Serializable {
 	private static Logger LOG = new Logger("Air_Monkey");
 	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final int DEFAULT_POWER = ATTACK_LOW;

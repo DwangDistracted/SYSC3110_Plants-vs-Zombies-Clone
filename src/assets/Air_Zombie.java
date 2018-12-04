@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 /**
  * Class for Air Zombie type that can only be attacked
  * by Air Monkeys.
@@ -7,7 +9,7 @@ package assets;
  * @author Michael Patsula
  *
  */
-public class Air_Zombie extends Zombie {
+public class Air_Zombie extends Zombie implements Serializable {
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_LOW;
 	private static final int DEFAULT_HP = HEALTH_LOW;

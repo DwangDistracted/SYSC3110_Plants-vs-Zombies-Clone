@@ -1,5 +1,6 @@
 package assets;
 
+import java.io.Serializable;
 import java.util.List;
 import engine.Board;
 import util.Logger;
@@ -11,7 +12,7 @@ import util.Logger;
  * @author Derek Shao
  *
  */
-public class Melonpult extends Plant {
+public class Melonpult extends Plant implements Serializable {
 	private static Logger LOG = new Logger("Melonpult");
 
 	

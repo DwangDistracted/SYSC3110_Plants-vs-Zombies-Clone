@@ -1,5 +1,6 @@
 package assets;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import engine.Board;
@@ -12,7 +13,7 @@ import engine.Grid;
  * @author Michael Patsula
  *
  */
-public class Potato_Mine extends Plant {
+public class Potato_Mine extends Plant implements Serializable {
 	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final int DEFAULT_POWER = ATTACK_INSTANT;  //This is irrelevant, it kills the target instantly
 	private static final int COST = 50;
