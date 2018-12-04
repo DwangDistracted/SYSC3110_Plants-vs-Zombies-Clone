@@ -186,7 +186,7 @@ public class LevelLoader {
 	}
 	
 	/**
-	 * Factory Class for building LevelInfos. Contains some default values
+	 * Factory Class for building LevelInfos. Contains some default values.
 	 * @author david
 	 *
 	 */
@@ -297,6 +297,8 @@ public class LevelLoader {
 		 * @return
 		 */
 		public LevelInfo toLevelInfo() {
+			if (allowedPlants.isEmpty()) allowedPlants.add(PlantTypes.PEASHOOTER); //if the user has not specified add a peashooter to prevent NPE when loading level
+			if (zombies.isEmpty()) zombies.put(ZombieTypes.REG_ZOMBIE, 1); //if the use has not added an engine. do the same as above. 
 			return new LevelInfo(name, column, row, resPerTurn, initResources, zombies, allowedPlants);
 		}
 		

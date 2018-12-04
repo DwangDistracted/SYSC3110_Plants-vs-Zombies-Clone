@@ -26,6 +26,11 @@ import input.MenuInteractions;
 import levels.LevelInfo;
 import levels.LevelLoader;
 
+/**
+ * Provides an Interface that allows the user to select a particular level to play or access the level designer.
+ * @author David Wang
+ *
+ */
 public class LevelMenu extends JFrame {
 	private static final long serialVersionUID = -4952911219010614232L;
 	

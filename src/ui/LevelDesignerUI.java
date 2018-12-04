@@ -32,9 +32,35 @@ import assets.PlantTypes;
 import assets.ZombieTypes;
 import input.MenuInteractions;
 
+/**
+ * This provides a UI that allows the user to design their own level
+ * @author David Wang
+ *
+ */
 public class LevelDesignerUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
+	//These are the constants that are used to restrict the designer
+	private static final int GRID_YMIN = 6;
+	private static final int GRID_MIN = 6;
+	private static final int GRID_DEFAULT = 8;
+	private static final int GRID_MAX = 16;
+	
+	private static final int INITIALRES_MIN = 0;
+	private static final int INITIALRES_DEFAULT = 200;
+	private static final int INITIALRES_MAX = 2000;
+	private static final int INITIALRES_STEP = 25;
+	
+	private static final int RESPERTURN_MIN = 0;
+	private static final int RESPERTURN_DEFAULT = 25;
+	private static final int RESPERTURN_MAX = 200;
+	private static final int RESPERTURN_STEP = 5;
+
+	private static final int ZOMBIENUM_MIN = 1;
+	private static final int ZOMBIENUM_DEFAULT = 1;
+	private static final int ZOMBIENUM_MAX = 100;
+	private static final int ZOMBIENUM_STEP = 1;
+	
 	private JTextField nameField;
 	private JSpinner initResourcesField;
 	private JSpinner resPerTurnField;
@@ -87,17 +113,17 @@ public class LevelDesignerUI extends JFrame {
 		JPanel resourcePanel = new JPanel();
 		resourcePanel.add(new JLabel("Initial Resources"));
 		initResourcesField = new JSpinner();
-		initResourcesField.setModel(new SpinnerNumberModel(200, 0, 2000, 25));
+		initResourcesField.setModel(new SpinnerNumberModel(INITIALRES_DEFAULT, INITIALRES_MIN, INITIALRES_MAX, INITIALRES_STEP));
 		resourcePanel.add(initResourcesField);
 
 		resourcePanel.add(new JLabel("Resources Gain Per Turn"));
 		resPerTurnField = new JSpinner();
-		resPerTurnField.setModel(new SpinnerNumberModel(25, 0, 200, 5));
+		resPerTurnField.setModel(new SpinnerNumberModel(RESPERTURN_DEFAULT, RESPERTURN_MIN, RESPERTURN_MAX, RESPERTURN_STEP));
 		resourcePanel.add(resPerTurnField);
 
 		JPanel gridXPanel = new JPanel();
 		gridXPanel.add(new JLabel("Game Grid Horizontal Size"));
-		gridXField = new JSlider(JSlider.HORIZONTAL, 6, 16, 8);
+		gridXField = new JSlider(JSlider.HORIZONTAL, GRID_MIN, GRID_MAX, GRID_DEFAULT);
 		gridXField.setSnapToTicks(true);
 		gridXField.setMajorTickSpacing(2);
 		gridXField.setMinorTickSpacing(1);
@@ -107,7 +133,7 @@ public class LevelDesignerUI extends JFrame {
 
 		JPanel gridYPanel = new JPanel();
 		gridYPanel.add(new JLabel("Game Grid Vertical Size"));
-		gridYField = new JSlider(JSlider.HORIZONTAL, 6, 16, 8);
+		gridYField = new JSlider(JSlider.HORIZONTAL, GRID_YMIN, GRID_MAX, GRID_DEFAULT);
 		gridYField.setSnapToTicks(true);
 		gridYField.setMajorTickSpacing(2);
 		gridYField.setMinorTickSpacing(1);
@@ -149,7 +175,7 @@ public class LevelDesignerUI extends JFrame {
 			type.add(zombieBtns[j]);
 			
 			zombieNumber[j] = new JSpinner();
-			zombieNumber[j].setModel(new SpinnerNumberModel(1,0,100,1));
+			zombieNumber[j].setModel(new SpinnerNumberModel(ZOMBIENUM_DEFAULT,ZOMBIENUM_MIN,ZOMBIENUM_MAX,ZOMBIENUM_STEP));
 
 			int x = j;
 			zombieBtns[j].addItemListener (
@@ -205,30 +231,58 @@ public class LevelDesignerUI extends JFrame {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Returns the user entered name of the level
+	 * @return
+	 */
 	public String getNameFieldValue() {
 		return nameField.getText();
 	}
 
+	/**
+	 * Returns the user entered initial resources of the level
+	 * @return
+	 */
 	public Integer getInitResourcesFieldValue() {
 		return (Integer)initResourcesField.getValue();
 	}
 
+	/**
+	 * Returns the user entered resources per turn of the level
+	 * @return
+	 */
 	public Integer getResPerTurnFieldValue() {
 		return (Integer)resPerTurnField.getValue();
 	}
 
+	/**
+	 * Returns the user entered grid size (horizontal) of the level
+	 * @return
+	 */
 	public Integer getGridXFieldValue() {
 		return (Integer)gridXField.getValue();
 	}
 
+	/**
+	 * Returns the user entered grid size (vertical) of the level
+	 * @return
+	 */
 	public Integer getGridYFieldValue() {
 		return (Integer)gridYField.getValue();
 	}
-	
+
+	/**
+	 * Returns the user selected plants of the level
+	 * @return
+	 */
 	public ArrayList<PlantTypes> getSelectedPlants() {
 		return acceptablePlantsField;
 	}
-	
+
+	/**
+	 * Returns the user selected zombies of the level
+	 * @return
+	 */
 	public HashMap<ZombieTypes, Integer> getSelectedZombies() {
 		return zombiesField;
 	}
