@@ -108,8 +108,7 @@ public class LevelLoader {
 				LOG.debug("Finished Deserialization");
 			}
 		} catch (IOException io) {
-			LOG.error("Failed to deserialize levels - IO Error");
-			io.printStackTrace();
+			LOG.warn("Failed to deserialize levels - Missing Levels Directory. The Game will generate the Files Needed.");
 		} catch (JAXBException e) {
 			LOG.error("Failed to deserialize levels - JaxB Error");
 			e.printStackTrace();
