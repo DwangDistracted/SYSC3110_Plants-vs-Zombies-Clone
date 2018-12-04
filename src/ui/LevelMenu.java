@@ -36,8 +36,6 @@ public class LevelMenu extends JFrame {
 	
 	public LevelMenu() {
 		this.setTitle("Zombies are Vegan - Levels");
-		
-		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		GraphicsDevice gd = //Multi-Screen Support

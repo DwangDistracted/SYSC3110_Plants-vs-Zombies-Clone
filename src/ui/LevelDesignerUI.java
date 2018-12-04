@@ -71,8 +71,6 @@ public class LevelDesignerUI extends JFrame {
 	
 	public LevelDesignerUI() {
 		this.setTitle("Zombies are Vegan - Level Designer");
-		
-		this.setTitle("Zombies are Vegan");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		GraphicsDevice gd = //Multi-Screen Support
