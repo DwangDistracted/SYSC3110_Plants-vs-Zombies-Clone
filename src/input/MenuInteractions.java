@@ -39,7 +39,6 @@ public class MenuInteractions {
 
 	public static ActionListener getSaveHandler (JFrame frame) {
 		return new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				//not implemented
 			}
@@ -101,6 +100,35 @@ public class MenuInteractions {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new MainMenu();
+				frame.dispose();
+			}
+		};
+	}
+
+	public static ActionListener getDesignHandler(JFrame frame) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LevelDesignerUI();
+				frame.dispose();
+			}
+		};
+	}
+
+	public static ActionListener getSaveLevelHandler(LevelDesignerUI frame) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LevelLoader.getLevelFactory()
+					.setName(frame.getNameFieldValue())
+					.setGridSize(frame.getGridXFieldValue(), frame.getGridYFieldValue())
+					.setInitResources(frame.getInitResourcesFieldValue())
+					.setResPerTurn(frame.getResPerTurnFieldValue())
+					.addAllAllowedPlants(frame.getSelectedPlants())
+					.addAllZombies(frame.getSelectedZombies())
+					.toXML();
+				LevelLoader.refreshLevelLists();
+				new LevelMenu();
 				frame.dispose();
 			}
 		};

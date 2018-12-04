@@ -242,4 +242,3 @@ public abstract class Zombie implements Unit{
 		immobilized = true;
 	}
 }
-

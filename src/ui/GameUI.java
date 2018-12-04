@@ -24,7 +24,6 @@ import assets.PlantTypes;
 public class GameUI extends JFrame implements GameListener
 {	
 	private static Font lblFont = new Font(Font.MONOSPACED, Font.PLAIN, 15);
-	private static Font btnFont = new Font(Font.MONOSPACED, Font.PLAIN, 18);
 	private static Font endTurnFont = new Font(Font.MONOSPACED, Font.BOLD, 20);
 	
 	private static final long serialVersionUID = -717683255015646823L;
@@ -138,13 +137,13 @@ public class GameUI extends JFrame implements GameListener
 
     	gameButtons = new ArrayList<JButton>();
     	JButton digUpButton = new JButton("Dig Up");
-    	digUpButton.setFont(btnFont);
+    	digUpButton.setFont(MainMenu.btnFont);
     	digUpButton.setActionCommand(GameButtonListener.DIG);
     	JButton undoButton = new JButton("Undo");
-    	undoButton.setFont(btnFont);
+    	undoButton.setFont(MainMenu.btnFont);
     	undoButton.setActionCommand(GameButtonListener.UNDO);
     	JButton redoButton = new JButton("Redo");
-    	redoButton.setFont(btnFont);
+    	redoButton.setFont(MainMenu.btnFont);
     	redoButton.setActionCommand(GameButtonListener.REDO);
     	JButton endTurnButton = new JButton("End Turn");
     	endTurnButton.setFont(endTurnFont);
