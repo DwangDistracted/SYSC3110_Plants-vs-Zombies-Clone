@@ -43,21 +43,26 @@ public class Game implements Serializable {
 	}
 	
 	private static Logger LOG = new Logger("Game");
+	
 	//The Level this game is playing
 	@XmlElement
 	private LevelInfo levelInfo;
+	
 	//The Game Board
-	@XmlElement
 	private Board board;
+	
 	//The Player's Purse
 	@XmlElement
 	private Purse userResources;
+	
 	//The Zombies that have not yet spawned into the game
 	@XmlElement
 	private HashMap<ZombieTypes, Integer> zombieQueue;
+	
 	//The number of zombies (total) in the level
 	@XmlElement
 	private int numZombies;
+	
 	//The number of turns elapsed
 	@XmlElement
 	private int numTurns;
@@ -68,7 +73,6 @@ public class Game implements Serializable {
 	@XmlElement
 	private GameState gamestate;
 
-	@XmlElement
 	private CommandQueue cQ;
 	
 	private List<GameListener> listeners;
@@ -94,7 +98,9 @@ public class Game implements Serializable {
 	}
 	
 	@SuppressWarnings("unused")
-	private Game() {}
+	private Game() {
+		//required by JaxB
+	}
 	
 	public void addListener(GameListener gl) {
 		listeners.add(gl);
@@ -410,7 +416,7 @@ public class Game implements Serializable {
 	 * Serialize the current game state to XML.
 	 */
 	public void toXML() {
-		File saveFile = new File("saved/" + levelInfo.getName() + "- Turn-" + numTurns + ".xml");
+		File saveFile = new File("saved/" + levelInfo.getName() + "-Turn-" + numTurns + ".xml");
 		saveFile.getParentFile().mkdirs();
 		try (FileOutputStream fileOut = new FileOutputStream(saveFile)) {
 		    JAXBContext jc = JAXBContext.newInstance(Game.class);

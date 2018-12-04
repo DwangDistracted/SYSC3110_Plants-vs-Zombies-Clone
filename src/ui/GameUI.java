@@ -129,7 +129,7 @@ public class GameUI extends JFrame implements GameListener
 		backItem.addActionListener(MenuInteractions.getBackHandler(this));
 		menuButtons.add(backItem);
 		JMenuItem saveItem = new JMenuItem("Save");
-		saveItem.addActionListener(MenuInteractions.getSaveHandler(this));
+		saveItem.addActionListener(MenuInteractions.getSaveHandler(game));
 		menuButtons.add(saveItem);
 		JMenuItem quitItem = new JMenuItem("Quit");
 		quitItem.addActionListener(MenuInteractions.getQuitHandler(this));
