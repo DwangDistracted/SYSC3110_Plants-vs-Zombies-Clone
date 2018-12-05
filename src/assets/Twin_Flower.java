@@ -22,14 +22,6 @@ public class Twin_Flower extends EconomyPlant{
 	}
 	
 	/**
-	 * Returns points of a twin sunflower
-	 * @return 
-	 */
-	public int getPoints() {
-		return POINTS;
-	}
-	
-	/**
 	 * returns name of the Plant
 	 * @return 
 	 */
