@@ -225,7 +225,11 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * 
 	 */
 	public void removePlant(int x, int y) {
-		this.plantsInGame.remove(gameBoard[x][y].getPlant());
+		Plant toRemoveP = gameBoard[x][y].getPlant();
+		if(toRemoveP instanceof EconomyPlant) {
+			this.economyPlantsInGame.remove(toRemoveP);
+		}
+		this.plantsInGame.remove(toRemoveP);
 		gameBoard[x][y].removePlant();
 	}
 	
