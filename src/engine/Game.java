@@ -11,6 +11,7 @@ import java.util.Random;
 
 import assets.Potato_Mine;
 import assets.Jalapeno;
+import assets.EconomyPlant;
 import assets.Flower;
 import assets.Plant;
 import assets.PlantTypes;
@@ -209,7 +210,9 @@ public class Game implements Serializable {
 		
 		//economy calculations
 		userResources.addPoints(levelInfo.getResPerTurn()); //do default sunshine gain
-		userResources.addPoints(board.getNumberOfSF() * Flower.getPoints()); //do sunflower/economy plants sunshine gain
+		for(EconomyPlant p : board.getEconomyPlantsInGame()){ //do economy plants sunshine gain
+			userResources.addPoints(p.getPoints());
+		}
 		
 		//did player win?
 		if (zombieQueue.values().stream().mapToInt(Integer::intValue).sum() == 0 && board.getNumberOfZombies() == 0) {

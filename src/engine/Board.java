@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Queue;
 
 import assets.Air_Zombie;
+import assets.EconomyPlant;
 import assets.Flower;
 import assets.Plant;
 import assets.Twin_Flower;
@@ -63,9 +64,9 @@ public class Board implements ZombieMoveListener, Serializable {
 	private boolean[] zombieReachedEnd;
 	
 	/**
-	 * Number of Sunflowers in game
+	 * A list of EconomyPlants in the game
 	 */
-	private int sfCounter;
+	private List<EconomyPlant> economyPlantsInGame;
 	
 	/**
 	 * Creates a new instance of Board.
@@ -78,10 +79,9 @@ public class Board implements ZombieMoveListener, Serializable {
 		this.row = row;
 		this.col = col;
 		
-		this.sfCounter = 0;
-		
 		this.zombiesInGame = new LinkedList<Zombie>();
 		this.plantsInGame = new LinkedList<Plant>();
+		this.economyPlantsInGame = new LinkedList<EconomyPlant>();
 		this.mowersAvaliable = new boolean[row];
 		this.zombieReachedEnd = new boolean[row];
 		
@@ -105,13 +105,14 @@ public class Board implements ZombieMoveListener, Serializable {
 		this.row = other.row;
 		this.col = other.col;
 		this.zombieReachedEnd = other.zombieReachedEnd;
-		this.sfCounter = other.sfCounter;
 		
 		this.zombiesInGame = new LinkedList<Zombie>();
 		LOG.debug("Made a Clone of Board");
 		this.plantsInGame = new LinkedList<Plant>();
+		this.economyPlantsInGame = new LinkedList<EconomyPlant>();
 		this.zombiesInGame.addAll(other.zombiesInGame);
 		this.plantsInGame.addAll(other.plantsInGame);
+		this.economyPlantsInGame.addAll(other.economyPlantsInGame);
 		
 		//initialize board
 		gameBoard = new Grid[row][col];
@@ -201,13 +202,8 @@ public class Board implements ZombieMoveListener, Serializable {
 	 *  
 	 * */
 	public boolean placePlant(Plant plant, int x, int y) {
-		if (plant instanceof Flower) {
-			sfCounter++;
-		}
-		
-		if(plant instanceof Twin_Flower) {
-			sfCounter++; //increment twice to represent that the twin_flower gives twice as much
-			sfCounter++;
+		if(plant instanceof EconomyPlant) {
+			this.economyPlantsInGame.add((EconomyPlant) plant);
 		}
 		
 		if (gameBoard[x][y].setPlant(plant)) {
@@ -309,9 +305,9 @@ public class Board implements ZombieMoveListener, Serializable {
 	 * 
 	 * @return number of sunflowers
 	 */
-	public int getNumberOfSF() {
+	public List<EconomyPlant> getEconomyPlantsInGame() {
 		
-		return this.sfCounter;
+		return this.economyPlantsInGame;
 	}
  	
 	/**

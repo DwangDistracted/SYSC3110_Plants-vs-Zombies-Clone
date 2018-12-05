@@ -7,7 +7,7 @@ import engine.Board;
  * @author Tanisha Garg
  *
  */
-public class Twin_Flower extends Plant{
+public class Twin_Flower extends EconomyPlant{
 	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final int DEFAULT_POWER = ATTACK_NONE;
 	private static final int COST = 50;
@@ -25,7 +25,7 @@ public class Twin_Flower extends Plant{
 	 * Returns points of a twin sunflower
 	 * @return 
 	 */
-	public static int getPoints() {
+	public int getPoints() {
 		return POINTS;
 	}
 	

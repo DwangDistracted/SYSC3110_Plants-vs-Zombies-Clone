@@ -28,7 +28,6 @@ public class BoardTest {
 		assertEquals("Row should be 4 ", 4, b.getRow());
 		assertEquals("Column should be 1", 1, b.getColumn());	
 		assertFalse("Zombies have not reached end", b.hasReachedEnd(0));
-		assertEquals("Number of sunflower", 0, b.getNumberOfSF());
 	}
 	
 	/**
@@ -70,7 +69,7 @@ public class BoardTest {
 		Peashooter p = new Peashooter();
 		b.placePlant(f, 0, 0);
 		b.placePlant(p, 0, 1);
-		assertEquals("Number of sunflower = 1", 1, b.getNumberOfSF());
+		assertEquals("True", b.getEconomyPlantsInGame().contains(f));
 		assertTrue("True", b.getPlantsInGame().contains(f));
 		assertTrue("True", b.getPlantsInGame().contains(p));
 		assertEquals("Flower", f, b.getPlant(0, 0));

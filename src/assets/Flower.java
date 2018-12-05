@@ -9,7 +9,7 @@ import engine.Board;
  *@author Tanisha 
  */
 
-public class Flower extends Plant{
+public class Flower extends EconomyPlant{
 	private static final int DEFAULT_HP = HEALTH_LOW;
 	private static final int DEFAULT_POWER = ATTACK_NONE;
 	private static final int COST = 25;
@@ -27,7 +27,7 @@ public class Flower extends Plant{
 	 * Returns the number of Points a sunflower gives the player per turn
 	 * @return the points of a sunflower  
 	 */
-	public static int getPoints() {
+	public int getPoints() {
 		return POINTS;
 	}
 	
