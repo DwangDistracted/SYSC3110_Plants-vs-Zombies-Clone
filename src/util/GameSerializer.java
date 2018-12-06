@@ -50,6 +50,9 @@ public class GameSerializer {
 			outStream.writeObject(game);
 			outStream.close();
 			fileOut.close();
+			
+			// store the saved game
+			savedGames.add(game);
 		} catch (IOException e) {
 			LOG.error("Failed to Serialize Game - IO Exception");
 			e.printStackTrace();
@@ -66,7 +69,6 @@ public class GameSerializer {
 			File[] serializedGameFiles = saveFolder.listFiles();
 			
 			for (File gameFile : serializedGameFiles) {
-				System.out.println(gameFile.getPath());
 				FileInputStream fileIn = new FileInputStream(gameFile);
 				ObjectInputStream in = new ObjectInputStream(fileIn);
 				Game game = (Game) in.readObject();

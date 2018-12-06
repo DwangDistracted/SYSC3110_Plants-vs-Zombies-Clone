@@ -102,7 +102,7 @@ public class MenuInteractions {
 			public void actionPerformed(ActionEvent e) {
 				
 				//Load selected level
-				int selected = 1;
+				int selected = -1;
 				Enumeration<AbstractButton> options = levelOptions.getElements();
 				while (options.hasMoreElements()) {
 					AbstractButton option = options.nextElement();
@@ -112,6 +112,11 @@ public class MenuInteractions {
 					}
 				}
 
+				// no game was selected to load
+				if (selected == -1) {
+					return;
+				}
+				
 				Game game = GameSerializer.savedGames.get(selected);
 				GameUI ui = new GameUI(game);
 				new GameController(ui, game);
