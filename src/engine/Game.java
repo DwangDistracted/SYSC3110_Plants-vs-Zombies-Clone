@@ -12,7 +12,6 @@ import java.util.Random;
 import assets.Potato_Mine;
 import assets.Jalapeno;
 import assets.EconomyPlant;
-import assets.Flower;
 import assets.Plant;
 import assets.PlantTypes;
 import assets.Zombie;
