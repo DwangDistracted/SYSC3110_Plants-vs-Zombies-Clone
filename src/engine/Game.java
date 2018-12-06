@@ -81,11 +81,6 @@ public class Game implements Serializable {
 		cQ = new CommandQueue(this, listeners);
 	}
 	
-	@SuppressWarnings("unused")
-	private Game() {
-		//required by JaxB
-	}
-	
 	public void addListener(GameListener gl) {
 		listeners.add(gl);
 		cQ.setGameListeners(listeners);

@@ -2,25 +2,15 @@ package engine;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * Keeps track of player resources and handles expenditure. Created per Game Instance.
  * @author David Wang
  */
-@XmlRootElement
 public class Purse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//The amount of resources
-	@XmlElement
 	private int points = 0;
-	
-	@SuppressWarnings("unused")
-	private Purse() {
-		//required by JaxB
-	}
 	
 	/**
 	 * Sets the user to an initial default number of points. 
