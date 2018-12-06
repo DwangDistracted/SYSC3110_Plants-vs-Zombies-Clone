@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 /**
  * The TankZombie class creates instances of Tank Zombies
  * that contains high hitpoints. 
@@ -7,7 +9,7 @@ package assets;
  * @author Derek Shao
  *
  */
-public class TankZombie extends Zombie {
+public class TankZombie extends Zombie implements Serializable {
 	
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_LOW;

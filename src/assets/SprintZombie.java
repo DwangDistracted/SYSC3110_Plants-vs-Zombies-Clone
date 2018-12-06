@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 /**
  * Class for Sprint Zombie type. Has extremely high 
  * speed and low amounts of hitpoints/attack.
@@ -7,7 +9,7 @@ package assets;
  * @author David Wang
  *
  */
-public class SprintZombie extends Zombie {
+public class SprintZombie extends Zombie implements Serializable {
 	private static final int DEFAULT_SPEED = SPEED_HIGH;
 	private static final int DEFAULT_POWER = ATTACK_LOW;
 	private static final int DEFAULT_HP = HEALTH_LOW;

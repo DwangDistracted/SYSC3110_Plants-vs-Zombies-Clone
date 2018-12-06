@@ -1,12 +1,14 @@
 package commands;
 
+import java.io.Serializable;
+
 import assets.PlantTypes;
 
 /**
  * The Structure for a Dig Command in the Command History Queue
  * @author David Wang
  */
-public class DigCommand extends Command {
+public class DigCommand extends Command implements Serializable  {
 	private static final long serialVersionUID = 1L;
 
 	public PlantTypes getType() {

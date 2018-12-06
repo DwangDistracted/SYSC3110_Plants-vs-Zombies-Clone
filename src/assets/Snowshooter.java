@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 import engine.Board;
 import util.Logger;
 
@@ -10,7 +12,7 @@ import util.Logger;
  * @author Derek Shao
  *
  */
-public class Snowshooter extends Plant {
+public class Snowshooter extends Plant implements Serializable {
 	
 	private static final Logger LOG = new Logger("Snowshooter");
 

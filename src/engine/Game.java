@@ -33,25 +33,33 @@ public class Game implements Serializable {
 	}
 	
 	private static Logger LOG = new Logger("Game");
+	
 	//The Level this game is playing
 	private LevelInfo levelInfo;
+	
 	//The Game Board
 	private Board board;
+	
 	//The Player's Purse
 	private Purse userResources;
+	
 	//The Zombies that have not yet spawned into the game
 	private HashMap<ZombieTypes, Integer> zombieQueue;
+	
 	//The number of zombies (total) in the level
 	private int numZombies;
+	
 	//The number of turns elapsed
 	private int numTurns;
+	
 	//The zombies that are to be removed
 	private List<Zombie> zomRemoveBin;
 
 	private GameState gamestate;
 
 	private CommandQueue cQ;
-	private List<GameListener> listeners;
+	
+	private transient List<GameListener> listeners;
 	
 	/**
 	 * Initializes a Game for a given Level
@@ -75,6 +83,7 @@ public class Game implements Serializable {
 	
 	public void addListener(GameListener gl) {
 		listeners.add(gl);
+		cQ.setGameListeners(listeners);
 	}
 	
 	/**
@@ -381,5 +390,13 @@ public class Game implements Serializable {
 				gl.updateMessage("Cannot Redo", "No more moves to Redo");
 			}
 		}
+	}
+	
+	/**
+	 * Reiniialize transient variables that were not serialized
+	 */
+	public void reImplementTransientFields() {
+		
+		this.listeners = new ArrayList<GameListener>();
 	}
 }

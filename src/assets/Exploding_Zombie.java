@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 import engine.Board;
 
 /**
@@ -9,7 +11,7 @@ import engine.Board;
  * @author Michael Patsula
  *
  */
-public class Exploding_Zombie extends Zombie {
+public class Exploding_Zombie extends Zombie implements Serializable {
 
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_INSTANT; //this value is irrelevant. The zombie will instantly kill plant

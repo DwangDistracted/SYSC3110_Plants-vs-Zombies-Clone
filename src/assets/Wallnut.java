@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 import engine.Board;
 
 /**
@@ -9,7 +11,7 @@ import engine.Board;
  * @author David Wang
  *
  */
-public class Wallnut extends Plant {
+public class Wallnut extends Plant implements Serializable {
 	private static final int DEFAULT_HP = HEALTH_TANK;
 	private static final int DEFAULT_POWER = ATTACK_NONE;
 	private static final int COST = 100;

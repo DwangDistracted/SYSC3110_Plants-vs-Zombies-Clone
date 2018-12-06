@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Purse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	//The amount of resoures
+	//The amount of resources
 	private int points = 0;
 	
 	/**
