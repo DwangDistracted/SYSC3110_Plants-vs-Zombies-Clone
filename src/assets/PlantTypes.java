@@ -3,7 +3,7 @@ package assets;
 /**
  * This is the listing of all plant types we have
  * 
- * Useful for command parsing and spawning
+ * Useful for spawning
  * @author David Wang
  *
  */
