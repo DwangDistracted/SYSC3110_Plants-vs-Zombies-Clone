@@ -120,7 +120,7 @@ public class CommandQueue implements Serializable {
 			case ENDTURN:
 				currentEndTurn = new EndTurnCommand(game.getBoard(), game.getPurse());
 				redoQueue.addFirst(currentEndTurn);
-				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList());
+				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList()); //keep track of the mowers used for redo functionality
 				
 				game.getBoard().setBoard(((EndTurnCommand)c).getBoard());
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
@@ -135,7 +135,7 @@ public class CommandQueue implements Serializable {
 						
 						for(Integer m : ((EndTurnCommand)c).getMowerList())
 						{
-							gl.updateMower(m, game.getBoard().isMowerAvaliable(m));
+							gl.updateMower(m, game.getBoard().isMowerAvaliable(m)); // update the lawn mower image
 							game.getBoard().setMoverAvaliable(m);
 						}
 					}
@@ -177,8 +177,8 @@ public class CommandQueue implements Serializable {
 				LOG.debug("redo dig command");
 				break;
 			case ENDTURN: //redo an end turn command
-				currentEndTurn = new EndTurnCommand(game.getBoard(), game.getPurse());
-				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList());
+				currentEndTurn = new EndTurnCommand(game.getBoard(), game.getPurse()); 
+				currentEndTurn.setMowerList(((EndTurnCommand)c).getMowerList()); //keep track of the lawn mower list (for undo functionality)
 				undoQueue.addFirst(currentEndTurn);
 				game.getBoard().setBoard(((EndTurnCommand)c).getBoard());
 				game.getPurse().setPoints(((EndTurnCommand)c).getResources());
@@ -193,7 +193,7 @@ public class CommandQueue implements Serializable {
 						
 						for(Integer m : ((EndTurnCommand)c).getMowerList())
 						{
-							gl.updateMower(m, game.getBoard().isMowerAvaliable(m));
+							gl.updateMower(m, game.getBoard().isMowerAvaliable(m)); //update lawnmower image
 							game.getBoard().removeMower(m);
 						}
 					}

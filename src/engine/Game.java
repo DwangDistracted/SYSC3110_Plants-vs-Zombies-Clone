@@ -144,13 +144,13 @@ public class Game implements Serializable {
 				int row = nextZombie.getRow();
 				if(board.hasReachedEnd(row) && board.isMowerAvaliable(row))
 				{
-					cQ.registerMow(row);
-					setZomRemoveBin(board.useLawnMower(row));
+					cQ.registerMow(row); // Keep track of the lawn mowers used
+					setZomRemoveBin(board.useLawnMower(row)); //use lawnmower
 					for(GameListener g : listeners)
 					{
-						g.updateMower(row, board.isMowerAvaliable(row));
+						g.updateMower(row, board.isMowerAvaliable(row)); //update lawn mower image
 					}
-					board.removeMower(row);
+					board.removeMower(row); 
 					board.resetZombieReachedEnd(row);
 				}
 				else if(board.hasReachedEnd(row) && !board.isMowerAvaliable(row)) {

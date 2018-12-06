@@ -69,7 +69,7 @@ public class BoardTest {
 		Peashooter p = new Peashooter();
 		b.placePlant(f, 0, 0);
 		b.placePlant(p, 0, 1);
-		assertEquals("True", b.getEconomyPlantsInGame().contains(f));
+		assertTrue(b.getEconomyPlantsInGame().contains(f));
 		assertTrue("True", b.getPlantsInGame().contains(f));
 		assertTrue("True", b.getPlantsInGame().contains(p));
 		assertEquals("Flower", f, b.getPlant(0, 0));
