@@ -1,5 +1,6 @@
 package assets;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import engine.Board;
@@ -11,7 +12,7 @@ import util.Logger;
  *
  */
 
-public class Jalapeno extends Plant{
+public class Jalapeno extends Plant implements Serializable{
 	private static final Logger LOG = new Logger("Jalapeno");
 
 	private static final int DEFAULT_HP = HEALTH_LOW;

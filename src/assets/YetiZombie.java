@@ -1,12 +1,14 @@
 package assets;
 
+import java.io.Serializable;
+
 /**
  * Class for Yeti Zombie type. Has high hitpoints and attack power. 
  * 
  * @author Derek Shao
  *
  */
-public class YetiZombie extends Zombie {
+public class YetiZombie extends Zombie implements Serializable {
 
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_HIGH;

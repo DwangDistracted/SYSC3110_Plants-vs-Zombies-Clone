@@ -57,34 +57,34 @@ public class Images
 	 */
 	public static boolean preloadImages() {
 		try {
-			sunflowerImage = ImageIO.read(new File("images\\Plant_Sunflower.png"));
-			twinSunflowerImage = ImageIO.read(new File("images\\Twin_Flower.png"));
-			repeaterPeashooterImage = ImageIO.read(new File("images\\Repeater_Peashooter.png"));
-			peashooterImage =  ImageIO.read(new File("images\\Plant_Peashooter.png"));
-			potatoMineImage = ImageIO.read(new File("images\\Potato_Mine.png"));
-			airMonkeyImage = ImageIO.read(new File("images\\Air_Monkey.png"));
-			regZombieImage =  ImageIO.read(new File("images\\Zombie_Regular.png"));
-			expZombieImage = ImageIO.read(new File("images\\Exploding_Zombie.png"));
-			jukZombieImage = ImageIO.read(new File ("images\\Juking_Zombie.png"));
-			airZombieImage = ImageIO.read(new File ("images\\Air_Zombie.png"));
-			wallnutImage = ImageIO.read(new File("images\\Plant_Wallnut.png"));
-			tallnutImage = ImageIO.read(new File("images\\Plant_Tallnut.png"));
-			kernelpultImage = ImageIO.read(new File("images\\Plant_Kernelpult.png"));
-			melonpultImage = ImageIO.read(new File("images\\Plant_Melonpult.png"));
-			snowshooterImage = ImageIO.read(new File("images\\Plant_Snowshooter.png"));
-			jalapenoImage = ImageIO.read(new File("images\\Jalapeno.png"));
+			sunflowerImage = ImageIO.read(new File("images/Plant_Sunflower.png"));
+			twinSunflowerImage = ImageIO.read(new File("images/Twin_Flower.png"));
+			repeaterPeashooterImage = ImageIO.read(new File("images/Repeater_Peashooter.png"));
+			peashooterImage =  ImageIO.read(new File("images/Plant_Peashooter.png"));
+			potatoMineImage = ImageIO.read(new File("images/Potato_Mine.png"));
+			airMonkeyImage = ImageIO.read(new File("images/Air_Monkey.png"));
+			regZombieImage =  ImageIO.read(new File("images/Zombie_Regular.png"));
+			expZombieImage = ImageIO.read(new File("images/Exploding_Zombie.png"));
+			jukZombieImage = ImageIO.read(new File ("images/Juking_Zombie.png"));
+			airZombieImage = ImageIO.read(new File ("images/Air_Zombie.png"));
+			wallnutImage = ImageIO.read(new File("images/Plant_Wallnut.png"));
+			tallnutImage = ImageIO.read(new File("images/Plant_Tallnut.png"));
+			kernelpultImage = ImageIO.read(new File("images/Plant_Kernelpult.png"));
+			melonpultImage = ImageIO.read(new File("images/Plant_Melonpult.png"));
+			snowshooterImage = ImageIO.read(new File("images/Plant_Snowshooter.png"));
+			jalapenoImage = ImageIO.read(new File("images/Jalapeno.png"));
 			
-			rushZombieImage =  ImageIO.read(new File("images\\Zombie_Rush.png"));
-			sprintZombieImage =  ImageIO.read(new File("images\\Zombie_Sprinter.png"));
-			tankZombieImage = ImageIO.read(new File("images\\Zombie_Tank.png"));
-			yetiZombieImage = ImageIO.read(new File("images\\Zombie_Yeti.png"));
-			enragedZombieImage = ImageIO.read(new File("images\\Enraged_Zombie.png"));
+			rushZombieImage =  ImageIO.read(new File("images/Zombie_Rush.png"));
+			sprintZombieImage =  ImageIO.read(new File("images/Zombie_Sprinter.png"));
+			tankZombieImage = ImageIO.read(new File("images/Zombie_Tank.png"));
+			yetiZombieImage = ImageIO.read(new File("images/Zombie_Yeti.png"));
+			enragedZombieImage = ImageIO.read(new File("images/Enraged_Zombie.png"));
 			
-			mowerImage =  ImageIO.read(new File("images\\Lawnmower.png"));
-			grassImage = ImageIO.read(new File("images\\GrassTile.jpg"));
+			mowerImage =  ImageIO.read(new File("images/Lawnmower.png"));
+			grassImage = ImageIO.read(new File("images/GrassTile.jpg"));
 			
-			titleBanner =  ImageIO.read(new File("images\\title-top-background.jpg"));
-			titleSplash = ImageIO.read(new File("images\\title-background.jpg"));
+			titleBanner =  ImageIO.read(new File("images/title-top-background.jpg"));
+			titleSplash = ImageIO.read(new File("images/title-background.jpg"));
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();

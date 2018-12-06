@@ -1,11 +1,19 @@
 package levels;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import assets.PlantTypes;
 import assets.ZombieTypes;
@@ -47,7 +55,7 @@ public class LevelLoader {
 		sampleZombies.put(ZombieTypes.TANK_ZOMBIE, 5);
 		sampleZombies.put(ZombieTypes.ENRAGED_ZOMBIE, 5);
     
-		HashSet<PlantTypes> samplePlants = new HashSet<>();
+		ArrayList<PlantTypes> samplePlants = new ArrayList<>();
 		samplePlants.add(PlantTypes.PEASHOOTER);
 		samplePlants.add(PlantTypes.REPEATER_PEASHOOTER);
 		samplePlants.add(PlantTypes.SUNFLOWER);	
@@ -61,26 +69,50 @@ public class LevelLoader {
 		samplePlants.add(PlantTypes.SNOWSHOOTER);
 		samplePlants.add(PlantTypes.JALAPENO);
     
-		levels.add(new LevelInfo(
-					"Sample",							//level name
-					4,									//level rating
-					8,									//column
-					8,									//row
-					25,									//Resources per Turn
-					200,								//Initial Resources
-					sampleZombies,						//The Enemy Zombies
-					samplePlants						//The Allowed Plants
-		));
-		
+		LevelFactory f = getLevelFactory()
+										.setName("Sample")
+										.setGridSize(8,8)
+										.setInitResources(200)
+										.setResPerTurn(25)
+										.addAllAllowedPlants(samplePlants)
+										.addAllZombies(sampleZombies);
+		levels.add(f.toLevelInfo());
+		f.toXML();
 		LOG.debug("Added Sample Level");
 	}
 	
 	/**
-	 * Future Milestone: Deserializes LevelInfo from JSON/XML files
-	 * Current: Does Nothing
+	 * Deserializes all LevelInfo from SER files in the levels directory into the game.
 	 */
 	private static void deserializeLevels () {
-		//nothing for milestone 1
+		try {
+			JAXBContext jc = JAXBContext.newInstance(LevelInfo.class); //uses JaxB
+			Unmarshaller unM = jc.createUnmarshaller();
+			
+			File folder = new File("levels/");
+			File[] listOfFiles = folder.listFiles();
+
+			if (listOfFiles == null) {
+				throw new IOException("Missing Level Directory");
+			} else if (listOfFiles.length == 0) {
+				throw new IOException("Missing Level Files");
+			} else {
+				for (int i = 0; i < listOfFiles.length; i++) {
+					if (listOfFiles[i].isFile()) {
+						LOG.debug("Attempting to Deserialize LevelInfo from " + listOfFiles[i].getName());
+
+						LevelInfo lvl = (LevelInfo) unM.unmarshal(listOfFiles[i]);
+						levels.add(lvl);
+					}
+				}
+				LOG.debug("Finished Deserialization");
+			}
+		} catch (IOException io) {
+			LOG.warn("Failed to deserialize levels - Missing Levels Directory. The Game will generate the Files Needed.");
+		} catch (JAXBException e) {
+			LOG.error("Failed to deserialize levels - JaxB Error");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -90,12 +122,17 @@ public class LevelLoader {
 		levels = new ArrayList<>();
 		currentLevel = 0;
 
-		//Loads sample LevelInfo
-		for (int i = 0; i < 13; i ++) {
-			sampleLevels();
-		}
 		//DeSerialize all Level Info into Level Info
 		deserializeLevels();
+		//Generate a Sample level if no serialized level was found
+		if(levels.size()==0) {
+			sampleLevels();
+		}
+	}
+	
+	public static void refreshLevelLists() {
+		levels.clear();
+		init();
 	}
 	
 	/**
@@ -148,15 +185,13 @@ public class LevelLoader {
 	}
 	
 	/**
-	 * Factory Class for building LevelInfos. Contains some default values
+	 * Factory Class for building LevelInfos. Contains some default values.
 	 * @author david
 	 *
 	 */
 	public class LevelFactory {
 		//The level's name
 		private String name = "default";
-		//The Rating of the Level's Difficulty
-		private int levelRating = 1;
 		
 		//The Size of the Game Grid for this level
 		private int column = 5;
@@ -183,16 +218,6 @@ public class LevelLoader {
 		 */
 		public LevelFactory setName(String str) {
 			this.name = str;
-			return this;
-		}
-		
-		/**
-		 * Set the difficulty rating of the level
-		 * @param rating
-		 * @return
-		 */
-		public LevelFactory setRating(int rating) {
-			this.levelRating = rating;
 			return this;
 		}
 		
@@ -234,9 +259,19 @@ public class LevelLoader {
 			allowedPlants.add(type);
 			return this;
 		}
+
+		/**
+		 * adds a list of plants to the allowed list for the player
+		 * @param type
+		 * @return
+		 */
+		public LevelFactory addAllAllowedPlants(List<PlantTypes> types) {
+			allowedPlants.addAll(types);
+			return this;
+		}
 		
 		/** 
-		 * Adds zombies to the level
+		 * Adds a type of zombies to the level along with the number of that type that will appear
 		 * @param type
 		 * @param number
 		 * @return
@@ -245,13 +280,49 @@ public class LevelLoader {
 			zombies.put(type, number);
 			return this;
 		}
-		
+
+		/** 
+		 * Adds a map of zombies and their number to the level
+		 * @param type
+		 * @param number
+		 * @return
+		 */
+		public LevelFactory addAllZombies(Map<ZombieTypes,Integer> types) {
+			zombies.putAll(types);
+			return this;
+		}
 		/**
 		 * builds a levelinfo object
 		 * @return
 		 */
 		public LevelInfo toLevelInfo() {
-			return new LevelInfo(name, levelRating, column, row, resPerTurn, initResources, zombies, allowedPlants);
+			if (allowedPlants.isEmpty()) allowedPlants.add(PlantTypes.PEASHOOTER); //if the user has not specified add a peashooter to prevent NPE when loading level
+			if (zombies.isEmpty()) zombies.put(ZombieTypes.REG_ZOMBIE, 1); //if the use has not added an engine. do the same as above. 
+			return new LevelInfo(name, column, row, resPerTurn, initResources, zombies, allowedPlants);
+		}
+		
+		/**
+		 * Saves the constructed levelInfo object as an xml file
+		 */
+		public void toXML() {
+			File fOut = new File("levels/" + this.name +  "-" + System.currentTimeMillis() + ".xml");
+			fOut.getParentFile().mkdirs();
+			try (FileOutputStream fileOut = new FileOutputStream(fOut)) {
+
+		        JAXBContext jc = JAXBContext.newInstance(LevelInfo.class);
+		        Marshaller m = jc.createMarshaller();
+		        m.marshal(toLevelInfo(), fOut);
+		        
+				fileOut.close();
+				
+				LOG.debug("Level has been serialized");
+			} catch (IOException e) {
+				LOG.error("Failed to Serialize Level - IO Exception");
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				LOG.error("Failed to Serialize Level - JaxB Exception");
+				e.printStackTrace();
+			}
 		}
 	}
 	

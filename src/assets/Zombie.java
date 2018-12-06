@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 import engine.Board;
 import util.Logger;
 
@@ -10,7 +12,7 @@ import util.Logger;
  * 
  *@author Tanisha 
  */
-public abstract class Zombie implements Unit{
+public abstract class Zombie implements Unit, Serializable {
 	public static final int ATTACK_LOW = 1;
 	public static final int ATTACK_MEDIUM = 2;
 	public static final int ATTACK_HIGH = 3;
@@ -242,4 +244,3 @@ public abstract class Zombie implements Unit{
 		immobilized = true;
 	}
 }
-

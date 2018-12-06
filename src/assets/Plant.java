@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 import engine.Board;
 
 /**
@@ -12,7 +14,8 @@ import engine.Board;
 
 import util.Logger;
 
-public abstract class Plant implements Unit{
+public abstract class Plant implements Unit, Serializable {
+	private static final long serialVersionUID = 7848098105682762919L;
 	public static final int ATTACK_NONE = 0;
 	public static final int ATTACK_LOW = 1;
 	public static final int ATTACK_MEDIUM = 2;
@@ -33,7 +36,7 @@ public abstract class Plant implements Unit{
 	private int row;
 	private int column;
 	private int cost;	
-
+	
 	public Plant(int hp, int pwr, int cost){
 		this.hitPoints = hp;
 		this.power = pwr;

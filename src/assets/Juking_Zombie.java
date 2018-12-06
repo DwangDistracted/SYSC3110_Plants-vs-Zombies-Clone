@@ -1,5 +1,7 @@
 package assets;
 
+import java.io.Serializable;
+
 /**
  * Class for Juking Zombie type that can change rows 
  * when moving towards plants.
@@ -7,7 +9,7 @@ package assets;
  * @author Michael Patsula
  *
  */
-public class Juking_Zombie extends Zombie {
+public class Juking_Zombie extends Zombie implements Serializable {
 	
 	private static final int DEFAULT_SPEED = SPEED_LOW;
 	private static final int DEFAULT_POWER = ATTACK_LOW;

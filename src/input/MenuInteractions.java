@@ -11,6 +11,7 @@ import engine.Game;
 import levels.LevelInfo;
 import levels.LevelLoader;
 import ui.*;
+import util.GameSerializer;
 /**
  * This is a collection of statics that generate action listeners for Menu Buttons
  * @author David Wang
@@ -37,11 +38,10 @@ public class MenuInteractions {
 		};
 	}
 
-	public static ActionListener getSaveHandler (JFrame frame) {
+	public static ActionListener getSaveHandler (Game game) {
 		return new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				//not implemented
+				GameSerializer.serialize(game);
 			}
 		};
 	}
@@ -50,7 +50,8 @@ public class MenuInteractions {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//not implemented
+				new LoadLevelMenu();
+				frame.dispose();
 			}
 		};
 	}
@@ -94,6 +95,36 @@ public class MenuInteractions {
 			}
 		};
 	}
+	
+	public static ActionListener getLoadGameHandler(JFrame frame, ButtonGroup levelOptions) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				//Load selected level
+				int selected = -1;
+				Enumeration<AbstractButton> options = levelOptions.getElements();
+				while (options.hasMoreElements()) {
+					AbstractButton option = options.nextElement();
+					if (option.isSelected()) {
+						selected = Integer.parseInt(option.getName());
+						break;
+					}
+				}
+
+				// no game was selected to load
+				if (selected == -1) {
+					return;
+				}
+				
+				Game game = GameSerializer.savedGames.get(selected);
+				GameUI ui = new GameUI(game);
+				new GameController(ui, game);
+				
+				frame.dispose();
+			}
+		};
+	}
 
 
 	public static ActionListener getBackHandler(JFrame frame) {
@@ -101,6 +132,35 @@ public class MenuInteractions {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new MainMenu();
+				frame.dispose();
+			}
+		};
+	}
+
+	public static ActionListener getDesignHandler(JFrame frame) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LevelDesignerUI();
+				frame.dispose();
+			}
+		};
+	}
+
+	public static ActionListener getSaveLevelHandler(LevelDesignerUI frame) {
+		return new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				LevelLoader.getLevelFactory()
+					.setName(frame.getNameFieldValue())
+					.setGridSize(frame.getGridXFieldValue(), frame.getGridYFieldValue())
+					.setInitResources(frame.getInitResourcesFieldValue())
+					.setResPerTurn(frame.getResPerTurnFieldValue())
+					.addAllAllowedPlants(frame.getSelectedPlants())
+					.addAllZombies(frame.getSelectedZombies())
+					.toXML();
+				LevelLoader.refreshLevelLists();
+				new LevelMenu();
 				frame.dispose();
 			}
 		};
