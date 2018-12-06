@@ -1,8 +1,5 @@
 package engine;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -60,7 +57,7 @@ public class Game implements Serializable {
 
 	private GameState gamestate;
 
-	private transient CommandQueue cQ;
+	private CommandQueue cQ;
 	
 	private transient List<GameListener> listeners;
 	
@@ -91,6 +88,7 @@ public class Game implements Serializable {
 	
 	public void addListener(GameListener gl) {
 		listeners.add(gl);
+		cQ.setGameListeners(listeners);
 	}
 	
 	/**
@@ -399,9 +397,11 @@ public class Game implements Serializable {
 		}
 	}
 	
+	/**
+	 * Reiniialize transient variables that were not serialized
+	 */
 	public void reImplementTransientFields() {
 		
 		this.listeners = new ArrayList<GameListener>();
-		this.cQ = new CommandQueue(this, listeners);
 	}
 }

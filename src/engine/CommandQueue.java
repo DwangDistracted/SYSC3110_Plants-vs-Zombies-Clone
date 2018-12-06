@@ -18,7 +18,7 @@ import util.Logger;
 public class CommandQueue implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private List<GameListener> listeners; 
+	private transient List<GameListener> listeners; 
 	private static Logger LOG = new Logger("Command Queue");
 	private Game game;
 	private LinkedList<Command> undoQueue;
@@ -76,6 +76,14 @@ public class CommandQueue implements Serializable {
 		undoQueue.addFirst(currentEndTurn);
 		 
 		LOG.debug("registered end turn command");
+	}
+	
+	/**
+	 * Set the listeners of the command queue
+	 */
+	public void setGameListeners(List<GameListener> listeners) {
+		
+		this.listeners = listeners;
 	}
 	
 	

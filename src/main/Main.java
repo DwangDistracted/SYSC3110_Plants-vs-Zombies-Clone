@@ -3,6 +3,7 @@ package main;
 import levels.LevelLoader;
 import ui.Images;
 import ui.MainMenu;
+import util.GameSerializer;
 import util.Logger;
 
 /**
@@ -20,6 +21,7 @@ public class Main {
 		//Log init
 		//Logger.setDebug(); //change to clearDebug to get rid of debug messages
 		LevelLoader.init();
+		GameSerializer.init();
 		if(!Images.preloadImages()) {
 			LOG.error("Failed to Load Graphics Images");
 		}

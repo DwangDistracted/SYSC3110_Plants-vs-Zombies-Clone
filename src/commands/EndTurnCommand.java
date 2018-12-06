@@ -1,5 +1,6 @@
 package commands;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import engine.Board;
@@ -9,7 +10,7 @@ import engine.Purse;
  * The Structure for a End Turn Command in the Command History Queue
  * @author David Wang
  */
-public class EndTurnCommand extends Command {
+public class EndTurnCommand extends Command implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Board oldBoard;
