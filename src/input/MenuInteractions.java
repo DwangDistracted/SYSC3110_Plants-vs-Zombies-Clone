@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import engine.Game;
 import levels.LevelInfo;
@@ -41,7 +42,9 @@ public class MenuInteractions {
 	public static ActionListener getSaveHandler (Game game) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GameSerializer.serialize(game);
+				if (GameSerializer.serialize(game)) {
+					JOptionPane.showMessageDialog(null, "Game successfuly saved", "Save", JOptionPane.PLAIN_MESSAGE);
+				};
 			}
 		};
 	}
