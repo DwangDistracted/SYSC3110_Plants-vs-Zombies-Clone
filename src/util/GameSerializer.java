@@ -39,7 +39,7 @@ public class GameSerializer {
 	 * 
 	 * @param game
 	 */
-	public static void serialize(Game game) {
+	public static boolean serialize(Game game) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream("saved/" + 
 											game.getLevelInfo().getName() + "-" + 
@@ -53,9 +53,12 @@ public class GameSerializer {
 			
 			// store the saved game
 			savedGames.add(game);
+			
+			return true;
 		} catch (IOException e) {
 			LOG.error("Failed to Serialize Game - IO Exception");
 			e.printStackTrace();
+			return false;
 		}		
 	}
 	
